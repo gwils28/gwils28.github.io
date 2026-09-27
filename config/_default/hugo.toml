@@ -1,7 +1,7 @@
 # -- Configuration du site --
 # Doc du thème : https://blowfish.page/docs/getting-started/
 
-baseURL = "https://wilson-goma.github.io/mon-blog-tech/"
+baseURL = "https://gwils28.github.io/"
 theme = "blowfish"
 
 defaultContentLanguage = "fr"

@@ -13,7 +13,7 @@ Fiche de démonstration (`draft: true`, donc non publiée). Duplique-la pour un
 vrai projet, ou supprime le dossier.
 {{< /alert >}}
 
-{{< button href="https://github.com/wilson-goma/REPO" target="_blank" >}}Code source{{< /button >}}
+{{< button href="https://github.com/gwils28/REPO" target="_blank" >}}Code source{{< /button >}}
 
 ## Le problème
 
