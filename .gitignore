@@ -1,0 +1,13 @@
+# Sortie de build Hugo — régénérée par `hugo`, publiée par GitHub Actions
+/public/
+/resources/_gen/
+.hugo_build.lock
+
+# Système
+.DS_Store
+Thumbs.db
+
+# Éditeurs
+.vscode/
+.idea/
+*.swp

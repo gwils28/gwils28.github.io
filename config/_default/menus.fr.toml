@@ -1,0 +1,41 @@
+# -- Menu principal (en-tête) --
+# Paramètres acceptés : name, pageRef, url, title, weight, pre (icône), parent.
+
+[[main]]
+  name = "Articles"
+  pageRef = "posts"
+  weight = 10
+
+[[main]]
+  name = "Projets"
+  pageRef = "projects"
+  weight = 20
+
+[[main]]
+  name = "Tags"
+  pageRef = "tags"
+  weight = 30
+
+[[main]]
+  identifier = "github"
+  pre = "github"
+  url = "https://github.com/wilson-goma"
+  title = "GitHub"
+  weight = 100
+
+# -- Menu du pied de page --
+
+[[footer]]
+  name = "Articles"
+  pageRef = "posts"
+  weight = 10
+
+[[footer]]
+  name = "Projets"
+  pageRef = "projects"
+  weight = 20
+
+[[footer]]
+  name = "Tags"
+  pageRef = "tags"
+  weight = 30
