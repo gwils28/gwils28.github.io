@@ -23,8 +23,9 @@ title = "Wilson Goma"
   bio = "J'explore la donnée, le machine learning et tout ce qui traîne dans ma veille."
   # Retire les lignes dont tu n'as pas l'usage, complète les autres.
   links = [
-    { github = "https://github.com/wilson-goma" },
-    { linkedin = "https://linkedin.com/in/wilson-goma" },
+    { github = "https://github.com/gwils28" },
+    # ↓ remplace par l'URL exacte de ton profil, puis décommente
+    # { linkedin = "https://linkedin.com/in/TON-PROFIL" },
     { email = "mailto:wilson.goma.pro@gmail.com" },
     # { kaggle = "https://www.kaggle.com/username" },
     # { bluesky = "https://bsky.app/profile/username" },

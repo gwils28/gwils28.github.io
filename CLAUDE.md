@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Wilson Goma's technical blog **and** portfolio — a Hugo static site using the **Blowfish** theme (v3.5), written in French with English translations. Deployed to GitHub Pages at `https://wilson-goma.github.io/mon-blog-tech/` via GitHub Actions.
+Wilson Goma's technical blog **and** portfolio — a Hugo static site using the **Blowfish** theme (v3.5), written in French with English translations. Deployed to GitHub Pages at `https://gwils28.github.io/` via GitHub Actions. It is a **user site**, so the repo must stay named `gwils28.github.io` and the site is served from the domain root (no path prefix).
 
 ## Commands
 

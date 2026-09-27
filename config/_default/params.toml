@@ -58,7 +58,7 @@ fingerprintAlgorithm = "sha512"
   sharingLinks = ["linkedin", "bluesky", "mastodon", "email"]
   # Lien « modifier cette page » — décommente une fois le dépôt en ligne
   # showEdit = true
-  # editURL = "https://github.com/wilson-goma/mon-blog-tech/tree/master/"
+  # editURL = "https://github.com/gwils28/gwils28.github.io/tree/master/"
   editAppendPath = true
 
 # -- Pages de liste (/posts, /projects) --

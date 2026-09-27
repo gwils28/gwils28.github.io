@@ -21,7 +21,7 @@ title = "Wilson Goma"
   headline = "Data Scientist"
   bio = "Exploring data, machine learning, and whatever else lands in my reading list."
   links = [
-    { github = "https://github.com/wilson-goma" },
-    { linkedin = "https://linkedin.com/in/wilson-goma" },
+    { github = "https://github.com/gwils28" },
+    # { linkedin = "https://linkedin.com/in/TON-PROFIL" },
     { email = "mailto:wilson.goma.pro@gmail.com" },
   ]

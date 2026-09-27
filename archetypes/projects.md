@@ -10,7 +10,7 @@ showTableOfContents: true
 ---
 
 {{/* Boutons vers le code et la démo — supprime ceux qui ne servent pas */}}
-{{`{{< button href="https://github.com/wilson-goma/REPO" target="_blank" >}}Code source{{< /button >}}`}}
+{{`{{< button href="https://github.com/gwils28/REPO" target="_blank" >}}Code source{{< /button >}}`}}
 
 ## Le problème
 
