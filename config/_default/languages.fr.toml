@@ -16,16 +16,14 @@ title = "Wilson Goma"
 [params.author]
   name = "Wilson Goma"
   # Pas d'e-mail public : contact via GitHub et LinkedIn.
-  # Dépose ta photo dans assets/img/profile.jpg puis décommente :
-  # image = "img/profile.jpg"
+  image = "img/profile.jpg"
   imageQuality = 96
   headline = "Data Scientist"
   bio = "J'explore la donnée, le machine learning et tout ce qui traîne dans ma veille."
   # Retire les lignes dont tu n'as pas l'usage, complète les autres.
   links = [
     { github = "https://github.com/gwils28" },
-    # ↓ remplace par l'URL exacte de ton profil, puis décommente
-    # { linkedin = "https://linkedin.com/in/TON-PROFIL" },
+    { linkedin = "https://www.linkedin.com/in/wilson-goma/" },
     # { kaggle = "https://www.kaggle.com/username" },
     # { bluesky = "https://bsky.app/profile/username" },
     # { medium = "https://medium.com/@username" },
