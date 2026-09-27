@@ -15,7 +15,7 @@ title = "Wilson Goma"
 
 [params.author]
   name = "Wilson Goma"
-  email = "wilson.goma.pro@gmail.com"
+  # Pas d'e-mail public : contact via GitHub et LinkedIn.
   # Dépose ta photo dans assets/img/profile.jpg puis décommente :
   # image = "img/profile.jpg"
   imageQuality = 96
@@ -26,7 +26,6 @@ title = "Wilson Goma"
     { github = "https://github.com/gwils28" },
     # ↓ remplace par l'URL exacte de ton profil, puis décommente
     # { linkedin = "https://linkedin.com/in/TON-PROFIL" },
-    { email = "mailto:wilson.goma.pro@gmail.com" },
     # { kaggle = "https://www.kaggle.com/username" },
     # { bluesky = "https://bsky.app/profile/username" },
     # { medium = "https://medium.com/@username" },
