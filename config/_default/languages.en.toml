@@ -15,7 +15,7 @@ title = "Wilson Goma"
 
 [params.author]
   name = "Wilson Goma"
-  email = "wilson.goma.pro@gmail.com"
+  # No public e-mail: contact via GitHub and LinkedIn.
   # image = "img/profile.jpg"
   imageQuality = 96
   headline = "Data Scientist"
@@ -23,5 +23,4 @@ title = "Wilson Goma"
   links = [
     { github = "https://github.com/gwils28" },
     # { linkedin = "https://linkedin.com/in/TON-PROFIL" },
-    { email = "mailto:wilson.goma.pro@gmail.com" },
   ]
