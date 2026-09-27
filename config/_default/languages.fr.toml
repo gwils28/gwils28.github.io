@@ -1,0 +1,32 @@
+disabled = false
+locale = "fr"
+label = "Français"
+weight = 1
+title = "Wilson Goma"
+
+[params]
+  displayName = "FR"
+  isoCode = "fr"
+  rtl = false
+  dateFormat = "2 janvier 2006"
+  description = "Data Scientist — notes de veille, travaux personnels et expérimentations en machine learning."
+  copyright = "© 2026 Wilson Goma"
+  # logo = "img/logo.png"
+
+[params.author]
+  name = "Wilson Goma"
+  email = "wilson.goma.pro@gmail.com"
+  # Dépose ta photo dans assets/img/profile.jpg puis décommente :
+  # image = "img/profile.jpg"
+  imageQuality = 96
+  headline = "Data Scientist"
+  bio = "J'explore la donnée, le machine learning et tout ce qui traîne dans ma veille."
+  # Retire les lignes dont tu n'as pas l'usage, complète les autres.
+  links = [
+    { github = "https://github.com/wilson-goma" },
+    { linkedin = "https://linkedin.com/in/wilson-goma" },
+    { email = "mailto:wilson.goma.pro@gmail.com" },
+    # { kaggle = "https://www.kaggle.com/username" },
+    # { bluesky = "https://bsky.app/profile/username" },
+    # { medium = "https://medium.com/@username" },
+  ]

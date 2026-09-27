@@ -1,0 +1,27 @@
+disabled = false
+locale = "en"
+label = "English"
+weight = 2
+title = "Wilson Goma"
+
+[params]
+  displayName = "EN"
+  isoCode = "en"
+  rtl = false
+  dateFormat = "2 January 2006"
+  description = "Data Scientist — research notes, side projects and machine learning experiments."
+  copyright = "© 2026 Wilson Goma"
+  # logo = "img/logo.png"
+
+[params.author]
+  name = "Wilson Goma"
+  email = "wilson.goma.pro@gmail.com"
+  # image = "img/profile.jpg"
+  imageQuality = 96
+  headline = "Data Scientist"
+  bio = "Exploring data, machine learning, and whatever else lands in my reading list."
+  links = [
+    { github = "https://github.com/wilson-goma" },
+    { linkedin = "https://linkedin.com/in/wilson-goma" },
+    { email = "mailto:wilson.goma.pro@gmail.com" },
+  ]
