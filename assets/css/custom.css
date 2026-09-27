@@ -83,6 +83,48 @@ time,
   font-variant-numeric: tabular-nums;
 }
 
+/* --- Fond de page : l'estampe -------------------------------------------
+   Blowfish pose un calque fixe (#background-canvas) contenant l'image et un
+   voile. On reprend les deux : l'image reçoit un flou qui croît au scroll,
+   le voile est reteinté aux couleurs de la palette plutôt qu'au gris neutre
+   du thème.
+
+   --bg-blur et --bg-veil sont pilotés par le script de extend-footer.html.
+   Sans JavaScript, les valeurs par défaut ci-dessous s'appliquent et le fond
+   reste parfaitement lisible : l'effet est un bonus, pas une dépendance. */
+
+:root {
+  --bg-blur: 4px;
+  --bg-veil: 0;
+}
+
+#background-canvas img {
+  filter: blur(var(--bg-blur)) saturate(0.92);
+  /* Léger agrandissement : sans lui, le flou laisse voir les bords du cadre. */
+  transform: scale(1.08);
+  transition: filter 120ms linear;
+  will-change: filter;
+}
+
+/* Le voile du thème, reteinté. Blowfish applique bg-neutral/75 ; on remplace
+   par un dégradé vert-noir (sombre) ou blanc cassé verdi (clair), qui se
+   densifie au scroll via --bg-veil pour protéger la lisibilité du texte. */
+#background-canvas > div {
+  background: linear-gradient(
+    to bottom,
+    rgb(247 248 246 / calc(0.72 + var(--bg-veil) * 0.16)),
+    rgb(236 239 235 / calc(0.84 + var(--bg-veil) * 0.12))
+  ) !important;
+}
+
+.dark #background-canvas > div {
+  background: linear-gradient(
+    to bottom,
+    rgb(15 17 13 / calc(0.74 + var(--bg-veil) * 0.16)),
+    rgb(24 29 22 / calc(0.86 + var(--bg-veil) * 0.10))
+  ) !important;
+}
+
 /* --- Accessibilité ------------------------------------------------------ */
 :focus-visible {
   outline: 2px solid rgb(var(--color-primary-400));

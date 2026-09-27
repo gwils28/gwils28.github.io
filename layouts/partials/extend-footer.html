@@ -1,0 +1,43 @@
+{{/*
+  Flou progressif du fond au défilement.
+
+  Le script ne fait qu'écrire deux variables CSS sur <html> ; toute
+  l'apparence est décidée dans assets/css/custom.css. Sans JavaScript, ou si
+  l'utilisateur demande moins d'animations, les valeurs par défaut du CSS
+  s'appliquent et le site reste parfaitement lisible.
+*/}}
+<script>
+  (function () {
+    var root = document.documentElement;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    // Flou minimal dès le haut de page : l'estampe reste parfaitement
+    // reconnaissable, mais cesse de concurrencer le texte. Le contraste est
+    // déjà conforme sans lui — c'est un réglage de confort, pas d'accessibilité.
+    var MIN_BLUR = 4;
+    var MAX_BLUR = 16;
+    var RAMP = 520;      // px de défilement pour atteindre le flou maximal
+    var ticking = false;
+
+    function update() {
+      ticking = false;
+      var y = window.scrollY || window.pageYOffset || 0;
+      var t = Math.min(y / RAMP, 1);
+      // Courbe douce : le flou part lentement puis s'installe.
+      var eased = t * t * (3 - 2 * t);
+      var blur = MIN_BLUR + eased * (MAX_BLUR - MIN_BLUR);
+      root.style.setProperty("--bg-blur", blur.toFixed(2) + "px");
+      root.style.setProperty("--bg-veil", eased.toFixed(3));
+    }
+
+    function onScroll() {
+      if (!ticking) {
+        ticking = true;
+        window.requestAnimationFrame(update);
+      }
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    update();
+  })();
+</script>
