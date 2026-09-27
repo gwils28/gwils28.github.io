@@ -17,6 +17,11 @@
   weight = 30
 
 [[main]]
+  name = "À propos"
+  pageRef = "about"
+  weight = 40
+
+[[main]]
   identifier = "github"
   pre = "github"
   url = "https://github.com/gwils28"
