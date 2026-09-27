@@ -19,6 +19,11 @@ mainSections = ["posts", "projects"]
 disableImageOptimization = false
 fingerprintAlgorithm = "sha512"
 
+# Fond de page : estampe de Hokusai posée en calque fixe derrière tout le site.
+# Le voile et le flou progressif au scroll sont réglés dans assets/css/custom.css.
+defaultBackgroundImage = "img/hokusai-shichirigahama.jpg"
+backgroundCanvas = true
+
 [header]
   layout = "fixed-fill-blur"
 
@@ -57,7 +62,13 @@ fingerprintAlgorithm = "sha512"
   showCategoriesInSecondaryColor = true
   showRelatedContent = true
   relatedContentLimit = 3
-  showHero = true
+  # Hero désactivé : sans image propre, Blowfish retombe sur
+  # defaultBackgroundImage (cf. partials/hero/big.html), ce qui afficherait
+  # l'estampe une seconde fois en haut de chaque article. Le fond de page
+  # porte déjà l'identité visuelle.
+  # Un article avec sa propre illustration peut le réactiver dans son front
+  # matter : showHero: true + featureImage: "cover.jpg".
+  showHero = false
   heroStyle = "big"
   sharingLinks = ["linkedin", "bluesky", "mastodon", "email"]
   # Lien « modifier cette page » — décommente une fois le dépôt en ligne
