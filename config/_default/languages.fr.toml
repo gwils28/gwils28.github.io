@@ -8,7 +8,10 @@ title = "Wilson Goma"
   displayName = "FR"
   isoCode = "fr"
   rtl = false
-  dateFormat = "2 janvier 2006"
+  # Format Go : « January » est le mois de référence, que Hugo traduit
+  # grâce à locale = "fr". Écrire « janvier » ici l'afficherait littéralement,
+  # quel que soit le vrai mois de l'article.
+  dateFormat = "2 January 2006"
   description = "Data Scientist — notes de veille, travaux personnels et expérimentations en machine learning."
   copyright = "© 2026 Wilson Goma"
   # logo = "img/logo.png"

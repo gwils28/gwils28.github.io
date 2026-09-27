@@ -1,9 +1,10 @@
 # -- Options du thème Blowfish --
 # Doc : https://blowfish.page/docs/configuration/#theme-parameters
 
-# Palette : blowfish, avocado, fire, forest, princess, neon, bloody,
-# terminal, marvel, noir, autumn, congo, slate
-colorScheme = "blowfish"
+# Palette sur mesure, définie dans assets/css/schemes/mousse.css
+# (bâtie autour de #2E6218). Les palettes fournies par le thème restent
+# disponibles : blowfish, avocado, fire, forest, neon, noir, slate…
+colorScheme = "mousse"
 defaultAppearance = "dark"
 autoSwitchAppearance = true   # suit le réglage clair/sombre du système
 
@@ -51,6 +52,9 @@ fingerprintAlgorithm = "sha512"
   showTaxonomies = true
   showCategories = true
   showTags = true
+  # Catégories en ambre, tags en vert : les deux taxonomies se distinguent
+  # au coup d'œil, et c'est ce qui donne un rôle à la couleur secondaire.
+  showCategoriesInSecondaryColor = true
   showRelatedContent = true
   relatedContentLimit = 3
   showHero = true

@@ -1,0 +1,61 @@
+/* ===========================================================================
+   Mousse — schéma de couleurs sur mesure
+   ---------------------------------------------------------------------------
+   Construit autour de #2E6218 (hsl 102°, 61 %, 24 %), un vert forêt tiré
+   vers le jaune. La couleur source occupe la nuance primary-700.
+
+   Pourquoi une gamme et pas une couleur : à 24 % de luminosité, #2E6218
+   ne contraste qu'à 2,4:1 sur fond sombre — illisible. On l'étage donc :
+
+     · primary-400 (#73C251) → accent en mode sombre   contraste 8,6:1  AAA
+     · primary-700 (#2E6218) → accent en mode clair    contraste 7,3:1  AAA
+
+   Les neutres sont volontairement teintés à 100° : un gris pur à côté d'un
+   vert paraît sale. Ici même les gris descendent de la couleur source.
+
+   Rappel des postes utilisés par Blowfish (cf. layouts/_default/baseof.html) :
+     clair  → fond --color-neutral      · texte neutral-900 · liens primary-600
+     sombre → fond neutral-800          · texte --color-neutral · liens primary-400
+   =========================================================================== */
+
+:root {
+  /* Fond en mode clair ET couleur du texte en mode sombre.
+     Blanc cassé légèrement verdi plutôt que blanc pur : moins agressif. */
+  --color-neutral: 247, 248, 246;
+
+  /* Gris teintés — teinte 100°, saturation 8 à 14 % */
+  --color-neutral-50:  247, 248, 246;
+  --color-neutral-100: 236, 239, 235;
+  --color-neutral-200: 215, 221, 213;
+  --color-neutral-300: 181, 190, 177;
+  --color-neutral-400: 145, 156, 139;
+  --color-neutral-500: 104, 116, 99;
+  --color-neutral-600: 59, 67, 56;
+  --color-neutral-700: 39, 45, 37;
+  --color-neutral-800: 24, 29, 22;   /* fond du site en mode sombre */
+  --color-neutral-900: 15, 17, 13;   /* texte en mode clair */
+
+  /* Vert mousse — teinte constante 102° */
+  --color-primary-50:  243, 249, 240;
+  --color-primary-100: 228, 242, 222;
+  --color-primary-200: 201, 229, 189;
+  --color-primary-300: 159, 209, 138;
+  --color-primary-400: 115, 194, 81;   /* liens en mode sombre */
+  --color-primary-500: 84, 166, 48;
+  --color-primary-600: 65, 133, 35;    /* liens en mode clair */
+  --color-primary-700: 46, 98, 24;     /* ← la couleur source */
+  --color-primary-800: 36, 78, 18;
+  --color-primary-900: 27, 57, 14;
+
+  /* Ambre — mousse et lichen. Tags, badges, chiffres clés. */
+  --color-secondary-50:  254, 248, 236;
+  --color-secondary-100: 253, 240, 211;
+  --color-secondary-200: 250, 222, 158;
+  --color-secondary-300: 247, 206, 110;
+  --color-secondary-400: 243, 183, 63;
+  --color-secondary-500: 236, 156, 19;
+  --color-secondary-600: 197, 125, 17;
+  --color-secondary-700: 155, 94, 13;
+  --color-secondary-800: 121, 70, 12;
+  --color-secondary-900: 92, 51, 10;
+}
