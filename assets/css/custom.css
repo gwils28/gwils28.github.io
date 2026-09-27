@@ -1,1 +1,98 @@
-/* Styles perso — chargés automatiquement par Blowfish, après son propre CSS. */
+/* ===========================================================================
+   Personnalisation typographique — chargée EN DERNIER par Blowfish,
+   donc prioritaire sur le CSS du thème (cf. partials/head.html).
+
+   Le parti pris « affirmé et contrasté » passe par la typographie :
+   titres massifs et resserrés, corps de texte calme. La couleur, elle,
+   reste sobre — elle est définie dans css/schemes/mousse.css.
+   =========================================================================== */
+
+:root {
+  /* Blowfish lit ces deux variables pour tout le site. */
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", "Courier New", monospace;
+
+  /* Police d'affichage, réservée aux titres. */
+  --font-display: "Archivo", var(--font-sans);
+}
+
+/* --- Titres -------------------------------------------------------------
+   Poids 800, interlettrage négatif : le resserrement est ce qui fait la
+   différence entre « gros texte » et « titre dessiné ». text-wrap: balance
+   évite les veuves sur les titres de deux ou trois lignes. */
+h1, h2, h3, h4,
+.prose h1, .prose h2, .prose h3, .prose h4,
+.article-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+/* Le titre d'article monte d'un cran : c'est le point le plus fort de la page. */
+h1, .prose h1, .article-title {
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+}
+
+/* --- Nom du site dans l'en-tête ---------------------------------------- */
+.font-semibold.text-xl,
+header .text-xl {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* --- Métadonnées et badges ---------------------------------------------
+   Le monospace sur les dates, temps de lecture et tags ancre le blog du
+   côté technique sans alourdir le corps de texte. */
+.article-meta,
+.article-meta time,
+time,
+.badge {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Code ---------------------------------------------------------------
+   Filet vert à gauche des blocs : rappelle l'accent sans colorer le fond. */
+.prose pre {
+  border-inline-start: 2px solid rgb(var(--color-primary-400));
+}
+
+/* Le thème de coloration syntaxique arrive avec un fond #0d1117 (bleu-noir
+   GitHub) qui jure avec nos neutres verdis. On le raccroche à la palette :
+   un cran plus sombre que la page, pour que le bloc se détache en creux. */
+.dark .prose .chroma,
+.dark .prose pre.chroma,
+.dark .prose pre {
+  background-color: rgb(var(--color-neutral-900));
+}
+
+.prose .chroma,
+.prose pre.chroma,
+.prose pre {
+  background-color: rgb(var(--color-neutral-100));
+}
+
+/* Les chiffres s'alignent en colonne dans les tableaux de résultats. */
+.prose table td {
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Accessibilité ------------------------------------------------------ */
+:focus-visible {
+  outline: 2px solid rgb(var(--color-primary-400));
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
