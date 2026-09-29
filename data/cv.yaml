@@ -1,0 +1,89 @@
+# Données du CV, rendues en tableaux par le shortcode {{< cv >}}.
+# Chaque texte existe en deux langues (fr / en) ; le shortcode choisit
+# selon la langue de la page.
+
+experience:
+  - org: Orange
+    url: https://www.orange.com
+    initials: "O"
+    location: { fr: "Rennes", en: "Rennes, FR" }
+    roles:
+      - title: { fr: "Data Scientist & ML Engineer", en: "Data Scientist & ML Engineer" }
+        period: { fr: "2023 – aujourd'hui", en: "2023 – present" }
+        summary:
+          fr: "Prévision des flux d'activité techniciens sur le réseau télécom, R&D agents IA et LLM, MLOps sur GCP, application Dash, encadrement d'alternants."
+          en: "Forecasting field-technician workload on the telecom network, R&D on AI agents and LLMs, MLOps on GCP, Dash app, mentoring interns."
+
+  - org: BPCE-SI
+    url: https://www.groupebpce.com
+    initials: "B"
+    location: { fr: "Aix-en-Provence", en: "Aix-en-Provence, FR" }
+    roles:
+      - title: { fr: "Data Scientist & MLOps (consultant)", en: "Data Scientist & MLOps (consultant)" }
+        period: { fr: "2021 – 2023", en: "2021 – 2023" }
+        summary:
+          fr: "Segmentation, churn, recommandation, « moments de vie ». Contribution à Packta, librairie interne de déploiement de modèles. Migration vers GCP (BigQuery, Vertex AI)."
+          en: "Segmentation, churn, recommendation, customer life events. Contributor to Packta, an internal model-deployment library. Migration to GCP (BigQuery, Vertex AI)."
+
+  - org: Traxens
+    url: https://www.traxens.com
+    initials: "T"
+    location: { fr: "Marseille", en: "Marseille, FR" }
+    roles:
+      - title: { fr: "Data Scientist & IoT Analytics", en: "Data Scientist & IoT Analytics" }
+        period: { fr: "2019 – 2020", en: "2019 – 2020" }
+        summary:
+          fr: "Prévision de température (chaîne du froid), capacité de batteries IoT, détection d'événements par capteurs, images satellites."
+          en: "Temperature forecasting (cold chain), IoT battery capacity, sensor-based event detection, satellite imagery."
+
+  - org: IT-CE
+    url: https://www.groupebpce.com
+    initials: "IT"
+    location: { fr: "Marseille", en: "Marseille, FR" }
+    roles:
+      - title: { fr: "Data Scientist (consultant)", en: "Data Scientist (consultant)" }
+        period: { fr: "2017 – 2019", en: "2017 – 2019" }
+        summary:
+          fr: "Détection non supervisée de fraude sur chèques, modèles de churn, data lake, tableaux de bord d'aide à la décision."
+          en: "Unsupervised cheque-fraud detection, churn models, data lake, decision-support dashboards."
+
+  - org: INSERM
+    url: https://www.inserm.fr
+    initials: "IN"
+    location: { fr: "Paris", en: "Paris, FR" }
+    roles:
+      - title: { fr: "Ingénieur biostatistique", en: "Biostatistics Engineer" }
+        period: { fr: "2014 – 2017", en: "2014 – 2017" }
+        summary:
+          fr: "Cohortes de recherche médicale, profils génomiques, impact clinique de biomarqueurs dans la leucémie, propagation de la dengue."
+          en: "Medical research cohorts, genomic profiling, clinical impact of biomarkers in leukaemia, dengue spread modelling."
+
+education:
+  - org: Aix-Marseille Université
+    url: https://www.univ-amu.fr
+    initials: "AMU"
+    location: { fr: "Marseille", en: "Marseille, FR" }
+    roles:
+      - title: { fr: "Master en biostatistique", en: "Master's in Biostatistics" }
+        period: { fr: "2014 – 2016", en: "2014 – 2016" }
+
+skills:
+  - label: { fr: "Langages", en: "Languages" }
+    items: "Python, SQL, Bash"
+  - label: { fr: "Machine learning", en: "Machine learning" }
+    items: "Scikit-learn, PyTorch, PySpark, LangChain / LangGraph"
+  - label: { fr: "MLOps & outils", en: "MLOps & tooling" }
+    items: "Airflow, Docker, Terraform, GitLab, Dash"
+  - label: { fr: "Cloud", en: "Cloud" }
+    items: "Google Cloud (BigQuery, Vertex AI)"
+  - label: { fr: "Gestion de projet", en: "Project management" }
+    items: "Scrum, SAFe, Jira, Confluence"
+  - label: { fr: "Assistants IA", en: "AI assistants" }
+    items: "Claude Code"
+
+certifications:
+  - label: { fr: "Google Cloud", en: "Google Cloud" }
+    items: "Professional Machine Learning Engineer"
+    badge: img/badge-gcp-ml-engineer.png
+    url: https://www.credly.com/badges/507de011-6beb-4e57-bc54-f56abcf7a459
+    period: { fr: "2025 – 2027", en: "2025 – 2027" }

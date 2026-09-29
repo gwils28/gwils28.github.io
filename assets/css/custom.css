@@ -138,3 +138,109 @@ time,
     scroll-behavior: auto !important;
   }
 }
+
+/* --- CV (shortcode {{< cv >}}) --------------------------------------------
+   Tableaux inspirés de n9o.xyz/fr/resume : une ligne par poste, une pastille
+   à initiales en guise de logo, filets fins entre les organisations. */
+.cv-table-wrap {
+  overflow-x: auto;
+  margin: 1rem 0 2.5rem;
+}
+
+.cv-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: rgb(var(--color-neutral-800));
+}
+.dark .cv-table { color: rgb(var(--color-neutral-200)); }
+
+.cv-table th {
+  text-align: left;
+  font-weight: 600;
+  padding: 0.5rem 0.75rem;
+}
+.cv-table thead th {
+  font-size: 0.8rem;
+  border-bottom: 1px solid rgb(var(--color-neutral-400));
+}
+
+.cv-table td {
+  padding: 0.9rem 0.75rem;
+  vertical-align: middle;
+}
+.cv-table tbody tr {
+  border-top: 1px solid rgb(var(--color-neutral-300) / 0.6);
+}
+.dark .cv-table tbody tr { border-top-color: rgb(var(--color-neutral-600) / 0.6); }
+.cv-table tbody tr:first-child { border-top: 0; }
+
+.cv-col-logo { width: 4.5rem; padding-right: 0 !important; }
+.cv-logo {
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 0.5rem;
+  background: rgb(var(--color-primary-700));
+  color: rgb(var(--color-primary-50));
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.95rem;
+  letter-spacing: -0.02em;
+}
+.dark .cv-logo {
+  background: rgb(var(--color-primary-400));
+  color: rgb(var(--color-neutral-900));
+}
+
+.cv-org { white-space: nowrap; }
+.cv-org-name { display: block; font-weight: 600; }
+.cv-loc {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.8rem;
+  color: rgb(var(--color-neutral-500));
+}
+.dark .cv-loc { color: rgb(var(--color-neutral-400)); }
+.cv-org a { color: rgb(var(--color-primary-700)); text-decoration: none; }
+.dark .cv-org a { color: rgb(var(--color-primary-400)); }
+.cv-org a:hover { text-decoration: underline; }
+
+.cv-role { min-width: 14rem; }
+.cv-role-title { display: block; font-weight: 600; }
+.cv-role-summary {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.82rem;
+  color: rgb(var(--color-neutral-500));
+}
+.dark .cv-role-summary { color: rgb(var(--color-neutral-400)); }
+
+.cv-period, .cv-period-inline { white-space: nowrap; font-family: var(--font-mono); font-size: 0.8rem; }
+.cv-period-inline { display: none; }
+
+/* Tableaux clé / valeur (compétences, certifications). */
+.cv-table-kv th {
+  width: 12rem;
+  vertical-align: top;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+.cv-table-kv td { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+
+/* Certification avec badge : l'image remplace l'intitulé de ligne. */
+.cv-cert th, .cv-cert td { vertical-align: middle; }
+.cv-badge { display: block; width: 6rem; height: 6rem; transition: transform 0.15s ease; }
+.cv-cert a:hover .cv-badge { transform: scale(1.05); }
+
+/* Téléphone : la pastille disparaît, le tableau garde ses colonnes utiles. */
+@media (max-width: 640px) {
+  .cv-col-logo, .cv-period { display: none; }
+  .cv-period-inline { display: block; margin-top: 0.15rem; }
+  .cv-role { min-width: 0; }
+  .cv-table td, .cv-table th { padding-left: 0.4rem; padding-right: 0.4rem; }
+  .cv-table-kv th { width: 7rem; }
+  .cv-badge { width: 4.5rem; height: 4.5rem; }
+}

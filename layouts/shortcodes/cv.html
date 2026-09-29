@@ -1,0 +1,80 @@
+{{- /*
+  Rend une section de data/cv.yaml en tableau.
+  Usage : {{< cv section="experience" >}}  (experience, education, skills, certifications)
+  Un texte est soit une chaîne, soit une table { fr, en } : on prend la langue de la page.
+*/ -}}
+{{- $section := .Get "section" -}}
+{{- $lang := .Page.Language.Lang -}}
+{{- $fr := eq $lang "fr" -}}
+{{- $rows := index hugo.Data.cv $section -}}
+
+<div class="cv-table-wrap not-prose">
+{{- if in (slice "experience" "education") $section }}
+<table class="cv-table">
+  <thead>
+    <tr>
+      <th class="cv-col-logo"></th>
+      <th>{{ cond $fr "Organisation" "Organization" }}</th>
+      <th>{{ if eq $section "education" }}{{ cond $fr "Diplôme" "Degree" }}{{ else }}{{ cond $fr "Poste" "Role" }}{{ end }}</th>
+      <th class="cv-period">{{ cond $fr "Période" "Period" }}</th>
+    </tr>
+  </thead>
+  <tbody>
+  {{- range $rows }}
+    {{- $org := . }}
+    {{- $n := len .roles }}
+    {{- range $i, $r := .roles }}
+    <tr{{ if gt $i 0 }} class="cv-sub"{{ end }}>
+      {{- if eq $i 0 }}
+      <td class="cv-col-logo" rowspan="{{ $n }}"><span class="cv-logo">{{ $org.initials }}</span></td>
+      <td class="cv-org" rowspan="{{ $n }}">
+        <span class="cv-org-name">
+          {{- with $org.url }}<a href="{{ . }}" target="_blank" rel="noopener">{{ $org.org }}</a>{{ else }}{{ $org.org }}{{ end -}}
+        </span>
+        <span class="cv-loc">{{ partial "cv-t.html" (dict "v" $org.location "lang" $lang) }}</span>
+      </td>
+      {{- end }}
+      <td class="cv-role">
+        <span class="cv-role-title">{{ partial "cv-t.html" (dict "v" $r.title "lang" $lang) }}</span>
+        <span class="cv-period-inline">{{ partial "cv-t.html" (dict "v" $r.period "lang" $lang) }}</span>
+        {{- with $r.summary }}<span class="cv-role-summary">{{ partial "cv-t.html" (dict "v" . "lang" $lang) }}</span>{{ end }}
+      </td>
+      <td class="cv-period">{{ partial "cv-t.html" (dict "v" $r.period "lang" $lang) }}</td>
+    </tr>
+    {{- end }}
+  {{- end }}
+  </tbody>
+</table>
+{{- else }}
+<table class="cv-table cv-table-kv">
+  <tbody>
+  {{- range $rows }}
+    {{- $label := partial "cv-t.html" (dict "v" .label "lang" $lang) }}
+    {{- $items := partial "cv-t.html" (dict "v" .items "lang" $lang) }}
+    {{- $url := .url }}
+    {{- $period := "" }}{{ with .period }}{{ $period = partial "cv-t.html" (dict "v" . "lang" $lang) }}{{ end }}
+    {{- with .badge }}{{ with resources.Get . }}
+    {{- $img := .Resize "192x webp q90" }}
+    {{- $tag := printf `<img class="cv-badge" src="%s" width="96" height="96" alt="%s %s" loading="lazy">` $img.RelPermalink $label $items | safeHTML }}
+    <tr class="cv-cert">
+      <th scope="row">
+        {{- with $url }}<a href="{{ . }}" target="_blank" rel="noopener" title="{{ cond $fr "Vérifier la certification sur Credly" "Verify on Credly" }}">{{ $tag }}</a>{{ else }}{{ $tag }}{{ end -}}
+      </th>
+      <td class="cv-role">
+        <span class="cv-role-title">{{ $items }}</span>
+        <span class="cv-loc">{{ $label }}</span>
+        {{- with $period }}<span class="cv-period-inline">{{ . }}</span>{{ end }}
+      </td>
+      <td class="cv-period">{{ $period }}</td>
+    </tr>
+    {{- end }}{{ else }}
+    <tr>
+      <th scope="row">{{ $label }}</th>
+      <td>{{ $items }}</td>
+    </tr>
+    {{- end }}
+  {{- end }}
+  </tbody>
+</table>
+{{- end }}
+</div>

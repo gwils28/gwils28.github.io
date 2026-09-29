@@ -12,21 +12,19 @@
   weight = 20
 
 [[main]]
-  name = "Tags"
-  pageRef = "tags"
-  weight = 30
-
-[[main]]
   name = "À propos"
   pageRef = "about"
-  weight = 40
+  weight = 5
 
 [[main]]
-  identifier = "github"
-  pre = "github"
-  url = "https://github.com/gwils28"
-  title = "GitHub"
-  weight = 100
+  name = "Jazz"
+  pageRef = "jazz"
+  weight = 50
+
+[[main]]
+  name = "CV"
+  pageRef = "cv"
+  weight = 30
 
 # -- Menu du pied de page --
 
@@ -44,3 +42,8 @@
   name = "Tags"
   pageRef = "tags"
   weight = 30
+
+[[footer]]
+  name = "Jazz"
+  pageRef = "jazz"
+  weight = 25

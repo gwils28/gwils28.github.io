@@ -1,0 +1,2 @@
+{{- /* Texte bilingue du CV : chaîne simple, ou table { fr, en } dont on prend .lang. */ -}}
+{{- if reflect.IsMap .v }}{{ index .v .lang }}{{ else }}{{ .v }}{{ end -}}

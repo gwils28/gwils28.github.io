@@ -12,6 +12,7 @@ Wilson Goma's technical blog **and** portfolio — a Hugo static site using the 
 - `hugo --gc` — production build into `public/`.
 - `hugo new posts/<slug>/index.md` — new article (uses `archetypes/posts.md`).
 - `hugo new projects/<slug>/index.md` — new portfolio entry (uses `archetypes/projects.md`).
+- `hugo new jazz/<slug>/index.md` — new jazz note (uses `archetypes/jazz.md`).
 - `git submodule update --init --recursive` — required after a fresh clone; the theme is a submodule and nothing builds without it.
 
 No test suite or linter — the build itself is the check.
@@ -34,6 +35,8 @@ Author identity lives in the `languages.*.toml` files, **not** in `params.toml`.
 
 - `content/posts/` — articles and veille notes.
 - `content/projects/` — portfolio entries, rendered as cards (`cardView: true` in `projects/_index.md`).
+- `content/jazz/` — the jazz notebook (discoveries, double-bass practice, explorations). Deliberately **not** in `mainSections`, so jazz notes stay off the tech-focused homepage.
+- `content/cv.md` — the CV page; its tables come from `data/cv.yaml` (bilingual fr/en fields) via the `{{< cv section="..." >}}` shortcode.
 - Each entry is a **page bundle** (`<slug>/index.md`) so images sit next to the Markdown and `featureImage: "cover.jpg"` resolves as a relative path.
 - **Bilingual by filename suffix**: `index.md` is French (the default language), `index.en.md` is English. `defaultContentLanguageInSubdir = false`, so French is served at `/` and English at `/en/`.
 

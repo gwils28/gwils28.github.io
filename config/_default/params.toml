@@ -10,7 +10,7 @@ autoSwitchAppearance = true   # suit le réglage clair/sombre du système
 
 enableSearch = true
 enableCodeCopy = true         # bouton « copier » sur les blocs de code
-enableA11y = true
+enableA11y = false
 enableStructuredBreadcrumbs = true
 
 # Sections agrégées sur la page d'accueil et dans le flux RSS
