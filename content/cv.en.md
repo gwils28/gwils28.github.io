@@ -1,6 +1,6 @@
 ---
 title: "Resume"
-description: "Wilson Goma's background as a Data Scientist and ML Engineer: experience, education, skills."
+description: "Wilson Goma's background as a Data Scientist and ML Engineer: experience, education, certifications."
 showDate: false
 showAuthor: true
 showReadingTime: false
@@ -21,10 +21,6 @@ showRelatedContent: false
 ## Education
 
 {{< cv section="education" >}}
-
-## Skills
-
-{{< cv section="skills" >}}
 
 ## Certifications
 

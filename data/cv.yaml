@@ -10,9 +10,6 @@ experience:
     roles:
       - title: { fr: "Data Scientist & ML Engineer", en: "Data Scientist & ML Engineer" }
         period: { fr: "2023 – aujourd'hui", en: "2023 – present" }
-        summary:
-          fr: "Prévision des flux d'activité techniciens sur le réseau télécom, R&D agents IA et LLM, MLOps sur GCP, application Dash, encadrement d'alternants."
-          en: "Forecasting field-technician workload on the telecom network, R&D on AI agents and LLMs, MLOps on GCP, Dash app, mentoring interns."
 
   - org: BPCE-SI
     url: https://www.groupebpce.com
@@ -21,9 +18,6 @@ experience:
     roles:
       - title: { fr: "Data Scientist & MLOps", en: "Data Scientist & MLOps" }
         period: { fr: "2021 – 2023", en: "2021 – 2023" }
-        summary:
-          fr: "Segmentation, churn, recommandation, « moments de vie », cas d'usage LLM. MLOps : contribution à Packta, librairie interne de déploiement de modèles, CI/CD et monitoring en production. Migration vers GCP (BigQuery, Vertex AI)."
-          en: "Segmentation, churn, recommendation, customer life events, LLM use cases. MLOps: contributor to Packta, an internal model-deployment library, CI/CD and production monitoring. Migration to GCP (BigQuery, Vertex AI)."
 
   - org: Traxens
     url: https://www.traxens.com
@@ -32,9 +26,6 @@ experience:
     roles:
       - title: { fr: "Data Scientist & IoT Analytics", en: "Data Scientist & IoT Analytics" }
         period: { fr: "2019 – 2020", en: "2019 – 2020" }
-        summary:
-          fr: "Prévision de température (chaîne du froid), capacité de batteries IoT, détection d'événements par capteurs, images satellites."
-          en: "Temperature forecasting (cold chain), IoT battery capacity, sensor-based event detection, satellite imagery."
 
   - org: IT-CE
     url: https://www.groupebpce.com
@@ -43,9 +34,6 @@ experience:
     roles:
       - title: { fr: "Data Scientist", en: "Data Scientist" }
         period: { fr: "2017 – 2019", en: "2017 – 2019" }
-        summary:
-          fr: "Détection non supervisée de fraude sur chèques, modèles de churn, data lake, tableaux de bord d'aide à la décision."
-          en: "Unsupervised cheque-fraud detection, churn models, data lake, decision-support dashboards."
 
   - org: INSERM
     url: https://www.inserm.fr
@@ -54,9 +42,6 @@ experience:
     roles:
       - title: { fr: "Ingénieur biostatistique", en: "Biostatistics Engineer" }
         period: { fr: "2014 – 2017", en: "2014 – 2017" }
-        summary:
-          fr: "Cohortes de recherche médicale, profils génomiques, impact clinique de biomarqueurs dans la leucémie, propagation de la dengue."
-          en: "Medical research cohorts, genomic profiling, clinical impact of biomarkers in leukaemia, dengue spread modelling."
 
 education:
   - org: Aix-Marseille Université
@@ -72,24 +57,6 @@ education:
     location: { fr: "Martinique", en: "Martinique, FR" }
     roles:
       - title: { fr: "Licence Mathématiques, Informatique et Biologie", en: "Bachelor's in Mathematics, Computer Science and Biology" }
-
-skills:
-  - label: { fr: "Langages", en: "Languages" }
-    items: "Python, SQL, Bash"
-  - label: { fr: "Statistique", en: "Statistics" }
-    items:
-      fr: "Inférence, identification causale (A/B test, différence-de-différences), quantification de l'incertitude, décision sous coûts asymétriques"
-      en: "Inference, causal identification (A/B testing, difference-in-differences), uncertainty quantification, decision-making under asymmetric costs"
-  - label: { fr: "Machine learning", en: "Machine learning" }
-    items: "Scikit-learn, PyTorch, PySpark, LangChain / LangGraph"
-  - label: { fr: "MLOps & outils", en: "MLOps & tooling" }
-    items: "Airflow, Docker, Terraform, GitLab, Dash"
-  - label: { fr: "Cloud", en: "Cloud" }
-    items: "Google Cloud (BigQuery, Vertex AI)"
-  - label: { fr: "Gestion de projet", en: "Project management" }
-    items: "Scrum, SAFe, Jira, Confluence"
-  - label: { fr: "Assistants IA", en: "AI assistants" }
-    items: "Claude Code"
 
 certifications:
   - label: { fr: "Google Cloud", en: "Google Cloud" }

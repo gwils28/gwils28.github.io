@@ -1,6 +1,6 @@
 {{- /*
   Rend une section de data/cv.yaml en tableau.
-  Usage : {{< cv section="experience" >}}  (experience, education, skills, certifications)
+  Usage : {{< cv section="experience" >}}  (experience, education, certifications)
   Un texte est soit une chaîne, soit une table { fr, en } : on prend la langue de la page.
 */ -}}
 {{- $section := .Get "section" -}}
@@ -41,7 +41,6 @@
       <td class="cv-role">
         <span class="cv-role-title">{{ partial "cv-t.html" (dict "v" $r.title "lang" $lang) }}</span>
         {{- if $showPeriod }}<span class="cv-period-inline">{{ partial "cv-t.html" (dict "v" $r.period "lang" $lang) }}</span>{{ end }}
-        {{- with $r.summary }}<span class="cv-role-summary">{{ partial "cv-t.html" (dict "v" . "lang" $lang) }}</span>{{ end }}
       </td>
       {{- if $showPeriod }}
       <td class="cv-period">{{ partial "cv-t.html" (dict "v" $r.period "lang" $lang) }}</td>

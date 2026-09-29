@@ -210,13 +210,6 @@ time,
 
 .cv-role { min-width: 14rem; }
 .cv-role-title { display: block; font-weight: 600; }
-.cv-role-summary {
-  display: block;
-  margin-top: 0.2rem;
-  font-size: 0.82rem;
-  color: rgb(var(--color-neutral-500));
-}
-.dark .cv-role-summary { color: rgb(var(--color-neutral-400)); }
 
 .cv-period, .cv-period-inline { white-space: nowrap; font-family: var(--font-mono); font-size: 0.8rem; }
 .cv-period-inline { display: none; }

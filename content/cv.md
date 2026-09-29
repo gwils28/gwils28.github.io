@@ -1,6 +1,6 @@
 ---
 title: "CV"
-description: "Parcours de Wilson Goma, Data Scientist et ML Engineer : expériences, formation, compétences."
+description: "Parcours de Wilson Goma, Data Scientist et ML Engineer : expériences, formation, certifications."
 showDate: false
 showAuthor: true
 showReadingTime: false
@@ -21,10 +21,6 @@ showRelatedContent: false
 ## Formation
 
 {{< cv section="education" >}}
-
-## Compétences
-
-{{< cv section="skills" >}}
 
 ## Certifications
 
