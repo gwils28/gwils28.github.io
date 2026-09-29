@@ -32,8 +32,13 @@ jobs:
       - name: Récupérer le dépôt
         uses: actions/checkout@v4
         with:
-          submodules: recursive # indispensable : le thème est un sous-module
           fetch-depth: 0 # pour les dates .Lastmod issues de git
+
+      # Le thème est un sous-module, indispensable au build. On le récupère
+      # à part, sans son historique (~600 Mo) : fetch-depth: 0 ci-dessus
+      # s'appliquerait sinon aussi au sous-module et rallongerait le checkout.
+      - name: Récupérer le thème
+        run: git submodule update --init --recursive --depth 1
 
       - name: Configurer Pages
         id: pages
