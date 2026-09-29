@@ -24,6 +24,11 @@ fingerprintAlgorithm = "sha512"
 defaultBackgroundImage = "img/hokusai-shichirigahama.jpg"
 backgroundCanvas = true
 
+# Image d'aperçu (og:image) quand on partage un lien vers le site, sur LinkedIn
+# notamment : capture de la page d'accueil au format 1,91:1 (1200 × 627).
+# Les pages qui ont leur propre image featured/cover/thumbnail l'utilisent à la place.
+defaultSocialImage = "img/social-card.jpg"
+
 [header]
   layout = "fixed-fill-blur"
 
