@@ -22,7 +22,7 @@ title = "Kwak Jazz"
   image = "img/profile.jpg"
   imageQuality = 96
   headline = "Data Scientist"
-  bio = "J'explore la donnée, le machine learning et tout ce qui traîne dans ma veille."
+  bio = "All models are wrong but some are useful - George E. P. Box"
   # Retire les lignes dont tu n'as pas l'usage, complète les autres.
   links = [
     { github = "https://github.com/gwils28" },
