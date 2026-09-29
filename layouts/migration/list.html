@@ -1,0 +1,41 @@
+{{/* Migration : la liste des albums photo, en cartes façon carnet de voyage.
+     Chaque carte montre la couverture, le lieu, la date et le nombre de
+     photos ; les coordonnées, s'il y en a, sont notées en petit. */}}
+{{ define "main" }}
+  {{- $fr := eq .Language.Lang "fr" -}}
+  <header class="migration-head">
+    <h1 class="mt-5 text-4xl font-extrabold text-neutral-900 dark:text-neutral">{{ .Title }}</h1>
+    <div class="migration-intro">{{ .Content }}</div>
+  </header>
+
+  {{- with .Pages.ByDate.Reverse }}
+  <ul class="album-grid">
+    {{- range . }}
+      {{- $album := . -}}
+      {{- $photos := sort (.Resources.ByType "image") "Name" -}}
+      {{- $cover := "" }}{{ with $photos }}{{ $cover = index . 0 }}{{ end -}}
+      {{- with .Params.cover }}{{ with $album.Resources.GetMatch . }}{{ $cover = . }}{{ end }}{{ end -}}
+      <li class="album-card">
+        <a href="{{ .RelPermalink }}">
+          <span class="album-cover">
+            {{- with $cover }}
+              {{- $img := .Fill "900x675 Center webp q82" }}
+              <img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}" alt="" loading="lazy">
+            {{- end }}
+          </span>
+          <span class="album-meta">
+            {{- with .Params.coords }}<span class="album-coords">{{ . }}</span>{{ end }}
+            <span class="album-title">{{ .Title }}</span>
+            <span class="album-sub">
+              {{- with .Params.place }}{{ . }} · {{ end -}}
+              {{ .Date | time.Format "January 2006" }} · {{ len $photos }} {{ cond (eq (len $photos) 1) "photo" "photos" }}
+            </span>
+          </span>
+        </a>
+      </li>
+    {{- end }}
+  </ul>
+  {{- else }}
+  <p class="migration-empty">{{ cond $fr "Pas encore d'album : les canards sont au nid." "No album yet: the ducks are still nesting." }}</p>
+  {{- end }}
+{{ end }}

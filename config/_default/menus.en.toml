@@ -21,6 +21,11 @@
   weight = 50
 
 [[main]]
+  name = "Migration"
+  pageRef = "migration"
+  weight = 60
+
+[[main]]
   name = "Resume"
   pageRef = "cv"
   weight = 30
@@ -46,3 +51,8 @@
   name = "Jazz"
   pageRef = "jazz"
   weight = 25
+
+[[footer]]
+  name = "Migration"
+  pageRef = "migration"
+  weight = 27

@@ -1,0 +1,82 @@
+{{/* Migration : un album photo.
+     Toutes les images du page bundle s'affichent en mosaïque (ordre
+     alphabétique des fichiers) ; un clic ouvre la visionneuse plein écran.
+     Seules des versions redimensionnées sont publiées : elles n'emportent
+     pas les métadonnées EXIF (GPS compris) des originaux. */}}
+{{ define "main" }}
+  {{- $fr := eq .Language.Lang "fr" -}}
+  {{- $photos := sort (.Resources.ByType "image") "Name" -}}
+  <article class="album">
+    <header class="album-head">
+      <a class="album-back" href="{{ .Parent.RelPermalink }}">← {{ cond $fr "Tous les albums" "All albums" }}</a>
+      {{- with .Params.coords }}<p class="album-coords">{{ . }}</p>{{ end }}
+      <h1 class="mt-1 text-4xl font-extrabold text-neutral-900 dark:text-neutral">{{ .Title }}</h1>
+      <p class="album-sub">
+        {{- with .Params.place }}{{ . }} · {{ end -}}
+        {{ .Date | time.Format "January 2006" }} · {{ len $photos }} {{ cond (eq (len $photos) 1) "photo" "photos" }}
+      </p>
+      {{- with .Content }}<div class="album-text prose dark:prose-invert">{{ . }}</div>{{ end }}
+    </header>
+
+    <ul class="album-photos">
+      {{- range $i, $p := $photos }}
+        {{- $thumb := $p.Resize "900x webp q80" }}
+        {{- $full := $p.Fit "2000x2000 webp q85" }}
+        {{- $caption := cond (ne $p.Title $p.Name) $p.Title "" }}
+        <li>
+          <a href="{{ $full.RelPermalink }}" data-index="{{ $i }}" data-caption="{{ $caption }}">
+            <img src="{{ $thumb.RelPermalink }}" width="{{ $thumb.Width }}" height="{{ $thumb.Height }}"
+                 alt="{{ $caption }}" loading="lazy">
+          </a>
+          {{- with $caption }}<span class="album-caption">{{ . }}</span>{{ end }}
+        </li>
+      {{- end }}
+    </ul>
+
+    <nav class="album-nav">
+      {{- with .PrevInSection }}<a href="{{ .RelPermalink }}">← {{ .Title }}</a>{{ else }}<span></span>{{ end }}
+      {{- with .NextInSection }}<a href="{{ .RelPermalink }}">{{ .Title }} →</a>{{ end }}
+    </nav>
+  </article>
+
+  {{/* Visionneuse : un <dialog> natif, flèches et Échap au clavier. */}}
+  <dialog class="lightbox" aria-label="{{ cond $fr "Visionneuse" "Viewer" }}">
+    <figure>
+      <img alt="">
+      <figcaption></figcaption>
+    </figure>
+    <button class="lb-close" aria-label="{{ cond $fr "Fermer" "Close" }}">×</button>
+    <button class="lb-prev" aria-label="{{ cond $fr "Photo précédente" "Previous photo" }}">‹</button>
+    <button class="lb-next" aria-label="{{ cond $fr "Photo suivante" "Next photo" }}">›</button>
+    <span class="lb-count"></span>
+  </dialog>
+  <script>
+    (() => {
+      const links = [...document.querySelectorAll(".album-photos a")];
+      const box = document.querySelector(".lightbox");
+      if (!links.length || !box || !box.showModal) return;
+      const img = box.querySelector("img"), cap = box.querySelector("figcaption"),
+            count = box.querySelector(".lb-count");
+      let cur = 0;
+      const show = (i) => {
+        cur = (i + links.length) % links.length;
+        const a = links[cur];
+        img.src = a.href;
+        img.alt = a.dataset.caption || "";
+        cap.textContent = a.dataset.caption || "";
+        count.textContent = (cur + 1) + " / " + links.length;
+      };
+      links.forEach((a, i) => a.addEventListener("click", (e) => {
+        e.preventDefault(); show(i); box.showModal();
+      }));
+      box.querySelector(".lb-prev").onclick = () => show(cur - 1);
+      box.querySelector(".lb-next").onclick = () => show(cur + 1);
+      box.querySelector(".lb-close").onclick = () => box.close();
+      box.addEventListener("click", (e) => { if (e.target === box) box.close(); });
+      box.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowLeft") show(cur - 1);
+        if (e.key === "ArrowRight") show(cur + 1);
+      });
+    })();
+  </script>
+{{ end }}

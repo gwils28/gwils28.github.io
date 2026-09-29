@@ -13,6 +13,8 @@ Wilson Goma's technical blog **and** portfolio — a Hugo static site using the 
 - `hugo new posts/<slug>/index.md` — new article (uses `archetypes/posts.md`).
 - `hugo new projects/<slug>/index.md` — new portfolio entry (uses `archetypes/projects.md`).
 - `hugo new jazz/<slug>/index.md` — new jazz note (uses `archetypes/jazz.md`).
+- `hugo new migration/<slug>/index.md` — new photo album (uses `archetypes/migration.md`).
+- `python3 scripts/album-photos.py <photos-dir> <slug>` — preferred way to fill an album: auto-rotates, resizes to 2500 px, strips all EXIF (GPS), numbers files by capture date, creates the album if missing. Keeps the repo light — originals never go in.
 - `git submodule update --init --recursive` — required after a fresh clone; the theme is a submodule and nothing builds without it.
 
 No test suite or linter — the build itself is the check.
@@ -36,13 +38,14 @@ Author identity lives in the `languages.*.toml` files, **not** in `params.toml`.
 - `content/posts/` — articles and veille notes.
 - `content/projects/` — portfolio entries, rendered as cards (`cardView: true` in `projects/_index.md`).
 - `content/jazz/` — the jazz notebook (discoveries, double-bass practice, explorations). Deliberately **not** in `mainSections`, so jazz notes stay off the tech-focused homepage.
+- `content/migration/` — travel photo albums, off the homepage like jazz. Each album is a page bundle: drop photos next to `index.md` (shown in filename order; optional captions via `resources` titles, optional `cover`, `place`, `coords` front matter). Custom layouts in `layouts/migration/` (polaroid cards, masonry, `<dialog>` lightbox). `publishResources: false` is cascaded so only resized WebP copies are published — never originals, so no EXIF/GPS leaks.
 - `content/cv.md` — the CV page; its tables come from `data/cv.yaml` (bilingual fr/en fields) via the `{{< cv section="..." >}}` shortcode.
 - Each entry is a **page bundle** (`<slug>/index.md`) so images sit next to the Markdown and `featureImage: "cover.jpg"` resolves as a relative path.
 - **Bilingual by filename suffix**: `index.md` is French (the default language), `index.en.md` is English. `defaultContentLanguageInSubdir = false`, so French is served at `/` and English at `/en/`.
 
 ### Theme customisation
 
-`themes/blowfish/` is a git submodule — never edit inside it; changes are lost on update. To override a template, copy it to the matching path under the root `layouts/` (the only custom template is `layouts/_default/about.html`, used by the About page via `layout: "about"`: the theme's `simple` layout with the author card under the title). Blowfish's CSS is Tailwind-based; custom styles go in `assets/css/custom.css`, which the theme picks up automatically.
+`themes/blowfish/` is a git submodule — never edit inside it; changes are lost on update. To override a template, copy it to the matching path under the root `layouts/` (custom templates: `layouts/_default/about.html` for the About page, and `layouts/migration/` for the albums). Blowfish's CSS is Tailwind-based; custom styles go in `assets/css/custom.css`, which the theme picks up automatically.
 
 Profile photo goes in `assets/img/` (referenced as `image = "img/profile.jpg"` in the language files — `resources.Get` resolves against `assets/`). Favicons live in the root `static/` (they shadow the theme's): `favicon.svg` is the source logo, the PNG/ICO sizes are rendered from it. `layouts/partials/favicons.html` emits the `<link>` tags with a `?v=` cache-buster — bump it whenever the logo changes, or browsers keep showing the old one.
 
@@ -50,7 +53,7 @@ Profile photo goes in `assets/img/` (referenced as `image = "img/profile.jpg"` i
 
 `.github/workflows/deploy.yml` builds and publishes on push to `master`/`main`. Two things it depends on:
 
-- `submodules: recursive` in the checkout step — the theme won't be there otherwise.
+- The "Récupérer le thème" step (`git submodule update --init --recursive --depth 1`) — the theme won't be there otherwise. It is fetched shallow on purpose: `fetch-depth: 0` on the checkout (needed for git-based `.Lastmod`) would otherwise pull the theme's full ~600 MB history.
 - `--baseURL` from `actions/configure-pages`, which overrides the config value at build time.
 
 **`public/` is gitignored** and must stay that way — it's a build artifact produced by CI, not source. (It was previously committed under the old Relearn theme; that history was cleaned up.)
