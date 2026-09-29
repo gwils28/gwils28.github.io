@@ -19,11 +19,11 @@ experience:
     initials: "B"
     location: { fr: "Aix-en-Provence", en: "Aix-en-Provence, FR" }
     roles:
-      - title: { fr: "Data Scientist & MLOps (consultant)", en: "Data Scientist & MLOps (consultant)" }
+      - title: { fr: "Data Scientist & MLOps", en: "Data Scientist & MLOps" }
         period: { fr: "2021 – 2023", en: "2021 – 2023" }
         summary:
-          fr: "Segmentation, churn, recommandation, « moments de vie ». Contribution à Packta, librairie interne de déploiement de modèles. Migration vers GCP (BigQuery, Vertex AI)."
-          en: "Segmentation, churn, recommendation, customer life events. Contributor to Packta, an internal model-deployment library. Migration to GCP (BigQuery, Vertex AI)."
+          fr: "Segmentation, churn, recommandation, « moments de vie », cas d'usage LLM. MLOps : contribution à Packta, librairie interne de déploiement de modèles, CI/CD et monitoring en production. Migration vers GCP (BigQuery, Vertex AI)."
+          en: "Segmentation, churn, recommendation, customer life events, LLM use cases. MLOps: contributor to Packta, an internal model-deployment library, CI/CD and production monitoring. Migration to GCP (BigQuery, Vertex AI)."
 
   - org: Traxens
     url: https://www.traxens.com
@@ -41,7 +41,7 @@ experience:
     initials: "IT"
     location: { fr: "Marseille", en: "Marseille, FR" }
     roles:
-      - title: { fr: "Data Scientist (consultant)", en: "Data Scientist (consultant)" }
+      - title: { fr: "Data Scientist", en: "Data Scientist" }
         period: { fr: "2017 – 2019", en: "2017 – 2019" }
         summary:
           fr: "Détection non supervisée de fraude sur chèques, modèles de churn, data lake, tableaux de bord d'aide à la décision."
@@ -65,11 +65,21 @@ education:
     location: { fr: "Marseille", en: "Marseille, FR" }
     roles:
       - title: { fr: "Master en biostatistique", en: "Master's in Biostatistics" }
-        period: { fr: "2014 – 2016", en: "2014 – 2016" }
+
+  - org: Université des Antilles
+    url: https://www.univ-antilles.fr/
+    initials: "UA"
+    location: { fr: "Martinique", en: "Martinique, FR" }
+    roles:
+      - title: { fr: "Licence Mathématiques, Informatique et Biologie", en: "Bachelor's in Mathematics, Computer Science and Biology" }
 
 skills:
   - label: { fr: "Langages", en: "Languages" }
     items: "Python, SQL, Bash"
+  - label: { fr: "Statistique", en: "Statistics" }
+    items:
+      fr: "Inférence, identification causale (A/B test, différence-de-différences), quantification de l'incertitude, décision sous coûts asymétriques"
+      en: "Inference, causal identification (A/B testing, difference-in-differences), uncertainty quantification, decision-making under asymmetric costs"
   - label: { fr: "Machine learning", en: "Machine learning" }
     items: "Scikit-learn, PyTorch, PySpark, LangChain / LangGraph"
   - label: { fr: "MLOps & outils", en: "MLOps & tooling" }

@@ -7,6 +7,8 @@
 {{- $lang := .Page.Language.Lang -}}
 {{- $fr := eq $lang "fr" -}}
 {{- $rows := index hugo.Data.cv $section -}}
+{{- /* Les diplômes s'affichent sans dates : pas de colonne Période en formation. */ -}}
+{{- $showPeriod := ne $section "education" -}}
 
 <div class="cv-table-wrap not-prose">
 {{- if in (slice "experience" "education") $section }}
@@ -16,7 +18,9 @@
       <th class="cv-col-logo"></th>
       <th>{{ cond $fr "Organisation" "Organization" }}</th>
       <th>{{ if eq $section "education" }}{{ cond $fr "Diplôme" "Degree" }}{{ else }}{{ cond $fr "Poste" "Role" }}{{ end }}</th>
+      {{- if $showPeriod }}
       <th class="cv-period">{{ cond $fr "Période" "Period" }}</th>
+      {{- end }}
     </tr>
   </thead>
   <tbody>
@@ -36,10 +40,12 @@
       {{- end }}
       <td class="cv-role">
         <span class="cv-role-title">{{ partial "cv-t.html" (dict "v" $r.title "lang" $lang) }}</span>
-        <span class="cv-period-inline">{{ partial "cv-t.html" (dict "v" $r.period "lang" $lang) }}</span>
+        {{- if $showPeriod }}<span class="cv-period-inline">{{ partial "cv-t.html" (dict "v" $r.period "lang" $lang) }}</span>{{ end }}
         {{- with $r.summary }}<span class="cv-role-summary">{{ partial "cv-t.html" (dict "v" . "lang" $lang) }}</span>{{ end }}
       </td>
+      {{- if $showPeriod }}
       <td class="cv-period">{{ partial "cv-t.html" (dict "v" $r.period "lang" $lang) }}</td>
+      {{- end }}
     </tr>
     {{- end }}
   {{- end }}
