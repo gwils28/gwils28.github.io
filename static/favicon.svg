@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Logo Kwak Jazz : le canard contrebassiste (chapeau de paille, lunettes
+       rondes, bec orange) sur le vert mousse du site (#2E6218). -->
+  <rect width="64" height="64" rx="14" fill="#2E6218"/>
+  <!-- tête et cou -->
+  <path d="M14 64 C15 52 13 44 16 36 C19 26 36 23 42 33 C45 38 43 46 38 52 C36 56 37 60 38 64 Z" fill="#111"/>
+  <!-- bec -->
+  <path d="M38 38 C46 36 55 38 58 42 C55 45 46 46 38 45 Z" fill="#F2A93B" stroke="#111" stroke-width="1.2" stroke-linejoin="round"/>
+  <!-- lunettes -->
+  <g stroke="#E8C66A" stroke-width="2">
+    <circle cx="26" cy="35" r="6" fill="#1d1d1d"/>
+    <circle cx="39" cy="34" r="5.2" fill="#1d1d1d"/>
+    <path d="M32 34.5 L33.8 34.3" fill="none"/>
+  </g>
+  <path d="M23 38 L28.5 32 M36.8 36.8 L41.3 31.5" stroke="#F4F1E6" stroke-width="1.6" stroke-linecap="round"/>
+  <!-- chapeau de paille -->
+  <path d="M5 28 C14 21 38 17 58 22 C50 27 22 30 5 28 Z" fill="#D9B26A" stroke="#111" stroke-width="1.2" stroke-linejoin="round"/>
+  <path d="M17 24 C17 13 23 8 32 8 C41 8 45 13 45 21 C36 21 26 22 17 24 Z" fill="#E4C27C" stroke="#111" stroke-width="1.2" stroke-linejoin="round"/>
+  <path d="M17.5 21 C26 18.5 36 17.5 44.8 17.8 L45 21 C36 21 26 22 17 24 Z" fill="#C94F2B"/>
+  <path d="M22 20.3 L25 19.6 M29 19.1 L32 18.8 M36 18.4 L39 18.3" stroke="#3FA7A0" stroke-width="1.6"/>
+</svg>

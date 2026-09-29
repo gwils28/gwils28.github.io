@@ -1,0 +1,11 @@
+{{/* Favicons : remplace le bloc par défaut de Blowfish pour ajouter la
+     version SVG (nette à toutes les tailles) et un ?v= qui force les
+     navigateurs à oublier l'ancienne icône en cache. Incrémenter $v à
+     chaque changement de logo. */}}
+{{- $v := "2" -}}
+<link rel="icon" type="image/svg+xml" href="{{ "favicon.svg" | relURL }}?v={{ $v }}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ "favicon-32x32.png" | relURL }}?v={{ $v }}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ "favicon-16x16.png" | relURL }}?v={{ $v }}">
+<link rel="shortcut icon" href="{{ "favicon.ico" | relURL }}?v={{ $v }}">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ "apple-touch-icon.png" | relURL }}?v={{ $v }}">
+<link rel="manifest" href="{{ "site.webmanifest" | relURL }}?v={{ $v }}">
