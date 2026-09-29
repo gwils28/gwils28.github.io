@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="1em" height="1em">
+  <!-- Ti'punch : petit verre épais, rhum agricole ambré, rondelle de citron vert sur le bord. -->
+  <path d="M14 22 L18 56 Q18.4 59 21.5 59 L42.5 59 Q45.6 59 46 56 L50 22 Z" fill="#E8EEF0" fill-opacity=".35" stroke="#B9C4C8" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M16.4 36 L18.9 55.6 Q19.2 57 21.6 57 L42.4 57 Q44.8 57 45.1 55.6 L47.6 36 Z" fill="#D9982E"/>
+  <path d="M16.4 36 L47.6 36 L47.3 38.5 L16.7 38.5 Z" fill="#F2C063"/>
+  <rect x="17" y="52" width="30" height="4" rx="1" fill="#A96B16" opacity=".55"/>
+  <path d="M26 44 q3 -2 6 0 q-3 3 -6 0z" fill="#7DBB3C"/>
+  <circle cx="47" cy="21" r="11" fill="#5E9E26"/>
+  <circle cx="47" cy="21" r="9" fill="#C9E88A"/>
+  <g stroke="#7DBB3C" stroke-width="1.4">
+    <path d="M47 21 L47 12.5"/><path d="M47 21 L55.1 18.4"/><path d="M47 21 L52 27.9"/><path d="M47 21 L42 27.9"/><path d="M47 21 L38.9 18.4"/>
+  </g>
+  <circle cx="47" cy="21" r="1.6" fill="#EAF6CF"/>
+</svg>

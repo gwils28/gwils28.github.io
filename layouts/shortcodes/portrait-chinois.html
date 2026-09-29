@@ -5,18 +5,18 @@
 {{- $lang := .Page.Language.Lang -}}
 {{- $fr := eq $lang "fr" -}}
 <div class="portrait not-prose">
-  <h2 class="portrait-lead">
-    <span class="portrait-kicker">{{ cond $fr "Portrait chinois" "Chinese portrait" }}</span>
-    {{ cond $fr "Si j'étais…" "If I were…" }}
-  </h2>
+  <h2 class="portrait-lead">{{ cond $fr "Si j'étais…" "If I were…" }}</h2>
   <ul class="portrait-grid">
   {{- range $i, $e := hugo.Data.portrait }}
     <li class="portrait-card" style="--i: {{ $i }}">
       <span class="portrait-label">{{ partial "cv-t.html" (dict "v" $e.label "lang" $lang) }}</span>
+      <span class="portrait-would">{{ cond $fr "je serais" "I'd be" }}</span>
       <span class="portrait-value">{{ partial "cv-t.html" (dict "v" $e.value "lang" $lang) }}</span>
       {{- with $e.note }}<span class="portrait-note">{{ . }}</span>{{ end }}
       {{- with $e.swatch }}
       <span class="portrait-icon portrait-swatch" style="--swatch: {{ . | safeCSS }}" aria-hidden="true"></span>
+      {{- else with $e.svg }}
+      <span class="portrait-icon portrait-svg" aria-hidden="true">{{ (resources.Get .).Content | safeHTML }}</span>
       {{- else }}
       <span class="portrait-icon" aria-hidden="true">{{ $e.icon }}</span>
       {{- end }}

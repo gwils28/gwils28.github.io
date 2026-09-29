@@ -1,6 +1,7 @@
 # Portrait chinois de la page À propos, rendu par le shortcode {{< portrait-chinois >}}.
 # Même convention que cv.yaml : chaque texte est une chaîne ou une table { fr, en }.
-# `swatch` (facultatif) affiche une pastille de la couleur indiquée.
+# `swatch` (facultatif) affiche une pastille de la couleur indiquée ;
+# `svg` (facultatif) remplace l'emoji par une icône de assets/.
 
 - icon: "🦆"
   label: { fr: "un animal", en: "an animal" }
@@ -13,7 +14,8 @@
   swatch: "#1F5130"
   label: { fr: "une couleur", en: "a colour" }
   value: { fr: "Vert forêt", en: "Forest green" }
-- icon: "🍹"
+- icon: ""
+  svg: "img/portrait/tipunch.svg"
   label: { fr: "une boisson", en: "a drink" }
   value: "Ti'punch"
 - icon: "🌬️"
@@ -26,6 +28,22 @@
   label: { fr: "un livre", en: "a book" }
   value: { fr: "Essais", en: "Essays" }
   note: "Michel de Montaigne"
-- icon: "⚔️"
-  label: { fr: "un jeu vidéo", en: "a video game" }
-  value: "World of Warcraft"
+- icon: ""
+  svg: "img/portrait/troll-pretre.svg"
+  label: { fr: "un joueur de WoW", en: "a WoW player" }
+  value: { fr: "Troll prêtre", en: "Troll priest" }
+- icon: "🌴"
+  label: { fr: "un arbre", en: "a tree" }
+  value: { fr: "Un cocotier", en: "A coconut palm" }
+- icon: ""
+  svg: "img/portrait/fou.svg"
+  label: { fr: "une pièce d'échiquier", en: "a chess piece" }
+  value: { fr: "Un fou", en: "A bishop" }
+- icon: ""
+  svg: "img/portrait/ryuk.svg"
+  label: { fr: "un héros de manga", en: "a manga hero" }
+  value: "Ryuk"
+  note: "Death Note"
+- icon: "🌅"
+  label: { fr: "un moment de la journée", en: "a time of day" }
+  value: { fr: "L'aube", en: "Dawn" }

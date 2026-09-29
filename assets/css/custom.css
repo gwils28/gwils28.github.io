@@ -251,23 +251,11 @@ time,
    Le pictogramme dépasse du coin, estompé, et reprend ses couleurs au survol. */
 .portrait { margin: 2.5rem 0 1rem; }
 
-.portrait-kicker {
-  display: block;
-  margin-bottom: 0.4rem;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 400;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgb(var(--color-neutral-500));
-}
-.dark .portrait-kicker { color: rgb(var(--color-neutral-400)); }
-
 .portrait-lead {
   margin: 0 0 1.5rem;
   font-family: var(--font-display);
   font-weight: 900;
-  font-size: clamp(2rem, 6vw, 3rem);
+  font-size: clamp(1.5rem, 4vw, 1.9rem);
   letter-spacing: -0.04em;
   line-height: 1;
   color: rgb(var(--color-primary-700));
@@ -323,11 +311,21 @@ time,
 .portrait-label::before { content: "… "; }
 .dark .portrait-label { color: rgb(var(--color-neutral-400)); }
 
+/* « je serais » : la réponse à « Si j'étais… ». */
+.portrait-would {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: rgb(var(--color-primary-700));
+}
+.dark .portrait-would { color: rgb(var(--color-primary-400)); }
+
 .portrait-value {
   position: relative;
   z-index: 1;
   display: block;
-  margin-top: 0.35rem;
+  margin-top: 0.1rem;
   font-family: var(--font-display);
   font-weight: 800;
   font-size: 1.15rem;
@@ -378,3 +376,7 @@ time,
   filter: none;
   opacity: 0.9;
 }
+
+/* Icône dessinée (SVG) : même encombrement qu'un emoji. */
+.portrait-svg { right: 0.3rem; bottom: 0.2rem; font-size: 3.2rem; }
+.portrait-svg svg { display: block; width: 1em; height: 1em; }
