@@ -42,7 +42,7 @@ Author identity lives in the `languages.*.toml` files, **not** in `params.toml`.
 
 ### Theme customisation
 
-`themes/blowfish/` is a git submodule — never edit inside it; changes are lost on update. To override a template, copy it to the matching path under the root `layouts/` (currently empty, so no overrides exist). Blowfish's CSS is Tailwind-based; custom styles go in `assets/css/custom.css`, which the theme picks up automatically.
+`themes/blowfish/` is a git submodule — never edit inside it; changes are lost on update. To override a template, copy it to the matching path under the root `layouts/` (the only custom template is `layouts/_default/about.html`, used by the About page via `layout: "about"`: the theme's `simple` layout with the author card under the title). Blowfish's CSS is Tailwind-based; custom styles go in `assets/css/custom.css`, which the theme picks up automatically.
 
 Profile photo goes in `assets/img/` (referenced as `image = "img/profile.jpg"` in the language files — `resources.Get` resolves against `assets/`). Favicons come from the theme's `static/`; override by dropping same-named files into the root `static/`.
 

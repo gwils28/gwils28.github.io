@@ -1,0 +1,17 @@
+{{/* Page « À propos » : la mise en page "simple" du thème, avec la carte
+     auteur (photo, titre, citation, liens) placée sous le titre. */}}
+{{ define "main" }}
+  <article class="max-w-full">
+    <header>
+      <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+        {{ .Title | emojify }}
+      </h1>
+    </header>
+    <div class="mt-8">
+      {{ partial "author.html" . }}
+    </div>
+    <section class="max-w-full mt-6 prose dark:prose-invert">
+      {{ .Content }}
+    </section>
+  </article>
+{{ end }}
