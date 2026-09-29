@@ -1,6 +1,6 @@
 ---
 title: "About"
-description: "Data scientist, biostatistician by training, always up for a good statistical puzzle."
+description: "Data scientist, always up for a good statistical puzzle: models to understand better and decide better."
 layout: "about"
 showDate: false
 showAuthor: false
@@ -9,19 +9,11 @@ showTableOfContents: false
 showPagination: false
 ---
 
-I'm a data scientist, a biostatistician by training. What drives me is
-understanding how things work: turning a phenomenon or a process into a model,
-to help people make better strategic
-decisions.
+What drives me is building models and systems that help us better understand
+how things work, and that make better decisions easier to reach.
 
-I'm also always up for a good statistical puzzle. A number that doesn't add up,
-a question that's still vague, imperfect data: that's often where the work gets
-interesting. I enjoy the moment a problem is framed as much as the moment the
-solution finally runs for real, with the dead ends and everything learned in
-between.
+Always up for a good statistical puzzle and attentive to detail, I have spent
+more than ten years developing autonomous systems that predict and simulate
+complex phenomena with as little bias as possible.
 
-This blog is my notebook. I write down what I learn, what I try, and sometimes
-what I get wrong. Away from the screen, I'm a jazz enthusiast
-learning the double bass.
-
-If any of this speaks to you, I'm always happy to talk.
+{{< portrait-chinois >}}

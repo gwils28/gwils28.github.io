@@ -1,0 +1,31 @@
+# Portrait chinois de la page À propos, rendu par le shortcode {{< portrait-chinois >}}.
+# Même convention que cv.yaml : chaque texte est une chaîne ou une table { fr, en }.
+# `swatch` (facultatif) affiche une pastille de la couleur indiquée.
+
+- icon: "🦆"
+  label: { fr: "un animal", en: "an animal" }
+  value: { fr: "Un canard", en: "A duck" }
+- icon: "🎺"
+  label: { fr: "une musique", en: "a tune" }
+  value: "So What"
+  note: "Miles Davis"
+- icon: ""
+  swatch: "#1F5130"
+  label: { fr: "une couleur", en: "a colour" }
+  value: { fr: "Vert forêt", en: "Forest green" }
+- icon: "🍹"
+  label: { fr: "une boisson", en: "a drink" }
+  value: "Ti'punch"
+- icon: "🌬️"
+  label: { fr: "un élément", en: "an element" }
+  value: { fr: "L'air", en: "Air" }
+- icon: "🍕"
+  label: { fr: "un plat", en: "a dish" }
+  value: { fr: "Une pizza", en: "A pizza" }
+- icon: "📖"
+  label: { fr: "un livre", en: "a book" }
+  value: { fr: "Essais", en: "Essays" }
+  note: "Michel de Montaigne"
+- icon: "⚔️"
+  label: { fr: "un jeu vidéo", en: "a video game" }
+  value: "World of Warcraft"
