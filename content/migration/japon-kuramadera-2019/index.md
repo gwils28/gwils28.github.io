@@ -1,5 +1,5 @@
 ---
-title: "Kurama dera 2019"
+title: "Kurama dera"
 date: 2019-04-12T16:30:39+02:00       # date du voyage : sert au tri et à l'affichage « mois année »
 draft: false
 place: "Kurama-dera, Kyoto, Japon"               # ex. « Kyoto, Japon »
