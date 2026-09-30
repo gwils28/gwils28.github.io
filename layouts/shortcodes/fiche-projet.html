@@ -1,0 +1,43 @@
+{{- /*
+  Fiche d'identité d'un projet, affichée en tête de page.
+
+    {{< fiche-projet statut="Terminé" periode="Mars – mai 2026" role="Solo, de l'EDA au déploiement"
+        stack="Python, scikit-learn, FastAPI" code="https://github.com/…" demo="https://…" >}}
+
+  Tous les paramètres sont facultatifs : une ligne vide n'est pas affichée.
+  « stack » est une liste séparée par des virgules, rendue en pastilles.
+*/ -}}
+{{- $en := eq .Page.Language.Lang "en" -}}
+{{- $labels := dict
+    "statut"  (cond $en "Status" "Statut")
+    "periode" (cond $en "Timeline" "Période")
+    "role"    (cond $en "Role" "Rôle")
+    "stack"   (cond $en "Stack" "Stack")
+    "code"    (cond $en "Source code" "Code source")
+    "demo"    (cond $en "Live demo" "Démo en ligne")
+-}}
+<aside class="not-prose fiche-projet" aria-label="{{ cond $en "Project card" "Fiche projet" }}">
+  <dl>
+    {{- range $cle := slice "statut" "periode" "role" }}
+      {{- with $.Get $cle }}
+        <div><dt>{{ index $labels $cle }}</dt><dd>{{ . | markdownify }}</dd></div>
+      {{- end }}
+    {{- end }}
+    {{- with .Get "stack" }}
+      <div class="fiche-projet-stack">
+        <dt>{{ $labels.stack }}</dt>
+        <dd>{{ range split . "," }}<span>{{ trim . " " }}</span>{{ end }}</dd>
+      </div>
+    {{- end }}
+  </dl>
+  {{- if or (.Get "code") (.Get "demo") }}
+    <div class="fiche-projet-liens">
+      {{- with .Get "code" }}
+        <a href="{{ . }}" target="_blank" rel="noopener">{{ partial "icon" "github" }}{{ $labels.code }}</a>
+      {{- end }}
+      {{- with .Get "demo" }}
+        <a href="{{ . }}" target="_blank" rel="noopener" class="secondaire">{{ partial "icon" "link" }}{{ $labels.demo }}</a>
+      {{- end }}
+    </div>
+  {{- end }}
+</aside>
