@@ -1,0 +1,9 @@
+# Complète les traductions du thème (themes/blowfish/i18n/en.yaml).
+
+type.article: "Post"
+type.projet: "Project"
+type.jazz: "Jazz"
+
+accueil.articles: "Latest posts"
+accueil.projets: "Recent projects"
+accueil.voir_tout: "See all"

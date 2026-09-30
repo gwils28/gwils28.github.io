@@ -677,3 +677,60 @@ time,
 }
 .dark .fiche-projet-liens a.secondaire:hover { background: rgb(var(--color-primary-900) / 0.5); }
 .fiche-projet-liens .icon { width: 1em; height: 1em; }
+
+/* --- Accueil : blocs articles / projets (partials/recent-articles/main.html)
+   Titre à gauche, lien « Voir tout » à droite, sur la même ligne. */
+.accueil-bloc { margin-top: 2rem; }
+.accueil-bloc + .accueil-bloc { margin-top: 3.5rem; }
+
+.accueil-bloc-entete {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.accueil-bloc-entete a {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  white-space: nowrap;
+  text-decoration: none;
+  color: rgb(var(--color-primary-700));
+}
+.accueil-bloc-entete a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.dark .accueil-bloc-entete a { color: rgb(var(--color-primary-400)); }
+
+/* --- Étiquette de type sur les cartes (partials/type-contenu.html) -------
+   Petite capitale en mono, précédée d'une puce : ronde et ambre pour un
+   article, en losange et verte pour un projet. La forme double la couleur,
+   pour rester lisible sans distinguer les teintes. */
+.type-contenu {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgb(var(--color-neutral-500));
+}
+.dark .type-contenu { color: rgb(var(--color-neutral-400)); }
+
+.type-contenu::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  flex: none;
+  background: rgb(var(--color-neutral-400));
+}
+.type-contenu--article::before {
+  border-radius: 999px;
+  background: rgb(var(--color-secondary-500));
+}
+.type-contenu--projet::before {
+  transform: rotate(45deg) scale(0.9);
+  background: rgb(var(--color-primary-600));
+}
+.dark .type-contenu--projet::before { background: rgb(var(--color-primary-400)); }

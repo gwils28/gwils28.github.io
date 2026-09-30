@@ -42,8 +42,8 @@ defaultSocialImage = "img/social-card.jpg"
 [homepage]
   layout = "profile"          # photo + bio + liens, puis les articles récents
   showRecent = true
-  showRecentItems = 5
-  showMoreLink = true
+  showRecentItems = 3        # cartes par bloc (articles, projets) — une rangée
+  showMoreLink = true         # sans effet : chaque bloc a son lien « Voir tout »
   showMoreLinkDest = "posts/"
   cardView = true
 

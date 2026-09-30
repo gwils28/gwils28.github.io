@@ -1,0 +1,27 @@
+{{- /*
+  Surcharge du thème : l'accueil montre deux blocs séparés, articles puis
+  projets, au lieu d'une grille unique qui mélangeait les deux sections.
+  Chaque bloc a son titre et son lien « Voir tout » vers sa section.
+
+  Nombre de cartes par bloc : homepage.showRecentItems (params.toml).
+  Un bloc sans contenu n'est pas affiché.
+*/ -}}
+{{ if site.Params.homepage.showRecent | default false }}
+  {{ $n := site.Params.homepage.showRecentItems | default 3 }}
+  {{ range $bloc := slice (dict "section" "posts" "titre" "accueil.articles") (dict "section" "projects" "titre" "accueil.projets") }}
+    {{ $pages := where site.RegularPages "Section" $bloc.section }}
+    {{ with $pages }}
+      <section class="accueil-bloc">
+        <div class="accueil-bloc-entete">
+          <h2 class="text-2xl font-extrabold">{{ i18n $bloc.titre }}</h2>
+          <a href="{{ (site.GetPage (printf "/%s" $bloc.section)).RelPermalink }}">{{ i18n "accueil.voir_tout" }}&nbsp;→</a>
+        </div>
+        <div class="w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+          {{ range first $n . }}
+            {{ partial "article-link/card.html" . }}
+          {{ end }}
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+{{ end }}
