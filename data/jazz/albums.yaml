@@ -16,3 +16,45 @@
   annee: 1960
   note: 5
   image: "john-coltrane-giant-steps.jpg"
+
+- titre: "The Mood"
+  artiste: "Maurice Brown"
+  annee: 2017
+  note: 4.5
+  image: "maurice-brown-the-mood.jpg"
+
+- titre: "Idle Moments"
+  artiste: "Grant Green"
+  note: 4.5
+  annee: 1965
+  image: "grant-green-idle-moments.jpg"
+
+- titre: "Culcha Vulcha"
+  artiste: "Snarky Puppy"
+  annee: 2016
+  note: 4.5
+  image: "snarky-puppy-culcha-vulcha.jpg"
+
+- titre: "Maiden Voyage"
+  artiste: "Herbie Hancock"
+  annee: 1965
+  note: 5
+  image: "herbie-hancock-maiden-voyage.jpg"
+
+- titre: "Tuff Times Never Last"
+  artiste: "Kokoroko"
+  note: 4.5
+  annee: 2025
+  image: "kokoroko-tuff-times-never-last.jpg"
+
+- titre: "My Latin Heart"
+  artiste: "Roger Glenn"
+  annee: 2025
+  note: 4.5
+  image: "roger-glenn-my-latin-heart.jpg"
+
+- titre: "Afrodeezia"
+  artiste: "Marcus Miller"
+  annee: 2015
+  note: 5
+  image: "marcus-miller-afrodeezia.jpg"

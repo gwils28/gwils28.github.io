@@ -967,7 +967,14 @@ span.menu-groupe { display: contents; }
 @media (max-width: 639px) {
   .jz-disques { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.85rem; }
 }
-.jz-disque { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+/* Toutes les cartes ont le même gabarit, quel que soit leur contenu : le
+   titre réserve toujours deux lignes (coupé au-delà), l'artiste une seule,
+   et les étoiles sont calées en bas de la carte. */
+.jz-disque {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
 .jz-disque:hover {
   transform: translateY(-3px);
   box-shadow: 0 18px 32px -18px rgba(0, 0, 0, 0.5);
@@ -982,7 +989,12 @@ span.menu-groupe { display: contents; }
   height: 100%;
   object-fit: cover;
 }
-.jz-disque-texte { padding: 0.8rem 0.9rem 0.9rem; }
+.jz-disque-texte {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 0.8rem 0.9rem 0.9rem;
+}
 .jz-disque-titre {
   margin: 0;
   font-family: var(--font-display);
@@ -991,6 +1003,11 @@ span.menu-groupe { display: contents; }
   line-height: 1.2;
   letter-spacing: -0.02em;
   color: rgb(var(--color-neutral-900));
+  min-height: 2.4em;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 }
 .dark .jz-disque-titre { color: rgb(var(--color-neutral-100)); }
 .jz-disque-titre a { color: inherit; text-decoration: none; }
@@ -998,6 +1015,9 @@ span.menu-groupe { display: contents; }
 .jz-disque-artiste {
   margin: 0.2rem 0 0.55rem;
   font-size: 0.875rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   color: rgb(var(--color-neutral-600));
 }
 .dark .jz-disque-artiste { color: rgb(var(--color-neutral-400)); }
@@ -1015,6 +1035,8 @@ span.menu-groupe { display: contents; }
 
 .jz-note {
   display: inline-flex;
+  margin-top: auto;
+  min-height: 1.25rem;
   gap: 0.2rem;
   font-size: 1.25rem;
 }

@@ -17,15 +17,17 @@
   <li class="jz-disque">
     <div class="jz-disque-pochette">
       {{- with resources.Get (printf "img/jazz/albums/%s" .image) }}
-        {{- $c := .Fill "600x600 Center webp q82" }}
+        {{- /* Carré de 600 px au plus, sans jamais agrandir la source. */}}
+        {{- $l := math.Min 600 .Width .Height | int }}
+        {{- $c := .Fill (printf "%dx%d Center webp q82" $l $l) }}
         <img src="{{ $c.RelPermalink }}" width="{{ $c.Width }}" height="{{ $c.Height }}" alt="{{ $d.titre }} — {{ $d.artiste }}" loading="lazy">
       {{- end }}
     </div>
     <div class="jz-disque-texte">
-      <p class="jz-disque-titre">
+      <p class="jz-disque-titre" title="{{ .titre }}">
         {{- with .lien }}<a href="{{ . }}" target="_blank" rel="noopener">{{ $d.titre }}</a>{{ else }}{{ .titre }}{{ end -}}
       </p>
-      <p class="jz-disque-artiste">{{ partial "cv-t.html" (dict "v" .artiste "lang" $lang) }}{{ with .annee }} · <span class="jz-annee">{{ . }}</span>{{ end }}</p>
+      <p class="jz-disque-artiste" title="{{ partial "cv-t.html" (dict "v" .artiste "lang" $lang) }}">{{ partial "cv-t.html" (dict "v" .artiste "lang" $lang) }}{{ with .annee }} · <span class="jz-annee">{{ . }}</span>{{ end }}</p>
       {{- with .note }}{{ partial "jazz/note.html" (dict "note" . "lang" $lang) }}{{ end }}
     </div>
   </li>
