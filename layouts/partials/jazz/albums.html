@@ -26,7 +26,7 @@
         {{- with .lien }}<a href="{{ . }}" target="_blank" rel="noopener">{{ $d.titre }}</a>{{ else }}{{ .titre }}{{ end -}}
       </p>
       <p class="jz-disque-artiste">{{ partial "cv-t.html" (dict "v" .artiste "lang" $lang) }}{{ with .annee }} · <span class="jz-annee">{{ . }}</span>{{ end }}</p>
-      {{ partial "jazz/note.html" (dict "note" .note "lang" $lang) }}
+      {{- with .note }}{{ partial "jazz/note.html" (dict "note" . "lang" $lang) }}{{ end }}
     </div>
   </li>
   {{- end }}
