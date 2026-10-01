@@ -40,10 +40,10 @@
   label: { fr: "une pièce d'échiquier", en: "a chess piece" }
   value: { fr: "Un fou", en: "A bishop" }
 - icon: ""
-  svg: "img/portrait/ryuk.svg"
+  svg: "img/portrait/hannah-peters.svg"
   label: { fr: "un héros de manga", en: "a manga hero" }
-  value: "Ryuk"
-  note: "Death Note"
+  value: "Hannah Peters"
+  note: "Blue Giant Supreme"
 - icon: "🌅"
   label: { fr: "un moment de la journée", en: "a time of day" }
   value: { fr: "L'aube", en: "Dawn" }
