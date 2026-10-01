@@ -1,0 +1,33 @@
+{{- /* Onglet Albums : une carte par disque de data/jazz/albums.yaml —
+   pochette carrée, titre, artiste et année, note en étoiles. */ -}}
+{{- $lang := .Language.Lang -}}
+{{- /* Dégradé des étoiles pleines, défini une fois pour toute la page ; ses
+   couleurs viennent du CSS (.jz-degrade-*), donc du thème et du mode. */ -}}
+<svg class="jz-defs" width="0" height="0" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="jz-etoile-degrade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" class="jz-degrade-haut"/>
+      <stop offset="1" class="jz-degrade-bas"/>
+    </linearGradient>
+  </defs>
+</svg>
+<ul class="jz-disques">
+  {{- range hugo.Data.jazz.albums }}
+  {{- $d := . }}
+  <li class="jz-disque">
+    <div class="jz-disque-pochette">
+      {{- with resources.Get (printf "img/jazz/albums/%s" .image) }}
+        {{- $c := .Fill "600x600 Center webp q82" }}
+        <img src="{{ $c.RelPermalink }}" width="{{ $c.Width }}" height="{{ $c.Height }}" alt="{{ $d.titre }} — {{ $d.artiste }}" loading="lazy">
+      {{- end }}
+    </div>
+    <div class="jz-disque-texte">
+      <p class="jz-disque-titre">
+        {{- with .lien }}<a href="{{ . }}" target="_blank" rel="noopener">{{ $d.titre }}</a>{{ else }}{{ .titre }}{{ end -}}
+      </p>
+      <p class="jz-disque-artiste">{{ partial "cv-t.html" (dict "v" .artiste "lang" $lang) }}{{ with .annee }} · <span class="jz-annee">{{ . }}</span>{{ end }}</p>
+      {{ partial "jazz/note.html" (dict "note" .note "lang" $lang) }}
+    </div>
+  </li>
+  {{- end }}
+</ul>

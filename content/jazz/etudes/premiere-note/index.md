@@ -2,6 +2,7 @@
 title: "[Démo] Article de test du carnet jazz"
 date: 2026-09-29
 draft: false
+aliases: ["/jazz/premiere-note/"]
 description: "Article de démonstration et de test : il montre la mise en page du carnet jazz. Il sera retiré."
 summary: "Article de démonstration et de test du carnet jazz. Il sera retiré."
 categories: ["Apprentissage"]

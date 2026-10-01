@@ -10,3 +10,9 @@ accueil.voir_tout: "Voir tout"
 
 nav.groupe.tech: "Tech"
 nav.groupe.loisirs: "À côté"
+
+jazz.onglets: "Rubriques du carnet jazz"
+jazz.onglet.albums: "Albums"
+jazz.onglet.pantheon: "Panthéon"
+jazz.onglet.etudes: "Études"
+jazz.note: "Note : %s sur 5"

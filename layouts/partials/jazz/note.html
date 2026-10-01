@@ -1,0 +1,15 @@
+{{- /* Note sur 5 en étoiles, par pas de 0,5.
+   Chaque étoile superpose un fond pâle et une étoile pleine ; la
+   demi-étoile rogne l'étoile pleine de moitié (CSS .jz-etoile--demi). */ -}}
+{{- $note := float (.note | default 0) -}}
+{{- $texte := replace (string $note) "." (cond (eq .lang "fr") "," ".") -}}
+<span class="jz-note" role="img" aria-label="{{ printf (i18n "jazz.note") $texte }}">
+  {{- range seq 5 }}
+    {{- $etat := "vide" }}
+    {{- if ge $note (float .) }}{{ $etat = "pleine" }}{{ else if ge $note (sub (float .) 0.5) }}{{ $etat = "demi" }}{{ end }}
+    <span class="jz-etoile jz-etoile--{{ $etat }}" aria-hidden="true">
+      {{- partial "jazz/etoile.html" "jz-etoile-fond" -}}
+      {{- partial "jazz/etoile.html" "jz-etoile-plein" -}}
+    </span>
+  {{- end -}}
+</span>

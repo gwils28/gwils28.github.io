@@ -10,3 +10,9 @@ accueil.voir_tout: "See all"
 
 nav.groupe.tech: "Tech"
 nav.groupe.loisirs: "On the side"
+
+jazz.onglets: "Jazz notebook sections"
+jazz.onglet.albums: "Albums"
+jazz.onglet.pantheon: "Pantheon"
+jazz.onglet.etudes: "Studies"
+jazz.note: "Rated %s out of 5"

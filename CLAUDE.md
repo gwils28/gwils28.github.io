@@ -12,7 +12,7 @@ Wilson Goma's technical blog **and** portfolio — a Hugo static site using the 
 - `hugo --gc` — production build into `public/`.
 - `hugo new posts/<slug>/index.md` — new article (uses `archetypes/posts.md`).
 - `hugo new projects/<slug>/index.md` — new portfolio entry (uses `archetypes/projects.md`).
-- `hugo new jazz/<slug>/index.md` — new jazz note (uses `archetypes/jazz.md`).
+- `hugo new jazz/etudes/<slug>/index.md` — new jazz note in the Études tab (uses `archetypes/jazz.md`).
 - `hugo new migration/<slug>/index.md` — new photo album (uses `archetypes/migration.md`).
 - `python3 scripts/album-photos.py <photos-dir> <slug>` — preferred way to fill an album: auto-rotates, resizes to 2500 px, strips all EXIF (GPS), numbers files by capture date, creates the album if missing. Keeps the repo light — originals never go in.
 - `git submodule update --init --recursive` — required after a fresh clone; the theme is a submodule and nothing builds without it.
@@ -37,7 +37,7 @@ Author identity lives in the `languages.*.toml` files, **not** in `params.toml`.
 
 - `content/posts/` — articles and veille notes.
 - `content/projects/` — portfolio entries, rendered as cards (`cardView: true` in `projects/_index.md`).
-- `content/jazz/` — the jazz notebook (discoveries, double-bass practice, explorations). Deliberately **not** in `mainSections`, so jazz notes stay off the tech-focused homepage.
+- `content/jazz/` — the jazz notebook. Deliberately **not** in `mainSections`, so it stays off the tech-focused homepage. One layout (`layouts/jazz/list.html`) renders three tabs as real pages, picked by the `onglet` front-matter param: `/jazz/` = **Albums** (cards from `data/jazz/albums.yaml`, rating 0–5 in stars), `/jazz/pantheon/` = **Panthéon** (big cards from `data/jazz/pantheon.yaml`), `/jazz/etudes/` = **Études** (the actual notes, page bundles). Album covers and Panthéon photos go in `assets/img/jazz/{albums,pantheon}/` — only resized WebP copies are published. The title and intro paragraph of every tab come from `content/jazz/_index.md`.
 - `content/migration/` — travel photo albums, off the homepage like jazz. Each album is a page bundle: drop photos next to `index.md` (shown in filename order; optional captions via `resources` titles, optional `cover`, `place`, `coords` front matter). Custom layouts in `layouts/migration/` (polaroid cards, masonry, `<dialog>` lightbox). `publishResources: false` is cascaded so only resized WebP copies are published — never originals, so no EXIF/GPS leaks.
 - `content/cv.md` — the CV page; its tables come from `data/cv.yaml` (bilingual fr/en fields) via the `{{< cv section="..." >}}` shortcode.
 - Each entry is a **page bundle** (`<slug>/index.md`) so images sit next to the Markdown and `featureImage: "cover.jpg"` resolves as a relative path.
@@ -45,7 +45,7 @@ Author identity lives in the `languages.*.toml` files, **not** in `params.toml`.
 
 ### Theme customisation
 
-`themes/blowfish/` is a git submodule — never edit inside it; changes are lost on update. To override a template, copy it to the matching path under the root `layouts/` (custom templates: `layouts/_default/about.html` for the About page, and `layouts/migration/` for the albums). Also overridden: `partials/recent-articles/main.html` (homepage split into a posts block and a projects block), `partials/article-link/card*.html` (type label from `partials/type-contenu.html`), and `assets/js/chart.js` (site font + dark-mode-aware chart defaults; exposes `modeSombre` to `{{< chart >}}` bodies). Custom UI strings live in the root `i18n/{fr,en}.yaml`, merged with the theme's. Blowfish's CSS is Tailwind-based; custom styles go in `assets/css/custom.css`, which the theme picks up automatically.
+`themes/blowfish/` is a git submodule — never edit inside it; changes are lost on update. To override a template, copy it to the matching path under the root `layouts/` (custom templates: `layouts/_default/about.html` for the About page, and `layouts/migration/` for the albums). Also overridden: `partials/recent-articles/main.html` (homepage split into a posts block and a projects block), `partials/article-link/card*.html` (type label from `partials/type-contenu.html`), `partials/header/components/{desktop,mobile}-menu.html` (menu entries sharing a `params.groupe` get a separator + label from `nav.groupe.<name>`), and `assets/js/chart.js` (site font + dark-mode-aware chart defaults; exposes `modeSombre` to `{{< chart >}}` bodies). Custom UI strings live in the root `i18n/{fr,en}.yaml`, merged with the theme's. Blowfish's CSS is Tailwind-based; custom styles go in `assets/css/custom.css`, which the theme picks up automatically.
 
 Profile photo goes in `assets/img/` (referenced as `image = "img/profile.jpg"` in the language files — `resources.Get` resolves against `assets/`). Favicons live in the root `static/` (they shadow the theme's): `favicon.svg` is the source logo, the PNG/ICO sizes are rendered from it. `layouts/partials/favicons.html` emits the `<link>` tags with a `?v=` cache-buster — bump it whenever the logo changes, or browsers keep showing the old one.
 

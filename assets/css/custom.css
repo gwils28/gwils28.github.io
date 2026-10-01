@@ -807,3 +807,201 @@ span.menu-groupe { display: contents; }
 @media (max-width: 1023px) {
   .menu-groupe-label { display: none; }
 }
+
+/* --- Jazz : onglets Albums / Panthéon / Études --------------------------
+   layouts/jazz/list.html. Les onglets sont de vrais liens entre trois
+   pages ; le soulignement vert marque la page courante, à la manière du
+   shortcode {{< tabs >}} de Blowfish. Les cartes reprennent le verre dépoli
+   des cartes d'articles du thème. */
+.jz-intro { margin-top: 1.5rem; max-width: 65ch; }
+
+.jz-onglets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin: 1.75rem 0 2rem;
+  border-bottom: 1px solid rgba(var(--color-neutral-400), 0.5);
+}
+.jz-onglet {
+  margin-bottom: -1px;
+  padding: 0.55rem 0.9rem;
+  border-bottom: 2px solid transparent;
+  border-radius: 0.375rem 0.375rem 0 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgb(var(--color-neutral-600));
+  text-decoration: none;
+  transition: background-color 0.15s, color 0.15s;
+}
+.dark .jz-onglet { color: rgb(var(--color-neutral-400)); }
+.jz-onglet:hover {
+  color: rgb(var(--color-neutral-900));
+  background: rgba(var(--color-neutral-200), 0.7);
+}
+.dark .jz-onglet:hover {
+  color: rgb(var(--color-neutral-100));
+  background: rgba(var(--color-neutral-700), 0.6);
+}
+.jz-onglet.is-active,
+.dark .jz-onglet.is-active {
+  color: rgb(var(--color-primary-700));
+  border-bottom-color: currentColor;
+}
+.dark .jz-onglet.is-active { color: rgb(var(--color-primary-400)); }
+
+/* Carte commune. */
+.jz-disque,
+.jz-figure {
+  overflow: hidden;
+  border: 1px solid rgba(var(--color-neutral-300), 0.8);
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(24px);
+}
+.dark .jz-disque,
+.dark .jz-figure {
+  border-color: rgba(var(--color-neutral-600), 0.8);
+  background: rgba(var(--color-neutral-900), 0.5);
+}
+
+/* Albums : grille de pochettes carrées. */
+.jz-disques {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12.5rem, 1fr));
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* Téléphone : deux pochettes côte à côte, comme dans un bac à disques. */
+@media (max-width: 639px) {
+  .jz-disques { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.85rem; }
+}
+.jz-disque { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+.jz-disque:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 32px -18px rgba(0, 0, 0, 0.5);
+}
+.jz-disque-pochette {
+  aspect-ratio: 1;
+  background: rgb(var(--color-neutral-300));
+}
+.jz-disque-pochette img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.jz-disque-texte { padding: 0.8rem 0.9rem 0.9rem; }
+.jz-disque-titre {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.05rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: rgb(var(--color-neutral-900));
+}
+.dark .jz-disque-titre { color: rgb(var(--color-neutral-100)); }
+.jz-disque-titre a { color: inherit; text-decoration: none; }
+.jz-disque-titre a:hover { color: rgb(var(--color-primary-600)); }
+.jz-disque-artiste {
+  margin: 0.2rem 0 0.55rem;
+  font-size: 0.875rem;
+  color: rgb(var(--color-neutral-600));
+}
+.dark .jz-disque-artiste { color: rgb(var(--color-neutral-400)); }
+.jz-annee { font-family: var(--font-mono); font-size: 0.8rem; }
+
+/* Note en étoiles. L'étoile pleine est la seule chose qui brille sur la
+   carte : dégradé vert du thème (clair en haut, plus soutenu en bas), contour
+   net, halo diffus. L'étoile vide n'est qu'un contour pâle, pour que le
+   contraste fasse le travail. La demi-étoile rogne la pleine de moitié. */
+.jz-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.jz-degrade-haut { stop-color: rgb(var(--color-primary-300)); }
+.jz-degrade-bas  { stop-color: rgb(var(--color-primary-600)); }
+.dark .jz-degrade-haut { stop-color: rgb(var(--color-primary-200)); }
+.dark .jz-degrade-bas  { stop-color: rgb(var(--color-primary-500)); }
+
+.jz-note {
+  display: inline-flex;
+  gap: 0.2rem;
+  font-size: 1.25rem;
+}
+.jz-etoile { position: relative; display: inline-block; width: 1em; height: 1em; }
+.jz-etoile svg { position: absolute; inset: 0; overflow: visible; }
+
+.jz-etoile-fond path {
+  fill: none;
+  stroke: rgba(var(--color-neutral-400), 0.7);
+}
+.dark .jz-etoile-fond path { stroke: rgba(var(--color-neutral-500), 0.8); }
+
+.jz-etoile-plein path {
+  fill: url(#jz-etoile-degrade);
+  stroke: rgb(var(--color-primary-700));
+}
+.dark .jz-etoile-plein path { stroke: rgb(var(--color-primary-400)); }
+.jz-etoile-plein {
+  filter: drop-shadow(0 0 3px rgba(var(--color-primary-400), 0.55))
+          drop-shadow(0 1px 1px rgba(0, 0, 0, 0.25));
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s;
+}
+.dark .jz-etoile-plein {
+  filter: drop-shadow(0 0 4px rgba(var(--color-primary-400), 0.7))
+          drop-shadow(0 1px 1px rgba(0, 0, 0, 0.4));
+}
+
+.jz-etoile--vide .jz-etoile-plein { display: none; }
+.jz-etoile--demi .jz-etoile-plein { clip-path: inset(-30% 50% -30% -30%); }
+
+/* Au survol de la carte, les étoiles pleines scintillent l'une après
+   l'autre (désactivé par prefers-reduced-motion, plus haut). */
+.jz-disque:hover .jz-etoile-plein {
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 6px rgba(var(--color-primary-400), 0.85))
+          drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3));
+}
+.jz-etoile:nth-child(2) .jz-etoile-plein { transition-delay: 40ms; }
+.jz-etoile:nth-child(3) .jz-etoile-plein { transition-delay: 80ms; }
+.jz-etoile:nth-child(4) .jz-etoile-plein { transition-delay: 120ms; }
+.jz-etoile:nth-child(5) .jz-etoile-plein { transition-delay: 160ms; }
+
+/* Panthéon : grandes cartes, photo 3:2 puis le paragraphe. */
+.jz-pantheon {
+  display: grid;
+  gap: 1.75rem;
+}
+@media (min-width: 768px) {
+  .jz-pantheon { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.jz-figure-photo {
+  aspect-ratio: 3 / 2;
+  background: rgb(var(--color-neutral-300));
+}
+.jz-figure-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.jz-figure-texte { padding: 1.1rem 1.25rem 1.3rem; }
+.jz-figure-nom {
+  margin: 0;
+  font-size: 1.6rem;
+  line-height: 1.1;
+  color: rgb(var(--color-neutral-900));
+}
+.dark .jz-figure-nom { color: rgb(var(--color-neutral-100)); }
+.jz-figure-role {
+  margin: 0.35rem 0 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgb(var(--color-primary-700));
+}
+.dark .jz-figure-role { color: rgb(var(--color-primary-400)); }
+.jz-figure-texte .prose p { margin: 0; }
+
+.jz-vide { font-style: italic; color: rgb(var(--color-neutral-500)); }

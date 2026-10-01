@@ -1,0 +1,38 @@
+# Onglet « Albums » de /jazz/ : une carte par disque, dans l'ordre de ce fichier.
+#
+#   titre    : titre de l'album
+#   artiste  : leader ou groupe
+#   annee    : année de sortie (facultatif)
+#   note     : de 0 à 5, par pas de 0,5 — affichée en étoiles
+#   image    : pochette, dans assets/img/jazz/albums/ (carrée de préférence ;
+#              recadrée au centre et publiée en WebP, sans EXIF)
+#   lien     : où l'écouter (facultatif) — rend le titre cliquable
+#
+# Un texte peut être une chaîne, ou une table { fr, en } selon la langue.
+#
+# ⚠ Entrées de démonstration (pochettes provisoires, notes fictives) :
+#   à remplacer par les vraies.
+
+- titre: "Mingus Ah Um"
+  artiste: "Charles Mingus"
+  annee: 1959
+  note: 5
+  image: "mingus-ah-um.jpg"
+
+- titre: "Portrait in Jazz"
+  artiste: "Bill Evans Trio"
+  annee: 1960
+  note: 4.5
+  image: "portrait-in-jazz.jpg"
+
+- titre: "Kind of Blue"
+  artiste: "Miles Davis"
+  annee: 1959
+  note: 4.5
+  image: "kind-of-blue.jpg"
+
+- titre: "The Shape of Jazz to Come"
+  artiste: "Ornette Coleman"
+  annee: 1959
+  note: 3.5
+  image: "shape-of-jazz.jpg"

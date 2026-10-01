@@ -2,6 +2,7 @@
 title: "[Demo] Test post for the jazz notebook"
 date: 2026-09-29
 draft: false
+aliases: ["/jazz/premiere-note/"]
 description: "Demo and test post: it shows the layout of the jazz notebook. It will be removed."
 summary: "Demo and test post for the jazz notebook. It will be removed."
 categories: ["Learning"]

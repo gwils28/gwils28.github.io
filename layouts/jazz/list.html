@@ -1,0 +1,44 @@
+{{/* Jazz : une page à trois onglets. La racine /jazz/ est l'onglet Albums,
+     /jazz/pantheon/ et /jazz/etudes/ les deux autres. Chaque onglet est une
+     vraie page (URL partageable, rien ne dépend de JavaScript) : le titre et
+     le paragraphe d'intro viennent toujours de content/jazz/_index.md, puis
+     la barre d'onglets, puis la vue choisie par le paramètre « onglet ». */}}
+{{ define "main" }}
+  {{- $racine := site.GetPage "/jazz" -}}
+  {{- $onglet := .Params.onglet | default "albums" -}}
+
+  <header>
+    <h1 class="mt-5 text-4xl font-extrabold text-neutral-900 dark:text-neutral">{{ $racine.Title }}</h1>
+  </header>
+
+  <section class="jz-intro prose dark:prose-invert">
+    {{ $racine.Content }}
+  </section>
+
+  <nav class="jz-onglets" aria-label="{{ i18n "jazz.onglets" }}">
+    {{- range slice "albums" "pantheon" "etudes" }}
+      {{- $page := cond (eq . "albums") $racine (site.GetPage (printf "/jazz/%s" .)) }}
+      {{- with $page }}
+        {{- $actif := eq .RelPermalink $.RelPermalink }}
+        <a href="{{ .RelPermalink }}" class="jz-onglet{{ if $actif }} is-active{{ end }}"
+          {{- if $actif }} aria-current="page"{{ end }}>{{ i18n (printf "jazz.onglet.%s" $page.Params.onglet) }}</a>
+      {{- end }}
+    {{- end }}
+  </nav>
+
+  {{- if eq $onglet "pantheon" }}
+    {{ partial "jazz/pantheon.html" . }}
+  {{- else if eq $onglet "etudes" }}
+    {{- with .Pages.ByDate.Reverse }}
+      <section class="space-y-10 w-full">
+        {{- range . }}
+          {{ partial "article-link/simple.html" . }}
+        {{- end }}
+      </section>
+    {{- else }}
+      <p class="jz-vide">{{ i18n "list.no_articles" }}</p>
+    {{- end }}
+  {{- else }}
+    {{ partial "jazz/albums.html" . }}
+  {{- end }}
+{{ end }}

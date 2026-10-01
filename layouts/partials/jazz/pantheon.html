@@ -1,0 +1,21 @@
+{{- /* Onglet Panthéon : une grande carte par musicien ou groupe de
+   data/jazz/pantheon.yaml — photo en 3:2, nom, rôle, puis le paragraphe. */ -}}
+{{- $lang := .Language.Lang -}}
+<div class="jz-pantheon">
+  {{- range hugo.Data.jazz.pantheon }}
+  {{- $f := . }}
+  <article class="jz-figure">
+    <div class="jz-figure-photo">
+      {{- with resources.Get (printf "img/jazz/pantheon/%s" .image) }}
+        {{- $c := .Fill "1200x800 Smart webp q82" }}
+        <img src="{{ $c.RelPermalink }}" width="{{ $c.Width }}" height="{{ $c.Height }}" alt="{{ $f.nom }}" loading="lazy">
+      {{- end }}
+    </div>
+    <div class="jz-figure-texte">
+      <h2 class="jz-figure-nom">{{ .nom }}</h2>
+      {{- with .role }}<p class="jz-figure-role">{{ partial "cv-t.html" (dict "v" . "lang" $lang) }}</p>{{ end }}
+      <div class="prose dark:prose-invert">{{ partial "cv-t.html" (dict "v" .texte "lang" $lang) | markdownify }}</div>
+    </div>
+  </article>
+  {{- end }}
+</div>
