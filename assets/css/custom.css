@@ -734,3 +734,76 @@ time,
   background: rgb(var(--color-primary-600));
 }
 .dark .type-contenu--projet::before { background: rgb(var(--color-primary-400)); }
+
+/* --- Menu : groupes « Tech » et « À côté » ------------------------------
+   Le menu se lit en trois temps : l'identité (À propos, CV), le technique
+   (Articles, Projets), les à-côtés (Jazz, Migration). Chaque groupe est
+   annoncé par un filet vertical et une étiquette en monospace (desktop), ou
+   un intertitre (mobile), puis parle son propre registre :
+   - tech : monospace et préfixe ~/ en vert, comme un chemin de terminal ;
+   - loisirs : italique et icônes, un ton plus doux, comme un carnet.
+   Cf. layouts/partials/header/components/{desktop,mobile}-menu.html.
+
+   Attention : les --color-* du thème sont au format « r, g, b ». Il faut
+   donc rgba(var(--x), a) — rgb(var(--x) / a) est invalide et ignoré. */
+span.menu-groupe { display: contents; }
+
+.menu-groupe-sep {
+  display: flex;
+  align-items: center;
+  align-self: center;
+  height: 1.25rem;
+}
+/* Le filet est un pseudo-élément : un border serait recoloré par le thème. */
+.menu-groupe-sep::before {
+  content: "";
+  width: 1px;
+  height: 100%;
+  margin-inline-end: 0.75rem;
+  background: rgb(var(--color-neutral-500));
+}
+.dark .menu-groupe-sep::before { background: rgba(var(--color-neutral-400), 0.8); }
+
+.menu-groupe-label,
+.menu-groupe-titre {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgb(var(--color-primary-700));
+  white-space: nowrap;
+}
+.dark .menu-groupe-label,
+.dark .menu-groupe-titre { color: rgb(var(--color-primary-400)); }
+
+/* Mobile : l'intertitre est plus grand, à l'échelle des liens en 2xl. */
+.menu-groupe-titre { font-size: 0.8rem; }
+
+/* Tech : chemin de terminal. Le préfixe reste vert même au repos ; au
+   survol, tout le lien passe à l'accent. */
+.menu-groupe--tech a span {
+  /* inline-flex : l'espace blanc du gabarit autour du nom disparaît, le
+     préfixe vient se coller au mot. */
+  display: inline-flex;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.menu-groupe--tech a span::before {
+  content: "~/";
+  margin-inline-end: 0.05em;
+  font-weight: 400;
+  color: rgb(var(--color-primary-600));
+}
+.dark .menu-groupe--tech a span::before { color: rgb(var(--color-primary-400)); }
+
+/* Loisirs : carnet. */
+.menu-groupe--loisirs a span { font-style: italic; }
+.menu-groupe--loisirs a:not(:hover) { color: rgb(var(--color-neutral-600)); }
+.dark .menu-groupe--loisirs a:not(:hover) { color: rgb(var(--color-neutral-300)); }
+
+/* Entre md et lg le menu se serre : les étiquettes s'effacent, les filets
+   restent. */
+@media (max-width: 1023px) {
+  .menu-groupe-label { display: none; }
+}

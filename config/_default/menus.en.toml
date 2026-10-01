@@ -4,11 +4,15 @@
   name = "Posts"
   pageRef = "posts"
   weight = 10
+  [main.params]
+    groupe = "tech"
 
 [[main]]
   name = "Projects"
   pageRef = "projects"
   weight = 20
+  [main.params]
+    groupe = "tech"
 
 [[main]]
   name = "About"
@@ -18,17 +22,23 @@
 [[main]]
   name = "Jazz"
   pageRef = "jazz"
+  pre = "music"
   weight = 50
+  [main.params]
+    groupe = "loisirs"
 
 [[main]]
   name = "Migration"
   pageRef = "migration"
+  pre = "globe"
   weight = 60
+  [main.params]
+    groupe = "loisirs"
 
 [[main]]
   name = "Resume"
   pageRef = "cv"
-  weight = 30
+  weight = 7
 
 # -- Footer menu --
 

@@ -7,3 +7,6 @@ type.jazz: "Jazz"
 accueil.articles: "Derniers articles"
 accueil.projets: "Projets récents"
 accueil.voir_tout: "Voir tout"
+
+nav.groupe.tech: "Tech"
+nav.groupe.loisirs: "À côté"

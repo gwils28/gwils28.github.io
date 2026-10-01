@@ -7,3 +7,6 @@ type.jazz: "Jazz"
 accueil.articles: "Latest posts"
 accueil.projets: "Recent projects"
 accueil.voir_tout: "See all"
+
+nav.groupe.tech: "Tech"
+nav.groupe.loisirs: "On the side"
