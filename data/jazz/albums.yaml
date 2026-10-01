@@ -64,3 +64,33 @@
   note: 4.5
   annee: 2025
   image: "kokoroko-tuff-times-never-last.jpg"
+
+- titre: "Pithecanthropus Erectus"
+  artiste: "Charles Mingus"
+  annee: 1956
+  note: 4.5
+  image: "charles-mingus-pithecanthropus-erectus.jpg"
+
+- titre: "Time Out"
+  artiste: "The Dave Brubeck Quartet"
+  annee: 1959
+  note: 5
+  image: "dave-brubeck-time-out.jpg"
+
+- titre: "Hank Mobley"
+  artiste: "Hank Mobley"
+  annee: 1957
+  note: 5
+  image: "hank-mobley-hank-mobley.jpg"
+
+- titre: "Saxophone Colossus"
+  artiste: "Sonny Rollins"
+  annee: 1956
+  note: 5
+  image: "sonny-rollins-saxophone-colossus.jpg"
+
+- titre: "The Incredible Jazz Guitar of Wes Montgomery"
+  artiste: "Wes Montgomery"
+  annee: 1960
+  note: 5
+  image: "wes-montgomery-incredible-jazz-guitar.jpg"
