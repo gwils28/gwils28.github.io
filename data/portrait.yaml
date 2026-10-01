@@ -40,10 +40,9 @@
   label: { fr: "une pièce d'échiquier", en: "a chess piece" }
   value: { fr: "Un fou", en: "A bishop" }
 - icon: ""
-  svg: "img/portrait/hannah-peters.svg"
-  label: { fr: "un héros de manga", en: "a manga hero" }
-  value: "Hannah Peters"
-  note: "Blue Giant Supreme"
+  svg: "img/portrait/huit-de-trefle.svg"
+  label: { fr: "une carte au poker", en: "a poker card" }
+  value: { fr: "Le 8 de trèfle", en: "The eight of clubs" }
 - icon: "🌅"
   label: { fr: "un moment de la journée", en: "a time of day" }
   value: { fr: "L'aube", en: "Dawn" }
