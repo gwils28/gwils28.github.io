@@ -1,31 +1,29 @@
 # Onglet « Panthéon » de /jazz/pantheon/ : les musiciens et groupes admirés,
 # une grande carte chacun, dans l'ordre de ce fichier.
 #
-#   nom    : musicien ou groupe
-#   role   : instrument, formation, époque… (facultatif, { fr, en } possible)
-#   image  : photo, dans assets/img/jazz/pantheon/ (recadrée en 3:2,
-#            publiée en WebP, sans EXIF)
-#   texte  : le paragraphe, en Markdown ({ fr, en })
-#
-# ⚠ Entrées de démonstration (photos provisoires) : à remplacer.
+#   nom      : musicien ou groupe
+#   role     : instrument, formation, époque… (facultatif, { fr, en } possible)
+#   dates    : années de vie, ex. "1935 – 1969" (facultatif)
+#   image    : photo, dans assets/img/jazz/pantheon/ (recadrée en 4:5, jamais
+#              agrandie, publiée en WebP, sans EXIF ; un portrait vertical
+#              d'au moins 900 px de large est idéal)
+#   cadrage  : zone gardée au recadrage (facultatif, Smart par défaut) :
+#              Top, Bottom, Left, Right, Center, TopLeft, TopRight…
+#   texte    : le témoignage, en Markdown ({ fr, en })
 
-- nom: "Charles Mingus"
-  role: { fr: "Contrebasse, composition", en: "Double bass, composition" }
-  image: "charles-mingus.jpg"
-  texte:
-    fr: "*Texte de démonstration.* Contrebassiste, compositeur et chef d'orchestre, Mingus a fait de la contrebasse une voix à part entière, et de ses ensembles des laboratoires où l'écrit et l'improvisé se répondent."
-    en: "*Demo text.* Double bassist, composer and bandleader, Mingus made the bass a voice in its own right, and his bands workshops where the written and the improvised answer each other."
-
-- nom: "Ron Carter"
+- nom: "Paul Chambers"
   role: { fr: "Contrebasse", en: "Double bass" }
-  image: "ron-carter.jpg"
+  dates: "1935 – 1969"
+  image: "paul-chambers.jpg"
+  cadrage: "Top"
   texte:
-    fr: "*Texte de démonstration.* Pilier du second quintette de Miles Davis et l'un des bassistes les plus enregistrés de l'histoire du jazz : une leçon de placement et de son."
-    en: "*Demo text.* A pillar of Miles Davis's second quintet and one of the most recorded bassists in jazz history: a lesson in time feel and tone."
-
-- nom: "Bill Evans Trio"
-  role: { fr: "Trio piano, contrebasse, batterie", en: "Piano, bass and drums trio" }
-  image: "bill-evans-trio.jpg"
-  texte:
-    fr: "*Texte de démonstration.* Avec Scott LaFaro et Paul Motian, le trio a inventé une conversation à trois voix égales, où la contrebasse ne se contente plus de marcher."
-    en: "*Demo text.* With Scott LaFaro and Paul Motian, the trio invented a conversation between three equal voices, where the bass no longer just walks."
+    fr: >-
+      Lorsque, enfant vers 7 ans, j'ai entendu les premières notes de sa ligne
+      de basse sur "So What" à la radio, l'univers s'est figé, me plantant au
+      cœur de cette certitude : j'entendais là l'une des expressions les plus
+      abouties de l'art humain.
+    en: >-
+      When, as a child of about seven, I heard the first notes of his bass line
+      on "So What" on the radio, the universe stood still and planted me at the
+      heart of a certainty: I was hearing one of the most accomplished
+      expressions of human art.

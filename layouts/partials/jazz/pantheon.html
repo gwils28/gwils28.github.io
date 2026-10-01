@@ -1,20 +1,32 @@
-{{- /* Onglet Panthéon : une grande carte par musicien ou groupe de
-   data/jazz/pantheon.yaml — photo en 3:2, nom, rôle, puis le paragraphe. */ -}}
+{{- /* Onglet Panthéon : une grande carte par figure de data/jazz/pantheon.yaml,
+   façon pochette Blue Note / cartel de musée. Photo et texte côte à côte
+   (alternés d'une figure à l'autre sur desktop) : rôle, nom, dates, puis
+   le témoignage en citation. */ -}}
 {{- $lang := .Language.Lang -}}
+{{- /* Point focal du recadrage → object-position, pour que la photo reste
+   bien cadrée quand le CSS change son format (mobile / desktop). */ -}}
+{{- $positions := dict "Top" "50% 0%" "Bottom" "50% 100%" "Left" "0% 50%" "Right" "100% 50%"
+  "TopLeft" "0% 0%" "TopRight" "100% 0%" "BottomLeft" "0% 100%" "BottomRight" "100% 100%" -}}
 <div class="jz-pantheon">
-  {{- range hugo.Data.jazz.pantheon }}
-  {{- $f := . }}
+  {{- range $f := hugo.Data.jazz.pantheon }}
+  {{- $cadrage := $f.cadrage | default "Smart" }}
   <article class="jz-figure">
     <div class="jz-figure-photo">
-      {{- with resources.Get (printf "img/jazz/pantheon/%s" .image) }}
-        {{- $c := .Fill "1200x800 Smart webp q82" }}
-        <img src="{{ $c.RelPermalink }}" width="{{ $c.Width }}" height="{{ $c.Height }}" alt="{{ $f.nom }}" loading="lazy">
+      {{- with resources.Get (printf "img/jazz/pantheon/%s" $f.image) }}
+        {{- /* 4:5 en 900 px de large au plus, sans jamais agrandir la source. */}}
+        {{- $l := math.Min 900 .Width (div (mul .Height 4) 5) | int }}
+        {{- $c := .Fill (printf "%dx%d %s webp q85" $l (div (mul $l 5) 4) $cadrage) }}
+        <img src="{{ $c.RelPermalink }}" width="{{ $c.Width }}" height="{{ $c.Height }}" alt="{{ $f.nom }}" loading="lazy"
+          {{- with index $positions $cadrage }} style="object-position: {{ . }}"{{ end }}>
       {{- end }}
     </div>
     <div class="jz-figure-texte">
-      <h2 class="jz-figure-nom">{{ .nom }}</h2>
-      {{- with .role }}<p class="jz-figure-role">{{ partial "cv-t.html" (dict "v" . "lang" $lang) }}</p>{{ end }}
-      <div class="prose dark:prose-invert">{{ partial "cv-t.html" (dict "v" .texte "lang" $lang) | markdownify }}</div>
+      {{- with $f.role }}<p class="jz-figure-role">{{ partial "cv-t.html" (dict "v" . "lang" $lang) }}</p>{{ end }}
+      <h2 class="jz-figure-nom">{{ $f.nom }}</h2>
+      {{- with $f.dates }}<p class="jz-figure-dates">{{ . }}</p>{{ end }}
+      <blockquote class="jz-figure-citation">
+        {{ partial "cv-t.html" (dict "v" $f.texte "lang" $lang) | markdownify }}
+      </blockquote>
     </div>
   </article>
   {{- end }}
