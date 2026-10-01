@@ -94,3 +94,21 @@
   annee: 1960
   note: 5
   image: "wes-montgomery-incredible-jazz-guitar.jpg"
+
+- titre: "Feel Good Music"
+  artiste: "Endea Owens"
+  annee: 2023
+  note: 4.5
+  image: "endea-owens-feel-good-music.jpg"
+
+- titre: "This Is All I Ask"
+  artiste: "NHØP"
+  annee: 1998
+  note: 5
+  image: "nhop-this-is-all-i-ask.jpg"
+
+- titre: "Blue Giant"
+  artiste: "Hiromi Uehara"
+  annee: 2023
+  note: 4.5
+  image: "hiromi-blue-giant.jpg"
