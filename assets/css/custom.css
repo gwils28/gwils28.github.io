@@ -802,6 +802,96 @@ span.menu-groupe { display: contents; }
 .menu-groupe--loisirs a:not(:hover) { color: rgb(var(--color-neutral-600)); }
 .dark .menu-groupe--loisirs a:not(:hover) { color: rgb(var(--color-neutral-300)); }
 
+/* --- Menu desktop : groupes repliés en menus déroulants ------------------
+   Le déclencheur est le filet + l'étiquette, suivis d'un petit chevron. Le
+   panneau glisse vers le bas au survol, au focus clavier ou au clic
+   (aria-expanded) ; il reprend le verre dépoli des cartes, et ses liens
+   gardent le style de leur groupe. */
+.menu-deroulant {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+.menu-deroulant-bouton {
+  gap: 0.35rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.menu-deroulant-chevron {
+  display: inline-flex;
+  font-size: 0.6rem;
+  color: rgb(var(--color-primary-700));
+  transition: transform 0.25s ease;
+}
+.dark .menu-deroulant-chevron { color: rgb(var(--color-primary-400)); }
+.menu-deroulant-bouton:hover .menu-groupe-label,
+.menu-deroulant.is-actif .menu-groupe-label { text-decoration: underline 1px; text-underline-offset: 4px; }
+
+.menu-deroulant-panneau {
+  position: absolute;
+  top: 100%;
+  left: -0.75rem;
+  z-index: 60;
+  /* Le padding-top fait pont entre le déclencheur et le panneau : la
+     souris peut descendre sans que le survol se perde. */
+  padding-top: 0.4rem;
+  min-width: 11rem;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-0.5rem);
+  transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0.25s;
+}
+.menu-deroulant-panneau > .menu-groupe {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid rgba(var(--color-neutral-300), 0.8);
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 18px 40px -16px rgba(0, 0, 0, 0.35);
+}
+.dark .menu-deroulant-panneau > .menu-groupe {
+  border-color: rgba(var(--color-neutral-600), 0.8);
+  background: rgba(var(--color-neutral-800), 0.92);
+}
+
+.menu-deroulant:hover .menu-deroulant-panneau,
+.menu-deroulant:focus-within .menu-deroulant-panneau,
+.menu-deroulant-bouton[aria-expanded="true"] + .menu-deroulant-panneau {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.2s ease, transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), visibility 0s;
+}
+.menu-deroulant:hover .menu-deroulant-chevron,
+.menu-deroulant:focus-within .menu-deroulant-chevron,
+.menu-deroulant-bouton[aria-expanded="true"] .menu-deroulant-chevron { transform: rotate(180deg); }
+
+/* Les liens arrivent l'un après l'autre, en glissant à leur tour. */
+.menu-deroulant-panneau .menu-groupe > a {
+  opacity: 0;
+  transform: translateY(-0.3rem);
+  transition: opacity 0.2s ease, transform 0.25s ease;
+}
+.menu-deroulant:hover .menu-groupe > a,
+.menu-deroulant:focus-within .menu-groupe > a,
+.menu-deroulant-bouton[aria-expanded="true"] + .menu-deroulant-panneau .menu-groupe > a {
+  opacity: 1;
+  transform: none;
+}
+.menu-deroulant .menu-groupe > a:nth-child(2) { transition-delay: 50ms; }
+.menu-deroulant .menu-groupe > a:nth-child(3) { transition-delay: 100ms; }
+.menu-deroulant .menu-groupe > a:nth-child(4) { transition-delay: 150ms; }
+
+/* Le menu replié est court : les étiquettes restent visibles à toutes les
+   largeurs desktop. */
+.menu-deroulant .menu-groupe-label { display: inline !important; }
+
 /* Entre md et lg le menu se serre : les étiquettes s'effacent, les filets
    restent. */
 @media (max-width: 1023px) {

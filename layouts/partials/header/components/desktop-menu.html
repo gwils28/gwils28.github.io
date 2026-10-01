@@ -1,23 +1,65 @@
 <nav aria-label="{{ i18n "nav.main_menu" }}" class="flex items-center gap-x-5 h-12">
   {{ if .Site.Menus.main }}
     {{/* Surcharge : les entrées partageant un params.groupe (« tech »,
-       « loisirs ») sont précédées d'un filet et d'une étiquette
-       (i18n nav.groupe.<nom>), et enveloppées dans .menu-groupe--<nom> pour
-       leur style. Les entrées d'un même groupe doivent avoir des poids
-       contigus. */}}
-    {{ $groupe := "" }}
+       « loisirs ») sont repliées dans un menu déroulant. Le déclencheur
+       est le filet + l'étiquette (i18n nav.groupe.<nom>) ; le panneau
+       .menu-groupe--<nom> garde le style propre à chaque groupe. Le groupe
+       se place à l'endroit de sa première entrée. Ouverture au survol, au
+       focus clavier, ou au clic (script plus bas). */}}
+    {{ $page := . }}
+    {{ $vus := slice }}
     {{ range .Site.Menus.main }}
       {{ $g := .Params.groupe | default "" }}
-      {{ if and $g (ne $g $groupe) }}
-        <span class="menu-groupe-sep menu-groupe-sep--{{ $g }}" role="separator" aria-hidden="true">
-          <span class="menu-groupe-label">{{ i18n (printf "nav.groupe.%s" $g) }}</span>
-        </span>
+      {{ if not $g }}
+        {{ template "DesktopMenu" . }}
+      {{ else if not (in $vus $g) }}
+        {{ $vus = $vus | append $g }}
+        {{ $membres := where $page.Site.Menus.main "Params.groupe" $g }}
+        {{ $actif := false }}
+        {{ range $membres }}
+          {{ if or ($page.IsMenuCurrent "main" .) ($page.HasMenuCurrent "main" .) }}{{ $actif = true }}{{ end }}
+        {{ end }}
+        {{ $id := printf "menu-groupe-%s" $g }}
+        <div class="menu-deroulant{{ if $actif }} is-actif{{ end }}">
+          <button type="button" class="menu-groupe-sep menu-deroulant-bouton"
+            aria-expanded="false" aria-controls="{{ $id }}">
+            <span class="menu-groupe-label">{{ i18n (printf "nav.groupe.%s" $g) }}</span>
+            <span class="menu-deroulant-chevron" aria-hidden="true">{{ partial "icon.html" "chevron-down" }}</span>
+          </button>
+          <div id="{{ $id }}" class="menu-deroulant-panneau">
+            <div class="menu-groupe menu-groupe--{{ $g }}">
+              {{ range $membres }}
+                {{ template "DesktopMenu" . }}
+              {{ end }}
+            </div>
+          </div>
+        </div>
       {{ end }}
-      {{ $groupe = $g }}
-      {{ with $g }}<span class="menu-groupe menu-groupe--{{ . }}">{{ end }}
-      {{ template "DesktopMenu" . }}
-      {{ with $g }}</span>{{ end }}
     {{ end }}
+    <script>
+      /* Clic sur un déclencheur : ouvre/ferme son panneau (utile sans
+         souris, ou sur tablette). Échap ou un clic ailleurs referment. */
+      (function () {
+        var boutons = document.querySelectorAll(".menu-deroulant-bouton");
+        function fermer(sauf) {
+          boutons.forEach(function (b) {
+            if (b !== sauf) b.setAttribute("aria-expanded", "false");
+          });
+        }
+        boutons.forEach(function (b) {
+          b.addEventListener("click", function (e) {
+            e.stopPropagation();
+            var ouvert = b.getAttribute("aria-expanded") === "true";
+            fermer(b);
+            b.setAttribute("aria-expanded", ouvert ? "false" : "true");
+          });
+        });
+        document.addEventListener("click", function () { fermer(); });
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape") fermer();
+        });
+      })();
+    </script>
   {{ end }}
 
   {{ partial "header/components/translations.html" . }}
