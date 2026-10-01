@@ -41,11 +41,11 @@
   note: 5
   image: "herbie-hancock-maiden-voyage.jpg"
 
-- titre: "Tuff Times Never Last"
-  artiste: "Kokoroko"
+- titre: "Get Ready"
+  artiste: "Carl Allen & Rodney Whitaker"
+  annee: 2007
   note: 4.5
-  annee: 2025
-  image: "kokoroko-tuff-times-never-last.jpg"
+  image: "carl-allen-rodney-whitaker-get-ready.jpg"
 
 - titre: "My Latin Heart"
   artiste: "Roger Glenn"
@@ -59,8 +59,8 @@
   note: 5
   image: "marcus-miller-afrodeezia.jpg"
 
-- titre: "Get Ready"
-  artiste: "Carl Allen & Rodney Whitaker"
-  annee: 2007
+- titre: "Tuff Times Never Last"
+  artiste: "Kokoroko"
   note: 4.5
-  image: "carl-allen-rodney-whitaker-get-ready.jpg"
+  annee: 2025
+  image: "kokoroko-tuff-times-never-last.jpg"

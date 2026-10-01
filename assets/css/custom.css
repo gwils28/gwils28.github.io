@@ -979,9 +979,39 @@ span.menu-groupe { display: contents; }
   transform: translateY(-3px);
   box-shadow: 0 18px 32px -18px rgba(0, 0, 0, 0.5);
 }
-.jz-disque-pochette {
+/* Présentoir : la vitrine est un carré éclairé par le haut. La pochette en
+   occupe 76 %, légèrement inclinée ; le vinyle est glissé derrière et en
+   dépasse à droite. Au survol, la pochette recule d'un pas, le disque
+   coulisse et tourne (1,8 s par tour : 33 ⅓ tours/min). */
+.jz-disque-vitrine {
+  position: relative;
   aspect-ratio: 1;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 70% at 40% 0%, rgba(255, 255, 255, 0.75), transparent 70%),
+    linear-gradient(180deg, rgb(var(--color-neutral-100)), rgb(var(--color-neutral-200)));
+}
+.dark .jz-disque-vitrine {
+  background:
+    radial-gradient(120% 70% at 40% 0%, rgba(var(--color-primary-400), 0.12), transparent 70%),
+    linear-gradient(180deg, rgb(var(--color-neutral-800)), rgb(var(--color-neutral-900)));
+}
+
+.jz-disque-pochette {
+  position: absolute;
+  z-index: 1;
+  top: 11%;
+  left: 6%;
+  width: 76%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 2px;
   background: rgb(var(--color-neutral-300));
+  box-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.15),
+    6px 10px 18px -6px rgba(0, 0, 0, 0.55);
+  transform: rotate(-1.5deg);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .jz-disque-pochette img {
   display: block;
@@ -989,6 +1019,98 @@ span.menu-groupe { display: contents; }
   height: 100%;
   object-fit: cover;
 }
+/* Usure de pochette : l'empreinte ronde du disque, et un reflet glacé qui
+   balaie la pochette au survol. */
+.jz-disque-pochette::before,
+.jz-disque-pochette::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.jz-disque-pochette::before {
+  background: radial-gradient(circle at 50% 50%, transparent 0 44%, rgba(255, 255, 255, 0.16) 45.5%, transparent 47.5%);
+  mix-blend-mode: overlay;
+}
+.jz-disque-pochette::after {
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.28) 45%, transparent 60%);
+  transform: translateX(-110%);
+  transition: transform 0.9s ease;
+}
+
+/* Le vinyle : sillons, reflets fixes, macaron et trou central. */
+.jz-vinyle {
+  position: absolute;
+  top: 13%;
+  left: 8%;
+  width: 72%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translateX(24%);
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  filter: drop-shadow(4px 6px 10px rgba(0, 0, 0, 0.45));
+}
+.jz-vinyle-disque {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, transparent 0 33%, rgba(0, 0, 0, 0.6) 33.5% 35%, transparent 35.5%),
+    repeating-radial-gradient(circle, #141414 0 1px, #262626 1.6px, #121212 2.4px),
+    #141414;
+  /* Tranche du disque : un liseré clair, pour qu'il se détache même sur
+     le fond sombre de la vitrine. */
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.16),
+    inset 0 0 0 3px #0c0c0c,
+    inset 0 0 0 4px rgba(255, 255, 255, 0.07);
+  animation: jz-tourne 1.8s linear infinite;
+  animation-play-state: paused;
+}
+/* Le macaron : la pochette en miniature, découpée en rond. */
+.jz-vinyle-macaron {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 34%;
+  height: 34%;
+  object-fit: cover;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  filter: saturate(1.1);
+}
+/* Le trou central, par-dessus le macaron. */
+.jz-vinyle-disque::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3.2%;
+  height: 3.2%;
+  border-radius: 50%;
+  background: rgb(var(--color-neutral-200));
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35);
+  transform: translate(-50%, -50%);
+}
+.dark .jz-vinyle-disque::after { background: rgb(var(--color-neutral-800)); }
+/* Reflets : ils restent fixes pendant que le disque tourne dessous, comme
+   la lumière d'une lampe sur un vrai vinyle. */
+.jz-vinyle::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(from 20deg,
+    transparent 0 8%, rgba(255, 255, 255, 0.2) 13%, transparent 19%,
+    transparent 50%, rgba(255, 255, 255, 0.14) 56%, transparent 62%);
+  pointer-events: none;
+}
+@keyframes jz-tourne { to { transform: rotate(360deg); } }
+
+.jz-disque:hover .jz-disque-pochette { transform: rotate(-3deg) translateX(-9%); }
+.jz-disque:hover .jz-disque-pochette::after { transform: translateX(110%); }
+.jz-disque:hover .jz-vinyle { transform: translateX(54%); }
+.jz-disque:hover .jz-vinyle-disque { animation-play-state: running; }
 .jz-disque-texte {
   display: flex;
   flex: 1;
