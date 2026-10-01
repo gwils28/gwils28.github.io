@@ -7,6 +7,6 @@ cascade:
   showSummary: true
 ---
 
-Le jazz est ma passion. Je note ici ce que j'écoute, ce que j'apprends et ce que j'explore : des albums et
+Je note ici ce que j'écoute, ce que j'apprends et ce que j'explore : des albums et
 des musiciens découverts, des progrès (et des galères) à l'instrument, des
 détours par l'histoire et la théorie.

@@ -7,4 +7,4 @@ cascade:
   showSummary: true
 ---
 
-Jazz is my passion. I note down here what I listen to, what I learn, and what I explore: discovered albums and musicians, progress (and struggles) with the instrument, and detours through history and theory.
+I note down here what I listen to, what I learn, and what I explore: discovered albums and musicians, progress (and struggles) with the instrument, and detours through history and theory.
