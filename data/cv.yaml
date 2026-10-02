@@ -6,7 +6,6 @@ experience:
   # Rendue en frise par partials/cv-parcours.html. Par poste :
   #   debut / fin : "AAAA-MM" (fin absente = poste actuel) ; la période et la
   #                 durée sont calculées à partir de là
-  #   mission     : true pour une mission de conseil (badge)
   #   resume      : une phrase — le rôle et la valeur apportée
   #   points      : réalisations, en Markdown (le mot-clé en **gras**)
   #   stack       : technos et domaines, en pastilles
@@ -27,11 +26,9 @@ experience:
             en: "**Generative AI (R&D)**: feasibility study of AI-agent and LLM architectures to automate business processes and speed up decision-making."
           - fr: "**MLOps sur GCP** : pipelines automatisés d'ingestion, de prétraitement et d'entraînement, avec versionnage, suivi de performance et déploiement continu."
             en: "**MLOps on GCP**: automated ingestion, preprocessing and training pipelines, with versioning, performance monitoring and continuous deployment."
-          - fr: "**Les modèles entre les mains des métiers** : pilotage d'une application Dash qui permet aux utilisateurs d'explorer les prévisions sans écrire une ligne de code."
-            en: "**Models in business users' hands**: led a Dash application that lets users explore forecasts without writing a line of code."
           - fr: "**Référent Data Science** : appui technique de l'équipe, encadrement de stagiaires et d'alternants."
             en: "**Data Science lead**: technical reference for the team, mentoring interns and apprentices."
-        stack: ["Python", { fr: "Séries temporelles", en: "Time series" }, "LLM & agents", "GCP", "Airflow", "Docker", "Dash"]
+        stack: ["Python", { fr: "Séries temporelles", en: "Time series" }, "LLM & agents", "GCP", "Airflow", "Docker"]
 
   - org: BPCE-SI
     url: https://www.groupebpce.com
@@ -41,7 +38,6 @@ experience:
       - title: { fr: "Data Scientist & MLOps", en: "Data Scientist & MLOps" }
         debut: "2021-01"
         fin: "2023-11"
-        mission: true
         resume:
           fr: "Au cœur de l'informatique du groupe BPCE, j'ai fait passer des cas d'usage marketing du prototype à la production, et contribué à l'outillage qui standardise ce passage pour tout le groupe."
           en: "At the heart of BPCE group's IT, I took marketing use cases from prototype to production, and helped build the tooling that standardises that path for the whole group."
@@ -50,13 +46,15 @@ experience:
             en: "**Customer insight**: advanced segmentation, churn prediction, sentiment analysis of customer feedback and a recommendation engine."
           - fr: "**Moments de vie** : modèles qui prédisent les étapes clés du parcours client (retraite, premier emploi, déménagement), déployés en production pour proposer le bon conseil au bon moment."
             en: "**Life events**: models predicting key moments of the customer journey (retirement, first job, moving house), deployed to production to offer the right advice at the right time."
-          - fr: "**Packta** : contribution à la librairie Python interne qui automatise et standardise le packaging et le déploiement des modèles de machine learning du groupe."
-            en: "**Packta**: contributed to the in-house Python library that automates and standardises how the group packages and deploys its machine-learning models."
+          - fr: "**IA générative** : mise en œuvre de méthodes d'évaluation d'un agent conversationnel fondé sur le RAG, pour mesurer la pertinence et la fiabilité de ses réponses."
+            en: "**Generative AI**: implemented evaluation methods for a RAG-based conversational agent, to measure how relevant and reliable its answers are."
+          - fr: "**Librairie MLOps interne** : contribution à l'outil Python qui automatise et standardise le packaging et le déploiement des modèles de machine learning du groupe."
+            en: "**In-house MLOps library**: contributed to the Python tool that automates and standardises how the group packages and deploys its machine-learning models."
           - fr: "**Industrialisation et cloud** : CI/CD, monitoring en production et migration des cas d'usage vers GCP (BigQuery, Vertex AI), main dans la main avec les Data Engineers et DataOps."
             en: "**Industrialisation and cloud**: CI/CD, production monitoring and migration of use cases to GCP (BigQuery, Vertex AI), hand in hand with Data Engineers and DataOps."
           - fr: "**Agilité** : projets menés en Scrum, avec des restitutions régulières aux parties prenantes."
             en: "**Agile delivery**: Scrum projects with regular demos to stakeholders."
-        stack: ["Python", "PySpark", "BigQuery", "Vertex AI", "CI/CD", "NLP", "Scrum"]
+        stack: ["Python", "PySpark", { fr: "Séries temporelles", en: "Time series" }, "LLM", "BigQuery", "Vertex AI", "Airflow", "MLOps", "CI/CD", "NLP", "Scrum"]
 
   - org: Traxens
     url: https://www.traxens.com
@@ -80,7 +78,11 @@ experience:
             en: "**Computer vision**: processed and classified satellite imagery to annotate areas relevant to maritime transport."
           - fr: "**Qualité des données** : gouvernance, monitoring et fiabilisation des pipelines d'analyse et de modélisation."
             en: "**Data quality**: governance, monitoring and hardening of the analytics and modelling pipelines."
-        stack: ["Python", "IoT", { fr: "Séries temporelles", en: "Time series" }, { fr: "Vision", en: "Computer vision" }, { fr: "Maintenance prédictive", en: "Predictive maintenance" }]
+          - fr: "**Collaboration avec la recherche** : travaux menés avec un laboratoire de recherche sur le nettoyage automatique des données capteurs par apprentissage par renforcement."
+            en: "**Research collaboration**: worked with a research lab on automated cleaning of sensor data using reinforcement learning."
+          - fr: "**Référent Data Science et statistique** : appui méthodologique de l'équipe sur la modélisation et l'analyse des données."
+            en: "**Data Science and statistics lead**: methodological reference for the team on modelling and data analysis."
+        stack: ["Python", "IoT", { fr: "Séries temporelles", en: "Time series" }, { fr: "Vision", en: "Computer vision" }, { fr: "Maintenance prédictive", en: "Predictive maintenance" }, "Reinforcement learning"]
 
   - org: IT-CE
     url: https://www.groupebpce.com
@@ -90,7 +92,6 @@ experience:
       - title: { fr: "Data Scientist", en: "Data Scientist" }
         debut: "2017-10"
         fin: "2019-06"
-        mission: true
         resume:
           fr: "Pour l'informatique des Caisses d'Épargne, j'ai mis le machine learning au service de la lutte contre la fraude et de la fidélisation des clients."
           en: "For the Caisse d'Épargne banks' IT, I put machine learning to work against fraud and for customer retention."
@@ -119,11 +120,17 @@ experience:
         points:
           - fr: "**Génomique** : analyses inférentielles et classification de profils génomiques pour révéler des sous-groupes de patients biologiquement pertinents."
             en: "**Genomics**: inferential analyses and clustering of genomic profiles to reveal biologically meaningful patient subgroups."
+          - fr: "**Grande dimension** : sélection de gènes candidats parmi des milliers de variables, par régression pénalisée (lasso) et contrôle du taux de fausses découvertes (FDR)."
+            en: "**High-dimensional data**: selected candidate genes among thousands of variables with penalised regression (lasso) and false discovery rate (FDR) control."
           - fr: "**Oncologie** : modélisation de l'impact clinique de biomarqueurs sur la progression de la leucémie, par des méthodes multivariées."
             en: "**Oncology**: modelled the clinical impact of biomarkers on leukaemia progression with multivariate methods."
+          - fr: "**Analyse de survie** : modèles de Cox et courbes de Kaplan-Meier pour mesurer la valeur pronostique de ces biomarqueurs sur la survie sans progression."
+            en: "**Survival analysis**: Cox models and Kaplan-Meier curves to assess the prognostic value of these biomarkers on progression-free survival."
           - fr: "**Épidémiologie** : modèle de propagation de la dengue intégrant des facteurs biologiques et environnementaux pour simuler la dynamique des foyers."
             en: "**Epidemiology**: dengue spread model combining biological and environmental factors to simulate outbreak dynamics."
-        stack: [{ fr: "Statistique multivariée", en: "Multivariate statistics" }, { fr: "Génomique", en: "Genomics" }, { fr: "Épidémiologie", en: "Epidemiology" }, { fr: "Modélisation", en: "Modelling" }]
+          - fr: "**Inférence causale** : estimation de l'effet des actions de lutte antivectorielle sur l'incidence de la dengue, en explicitant les facteurs de confusion par des graphes causaux (DAG) et en les corrigeant par pondération sur le score de propension."
+            en: "**Causal inference**: estimated the effect of vector-control actions on dengue incidence, making confounders explicit with causal graphs (DAGs) and adjusting for them with propensity-score weighting."
+        stack: ["R", { fr: "Statistique multivariée", en: "Multivariate statistics" }, { fr: "Inférence causale", en: "Causal inference" }, { fr: "Analyse de survie", en: "Survival analysis" }, { fr: "Génomique", en: "Genomics" }, { fr: "Épidémiologie", en: "Epidemiology" }, { fr: "Modélisation", en: "Modelling" }]
 
 education:
   - org: Aix-Marseille Université
@@ -131,7 +138,7 @@ education:
     initials: "AMU"
     location: { fr: "Marseille", en: "Marseille, FR" }
     roles:
-      - title: { fr: "Master en biostatistique", en: "Master's in Biostatistics" }
+      - title: { fr: "Master en Biostatistique", en: "Master's in Biostatistics" }
 
   - org: Université des Antilles
     url: https://www.univ-antilles.fr/

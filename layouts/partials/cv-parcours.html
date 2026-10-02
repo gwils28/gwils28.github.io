@@ -2,7 +2,7 @@
   Expériences du CV en frise : une carte par poste, reliée à un fil vertical.
   Appelé par le shortcode cv (section="experience") avec dict "rows" "lang".
   Par poste (data/cv.yaml) : debut / fin en "AAAA-MM" (fin absente = poste
-  actuel, mis en avant), mission, resume, points (Markdown), stack.
+  actuel, mis en avant), resume, points (Markdown), stack.
   La période et la durée sont calculées ; la durée du poste actuel suit la
   date du build.
 */ -}}
@@ -36,7 +36,6 @@
         <p class="cv-exp-org">
           {{- with $org.url }}<a href="{{ . }}" target="_blank" rel="noopener">{{ $org.org }}</a>{{ else }}{{ $org.org }}{{ end -}}
           <span class="cv-exp-lieu"> · {{ partial "cv-t.html" (dict "v" $org.location "lang" $lang) }}</span>
-          {{- if $r.mission }} <span class="cv-badge-texte">{{ cond $fr "Mission de conseil" "Consulting" }}</span>{{ end }}
           {{- if $actuel }} <span class="cv-badge-texte cv-badge-actuel">{{ cond $fr "En poste" "Current" }}</span>{{ end }}
         </p>
       </header>
