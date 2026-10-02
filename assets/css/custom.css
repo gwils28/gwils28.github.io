@@ -1137,9 +1137,13 @@ span.menu-groupe { display: contents; }
 .jz-disque-artiste {
   margin: 0.2rem 0 0.55rem;
   font-size: 0.875rem;
-  white-space: nowrap;
+  line-height: 1.35;
+  /* Deux lignes au plus, comme le titre ; ellipse au-delà. */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
   overflow: hidden;
-  text-overflow: ellipsis;
   color: rgb(var(--color-neutral-600));
 }
 .dark .jz-disque-artiste { color: rgb(var(--color-neutral-400)); }
