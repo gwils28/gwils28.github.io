@@ -162,3 +162,45 @@
   annee: 1958
   note: 5
   image: "cannonball-adderley-somethin-else.jpg"
+
+- titre: "Pastel Blues"
+  artiste: "Nina Simone"
+  annee: 1965
+  note: 4.5
+  image: "nina-simone-pastel-blues.jpg"
+
+- titre: "Samba Tzigane"
+  artiste: "Dusko Goykovich"
+  annee: 2006
+  note: 5
+  image: "dusko-goykovich-samba-tzigane.jpg"
+
+- titre: "Take Ten"
+  artiste: "Paul Desmond"
+  annee: 1963
+  note: 5
+  image: "paul-desmond-take-ten.jpg"
+
+- titre: "Au club St. Germain"
+  artiste: "Art Blakey et les Jazz-Messengers"
+  annee: 1959
+  note: 5
+  image: "art-blakey-au-club-st-germain.jpg"
+
+- titre: "Ella and Louis"
+  artiste: "Ella Fitzgerald & Louis Armstrong"
+  annee: 1956
+  note: 4.5
+  image: "ella-fitzgerald-louis-armstrong-ella-and-louis.jpg"
+
+- titre: "A Love Supreme"
+  artiste: "John Coltrane"
+  annee: 1965
+  note: 5
+  image: "john-coltrane-a-love-supreme.jpg"
+
+- titre: "Beautiful Vinyl Hunter"
+  artiste: "Ashley Henry"
+  annee: 2018
+  note: 4.5
+  image: "ashley-henry-beautiful-vinyl-hunter.jpg"
