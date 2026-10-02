@@ -126,3 +126,39 @@
   note: 5
   dore: true
   image: "paul-chambers-bass-on-top.jpg"
+
+- titre: "Pié Coco'a"
+  artiste: "Nicolas Lossen"
+  annee: 2016
+  note: 4.5
+  image: "nicolas-lossen-pie-cocoa.jpg"
+
+- titre: "Moanin'"
+  artiste: "Art Blakey"
+  annee: 1959
+  note: 5
+  image: "art-blakey-moanin.jpg"
+
+- titre: "Takin' Off"
+  artiste: "Herbie Hancock"
+  annee: 1962
+  note: 5
+  image: "herbie-hancock-takin-off.jpg"
+
+- titre: "In a Silent Way"
+  artiste: "Miles Davis"
+  annee: 1969
+  note: 5
+  image: "miles-davis-in-a-silent-way.jpg"
+
+- titre: "Sunday at the Village Vanguard"
+  artiste: "Bill Evans"
+  annee: 1961
+  note: 5
+  image: "bill-evans-sunday-at-the-village-vanguard.jpg"
+
+- titre: "Somethin' Else"
+  artiste: "Cannonball Adderley"
+  annee: 1958
+  note: 5
+  image: "cannonball-adderley-somethin-else.jpg"
