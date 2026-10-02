@@ -28,7 +28,7 @@ experience:
             en: "**MLOps on GCP**: automated ingestion, preprocessing and training pipelines, with versioning, performance monitoring and continuous deployment."
           - fr: "**Référent Data Science** : appui technique de l'équipe, encadrement de stagiaires et d'alternants."
             en: "**Data Science lead**: technical reference for the team, mentoring interns and apprentices."
-        stack: ["Python", { fr: "Séries temporelles", en: "Time series" }, "LLM & agents", "GCP", "Airflow", "Docker"]
+        stack: ["Python", { fr: "Séries temporelles", en: "Time series" }, "LLM & agents", "GCP", "Airflow", "Docker", "Linux"]
 
   - org: BPCE-SI
     url: https://www.groupebpce.com
@@ -54,7 +54,7 @@ experience:
             en: "**Industrialisation and cloud**: CI/CD, production monitoring and migration of use cases to GCP (BigQuery, Vertex AI), hand in hand with Data Engineers and DataOps."
           - fr: "**Agilité** : projets menés en Scrum, avec des restitutions régulières aux parties prenantes."
             en: "**Agile delivery**: Scrum projects with regular demos to stakeholders."
-        stack: ["Python", "PySpark", { fr: "Séries temporelles", en: "Time series" }, "LLM", "BigQuery", "Vertex AI", "Airflow", "MLOps", "CI/CD", "NLP", "Scrum"]
+        stack: ["Python", "PySpark", { fr: "Séries temporelles", en: "Time series" }, "LLM", "BigQuery", "Vertex AI", "Airflow", "MLOps", "CI/CD", "NLP", "Scrum", "Linux"]
 
   - org: Traxens
     url: https://www.traxens.com
@@ -82,7 +82,7 @@ experience:
             en: "**Research collaboration**: worked with a research lab on automated cleaning of sensor data using reinforcement learning."
           - fr: "**Référent Data Science et statistique** : appui méthodologique de l'équipe sur la modélisation et l'analyse des données."
             en: "**Data Science and statistics lead**: methodological reference for the team on modelling and data analysis."
-        stack: ["Python", "IoT", { fr: "Séries temporelles", en: "Time series" }, { fr: "Vision", en: "Computer vision" }, { fr: "Maintenance prédictive", en: "Predictive maintenance" }, "Reinforcement learning"]
+        stack: ["Python", "IoT", { fr: "Séries temporelles", en: "Time series" }, { fr: "Vision", en: "Computer vision" }, { fr: "Maintenance prédictive", en: "Predictive maintenance" }, "Reinforcement learning", "Linux"]
 
   - org: IT-CE
     url: https://www.groupebpce.com
@@ -93,18 +93,22 @@ experience:
         debut: "2017-10"
         fin: "2019-06"
         resume:
-          fr: "Pour l'informatique des Caisses d'Épargne, j'ai mis le machine learning au service de la lutte contre la fraude et de la fidélisation des clients."
-          en: "For the Caisse d'Épargne banks' IT, I put machine learning to work against fraud and for customer retention."
+          fr: "Pour l'informatique des Caisses d'Épargne, j'ai mis le machine learning au service du crédit, de la lutte contre la fraude, de la fidélisation des clients et du traitement automatique des documents."
+          en: "For the Caisse d'Épargne banks' IT, I put machine learning to work for lending, against fraud, for customer retention and for automated document processing."
         points:
           - fr: "**Lutte contre la fraude** : modèle non supervisé de détection d'anomalies pour repérer les chèques frauduleux et mieux protéger les clients."
             en: "**Fraud prevention**: unsupervised anomaly-detection model to flag fraudulent cheques and better protect customers."
+          - fr: "**Scoring crédit** : construction d'un modèle de scoring pour déterminer le taux des crédits proposés aux clients."
+            en: "**Credit scoring**: built a scoring model to set the interest rate of the loans offered to customers."
+          - fr: "**Bénéficiaires d'assurance vie** : identification automatique des bénéficiaires à partir de documents hétérogènes (PDF, courriers manuscrits numérisés, verbatims), en combinant reconnaissance d'entités nommées (NER) et vision par ordinateur."
+            en: "**Life-insurance beneficiaries**: automatically identified beneficiaries from heterogeneous documents (PDFs, scanned handwritten letters, free-text notes), combining named-entity recognition (NER) and computer vision."
           - fr: "**Rétention** : modèles de prédiction de l'attrition pour les jeunes, les professionnels et les entreprises, socle de stratégies de fidélisation ciblées."
             en: "**Retention**: churn models for young customers, professionals and businesses, the basis of targeted loyalty strategies."
-          - fr: "**Data Lake** : ingestion et structuration des données pour centraliser l'analyse et le déploiement des modèles."
-            en: "**Data lake**: ingested and structured data to centralise analysis and model deployment."
+          - fr: "**Data Lake** : ingestion et structuration des données avec PySpark pour centraliser l'analyse et le déploiement des modèles."
+            en: "**Data lake**: ingested and structured data with PySpark to centralise analysis and model deployment."
           - fr: "**Aide à la décision** : tableaux de bord interactifs qui traduisent les modèles en plans d'action pour les métiers."
             en: "**Decision support**: interactive dashboards turning model outputs into action plans for business teams."
-        stack: ["Python", "SQL", { fr: "Détection d'anomalies", en: "Anomaly detection" }, "Churn", "Data Lake"]
+        stack: ["Python", "PySpark", "SQL", "NER", { fr: "Vision", en: "Computer vision" }, { fr: "Scoring crédit", en: "Credit scoring" }, { fr: "Détection d'anomalies", en: "Anomaly detection" }, "Churn", "Data Lake", "Linux"]
 
   - org: INSERM
     url: https://www.inserm.fr
@@ -130,7 +134,7 @@ experience:
             en: "**Epidemiology**: dengue spread model combining biological and environmental factors to simulate outbreak dynamics."
           - fr: "**Inférence causale** : estimation de l'effet des actions de lutte antivectorielle sur l'incidence de la dengue, en explicitant les facteurs de confusion par des graphes causaux (DAG) et en les corrigeant par pondération sur le score de propension."
             en: "**Causal inference**: estimated the effect of vector-control actions on dengue incidence, making confounders explicit with causal graphs (DAGs) and adjusting for them with propensity-score weighting."
-        stack: ["R", { fr: "Statistique multivariée", en: "Multivariate statistics" }, { fr: "Inférence causale", en: "Causal inference" }, { fr: "Analyse de survie", en: "Survival analysis" }, { fr: "Génomique", en: "Genomics" }, { fr: "Épidémiologie", en: "Epidemiology" }, { fr: "Modélisation", en: "Modelling" }]
+        stack: ["R", { fr: "Statistique multivariée", en: "Multivariate statistics" }, { fr: "Inférence causale", en: "Causal inference" }, { fr: "Analyse de survie", en: "Survival analysis" }, { fr: "Génomique", en: "Genomics" }, { fr: "Épidémiologie", en: "Epidemiology" }, { fr: "Modélisation", en: "Modelling" }, "Linux"]
 
 education:
   - org: Aix-Marseille Université
