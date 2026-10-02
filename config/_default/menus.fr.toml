@@ -16,9 +16,11 @@
     groupe = "tech"
 
 [[main]]
-  name = "À propos"
+  name = "Présentation"
   pageRef = "about"
   weight = 5
+  [main.params]
+    groupe = "apropos"
 
 [[main]]
   name = "Jazz"
@@ -40,6 +42,8 @@
   name = "CV"
   pageRef = "cv"
   weight = 7
+  [main.params]
+    groupe = "apropos"
 
 # -- Menu du pied de page --
 

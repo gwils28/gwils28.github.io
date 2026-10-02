@@ -15,9 +15,11 @@
     groupe = "tech"
 
 [[main]]
-  name = "About"
+  name = "About me"
   pageRef = "about"
   weight = 5
+  [main.params]
+    groupe = "apropos"
 
 [[main]]
   name = "Jazz"
@@ -39,6 +41,8 @@
   name = "Resume"
   pageRef = "cv"
   weight = 7
+  [main.params]
+    groupe = "apropos"
 
 # -- Footer menu --
 
