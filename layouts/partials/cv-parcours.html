@@ -1,0 +1,62 @@
+{{- /*
+  Expériences du CV en frise : une carte par poste, reliée à un fil vertical.
+  Appelé par le shortcode cv (section="experience") avec dict "rows" "lang".
+  Par poste (data/cv.yaml) : debut / fin en "AAAA-MM" (fin absente = poste
+  actuel, mis en avant), mission, resume, points (Markdown), stack.
+  La période et la durée sont calculées ; la durée du poste actuel suit la
+  date du build.
+*/ -}}
+{{- $lang := .lang -}}
+{{- $fr := eq $lang "fr" -}}
+{{- $mois := cond $fr
+  (slice "janv." "févr." "mars" "avr." "mai" "juin" "juil." "août" "sept." "oct." "nov." "déc.")
+  (slice "Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec") -}}
+<ol class="cv-parcours not-prose">
+  {{- range $org := .rows }}
+  {{- range $r := $org.roles }}
+  {{- $d := time (printf "%s-01" $r.debut) }}
+  {{- $f := now }}{{ with $r.fin }}{{ $f = time (printf "%s-01" .) }}{{ end }}
+  {{- $dm := int ($d.Format "1") }}{{ $fm := int ($f.Format "1") }}
+  {{- /* Durée en mois, mois de début et de fin inclus. */}}
+  {{- $n := add (mul (sub $f.Year $d.Year) 12) (sub $fm $dm) 1 }}
+  {{- $ans := div $n 12 }}{{ $reste := mod $n 12 }}
+  {{- $duree := slice }}
+  {{- if $ans }}{{ $duree = $duree | append (cond $fr (printf "%d an%s" $ans (cond (gt $ans 1) "s" "")) (printf "%d yr%s" $ans (cond (gt $ans 1) "s" ""))) }}{{ end }}
+  {{- if $reste }}{{ $duree = $duree | append (cond $fr (printf "%d mois" $reste) (printf "%d mo" $reste)) }}{{ end }}
+  {{- $actuel := not $r.fin }}
+  <li class="cv-exp{{ if $actuel }} cv-exp--actuel{{ end }}">
+    <div class="cv-exp-repere" aria-hidden="true"><span class="cv-logo">{{ $org.initials }}</span></div>
+    <article class="cv-exp-carte">
+      <header class="cv-exp-tete">
+        <p class="cv-exp-periode">
+          {{- index $mois (sub $dm 1) }} {{ $d.Year }} – {{ if $actuel }}{{ cond $fr "aujourd'hui" "present" }}{{ else }}{{ index $mois (sub $fm 1) }} {{ $f.Year }}{{ end -}}
+          <span class="cv-exp-duree">{{ delimit $duree " " }}</span>
+        </p>
+        <h3 class="cv-exp-poste">{{ partial "cv-t.html" (dict "v" $r.title "lang" $lang) }}</h3>
+        <p class="cv-exp-org">
+          {{- with $org.url }}<a href="{{ . }}" target="_blank" rel="noopener">{{ $org.org }}</a>{{ else }}{{ $org.org }}{{ end -}}
+          <span class="cv-exp-lieu"> · {{ partial "cv-t.html" (dict "v" $org.location "lang" $lang) }}</span>
+          {{- if $r.mission }} <span class="cv-badge-texte">{{ cond $fr "Mission de conseil" "Consulting" }}</span>{{ end }}
+          {{- if $actuel }} <span class="cv-badge-texte cv-badge-actuel">{{ cond $fr "En poste" "Current" }}</span>{{ end }}
+        </p>
+      </header>
+      {{- with $r.resume }}
+      <p class="cv-exp-resume">{{ partial "cv-t.html" (dict "v" . "lang" $lang) }}</p>
+      {{- end }}
+      {{- with $r.points }}
+      <ul class="cv-exp-points">
+        {{- range . }}
+        <li>{{ partial "cv-t.html" (dict "v" . "lang" $lang) | markdownify }}</li>
+        {{- end }}
+      </ul>
+      {{- end }}
+      {{- with $r.stack }}
+      <ul class="cv-exp-stack" aria-label="{{ cond $fr "Technologies et domaines" "Technologies and fields" }}">
+        {{- range . }}<li>{{ partial "cv-t.html" (dict "v" . "lang" $lang) }}</li>{{ end }}
+      </ul>
+      {{- end }}
+    </article>
+  </li>
+  {{- end }}
+  {{- end }}
+</ol>

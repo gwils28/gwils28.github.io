@@ -1,5 +1,6 @@
 {{- /*
-  Rend une section de data/cv.yaml en tableau.
+  Rend une section de data/cv.yaml : les expériences en frise
+  (partials/cv-parcours.html), le reste en tableau.
   Usage : {{< cv section="experience" >}}  (experience, education, certifications)
   Un texte est soit une chaîne, soit une table { fr, en } : on prend la langue de la page.
 */ -}}
@@ -10,6 +11,9 @@
 {{- /* Les diplômes s'affichent sans dates : pas de colonne Période en formation. */ -}}
 {{- $showPeriod := ne $section "education" -}}
 
+{{- if eq $section "experience" }}
+{{- partial "cv-parcours.html" (dict "rows" $rows "lang" $lang) }}
+{{- else }}
 <div class="cv-table-wrap not-prose">
 {{- if in (slice "experience" "education") $section }}
 <table class="cv-table">
@@ -83,3 +87,4 @@
 </table>
 {{- end }}
 </div>
+{{- end }}

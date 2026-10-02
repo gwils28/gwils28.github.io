@@ -3,13 +3,35 @@
 # selon la langue de la page.
 
 experience:
+  # Rendue en frise par partials/cv-parcours.html. Par poste :
+  #   debut / fin : "AAAA-MM" (fin absente = poste actuel) ; la période et la
+  #                 durée sont calculées à partir de là
+  #   mission     : true pour une mission de conseil (badge)
+  #   resume      : une phrase — le rôle et la valeur apportée
+  #   points      : réalisations, en Markdown (le mot-clé en **gras**)
+  #   stack       : technos et domaines, en pastilles
   - org: Orange
     url: https://www.orange.com
     initials: "O"
     location: { fr: "Rennes", en: "Rennes, FR" }
     roles:
       - title: { fr: "Data Scientist & ML Engineer", en: "Data Scientist & ML Engineer" }
-        period: { fr: "2023 – aujourd'hui", en: "2023 – present" }
+        debut: "2023-12"
+        resume:
+          fr: "Je conçois et industrialise les modèles de prévision qui aident Orange à anticiper la charge de ses techniciens sur tout le réseau télécom français, et j'explore les agents IA pour automatiser le back-office."
+          en: "I design and productionise the forecasting models that help Orange anticipate its technicians' workload across the whole French telecom network, and I explore AI agents to automate back-office work."
+        points:
+          - fr: "**Prévision à l'échelle nationale** : modèles de séries temporelles qui anticipent les flux d'activité des techniciens sur l'ensemble des domaines du réseau, pour mieux dimensionner les équipes."
+            en: "**Nationwide forecasting**: time-series models that anticipate technician activity across every network domain, to size teams ahead of demand."
+          - fr: "**IA générative (R&D)** : étude de faisabilité d'architectures d'agents IA et de LLM pour automatiser des processus métier et accélérer la prise de décision."
+            en: "**Generative AI (R&D)**: feasibility study of AI-agent and LLM architectures to automate business processes and speed up decision-making."
+          - fr: "**MLOps sur GCP** : pipelines automatisés d'ingestion, de prétraitement et d'entraînement, avec versionnage, suivi de performance et déploiement continu."
+            en: "**MLOps on GCP**: automated ingestion, preprocessing and training pipelines, with versioning, performance monitoring and continuous deployment."
+          - fr: "**Les modèles entre les mains des métiers** : pilotage d'une application Dash qui permet aux utilisateurs d'explorer les prévisions sans écrire une ligne de code."
+            en: "**Models in business users' hands**: led a Dash application that lets users explore forecasts without writing a line of code."
+          - fr: "**Référent Data Science** : appui technique de l'équipe, encadrement de stagiaires et d'alternants."
+            en: "**Data Science lead**: technical reference for the team, mentoring interns and apprentices."
+        stack: ["Python", { fr: "Séries temporelles", en: "Time series" }, "LLM & agents", "GCP", "Airflow", "Docker", "Dash"]
 
   - org: BPCE-SI
     url: https://www.groupebpce.com
@@ -17,7 +39,24 @@ experience:
     location: { fr: "Aix-en-Provence", en: "Aix-en-Provence, FR" }
     roles:
       - title: { fr: "Data Scientist & MLOps", en: "Data Scientist & MLOps" }
-        period: { fr: "2021 – 2023", en: "2021 – 2023" }
+        debut: "2021-01"
+        fin: "2023-11"
+        mission: true
+        resume:
+          fr: "Au cœur de l'informatique du groupe BPCE, j'ai fait passer des cas d'usage marketing du prototype à la production, et contribué à l'outillage qui standardise ce passage pour tout le groupe."
+          en: "At the heart of BPCE group's IT, I took marketing use cases from prototype to production, and helped build the tooling that standardises that path for the whole group."
+        points:
+          - fr: "**Connaissance client** : segmentation avancée, prédiction de l'attrition, analyse de sentiment des retours clients et moteur de recommandation."
+            en: "**Customer insight**: advanced segmentation, churn prediction, sentiment analysis of customer feedback and a recommendation engine."
+          - fr: "**Moments de vie** : modèles qui prédisent les étapes clés du parcours client (retraite, premier emploi, déménagement), déployés en production pour proposer le bon conseil au bon moment."
+            en: "**Life events**: models predicting key moments of the customer journey (retirement, first job, moving house), deployed to production to offer the right advice at the right time."
+          - fr: "**Packta** : contribution à la librairie Python interne qui automatise et standardise le packaging et le déploiement des modèles de machine learning du groupe."
+            en: "**Packta**: contributed to the in-house Python library that automates and standardises how the group packages and deploys its machine-learning models."
+          - fr: "**Industrialisation et cloud** : CI/CD, monitoring en production et migration des cas d'usage vers GCP (BigQuery, Vertex AI), main dans la main avec les Data Engineers et DataOps."
+            en: "**Industrialisation and cloud**: CI/CD, production monitoring and migration of use cases to GCP (BigQuery, Vertex AI), hand in hand with Data Engineers and DataOps."
+          - fr: "**Agilité** : projets menés en Scrum, avec des restitutions régulières aux parties prenantes."
+            en: "**Agile delivery**: Scrum projects with regular demos to stakeholders."
+        stack: ["Python", "PySpark", "BigQuery", "Vertex AI", "CI/CD", "NLP", "Scrum"]
 
   - org: Traxens
     url: https://www.traxens.com
@@ -25,7 +64,23 @@ experience:
     location: { fr: "Marseille", en: "Marseille, FR" }
     roles:
       - title: { fr: "Data Scientist & IoT Analytics", en: "Data Scientist & IoT Analytics" }
-        period: { fr: "2019 – 2020", en: "2019 – 2020" }
+        debut: "2019-07"
+        fin: "2020-10"
+        resume:
+          fr: "Chez ce spécialiste du conteneur connecté, j'ai transformé les données de capteurs IoT en outils de pilotage pour la logistique maritime : maintenance, chaîne du froid et sécurité."
+          en: "At this smart-container specialist, I turned IoT sensor data into decision tools for shipping logistics: maintenance, cold chain and security."
+        points:
+          - fr: "**Maintenance prédictive** : estimation de l'autonomie restante des batteries des balises de géolocalisation, pour planifier les interventions et gérer le cycle de vie du parc."
+            en: "**Predictive maintenance**: estimated the remaining battery life of tracking devices, to plan interventions and manage the fleet's life cycle."
+          - fr: "**Chaîne du froid** : prévision de la température des conteneurs frigorifiques, au cœur des systèmes d'alerte."
+            en: "**Cold chain**: temperature forecasting for refrigerated containers, at the core of the alerting systems."
+          - fr: "**Sécurité** : algorithmes de détection d'ouverture de porte à partir des signaux capteurs."
+            en: "**Security**: door-opening detection algorithms built on sensor signals."
+          - fr: "**Vision** : traitement et classification d'images satellites pour annoter les zones utiles au transport maritime."
+            en: "**Computer vision**: processed and classified satellite imagery to annotate areas relevant to maritime transport."
+          - fr: "**Qualité des données** : gouvernance, monitoring et fiabilisation des pipelines d'analyse et de modélisation."
+            en: "**Data quality**: governance, monitoring and hardening of the analytics and modelling pipelines."
+        stack: ["Python", "IoT", { fr: "Séries temporelles", en: "Time series" }, { fr: "Vision", en: "Computer vision" }, { fr: "Maintenance prédictive", en: "Predictive maintenance" }]
 
   - org: IT-CE
     url: https://www.groupebpce.com
@@ -33,15 +88,42 @@ experience:
     location: { fr: "Marseille", en: "Marseille, FR" }
     roles:
       - title: { fr: "Data Scientist", en: "Data Scientist" }
-        period: { fr: "2017 – 2019", en: "2017 – 2019" }
+        debut: "2017-10"
+        fin: "2019-06"
+        mission: true
+        resume:
+          fr: "Pour l'informatique des Caisses d'Épargne, j'ai mis le machine learning au service de la lutte contre la fraude et de la fidélisation des clients."
+          en: "For the Caisse d'Épargne banks' IT, I put machine learning to work against fraud and for customer retention."
+        points:
+          - fr: "**Lutte contre la fraude** : modèle non supervisé de détection d'anomalies pour repérer les chèques frauduleux et mieux protéger les clients."
+            en: "**Fraud prevention**: unsupervised anomaly-detection model to flag fraudulent cheques and better protect customers."
+          - fr: "**Rétention** : modèles de prédiction de l'attrition pour les jeunes, les professionnels et les entreprises, socle de stratégies de fidélisation ciblées."
+            en: "**Retention**: churn models for young customers, professionals and businesses, the basis of targeted loyalty strategies."
+          - fr: "**Data Lake** : ingestion et structuration des données pour centraliser l'analyse et le déploiement des modèles."
+            en: "**Data lake**: ingested and structured data to centralise analysis and model deployment."
+          - fr: "**Aide à la décision** : tableaux de bord interactifs qui traduisent les modèles en plans d'action pour les métiers."
+            en: "**Decision support**: interactive dashboards turning model outputs into action plans for business teams."
+        stack: ["Python", "SQL", { fr: "Détection d'anomalies", en: "Anomaly detection" }, "Churn", "Data Lake"]
 
   - org: INSERM
     url: https://www.inserm.fr
     initials: "IN"
     location: { fr: "Paris", en: "Paris, FR" }
     roles:
-      - title: { fr: "Ingénieur biostatistique", en: "Biostatistics Engineer" }
-        period: { fr: "2014 – 2017", en: "2014 – 2017" }
+      - title: { fr: "Biostatisticien", en: "Biostatistician" }
+        debut: "2014-09"
+        fin: "2017-09"
+        resume:
+          fr: "En recherche médicale, j'ai appliqué la statistique à la génomique et à l'épidémiologie : c'est là que s'est forgée ma rigueur méthodologique."
+          en: "In medical research, I applied statistics to genomics and epidemiology: that is where my methodological rigour was forged."
+        points:
+          - fr: "**Génomique** : analyses inférentielles et classification de profils génomiques pour révéler des sous-groupes de patients biologiquement pertinents."
+            en: "**Genomics**: inferential analyses and clustering of genomic profiles to reveal biologically meaningful patient subgroups."
+          - fr: "**Oncologie** : modélisation de l'impact clinique de biomarqueurs sur la progression de la leucémie, par des méthodes multivariées."
+            en: "**Oncology**: modelled the clinical impact of biomarkers on leukaemia progression with multivariate methods."
+          - fr: "**Épidémiologie** : modèle de propagation de la dengue intégrant des facteurs biologiques et environnementaux pour simuler la dynamique des foyers."
+            en: "**Epidemiology**: dengue spread model combining biological and environmental factors to simulate outbreak dynamics."
+        stack: [{ fr: "Statistique multivariée", en: "Multivariate statistics" }, { fr: "Génomique", en: "Genomics" }, { fr: "Épidémiologie", en: "Epidemiology" }, { fr: "Modélisation", en: "Modelling" }]
 
 education:
   - org: Aix-Marseille Université

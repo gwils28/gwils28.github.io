@@ -1317,3 +1317,192 @@ span.menu-groupe { display: contents; }
 
 
 .jz-vide { font-style: italic; color: rgb(var(--color-neutral-500)); }
+
+/* --- CV : les expériences en frise (partials/cv-parcours.html) -----------
+   Un fil vertical relie les postes ; chaque poste est une carte en verre
+   dépoli, accrochée au fil par la pastille à initiales. Dans la carte : la
+   période (au mois près) et la durée, le poste, l'entreprise, une
+   phrase sur le rôle et la valeur apportée, les réalisations, puis la stack
+   en pastilles. Le poste actuel est souligné d'un liseré vert. */
+.cv-parcours {
+  position: relative;
+  margin: 1.5rem 0 2.75rem;
+  padding: 0;
+  list-style: none;
+}
+/* Le fil, qui s'estompe vers le passé. */
+.cv-parcours::before {
+  content: "";
+  position: absolute;
+  top: 1.75rem;
+  bottom: 2rem;
+  left: 1.75rem;
+  width: 2px;
+  transform: translateX(-50%);
+  background: linear-gradient(to bottom,
+    rgb(var(--color-primary-500)),
+    rgba(var(--color-neutral-400), 0.35));
+}
+.cv-exp {
+  position: relative;
+  display: grid;
+  grid-template-columns: 3.5rem minmax(0, 1fr);
+  gap: 1.25rem;
+}
+.cv-exp + .cv-exp { margin-top: 1.5rem; }
+.cv-exp-repere { position: relative; z-index: 1; padding-top: 0.9rem; }
+.cv-exp-repere .cv-logo { box-shadow: 0 0 0 4px rgb(var(--color-neutral-50)); }
+.dark .cv-exp-repere .cv-logo { box-shadow: 0 0 0 4px rgb(var(--color-neutral-800)); }
+
+.cv-exp-carte {
+  padding: 1.15rem 1.35rem 1.25rem;
+  border: 1px solid rgba(var(--color-neutral-300), 0.8);
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(24px);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.dark .cv-exp-carte {
+  border-color: rgba(var(--color-neutral-600), 0.8);
+  background: rgba(var(--color-neutral-900), 0.5);
+}
+.cv-exp-carte:hover { box-shadow: 0 16px 36px -22px rgba(0, 0, 0, 0.55); }
+.cv-exp--actuel .cv-exp-carte {
+  border-color: rgba(var(--color-primary-500), 0.7);
+  box-shadow: inset 3px 0 0 rgb(var(--color-primary-500));
+}
+
+.cv-exp-poste {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.25;
+  color: rgb(var(--color-neutral-900));
+}
+.dark .cv-exp-poste { color: rgb(var(--color-neutral-50)); }
+.cv-exp-org {
+  margin: 0.25rem 0 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgb(var(--color-neutral-800));
+}
+.dark .cv-exp-org { color: rgb(var(--color-neutral-200)); }
+.cv-exp-org a { color: rgb(var(--color-primary-700)); text-decoration: none; }
+.dark .cv-exp-org a { color: rgb(var(--color-primary-400)); }
+.cv-exp-org a:hover { text-decoration: underline; }
+.cv-exp-lieu { font-weight: 400; color: rgb(var(--color-neutral-500)); }
+.dark .cv-exp-lieu { color: rgb(var(--color-neutral-400)); }
+
+.cv-badge-texte {
+  display: inline-block;
+  margin-left: 0.35rem;
+  padding: 0.05rem 0.45rem;
+  border: 1px solid rgba(var(--color-neutral-400), 0.6);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  vertical-align: 0.1em;
+  color: rgb(var(--color-neutral-600));
+}
+.dark .cv-badge-texte { color: rgb(var(--color-neutral-300)); }
+.cv-badge-actuel {
+  border-color: rgba(var(--color-primary-500), 0.7);
+  color: rgb(var(--color-primary-700));
+}
+.dark .cv-badge-actuel { color: rgb(var(--color-primary-400)); }
+/* Le point vert qui « pulse » doucement devant « En poste ». */
+.cv-badge-actuel::before {
+  content: "";
+  display: inline-block;
+  width: 0.4rem;
+  height: 0.4rem;
+  margin-right: 0.35rem;
+  border-radius: 50%;
+  background: rgb(var(--color-primary-500));
+  vertical-align: 0.05em;
+  animation: cv-pulse 2s ease-in-out infinite;
+}
+@keyframes cv-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(var(--color-primary-500), 0.6); }
+  50% { box-shadow: 0 0 0 4px rgba(var(--color-primary-500), 0); }
+}
+
+.cv-exp-periode {
+  margin: 0 0 0.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  color: rgb(var(--color-primary-700));
+}
+.dark .cv-exp-periode { color: rgb(var(--color-primary-400)); }
+.cv-exp-duree { color: rgb(var(--color-neutral-500)); }
+.dark .cv-exp-duree { color: rgb(var(--color-neutral-400)); }
+.cv-exp-duree::before { content: " · "; }
+
+/* La phrase d'accroche : le rôle et la valeur, un cran au-dessus du reste. */
+.cv-exp-resume {
+  margin: 0.85rem 0 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgb(var(--color-neutral-800));
+}
+.dark .cv-exp-resume { color: rgb(var(--color-neutral-100)); }
+
+.cv-exp-points {
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: rgb(var(--color-neutral-700));
+}
+.dark .cv-exp-points { color: rgb(var(--color-neutral-300)); }
+.cv-exp-points li {
+  position: relative;
+  padding-left: 1.1rem;
+}
+.cv-exp-points li + li { margin-top: 0.4rem; }
+.cv-exp-points li::before {
+  content: "";
+  position: absolute;
+  top: 0.62em;
+  left: 0.15rem;
+  width: 0.4rem;
+  height: 2px;
+  border-radius: 1px;
+  background: rgb(var(--color-primary-500));
+}
+.cv-exp-points strong { font-weight: 600; color: rgb(var(--color-neutral-900)); }
+.dark .cv-exp-points strong { color: rgb(var(--color-neutral-50)); }
+
+.cv-exp-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.95rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.cv-exp-stack li {
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(var(--color-primary-500), 0.12);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: rgb(var(--color-primary-800));
+}
+.dark .cv-exp-stack li {
+  background: rgba(var(--color-primary-400), 0.14);
+  color: rgb(var(--color-primary-200));
+}
+
+/* Téléphone : le fil et les pastilles se resserrent. */
+@media (max-width: 639px) {
+  .cv-parcours::before { left: 1.1rem; }
+  .cv-exp { grid-template-columns: 2.2rem minmax(0, 1fr); gap: 0.7rem; }
+  .cv-exp-repere .cv-logo { width: 2.2rem; height: 2.2rem; font-size: 0.7rem; }
+  .cv-exp-carte { padding: 1rem 1.05rem; }
+}
