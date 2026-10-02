@@ -7,6 +7,7 @@
 #   image    : pochette, dans assets/img/jazz/albums/ (carrée de préférence ;
 #              recadrée au centre et publiée en WebP, sans EXIF)
 #   lien     : où l'écouter (facultatif) — rend le titre cliquable
+#   dore     : true pour un album de référence — étoiles en ambre doré (facultatif)
 #
 # Un texte peut être une chaîne, ou une table { fr, en } selon la langue.
 #
@@ -118,3 +119,10 @@
   annee: 1959
   note: 5
   image: "miles-davis-kind-of-blue.jpg"
+
+- titre: "Bass on Top"
+  artiste: "Paul Chambers"
+  annee: 1957
+  note: 5
+  dore: true
+  image: "paul-chambers-bass-on-top.jpg"

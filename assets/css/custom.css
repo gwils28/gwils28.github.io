@@ -1186,6 +1186,21 @@ span.menu-groupe { display: contents; }
           drop-shadow(0 1px 1px rgba(0, 0, 0, 0.4));
 }
 
+/* Album de référence (`dore: true` dans albums.yaml) : étoiles en ambre,
+   le jaune doré de la palette Mousse, au lieu du vert. */
+.jz-degrade-dore-haut { stop-color: rgb(var(--color-secondary-200)); }
+.jz-degrade-dore-bas  { stop-color: rgb(var(--color-secondary-500)); }
+.jz-disque--dore .jz-etoile-plein path {
+  fill: url(#jz-etoile-degrade-dore);
+  stroke: rgb(var(--color-secondary-700));
+}
+.dark .jz-disque--dore .jz-etoile-plein path { stroke: rgb(var(--color-secondary-400)); }
+.jz-disque--dore .jz-etoile-plein,
+.jz-disque--dore:hover .jz-etoile-plein {
+  filter: drop-shadow(0 0 4px rgba(var(--color-secondary-400), 0.7))
+          drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3));
+}
+
 .jz-etoile--vide .jz-etoile-plein { display: none; }
 .jz-etoile--demi .jz-etoile-plein { clip-path: inset(-30% 50% -30% -30%); }
 
