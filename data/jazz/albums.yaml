@@ -112,3 +112,9 @@
   annee: 2023
   note: 4.5
   image: "hiromi-blue-giant.jpg"
+
+- titre: "Kind of Blue"
+  artiste: "Miles Davis"
+  annee: 1959
+  note: 5
+  image: "miles-davis-kind-of-blue.jpg"
