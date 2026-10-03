@@ -1,7 +1,6 @@
 ---
 title: "Blues en fa : la grille de base"
 date: 2026-10-03
-support: "postit"
 genre: "grille"
 tags: ["blues", "grille", "contrebasse"]
 ---

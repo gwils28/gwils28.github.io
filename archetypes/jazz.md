@@ -2,7 +2,6 @@
 title: "{{ replace .File.ContentBaseName "-" " " | title }}"
 date: {{ .Date }}
 draft: true
-support: "postit"   # postit · mousse · papier · ardoise
 genre: "libre"      # libre · grille · transcription · impro · partition · audio
 tags: []            # ex. ["blues", "walking", "mingus"]
 # Écris librement en dessous : texte, listes, image de partition (à côté du .md).

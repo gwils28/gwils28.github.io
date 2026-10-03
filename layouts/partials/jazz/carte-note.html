@@ -1,19 +1,35 @@
 {{/* Une note jazz, posée comme une feuille sur le tableau de l'onglet Notes.
      Appel : partial "jazz/carte-note.html" (dict "page" $note "grand" false)
 
+     Toutes les notes sont des post-it, en quatre teintes : ambre, terre cuite, mousse, lichen.
+     La couleur est un tirage équilibré : on numérote les notes de la plus
+     ancienne à la plus récente, et chaque groupe de quatre reçoit les quatre
+     teintes dans un ordre mélangé (choisi par hachage du numéro de groupe).
+     Une nouvelle note ne change donc pas la couleur des anciennes. Le froissé
+     (jz-pli--1 à 3) est tiré au hasard à partir du chemin de la note.
+
      Front matter de la note :
-       support  postit (défaut) · mousse · papier · ardoise
        genre    libre (défaut) · grille · transcription · impro · partition · audio
      Le contenu Markdown est affiché en entier sur la carte : une note se lit
      sur le tableau, sans clic. Le titre mène à la page de la note (lien à
      partager), qui affiche la même carte en grand. */}}
 {{- $p := .page -}}
 {{- $grand := .grand | default false -}}
-{{- $supports := slice "postit" "mousse" "papier" "ardoise" -}}
-{{- $support := $p.Params.support | default "postit" -}}
-{{- if not (in $supports $support) }}{{ $support = "postit" }}{{ end -}}
+{{- $rang := 0 -}}
+{{- range $i, $n := $p.CurrentSection.Pages.ByDate }}{{ if eq $n.RelPermalink $p.RelPermalink }}{{ $rang = $i }}{{ end }}{{ end -}}
+{{- $ordres := slice
+      (slice "ambre" "mousse" "terre" "lichen")
+      (slice "mousse" "terre" "lichen" "ambre")
+      (slice "lichen" "ambre" "mousse" "terre")
+      (slice "terre" "lichen" "ambre" "mousse")
+      (slice "ambre" "lichen" "terre" "mousse")
+      (slice "mousse" "ambre" "lichen" "terre") -}}
+{{- $groupe := div $rang 4 -}}
+{{- $ordre := index $ordres (mod (hash.FNV32a (printf "groupe-%d" $groupe)) (len $ordres)) -}}
+{{- $couleur := index $ordre (mod $rang 4) -}}
+{{- $pli := add (mod (hash.FNV32a $p.RelPermalink) 3) 1 -}}
 {{- $genre := $p.Params.genre | default "libre" -}}
-<article class="jz-papier jz-papier--{{ $support }}{{ if $grand }} jz-papier--grand{{ end }}">
+<article class="jz-papier jz-postit--{{ $couleur }} jz-pli--{{ $pli }}{{ if $grand }} jz-papier--grand{{ end }}">
   <header class="jz-papier-entete">
     <span class="jz-papier-genre">{{ i18n (printf "jazz.genre.%s" $genre) | default $genre }}</span>
     <time class="jz-papier-date" datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date | time.Format ":date_medium" }}</time>

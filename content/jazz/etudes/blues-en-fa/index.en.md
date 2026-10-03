@@ -1,7 +1,6 @@
 ---
 title: "Blues in F: the basic chart"
 date: 2026-10-03
-support: "postit"
 genre: "grille"
 tags: ["blues", "chart", "double bass"]
 ---
