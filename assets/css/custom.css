@@ -1696,6 +1696,26 @@ span.menu-groupe { display: contents; }
 .jz-papier-contenu ul { list-style: none; }
 .jz-papier-contenu ul > li::before { content: "–"; margin-left: -1.1rem; margin-right: 0.45rem; }
 .jz-papier-contenu strong { font-weight: 700; }
+/* Liste à cocher (« - [ ] ») : une case tracée à l'encre, cochée au tampon. */
+.jz-papier-contenu li:has(> input[type="checkbox"]) { margin-left: -1.3rem; padding-left: 1.45rem; text-indent: -1.45rem; list-style: none; }
+.jz-papier-contenu li:has(> input[type="checkbox"])::before { content: none; }
+.jz-papier-contenu input[type="checkbox"] {
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  margin: 0 0.45rem 0 0;
+  vertical-align: -0.12rem;
+  border: 2px solid var(--jz-encre-douce);
+  border-radius: 2px 3px 2px 4px;
+  background: transparent center / 120% no-repeat;
+  transform: rotate(-3deg);
+  cursor: pointer;
+}
+.jz-papier-contenu input[type="checkbox"]:disabled { cursor: default; }
+.jz-papier-contenu input[type="checkbox"]:checked {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M3 10.5l4.5 4.5L18 3' fill='none' stroke='%238A3B22' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+.jz-papier-contenu li:has(> input:checked) { opacity: 0.55; text-decoration: line-through; text-decoration-thickness: 1.5px; }
 .jz-papier-contenu h2,
 .jz-papier-contenu h3 {
   margin: 1rem 0 0.2rem;
