@@ -215,7 +215,7 @@ time,
 .cv-period-inline { display: none; }
 
 /* Tableaux clé / valeur (compétences, certifications). */
-.cv-table-kv th {
+.cv-table-kv tbody th {
   width: 12rem;
   vertical-align: top;
   padding-top: 0.75rem;
@@ -234,7 +234,7 @@ time,
   .cv-period-inline { display: block; margin-top: 0.15rem; }
   .cv-role { min-width: 0; }
   .cv-table td, .cv-table th { padding-left: 0.4rem; padding-right: 0.4rem; }
-  .cv-table-kv th { width: 7rem; }
+  .cv-table-kv tbody th { width: 7rem; }
   .cv-badge { width: 4.5rem; height: 4.5rem; }
 }
 

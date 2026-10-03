@@ -157,3 +157,37 @@ certifications:
     badge: img/badge-gcp-ml-engineer.png
     url: https://www.credly.com/badges/507de011-6beb-4e57-bc54-f56abcf7a459
     period: { fr: "2025 – 2027", en: "2025 – 2027" }
+
+skills:
+  # Tableau catégorie / technos, rendu par la branche clé-valeur du shortcode.
+  # `items` est une liste : chaque élément est une chaîne ou une table { fr, en }.
+  - label: { fr: "Langages", en: "Languages" }
+    items: ["Python", "R", "SQL", "Bash", "Rust", "TypeScript"]
+  - label: { fr: "Séries temporelles", en: "Time series" }
+    items:
+      - { fr: "prévision", en: "forecasting" }
+      - "pricing"
+      - "pattern mining"
+      - { fr: "détection d'anomalies", en: "anomaly detection" }
+  - label: { fr: "Statistique", en: "Statistics" }
+    items:
+      - { fr: "inférence causale", en: "causal inference" }
+      - "A/B testing"
+      - { fr: "inférence bayésienne", en: "Bayesian inference" }
+      - { fr: "analyse de survie", en: "survival analysis" }
+      - { fr: "statistique multivariée", en: "multivariate statistics" }
+      - { fr: "régression pénalisée", en: "penalised regression" }
+  - label: { fr: "Machine learning", en: "Machine learning" }
+    items:
+      - "gradient boosting"
+      - "deep learning"
+      - "clustering"
+      - { fr: "systèmes de recommandation", en: "recommender systems" }
+      - { fr: "vision par ordinateur", en: "computer vision" }
+      - { fr: "apprentissage par renforcement", en: "reinforcement learning" }
+  - label: { fr: "IA générative", en: "Generative AI" }
+    items: ["LLM", { fr: "agents IA", en: "AI agents" }, "RAG"]
+  - label: { fr: "Frameworks & outils", en: "Frameworks & tools" }
+    items: ["scikit-learn", "PyTorch", "statsmodels", "LangGraph", "MLflow", "dbt", "Airflow", "PySpark", "BigQuery"]
+  - label: { fr: "Cloud & MLOps", en: "Cloud & MLOps" }
+    items: ["GCP", "Vertex AI", "Docker", "Terraform", "Git", "CI/CD", "Linux"]

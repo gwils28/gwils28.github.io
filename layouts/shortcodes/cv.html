@@ -1,7 +1,7 @@
 {{- /*
   Rend une section de data/cv.yaml : les expériences en frise
   (partials/cv-parcours.html), le reste en tableau.
-  Usage : {{< cv section="experience" >}}  (experience, education, certifications)
+  Usage : {{< cv section="experience" >}}  (experience, education, certifications, skills)
   Un texte est soit une chaîne, soit une table { fr, en } : on prend la langue de la page.
 */ -}}
 {{- $section := .Get "section" -}}
@@ -56,10 +56,25 @@
 </table>
 {{- else }}
 <table class="cv-table cv-table-kv">
+  {{- if eq $section "skills" }}
+  <thead>
+    <tr>
+      <th>{{ cond $fr "Catégorie" "Category" }}</th>
+      <th>{{ cond $fr "Compétences / technos" "Skills / technologies" }}</th>
+    </tr>
+  </thead>
+  {{- end }}
   <tbody>
   {{- range $rows }}
     {{- $label := partial "cv-t.html" (dict "v" .label "lang" $lang) }}
-    {{- $items := partial "cv-t.html" (dict "v" .items "lang" $lang) }}
+    {{- $items := "" }}
+    {{- if reflect.IsSlice .items }}
+      {{- $list := slice }}
+      {{- range .items }}{{ $list = $list | append (partial "cv-t.html" (dict "v" . "lang" $lang)) }}{{ end }}
+      {{- $items = delimit $list ", " | safeHTML }}
+    {{- else }}
+      {{- $items = partial "cv-t.html" (dict "v" .items "lang" $lang) }}
+    {{- end }}
     {{- $url := .url }}
     {{- $period := "" }}{{ with .period }}{{ $period = partial "cv-t.html" (dict "v" . "lang" $lang) }}{{ end }}
     {{- with .badge }}{{ with resources.Get . }}

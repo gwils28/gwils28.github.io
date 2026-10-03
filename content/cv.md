@@ -25,3 +25,7 @@ showRelatedContent: false
 ## Certifications
 
 {{< cv section="certifications" >}}
+
+## Compétences
+
+{{< cv section="skills" >}}
