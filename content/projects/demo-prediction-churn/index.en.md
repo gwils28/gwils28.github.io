@@ -1,7 +1,7 @@
 ---
 title: "[Demo] Churn prediction"
 date: 2026-09-27
-draft: false
+draft: true
 description: "Demo project: predicting customer churn a month ahead, from EDA to a scoring API. It will be removed."
 summary: "Demo project: predicting customer churn a month ahead, from EDA to a scoring API."
 tags: ["demo", "python", "scikit-learn", "fastapi", "classification"]

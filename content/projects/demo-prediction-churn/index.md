@@ -1,7 +1,7 @@
 ---
 title: "[Démo] Prédiction de churn"
 date: 2026-09-27
-draft: false
+draft: true
 description: "Projet de démonstration : prédire les départs clients un mois à l'avance, de l'EDA à l'API de scoring. Il sera retiré."
 summary: "Projet de démonstration : prédire les départs clients un mois à l'avance, de l'EDA à l'API de scoring."
 tags: ["démo", "python", "scikit-learn", "fastapi", "classification"]
