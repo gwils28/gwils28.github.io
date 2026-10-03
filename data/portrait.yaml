@@ -26,8 +26,8 @@
   value: { fr: "Une pizza", en: "A pizza" }
 - icon: "📖"
   label: { fr: "un livre", en: "a book" }
-  value: { fr: "Petit Traité des grandes vertus", en: "A Small Treatise on the Great Virtues" }
-  note: "André Comte-Sponville"
+  value: { fr: "Essais", en: "Essays" }
+  note: "Michel de Montaigne"
 - icon: ""
   svg: "img/portrait/troll-pretre.svg"
   label: { fr: "un joueur de WoW", en: "a WoW player" }
