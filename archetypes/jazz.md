@@ -2,22 +2,15 @@
 title: "{{ replace .File.ContentBaseName "-" " " | title }}"
 date: {{ .Date }}
 draft: true
-description: ""          # résumé affiché dans les listes et sur les réseaux
-summary: ""
-categories: ["Découverte"]   # Découverte · Apprentissage · Exploration
-tags: []                     # ex. ["contrebasse", "hard bop", "mingus"]
-# featureImage: "cover.jpg"  # pochette ou photo, à côté du .md (page bundle)
-showTableOfContents: true
+support: "postit"   # postit · mousse · papier · ardoise
+genre: "libre"      # libre · grille · transcription · impro · partition · audio
+tags: []            # ex. ["blues", "walking", "mingus"]
+# Écris librement en dessous : texte, listes, image de partition (à côté du .md).
+# Grille d'accords (une ligne = une ligne de grille, « | » sépare les mesures) :
+#   {{ "{{<" }} grille {{ ">}}" }}
+#   Dm7 | G7 | Cmaj7 | Cmaj7
+#   {{ "{{<" }} /grille {{ ">}}" }}
+# Enregistrement (fichier à côté du .md) :
+#   {{ "{{<" }} audio src="prise.mp3" legende="Ce que j'ai joué" {{ ">}}" }}
 ---
 
-## Ce que j'ai écouté / travaillé
-
-Le disque, le morceau, l'exercice.
-
-## Ce qui m'a marqué
-
-Un passage, une idée, un son.
-
-## Ce que j'en retiens
-
-Pour la suite, à l'écoute ou à l'instrument.

@@ -1,0 +1,12 @@
+{{/* Page d'une note jazz (content/jazz/etudes/<slug>/). Pas de mise en page
+     d'article : la même feuille que sur le tableau de l'onglet Notes, en
+     grand, avec un lien de retour vers le tableau. */}}
+{{ define "main" }}
+  {{- $notes := site.GetPage "/jazz/etudes" -}}
+  <nav class="jz-retour">
+    <a href="{{ $notes.RelPermalink }}">← {{ i18n "jazz.toutes_les_notes" }}</a>
+  </nav>
+  <div class="jz-tableau jz-tableau--seul">
+    {{ partial "jazz/carte-note.html" (dict "page" . "grand" true) }}
+  </div>
+{{ end }}

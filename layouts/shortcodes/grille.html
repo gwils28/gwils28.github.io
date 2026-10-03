@@ -1,0 +1,37 @@
+{{/* Grille d'accords, façon Real Book.
+     Une ligne de texte = une ligne de grille ; « | » sépare les mesures ;
+     plusieurs accords dans une mesure sont séparés par des espaces.
+     « b » et « # » deviennent des ♭ et ♯ dessinés en SVG (Caveat n'a pas ces
+     signes) : Bb7 → B♭7, Gm7b5 → Gm7♭5, F#m7 → F♯m7.
+
+       {{< grille titre="Blues en fa" >}}
+       F7 | Bb7 | F7 | Cm7 F7
+       Bb7 | Bdim7 | F7 | Am7 D7
+       Gm7 | C7 | F7 D7 | Gm7 C7
+       {{< /grille >}}
+*/}}
+{{- $lignes := slice -}}
+{{- range split (trim .Inner "\n\r ") "\n" -}}
+  {{- $l := trim . " \r\t" -}}
+  {{- if $l }}{{ $lignes = $lignes | append $l }}{{ end -}}
+{{- end -}}
+<figure class="jz-grille not-prose">
+  {{- with .Get "titre" }}<figcaption class="jz-grille-titre">{{ . }}</figcaption>{{ end }}
+  {{- range $i, $ligne := $lignes }}
+    {{- $mesures := split $ligne "|" }}
+    <div class="jz-grille-ligne{{ if eq (add $i 1) (len $lignes) }} is-fin{{ end }}" style="--jz-mesures: {{ len $mesures }}">
+      {{- range $mesures }}
+        <span class="jz-mesure">
+          {{- range (split (trim . " ") " ") }}{{ with trim . " " }}
+            {{- $accord := replaceRE `([A-G])b` "${1}♭" (htmlEscape .) }}
+            {{- $accord = replaceRE `([0-9])b([0-9])` "${1}♭${2}" $accord }}
+            {{- $accord = replace $accord "#" "♯" }}
+            {{- $accord = replace $accord "♭" `<svg class="jz-alt" viewBox="0 0 10 20" aria-label="bémol"><path d="M2.5 1.5V18c3.5-1.6 6.3-4.4 5.6-7.2-.6-2.4-3.4-2.1-5.6.4"/></svg>` }}
+            {{- $accord = replace $accord "♯" `<svg class="jz-alt" viewBox="0 0 12 20" aria-label="dièse"><path d="M4.3 2.5v16M8 1.5v16M1.5 8.6l9-2.2M1.5 14l9-2.2"/></svg>` }}
+            <span class="jz-accord">{{ $accord | safeHTML }}</span>
+          {{- end }}{{ end -}}
+        </span>
+      {{- end }}
+    </div>
+  {{- end }}
+</figure>

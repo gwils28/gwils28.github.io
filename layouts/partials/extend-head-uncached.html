@@ -1,0 +1,12 @@
+{{/*
+  Chargé page par page (contrairement à extend-head.html, mis en cache pour
+  tout le site). Sert aux polices qu'une seule section utilise.
+
+  Caveat  écriture manuscrite des notes jazz (onglet Notes et pages de note) :
+          titres, texte libre et grilles d'accords sur les cartes papier.
+*/}}
+{{ if eq .Section "jazz" }}
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap">
+{{ end }}

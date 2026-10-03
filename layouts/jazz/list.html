@@ -30,9 +30,9 @@
     {{ partial "jazz/pantheon.html" . }}
   {{- else if eq $onglet "etudes" }}
     {{- with .Pages.ByDate.Reverse }}
-      <section class="space-y-10 w-full">
+      <section class="jz-tableau">
         {{- range . }}
-          {{ partial "article-link/simple.html" . }}
+          {{ partial "jazz/carte-note.html" (dict "page" .) }}
         {{- end }}
       </section>
     {{- else }}

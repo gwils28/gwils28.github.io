@@ -1,0 +1,12 @@
+{{/* Micro-enregistrement posé dans le dossier de la note (page bundle).
+
+       {{< audio src="prise.mp3" legende="Walking sur le blues, 120 bpm" >}}
+
+     src peut aussi être une URL absolue. preload="none" : rien n'est
+     téléchargé tant qu'on n'appuie pas sur lecture. */}}
+{{- $src := .Get "src" -}}
+{{- with .Page.Resources.Get $src }}{{ $src = .RelPermalink }}{{ end -}}
+<figure class="jz-audio not-prose">
+  <audio controls preload="none" src="{{ $src }}"></audio>
+  {{- with .Get "legende" }}<figcaption>{{ . }}</figcaption>{{ end }}
+</figure>
