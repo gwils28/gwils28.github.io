@@ -1,8 +1,9 @@
 ---
-title: "This week's goal: Autumn Leaves as a walking line"
-date: 2026-10-03
+title: "Last week's recap: Autumn Leaves as a walking line"
+date: 2026-09-19
+aliases: ["/jazz/etudes/objectif-autumn-leaves/"]
 genre: "libre"
-tags: ["goal", "autumn leaves", "walking", "double bass"]
+tags: ["recap", "autumn leaves", "walking", "double bass"]
 ---
 
 The A section as a walking line — root on beat 1, fifth on

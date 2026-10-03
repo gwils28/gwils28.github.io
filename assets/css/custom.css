@@ -1548,7 +1548,7 @@ span.menu-groupe { display: contents; }
   --jz-tampon: rgb(var(--color-primary-700));
   --jz-incl: -1.2deg;
   position: relative;
-  display: inline-block;
+  display: block;   /* inline-block : Chrome empile tout dans la 1re colonne quand il y a peu de notes */
   width: 100%;
   margin: 0.9rem 0 2.4rem;
   padding: 2.1rem 1.6rem 1.6rem;

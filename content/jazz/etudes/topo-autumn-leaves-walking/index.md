@@ -1,8 +1,9 @@
 ---
-title: "Objectif de la semaine : Autumn Leaves en walking"
-date: 2026-10-03
+title: "Topo de la semaine passée : Autumn Leaves en walking"
+date: 2026-09-19
+aliases: ["/jazz/etudes/objectif-autumn-leaves/"]
 genre: "libre"
-tags: ["objectif", "autumn leaves", "walking", "contrebasse"]
+tags: ["topo", "autumn leaves", "walking", "contrebasse"]
 ---
 
 La grille A en walking — fondamentale sur le 1, quinte sur
