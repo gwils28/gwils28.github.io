@@ -204,3 +204,10 @@
   annee: 2018
   note: 4.5
   image: "ashley-henry-beautiful-vinyl-hunter.jpg"
+
+- titre: "Double Bass"
+  artiste: "NHØP & Sam Jones"
+  annee: 1976
+  note: 5
+  dore: true
+  image: "nhop-sam-jones-double-bass.jpg"
