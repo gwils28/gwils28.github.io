@@ -1,0 +1,30 @@
+{{/* Surcharge de themes/blowfish/layouts/partials/related.html.
+     Le thème passe par .Related (tags, catégories, date, seuil 0) : des
+     pages jazz ou migration remontaient sous des articles tech. Ici, une
+     page n'est « connexe » que si elle partage au moins 3 tags avec la page
+     courante. Classement : le plus de tags communs d'abord, puis la plus
+     récente. Rien ne s'affiche s'il n'y en a aucune. */}}
+{{ if .Params.showRelatedContent | default (.Site.Params.article.showRelatedContent | default false) }}
+  {{- $limite := .Site.Params.article.relatedContentLimit | default 3 -}}
+  {{- $minimum := 3 -}}
+  {{- $tags := .Params.tags | default slice -}}
+  {{- $connexes := slice -}}
+  {{- if ge (len $tags) $minimum -}}
+    {{- $candidates := where .Site.RegularPages.ByDate.Reverse "Permalink" "ne" .Permalink -}}
+    {{- range $n := seq (len $tags) -1 $minimum -}}
+      {{- range $candidates -}}
+        {{- if eq (len (intersect $tags (.Params.tags | default slice))) $n -}}
+          {{- $connexes = $connexes | append . -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{ with first $limite $connexes }}
+    <h2 class="mt-8 text-2xl font-extrabold mb-10">{{ i18n "article.related_articles" | emojify }}</h2>
+    <section class="w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+      {{ range . }}
+        {{ partial "article-link/card-related.html" . }}
+      {{ end }}
+    </section>
+  {{ end }}
+{{ end }}
