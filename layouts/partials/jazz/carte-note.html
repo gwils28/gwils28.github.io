@@ -29,7 +29,7 @@
 {{- $couleur := index $ordre (mod $rang 4) -}}
 {{- $pli := add (mod (hash.FNV32a $p.RelPermalink) 3) 1 -}}
 {{- $genre := $p.Params.genre | default "libre" -}}
-<article class="jz-papier jz-postit--{{ $couleur }} jz-pli--{{ $pli }}{{ if $grand }} jz-papier--grand{{ end }}">
+<article class="jz-papier jz-postit--{{ $couleur }} jz-pli--{{ $pli }}{{ if $grand }} jz-papier--grand{{ end }}" data-genre="{{ $genre }}">
   <header class="jz-papier-entete">
     <span class="jz-papier-genre">{{ i18n (printf "jazz.genre.%s" $genre) | default $genre }}</span>
     <time class="jz-papier-date" datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date | time.Format ":date_medium" }}</time>

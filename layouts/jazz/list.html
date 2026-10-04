@@ -30,6 +30,21 @@
     {{ partial "jazz/pantheon.html" . }}
   {{- else if eq $onglet "etudes" }}
     {{- with .Pages.ByDate.Reverse }}
+      {{- /* Filtre par type de note : un bouton par genre présent, dans l'ordre
+             de l'archétype. Masqué sans JavaScript (assets/js/jazz-filtre.js
+             l'affiche) : toutes les notes restent alors visibles. */}}
+      {{- $notes := . }}
+      <div class="jz-filtres" role="group" aria-label="{{ i18n "jazz.filtre" }}" hidden>
+        <button type="button" class="jz-filtre" data-genre="" aria-pressed="true">{{ i18n "jazz.filtre.toutes" }} <span class="jz-filtre-nb">{{ len $notes }}</span></button>
+        {{- range slice "libre" "grille" "transcription" "impro" "partition" "audio" }}
+          {{- $genre := . }}
+          {{- $nb := 0 }}
+          {{- range $notes }}{{ if eq (.Params.genre | default "libre") $genre }}{{ $nb = add $nb 1 }}{{ end }}{{ end }}
+          {{- if $nb }}
+        <button type="button" class="jz-filtre" data-genre="{{ $genre }}" aria-pressed="false">{{ i18n (printf "jazz.genre.%s" $genre) }} <span class="jz-filtre-nb">{{ $nb }}</span></button>
+          {{- end }}
+        {{- end }}
+      </div>
       <section class="jz-tableau">
         {{- range . }}
           {{ partial "jazz/carte-note.html" (dict "page" .) }}

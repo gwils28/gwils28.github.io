@@ -1535,6 +1535,46 @@ span.menu-groupe { display: contents; }
    Le froissé est une vraie lumière rasante : un bruit fractal éclairé par
    feDiffuseLighting (SVG inline), posé en « multiply » sur la couleur du
    papier. Les plis sombres viennent de la texture, pas d'une image. */
+/* Filtre par type (assets/js/jazz-filtre.js) : des pastilles au-dessus du
+   tableau, actives en vert comme l'onglet courant. */
+.jz-filtres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: -0.75rem 0 1.5rem;
+}
+.jz-filtres[hidden] { display: none; }
+.jz-filtre {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.75rem;
+  border: 1px solid rgba(var(--color-neutral-400), 0.6);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgb(var(--color-neutral-700));
+  background: rgba(var(--color-neutral-50), 0.6);
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+}
+.dark .jz-filtre {
+  color: rgb(var(--color-neutral-300));
+  background: rgba(var(--color-neutral-800), 0.6);
+}
+.jz-filtre:hover { border-color: rgb(var(--color-primary-600)); }
+.jz-filtre[aria-pressed="true"] {
+  color: rgb(var(--color-neutral-50));
+  background: rgb(var(--color-primary-700));
+  border-color: rgb(var(--color-primary-700));
+}
+.dark .jz-filtre[aria-pressed="true"] {
+  color: rgb(var(--color-neutral-900));
+  background: rgb(var(--color-primary-400));
+  border-color: rgb(var(--color-primary-400));
+}
+.jz-filtre-nb { font-family: var(--font-mono); font-size: 0.7rem; opacity: 0.75; }
+.jz-papier[hidden] { display: none; }
+
 .jz-tableau {
   columns: 2 19rem;
   column-gap: 2.25rem;
