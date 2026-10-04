@@ -3,10 +3,17 @@
 type.article: "Article"
 type.projet: "Projet"
 type.jazz: "Jazz"
+type.produit: "Produit"
+type.labo: "Labo"
 
 accueil.articles: "Derniers articles"
 accueil.projets: "Projets récents"
 accueil.voir_tout: "Voir tout"
+
+projets.produit.titre: "Produits"
+projets.produit.intro: "Des projets aboutis, pensés pour servir, jusqu'au SaaS."
+projets.labo.titre: "Labo"
+projets.labo.intro: "Des projets pour apprendre et maîtriser une techno ou un concept."
 
 nav.groupe.apropos: "À propos"
 nav.groupe.tech: "Tech"

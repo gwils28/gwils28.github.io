@@ -2,9 +2,16 @@
   Étiquette de type au-dessus du titre des cartes : « Article », « Projet »…
   Sert là où les sections se mélangent (articles connexes, anciennes listes)
   et, sur l'accueil, redouble le titre de chaque bloc d'un repère visuel.
-  Une section absente de la liste n'affiche rien.
+  Un projet affiche sa nature (« Produit » ou « Labo », paramètre « nature »,
+  défaut produit) plutôt que « Projet ». Une section absente de la liste
+  n'affiche rien.
 */ -}}
 {{- $types := dict "posts" "article" "projects" "projet" "jazz" "jazz" -}}
 {{- with index $types .Section -}}
-  <span class="type-contenu type-contenu--{{ . }}">{{ i18n (printf "type.%s" .) }}</span>
+  {{- if eq . "projet" -}}
+    {{- $nature := $.Params.nature | default "produit" -}}
+    <span class="type-contenu type-contenu--projet type-contenu--{{ $nature }}">{{ i18n (printf "type.%s" $nature) }}</span>
+  {{- else -}}
+    <span class="type-contenu type-contenu--{{ . }}">{{ i18n (printf "type.%s" .) }}</span>
+  {{- end -}}
 {{- end -}}

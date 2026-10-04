@@ -3,10 +3,17 @@
 type.article: "Post"
 type.projet: "Project"
 type.jazz: "Jazz"
+type.produit: "Product"
+type.labo: "Lab"
 
 accueil.articles: "Latest posts"
 accueil.projets: "Recent projects"
 accueil.voir_tout: "See all"
+
+projets.produit.titre: "Products"
+projets.produit.intro: "Finished projects built to be used, all the way to SaaS."
+projets.labo.titre: "Lab"
+projets.labo.intro: "Projects to learn and master a technology or a concept."
 
 nav.groupe.apropos: "About"
 nav.groupe.tech: "Tech"

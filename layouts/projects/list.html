@@ -1,0 +1,54 @@
+{{/* Projets : deux blocs au lieu d'une grille unique, choisis par le
+     paramètre « nature » de chaque projet (défaut : produit).
+       produit  projet abouti, jusqu'au SaaS : en premier, grandes cartes ;
+       labo     projet pour apprendre une techno ou un concept : en dessous,
+                cartes plus compactes.
+     L'en-tête et l'intro reprennent _default/list.html du thème. Pas de
+     pagination : la section reste courte. Un bloc vide n'est pas affiché. */}}
+{{ define "main" }}
+  <header>
+    {{ if .Params.showBreadcrumbs | default (site.Params.list.showBreadcrumbs | default false) }}
+      {{ partial "breadcrumbs.html" . }}
+    {{ end }}
+    <h1 class="mt-5 text-4xl font-extrabold text-neutral-900 dark:text-neutral">{{ .Title | emojify }}</h1>
+  </header>
+
+  <section class="prose max-w-prose dark:prose-invert mb-10">
+    {{ .Content }}
+  </section>
+
+  {{ $projets := .Pages.ByDate.Reverse }}
+  {{ $produits := slice }}
+  {{ $labos := slice }}
+  {{ range $projets }}
+    {{ if eq (.Params.nature | default "produit") "labo" }}
+      {{ $labos = $labos | append . }}
+    {{ else }}
+      {{ $produits = $produits | append . }}
+    {{ end }}
+  {{ end }}
+
+  {{ range $bloc := slice
+      (dict "nature" "produit" "pages" $produits "grille" "sm:grid-cols-2")
+      (dict "nature" "labo" "pages" $labos "grille" "sm:grid-cols-2 md:grid-cols-3") }}
+    {{ with $bloc.pages }}
+      <section class="projets-bloc projets-bloc--{{ $bloc.nature }}">
+        <div class="projets-bloc-entete">
+          <h2 class="text-2xl font-extrabold">{{ i18n (printf "projets.%s.titre" $bloc.nature) }}</h2>
+          <p>{{ i18n (printf "projets.%s.intro" $bloc.nature) }}</p>
+        </div>
+        <div class="w-full grid gap-4 {{ $bloc.grille }}">
+          {{ range . }}
+            {{ partial "article-link/card.html" . }}
+          {{ end }}
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+
+  {{ if not $projets }}
+    <section class="mt-10 prose dark:prose-invert">
+      <p class="py-8 border-t"><em>{{ i18n "list.no_articles" | emojify }}</em></p>
+    </section>
+  {{ end }}
+{{ end }}

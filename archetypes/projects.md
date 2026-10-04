@@ -2,6 +2,7 @@
 title: "{{ replace .File.ContentBaseName "-" " " | title }}"
 date: {{ .Date }}
 draft: true
+nature: "produit"        # produit · labo (pour un labo : hugo new --kind labo …)
 description: ""          # une phrase : le problème résolu
 summary: ""
 tags: []                 # la stack : ["python", "scikit-learn", "streamlit"]
