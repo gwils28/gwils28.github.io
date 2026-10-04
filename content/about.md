@@ -14,3 +14,24 @@ Data scientist passionné de jazz, j'ai un goût prononcé pour les statistiques
 Ce qui m'anime, c'est de construire des modèles et des systèmes qui aident à mieux comprendre comment les choses fonctionnent et qui facilitent la prise de meilleures décisions. Toujours partant pour une bonne énigme statistique et soucieux du détail, je m'applique depuis plus de dix ans à développer des systèmes autonomes qui prédisent et simulent des phénomènes complexes avec le moins de biais possible.
 
 {{< portrait-chinois >}}
+
+## Comment j'utilise l'IA {#ia}
+
+J'utilise l'IA au quotidien.
+
+**Où elle intervient** : l'assistance à l'écriture du code, l'aide à la compréhension de
+certains outils mathématiques complexes, l'aide à la rédaction et à la correction des textes,
+la relecture technique et méthodologique, et certains visuels, comme les images de couverture.
+
+**Ce qui reste à moi** : le choix des sujets, les protocoles, la vérification des résultats, les
+décisions et les conclusions. Les erreurs aussi.
+
+**Mes règles** :
+
+- je ne publie rien que je ne sais pas expliquer ni reproduire ;
+- les chiffres viennent de code exécuté et versionné, jamais d'une réponse de l'IA ;
+- je vérifie moi-même les sources que je cite ;
+- chaque contenu réalisé avec l'aide de l'IA porte une note de transparence ;
+- mes projets n'utilisent que des données publiques et accessibles à tous.
+
+*Mis à jour en octobre 2026.*
