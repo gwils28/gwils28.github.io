@@ -741,6 +741,7 @@ time,
    annoncé par un filet vertical et une étiquette en monospace (desktop), ou
    un intertitre (mobile), puis parle son propre registre :
    - tech : monospace et préfixe ~/ en vert, comme un chemin de terminal ;
+   - apropos : la même police que tech, sans le préfixe ;
    - loisirs : italique et icônes, un ton plus doux, comme un carnet.
    Cf. layouts/partials/header/components/{desktop,mobile}-menu.html.
 
@@ -781,7 +782,8 @@ span.menu-groupe { display: contents; }
 
 /* Tech : chemin de terminal. Le préfixe reste vert même au repos ; au
    survol, tout le lien passe à l'accent. */
-.menu-groupe--tech a span {
+.menu-groupe--tech a span,
+.menu-groupe--apropos a span {
   /* inline-flex : l'espace blanc du gabarit autour du nom disparaît, le
      préfixe vient se coller au mot. */
   display: inline-flex;
