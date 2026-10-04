@@ -1867,3 +1867,12 @@ span.menu-groupe { display: contents; }
 @media (prefers-reduced-motion: reduce) {
   .jz-papier, .jz-papier:hover { transition: none; }
 }
+
+/* --- Encadrés {{< alert >}} colorés ------------------------------------
+   Avec textColor, le shortcode colore le texte, mais la typo du thème
+   (prose) impose sa propre couleur au gras, aux liens et au code — presque
+   blanche en mode sombre, illisible sur un fond clair comme le jaune. Ils
+   héritent donc de la couleur choisie. */
+.prose div.rounded-md.shadow > span[style*="color"] :is(strong, a, code, li::marker) {
+  color: inherit;
+}
