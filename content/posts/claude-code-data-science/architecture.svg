@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 850" width="1200" height="850" role="img" aria-labelledby="titre desc" font-family="'IBM Plex Sans', 'Segoe UI', Arial, sans-serif">
+  <title id="titre">Architecture Claude Code sur un projet de prévision de la demande</title>
+  <desc id="desc">La session principale reçoit les règles du CLAUDE.md, la mémoire et mes décisions. Elle charge des skills à la demande, déclenche des hooks déterministes, délègue à cinq sous-agents (explorateur de données, statisticien, ingénieur ML, expert MLOps, relecteur) et appelle des outils externes. Le résultat passe par la vérification, la relecture, mon commit, puis la CI.</desc>
+  <defs>
+    <marker id="fleche" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#282c26"/>
+    </marker>
+    <marker id="fleche-verte" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2e5c1c"/>
+    </marker>
+  </defs>
+
+  <!-- Fond : carte claire, lisible aussi sur le thème sombre -->
+  <rect x="2" y="2" width="1196" height="846" rx="18" fill="#f4f6f3" stroke="#d5dbd2" stroke-width="2"/>
+
+  <!-- ===== Ligne 1 : ce qui entre dans la session ===== -->
+  <g>
+    <rect x="30" y="30" width="330" height="78" rx="10" fill="#fdf3dc" stroke="#e99d16" stroke-width="2.5"/>
+    <text x="195" y="62" text-anchor="middle" font-size="19" font-weight="700" fill="#282c26">Moi</text>
+    <text x="195" y="88" text-anchor="middle" font-size="14" fill="#3b4338">question · protocole · décisions</text>
+
+    <rect x="435" y="30" width="330" height="78" rx="10" fill="#e3efdc" stroke="#54a630" stroke-width="2"/>
+    <text x="600" y="62" text-anchor="middle" font-size="19" font-weight="700" fill="#282c26" font-family="'IBM Plex Mono', Consolas, monospace">CLAUDE.md</text>
+    <text x="600" y="88" text-anchor="middle" font-size="14" fill="#3b4338">règles permanentes, lues à chaque session</text>
+
+    <rect x="840" y="30" width="330" height="78" rx="10" fill="#e3efdc" stroke="#54a630" stroke-width="2"/>
+    <text x="1005" y="62" text-anchor="middle" font-size="19" font-weight="700" fill="#282c26">Mémoire</text>
+    <text x="1005" y="88" text-anchor="middle" font-size="14" fill="#3b4338">consignes durables, pièges appris</text>
+  </g>
+  <g fill="none" stroke="#282c26" stroke-width="2" marker-end="url(#fleche)">
+    <polyline points="195,108 195,134 470,134 470,158"/>
+    <polyline points="600,108 600,158"/>
+    <polyline points="1005,108 1005,134 730,134 730,158"/>
+  </g>
+
+  <!-- ===== Ligne 2 : skills · session · hooks ===== -->
+  <!-- Skills -->
+  <rect x="30" y="160" width="320" height="190" rx="10" fill="#ffffff" stroke="#9fd08a" stroke-width="2"/>
+  <text x="50" y="190" font-size="16" font-weight="700" fill="#282c26">Skills</text>
+  <text x="108" y="190" font-size="13" fill="#5a6356">chargées à la demande</text>
+  <g font-size="14" fill="#282c26" font-family="'IBM Plex Mono', Consolas, monospace">
+    <rect x="50" y="206" width="280" height="36" rx="18" fill="#e3efdc"/>
+    <text x="190" y="229" text-anchor="middle">protocole-backtest</text>
+    <rect x="50" y="250" width="280" height="36" rx="18" fill="#e3efdc"/>
+    <text x="190" y="273" text-anchor="middle">dictionnaire-donnees</text>
+    <rect x="50" y="294" width="280" height="36" rx="18" fill="#e3efdc"/>
+    <text x="190" y="317" text-anchor="middle">rapport-modele</text>
+  </g>
+  <line x1="350" y1="255" x2="398" y2="255" stroke="#2e5c1c" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#fleche-verte)"/>
+
+  <!-- Session principale -->
+  <rect x="400" y="160" width="400" height="190" rx="12" fill="#ffffff" stroke="#2e5c1c" stroke-width="3"/>
+  <text x="600" y="196" text-anchor="middle" font-size="21" font-weight="700" fill="#282c26">Session principale</text>
+  <text x="600" y="224" text-anchor="middle" font-size="15" fill="#3b4338">explore → planifie → code</text>
+  <text x="440" y="270" font-size="13" fill="#5a6356">contexte</text>
+  <rect x="440" y="280" width="320" height="18" rx="9" fill="#e2e7e0"/>
+  <rect x="440" y="280" width="112" height="18" rx="9" fill="#54a630"/>
+  <line x1="632" y1="274" x2="632" y2="304" stroke="#e99d16" stroke-width="3" stroke-dasharray="4 3"/>
+  <text x="600" y="330" text-anchor="middle" font-size="13" fill="#5a6356">une tâche par session · /clear entre deux tâches</text>
+
+  <!-- Hooks -->
+  <rect x="850" y="160" width="320" height="190" rx="10" fill="#ffffff" stroke="#e99d16" stroke-width="2"/>
+  <text x="870" y="190" font-size="16" font-weight="700" fill="#282c26">Hooks</text>
+  <text x="926" y="190" font-size="13" fill="#5a6356">déterministes, sans exception</text>
+  <g font-size="13" fill="#282c26">
+    <rect x="870" y="206" width="280" height="36" rx="8" fill="#fdf3dc"/>
+    <text x="882" y="229"><tspan font-weight="700" font-family="'IBM Plex Mono', Consolas, monospace">PreToolUse</tspan> bloque data/raw/</text>
+    <rect x="870" y="250" width="280" height="36" rx="8" fill="#fdf3dc"/>
+    <text x="882" y="273"><tspan font-weight="700" font-family="'IBM Plex Mono', Consolas, monospace">PostToolUse</tspan> ruff + tests ciblés</text>
+    <rect x="870" y="294" width="280" height="36" rx="8" fill="#fdf3dc"/>
+    <text x="882" y="317"><tspan font-weight="700" font-family="'IBM Plex Mono', Consolas, monospace">Stop</tspan> refus si un test échoue</text>
+  </g>
+  <line x1="850" y1="255" x2="802" y2="255" stroke="#282c26" stroke-width="2" marker-end="url(#fleche)"/>
+
+  <!-- ===== Ligne 3 : cinq sous-agents ===== -->
+  <g fill="none" stroke="#2e5c1c" stroke-width="2">
+    <line x1="600" y1="350" x2="600" y2="392"/>
+    <line x1="128" y1="392" x2="1072" y2="392"/>
+  </g>
+  <g fill="none" stroke="#2e5c1c" stroke-width="2" marker-end="url(#fleche-verte)">
+    <line x1="128" y1="392" x2="128" y2="414"/>
+    <line x1="364" y1="392" x2="364" y2="414"/>
+    <line x1="600" y1="392" x2="600" y2="414"/>
+    <line x1="836" y1="392" x2="836" y2="414"/>
+    <line x1="1072" y1="392" x2="1072" y2="414"/>
+  </g>
+  <text x="614" y="377" font-size="13" fill="#5a6356">délègue · reçoit un résumé</text>
+
+  <g font-size="13" fill="#3b4338">
+    <!-- 1. explorateur -->
+    <rect x="20" y="416" width="216" height="150" rx="10" fill="#ffffff" stroke="#54a630" stroke-width="2"/>
+    <text x="34" y="440" font-size="11" fill="#2e5c1c" font-family="'IBM Plex Mono', Consolas, monospace">SOUS-AGENT</text>
+    <text x="34" y="464" font-size="16" font-weight="700" fill="#282c26">explorateur-donnees</text>
+    <text x="34" y="490">EDA, qualité des données :</text>
+    <text x="34" y="508">trous, unités, doublons</text>
+    <text x="34" y="548" font-size="12" font-style="italic" fill="#5a6356">lecture seule · modèle rapide</text>
+
+    <!-- 2. statisticien (mis en avant) -->
+    <rect x="256" y="416" width="216" height="150" rx="10" fill="#fdf3dc" stroke="#e99d16" stroke-width="2.5"/>
+    <text x="270" y="440" font-size="11" fill="#9a6408" font-family="'IBM Plex Mono', Consolas, monospace">SOUS-AGENT</text>
+    <text x="270" y="464" font-size="16" font-weight="700" fill="#282c26">statisticien</text>
+    <text x="270" y="490">méthodes, biais, causalité,</text>
+    <text x="270" y="508">protocole : il objecte</text>
+    <text x="270" y="548" font-size="12" font-style="italic" fill="#5a6356">lecture seule · ne code pas</text>
+
+    <!-- 3. ingénieur ML -->
+    <rect x="492" y="416" width="216" height="150" rx="10" fill="#ffffff" stroke="#54a630" stroke-width="2"/>
+    <text x="506" y="440" font-size="11" fill="#2e5c1c" font-family="'IBM Plex Mono', Consolas, monospace">SOUS-AGENT</text>
+    <text x="506" y="464" font-size="16" font-weight="700" fill="#282c26">ingenieur-ml</text>
+    <text x="506" y="490">features, modèles,</text>
+    <text x="506" y="508">le test qui échoue d'abord</text>
+    <text x="506" y="548" font-size="12" font-style="italic" fill="#5a6356">édition · pytest</text>
+
+    <!-- 4. expert MLOps -->
+    <rect x="728" y="416" width="216" height="150" rx="10" fill="#ffffff" stroke="#54a630" stroke-width="2"/>
+    <text x="742" y="440" font-size="11" fill="#2e5c1c" font-family="'IBM Plex Mono', Consolas, monospace">SOUS-AGENT</text>
+    <text x="742" y="464" font-size="16" font-weight="700" fill="#282c26">expert-mlops</text>
+    <text x="742" y="490">pipeline, déploiement,</text>
+    <text x="742" y="508">monitoring, Terraform</text>
+    <text x="742" y="548" font-size="12" font-style="italic" fill="#5a6356">terraform plan, jamais apply</text>
+
+    <!-- 5. relecteur -->
+    <rect x="964" y="416" width="216" height="150" rx="10" fill="#ffffff" stroke="#54a630" stroke-width="2"/>
+    <text x="978" y="440" font-size="11" fill="#2e5c1c" font-family="'IBM Plex Mono', Consolas, monospace">SOUS-AGENT</text>
+    <text x="978" y="464" font-size="16" font-weight="700" fill="#282c26">relecteur</text>
+    <text x="978" y="490">revue du diff,</text>
+    <text x="978" y="508">dans un contexte neuf</text>
+    <text x="978" y="548" font-size="12" font-style="italic" fill="#5a6356">lecture seule · diff seul</text>
+  </g>
+
+  <!-- ===== Ligne 4 : outils externes ===== -->
+  <text x="20" y="602" font-size="12" letter-spacing="1.5" fill="#5a6356" font-family="'IBM Plex Mono', Consolas, monospace">OUTILS APPELÉS PAR LA SESSION ET LES SOUS-AGENTS</text>
+  <g font-size="14" fill="#282c26">
+    <rect x="20" y="614" width="275" height="54" rx="10" fill="#e2e7e0"/>
+    <text x="157" y="646" text-anchor="middle"><tspan font-weight="700">MCP BigQuery</tspan> · lecture seule</text>
+    <rect x="315" y="614" width="275" height="54" rx="10" fill="#e2e7e0"/>
+    <text x="452" y="646" text-anchor="middle"><tspan font-weight="700">MCP MLflow</tspan> · runs, registre</text>
+    <rect x="610" y="614" width="275" height="54" rx="10" fill="#e2e7e0"/>
+    <text x="747" y="646" text-anchor="middle"><tspan font-weight="700">CLI</tspan> · gh, gcloud, terraform</text>
+    <rect x="905" y="614" width="275" height="54" rx="10" fill="#e2e7e0"/>
+    <text x="1042" y="646" text-anchor="middle"><tspan font-weight="700">Chrome</tspan> · dashboards, rendus</text>
+  </g>
+
+  <!-- ===== Ligne 5 : du résultat au dépôt ===== -->
+  <text x="20" y="712" font-size="12" letter-spacing="1.5" fill="#5a6356" font-family="'IBM Plex Mono', Consolas, monospace">DU RÉSULTAT AU DÉPÔT</text>
+  <g>
+    <rect x="20" y="724" width="262" height="96" rx="10" fill="#ffffff" stroke="#54a630" stroke-width="2"/>
+    <text x="151" y="760" text-anchor="middle" font-size="17" font-weight="700" fill="#282c26">1 · Vérifier</text>
+    <text x="151" y="788" text-anchor="middle" font-size="14" fill="#3b4338">tests, backtest, build</text>
+
+    <rect x="319" y="724" width="262" height="96" rx="10" fill="#ffffff" stroke="#54a630" stroke-width="2"/>
+    <text x="450" y="760" text-anchor="middle" font-size="17" font-weight="700" fill="#282c26">2 · Relire</text>
+    <text x="450" y="788" text-anchor="middle" font-size="14" fill="#3b4338">relecteur, contexte neuf</text>
+
+    <rect x="618" y="724" width="262" height="96" rx="10" fill="#fdf3dc" stroke="#e99d16" stroke-width="2.5"/>
+    <text x="749" y="760" text-anchor="middle" font-size="17" font-weight="700" fill="#282c26">3 · Commiter</text>
+    <text x="749" y="788" text-anchor="middle" font-size="14" fill="#3b4338">moi, diff relu et compris</text>
+
+    <rect x="917" y="724" width="262" height="96" rx="10" fill="#ffffff" stroke="#54a630" stroke-width="2"/>
+    <text x="1048" y="760" text-anchor="middle" font-size="17" font-weight="700" fill="#282c26">4 · CI</text>
+    <text x="1048" y="788" text-anchor="middle" font-size="14" fill="#3b4338">claude -p : revue de la PR</text>
+  </g>
+  <g fill="none" stroke="#282c26" stroke-width="2" marker-end="url(#fleche)">
+    <line x1="282" y1="772" x2="317" y2="772"/>
+    <line x1="581" y1="772" x2="616" y2="772"/>
+    <line x1="880" y1="772" x2="915" y2="772"/>
+  </g>
+</svg>
