@@ -21,6 +21,19 @@ tient cette promesse… et seulement celle-là.
 *Temps de lecture : environ 23 minutes. Les formules sont toujours suivies de leur intuition :
 on peut les survoler sans perdre le fil.*
 
+{{< alert icon="circle-info" cardColor="#f3b73f" iconColor="#1f2937" textColor="#1f2937" >}}
+**Note de transparence.** Ces travaux ont été menés à titre personnel, dans un but
+d'apprentissage, avec l'assistance d'une IA :
+
+- pour le code ;
+- pour comprendre les outils et les méthodes mathématiques ;
+- pour générer l'image de couverture de l'article ;
+- pour la relecture technique et méthodologique.
+
+Le choix du sujet, le protocole, la vérification des résultats et les conclusions sont les
+miens, et j'en assume les erreurs. [Comment j'utilise l'IA]({{< relref "/about#ia" >}})
+{{< /alert >}}
+
 Cet article restitue ma **veille active de la semaine 37** (septembre 2026). Je ne me suis pas
 contenté de lire : j'ai vérifié les sources, réécrit MinT de zéro, monté des expériences
 contrôlées, réconcilié les prévisions de consommation électrique des 12 régions françaises et
