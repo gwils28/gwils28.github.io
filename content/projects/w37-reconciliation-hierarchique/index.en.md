@@ -16,8 +16,6 @@ why. Not just call it: rewrite it, then put it to the test on real data.
 {{< /lead >}}
 
 {{< fiche-projet
-    statut="Done"
-    periode="September 2026 (week 37)"
     stack="Python 3.12, NumPy, statsforecast, HierarchicalForecast, BayesReconPy, uv, pytest"
     code="https://github.com/gwils28/W37_hierarchical_reconciliation" >}}
 

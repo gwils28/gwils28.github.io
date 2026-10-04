@@ -17,8 +17,6 @@ données.
 {{< /lead >}}
 
 {{< fiche-projet
-    statut="Terminé"
-    periode="Septembre 2026 (semaine 37)"
     stack="Python 3.12, NumPy, statsforecast, HierarchicalForecast, BayesReconPy, uv, pytest"
     code="https://github.com/gwils28/W37_hierarchical_reconciliation" >}}
 

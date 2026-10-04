@@ -17,8 +17,6 @@ Ce que je voulais apprendre, et pourquoi maintenant.
 
 {{/* Fiche d'identité — tous les paramètres sont facultatifs */}}
 {{`{{< fiche-projet
-    statut="En cours"
-    periode=""
     stack="…"
     code="https://github.com/gwils28/REPO" >}}`}}
 
