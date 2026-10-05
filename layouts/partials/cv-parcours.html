@@ -1,17 +1,22 @@
 {{- /*
   Expériences du CV en frise : une carte par poste, reliée à un fil vertical.
-  Appelé par le shortcode cv (section="experience") avec dict "rows" "lang".
+  Appelé par le shortcode cv (section="experience" ou "freelance") avec dict
+  "rows" "lang" "section". Les missions freelance reprennent la même frise,
+  avec leur propre icône et l'accent ambre (classe cv-parcours--freelance).
   Par poste (data/cv.yaml) : debut / fin en "AAAA-MM" (fin absente = poste
   actuel, mis en avant), resume, points (Markdown), stack.
   La période et la durée sont calculées ; la durée du poste actuel suit la
-  date du build.
+  date du build. Chaque poste est repéré par la même icône (« code » en
+  salariat, « ordinateur » en freelance), posée en masque CSS pour suivre le thème.
 */ -}}
 {{- $lang := .lang -}}
 {{- $fr := eq $lang "fr" -}}
 {{- $mois := cond $fr
   (slice "janv." "févr." "mars" "avr." "mai" "juin" "juil." "août" "sept." "oct." "nov." "déc.")
   (slice "Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec") -}}
-<ol class="cv-parcours not-prose">
+{{- $freelance := eq .section "freelance" -}}
+{{- $icone := resources.Get (cond $freelance "img/cv/freelance.svg" "img/cv/code.webp") -}}
+<ol class="cv-parcours{{ if $freelance }} cv-parcours--freelance{{ end }} not-prose" style="--cv-icone: url({{ $icone.RelPermalink }})">
   {{- range $org := .rows }}
   {{- range $r := $org.roles }}
   {{- $d := time (printf "%s-01" $r.debut) }}
@@ -25,7 +30,7 @@
   {{- if $reste }}{{ $duree = $duree | append (cond $fr (printf "%d mois" $reste) (printf "%d mo" $reste)) }}{{ end }}
   {{- $actuel := not $r.fin }}
   <li class="cv-exp{{ if $actuel }} cv-exp--actuel{{ end }}">
-    <div class="cv-exp-repere" aria-hidden="true"><span class="cv-logo">{{ $org.initials }}</span></div>
+    <div class="cv-exp-repere" aria-hidden="true"><span class="cv-logo cv-logo--icone"></span></div>
     <article class="cv-exp-carte">
       <header class="cv-exp-tete">
         <p class="cv-exp-periode">
@@ -36,7 +41,7 @@
         <p class="cv-exp-org">
           {{- with $org.url }}<a href="{{ . }}" target="_blank" rel="noopener">{{ $org.org }}</a>{{ else }}{{ $org.org }}{{ end -}}
           <span class="cv-exp-lieu"> · {{ partial "cv-t.html" (dict "v" $org.location "lang" $lang) }}</span>
-          {{- if $actuel }} <span class="cv-badge-texte cv-badge-actuel">{{ cond $fr "En poste" "Current" }}</span>{{ end }}
+          {{- if $actuel }} <span class="cv-badge-texte cv-badge-actuel">{{ if $freelance }}{{ cond $fr "Mission en cours" "Ongoing" }}{{ else }}{{ cond $fr "En poste" "Current" }}{{ end }}</span>{{ end }}
         </p>
       </header>
       {{- with $r.resume }}

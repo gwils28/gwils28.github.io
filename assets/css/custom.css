@@ -141,7 +141,7 @@ time,
 
 /* --- CV (shortcode {{< cv >}}) --------------------------------------------
    Tableaux inspirés de n9o.xyz/fr/resume : une ligne par poste, une pastille
-   à initiales en guise de logo, filets fins entre les organisations. */
+   à icône en guise de logo, filets fins entre les organisations. */
 .cv-table-wrap {
   overflow-x: auto;
   margin: 1rem 0 2.5rem;
@@ -1359,7 +1359,7 @@ span.menu-groupe { display: contents; }
 
 /* --- CV : les expériences en frise (partials/cv-parcours.html) -----------
    Un fil vertical relie les postes ; chaque poste est une carte en verre
-   dépoli, accrochée au fil par la pastille à initiales. Dans la carte : la
+   dépoli, accrochée au fil par sa pastille. Dans la carte : la
    période (au mois près) et la durée, le poste, l'entreprise, une
    phrase sur le rôle et la valeur apportée, les réalisations, puis la stack
    en pastilles. Le poste actuel est souligné d'un liseré vert. */
@@ -1392,6 +1392,32 @@ span.menu-groupe { display: contents; }
 .cv-exp-repere { position: relative; z-index: 1; padding-top: 0.9rem; }
 .cv-exp-repere .cv-logo { box-shadow: 0 0 0 4px rgb(var(--color-neutral-50)); }
 .dark .cv-exp-repere .cv-logo { box-shadow: 0 0 0 4px rgb(var(--color-neutral-800)); }
+/* Missions freelance : même frise, accent ambre. On redirige la palette
+   primaire vers la secondaire, et tout ce qui est vert dans la frise (fil,
+   pastilles, liens, liseré et badge de la mission en cours) suit. */
+.cv-parcours--freelance {
+  --color-primary-50:  var(--color-secondary-50);
+  --color-primary-100: var(--color-secondary-100);
+  --color-primary-200: var(--color-secondary-200);
+  --color-primary-300: var(--color-secondary-300);
+  --color-primary-400: var(--color-secondary-400);
+  --color-primary-500: var(--color-secondary-500);
+  --color-primary-600: var(--color-secondary-600);
+  --color-primary-700: var(--color-secondary-700);
+  --color-primary-800: var(--color-secondary-800);
+  --color-primary-900: var(--color-secondary-900);
+}
+/* Icône des pastilles (« code » en frise, « diplôme » en formation) : l'image
+   sert de masque, la couleur vient du texte de la pastille, donc elle
+   s'inverse avec le mode sombre. */
+.cv-logo--icone::before {
+  content: "";
+  width: 55%;
+  aspect-ratio: 1;
+  background: currentColor;
+  -webkit-mask: var(--cv-icone) center / contain no-repeat;
+  mask: var(--cv-icone) center / contain no-repeat;
+}
 
 .cv-exp-carte {
   padding: 1.15rem 1.35rem 1.25rem;

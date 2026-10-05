@@ -1,7 +1,7 @@
 {{- /*
-  Rend une section de data/cv.yaml : les expériences en frise
-  (partials/cv-parcours.html), le reste en tableau.
-  Usage : {{< cv section="experience" >}}  (experience, education, certifications, skills)
+  Rend une section de data/cv.yaml : les expériences (salariées et freelance)
+  en frise (partials/cv-parcours.html), le reste en tableau.
+  Usage : {{< cv section="experience" >}}  (experience, freelance, education, certifications, skills)
   Un texte est soit une chaîne, soit une table { fr, en } : on prend la langue de la page.
 */ -}}
 {{- $section := .Get "section" -}}
@@ -11,12 +11,14 @@
 {{- /* Les diplômes s'affichent sans dates : pas de colonne Période en formation. */ -}}
 {{- $showPeriod := ne $section "education" -}}
 
-{{- if eq $section "experience" }}
-{{- partial "cv-parcours.html" (dict "rows" $rows "lang" $lang) }}
+{{- if in (slice "experience" "freelance") $section }}
+{{- with $rows }}{{ partial "cv-parcours.html" (dict "rows" . "lang" $lang "section" $section) }}{{ end }}
 {{- else }}
 <div class="cv-table-wrap not-prose">
 {{- if in (slice "experience" "education") $section }}
-<table class="cv-table">
+{{- /* Seule la formation passe ici : chaque école porte l'icône « diplôme ». */}}
+{{- $icone := resources.Get "img/cv/diplome.webp" }}
+<table class="cv-table" style="--cv-icone: url({{ $icone.RelPermalink }})">
   <thead>
     <tr>
       <th class="cv-col-logo"></th>
@@ -34,7 +36,7 @@
     {{- range $i, $r := .roles }}
     <tr{{ if gt $i 0 }} class="cv-sub"{{ end }}>
       {{- if eq $i 0 }}
-      <td class="cv-col-logo" rowspan="{{ $n }}"><span class="cv-logo">{{ $org.initials }}</span></td>
+      <td class="cv-col-logo" rowspan="{{ $n }}"><span class="cv-logo cv-logo--icone" aria-hidden="true"></span></td>
       <td class="cv-org" rowspan="{{ $n }}">
         <span class="cv-org-name">
           {{- with $org.url }}<a href="{{ . }}" target="_blank" rel="noopener">{{ $org.org }}</a>{{ else }}{{ $org.org }}{{ end -}}

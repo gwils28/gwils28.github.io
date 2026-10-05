@@ -11,7 +11,6 @@ experience:
   #   stack       : technos et domaines, en pastilles
   - org: Orange
     url: https://www.orange.com
-    initials: "O"
     location: { fr: "Rennes", en: "Rennes, FR" }
     roles:
       - title: { fr: "Data Scientist & ML Engineer", en: "Data Scientist & ML Engineer" }
@@ -32,7 +31,6 @@ experience:
 
   - org: BPCE-SI
     url: https://www.groupebpce.com
-    initials: "B"
     location: { fr: "Aix-en-Provence", en: "Aix-en-Provence, FR" }
     roles:
       - title: { fr: "Data Scientist & MLOps", en: "Data Scientist & MLOps" }
@@ -58,7 +56,6 @@ experience:
 
   - org: Traxens
     url: https://www.traxens.com
-    initials: "T"
     location: { fr: "Marseille", en: "Marseille, FR" }
     roles:
       - title: { fr: "Data Scientist & IoT Analytics", en: "Data Scientist & IoT Analytics" }
@@ -86,7 +83,6 @@ experience:
 
   - org: IT-CE
     url: https://www.groupebpce.com
-    initials: "IT"
     location: { fr: "Marseille", en: "Marseille, FR" }
     roles:
       - title: { fr: "Data Scientist", en: "Data Scientist" }
@@ -112,7 +108,6 @@ experience:
 
   - org: INSERM
     url: https://www.inserm.fr
-    initials: "IN"
     location: { fr: "Paris", en: "Paris, FR" }
     roles:
       - title: { fr: "Biostatisticien", en: "Biostatistician" }
@@ -136,17 +131,39 @@ experience:
             en: "**Causal inference**: estimated the effect of vector-control actions on dengue incidence, making confounders explicit with causal graphs (DAGs) and adjusting for them with propensity-score weighting."
         stack: ["R", { fr: "Statistique multivariée", en: "Multivariate statistics" }, { fr: "Inférence causale", en: "Causal inference" }, { fr: "Analyse de survie", en: "Survival analysis" }, { fr: "Génomique", en: "Genomics" }, { fr: "Épidémiologie", en: "Epidemiology" }, { fr: "Modélisation", en: "Modelling" }, "Linux"]
 
+freelance:
+  # Missions en indépendant, rendues dans la même frise que l'expérience
+  # (accent ambre). Même format : org = le client, puis roles avec title,
+  # debut / fin, resume, points, stack. Liste vide = rien d'affiché.
+  - org: OpenClassrooms
+    url: https://openclassrooms.com
+    location: { fr: "À distance", en: "Remote" }
+    roles:
+      - title: { fr: "Mentor & Formateur", en: "Mentor & Instructor" }
+        debut: "2021-08"
+        resume:
+          fr: "J'accompagne et forme des apprenants des parcours Data Scientist Machine Learning, Data Engineer et AI Engineer, projet après projet, du cadrage jusqu'au déploiement."
+          en: "I mentor and train learners on the Data Scientist Machine Learning, Data Engineer and AI Engineer paths, project by project, from scoping to deployment."
+        points:
+          - fr: "**18 apprenants** accompagnés et formés tout au long de leur parcours, en mentorat individuel."
+            en: "**18 learners** mentored and trained throughout their path, one to one."
+          - fr: "**Machine learning et MLOps** : classification de textes et d'images, déploiement de modèles derrière une API, suivi d'expériences et pipelines CI/CD."
+            en: "**Machine learning and MLOps**: text and image classification, serving models behind an API, experiment tracking and CI/CD pipelines."
+          - fr: "**IA générative** : systèmes RAG, évaluation de LLM, agents IA et fine-tuning."
+            en: "**Generative AI**: RAG systems, LLM evaluation, AI agents and fine-tuning."
+          - fr: "**Data engineering** : bases SQL et NoSQL, pipelines d'ingestion et d'orchestration, infrastructures cloud."
+            en: "**Data engineering**: SQL and NoSQL databases, ingestion and orchestration pipelines, cloud infrastructure."
+        stack: ["Python", "SQL", "scikit-learn", "MLflow", "FastAPI", "Streamlit", "LangChain", "PySpark", "Kafka", "Kestra", "CI/CD", { fr: "Pédagogie", en: "Teaching" }]
+
 education:
   - org: Aix-Marseille Université
     url: https://www.univ-amu.fr
-    initials: "AMU"
     location: { fr: "Marseille", en: "Marseille, FR" }
     roles:
       - title: { fr: "Master en Biostatistique", en: "Master's in Biostatistics" }
 
   - org: Université des Antilles
     url: https://www.univ-antilles.fr/
-    initials: "UA"
     location: { fr: "Martinique", en: "Martinique, FR" }
     roles:
       - title: { fr: "Licence Mathématiques, Informatique et Biologie", en: "Bachelor's in Mathematics, Computer Science and Biology" }

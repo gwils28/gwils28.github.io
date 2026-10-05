@@ -18,11 +18,17 @@ showRelatedContent: false
 
 {{< cv section="experience" >}}
 
+## Freelance
+
+{{< cv section="freelance" >}}
+
 ## Education
 
 {{< cv section="education" >}}
 
 ## Certifications
+
+A certification doesn't replace production experience, but it strengthens its foundations. It's also my way of keeping on learning, and of checking that what I know holds up under a demanding exam.
 
 {{< cv section="certifications" >}}
 
