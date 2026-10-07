@@ -11,4 +11,4 @@ cover: "03.jpg"       # photo de couverture ; par défaut la première par ordre
 #     title: "Le lac au lever du jour"
 ---
 
-Si vous passez par là, ne résistez pas à une bonne Guinness. Et cette mousse…
+Je n'ai jamais vraiment aimé la Guinness. Et c'est bien là une des erreurs notables de ma vie. Ma dette morale pour ce préjudice fut payée à la source.

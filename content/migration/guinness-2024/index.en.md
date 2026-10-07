@@ -7,4 +7,4 @@ coords: "53.34° N · 6.29° W"
 cover: "03.jpg"
 ---
 
-If you're ever passing through, don't resist a good Guinness. And that foam…
+I never really liked Guinness. And that is one of the notable mistakes of my life. My moral debt for this wrong was paid at the source.
