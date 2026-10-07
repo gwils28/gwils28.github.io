@@ -959,6 +959,15 @@ span.menu-groupe { display: contents; }
 }
 .dark .jz-onglet.is-active { color: rgb(var(--color-primary-400)); }
 
+/* Accroche sous les onglets : une phrase propre à chaque onglet. */
+.jz-accroche {
+  max-width: 65ch;
+  margin: -0.75rem 0 1.75rem;
+  font-style: italic;
+  color: rgb(var(--color-neutral-600));
+}
+.dark .jz-accroche { color: rgb(var(--color-neutral-400)); }
+
 /* Carte commune. */
 .jz-disque,
 .jz-figure {

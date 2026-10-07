@@ -26,6 +26,11 @@
     {{- end }}
   </nav>
 
+  {{- /* Phrase d'accroche propre à l'onglet (paramètre « accroche » de sa page). */}}
+  {{- with .Params.accroche }}
+  <p class="jz-accroche">{{ . }}</p>
+  {{- end }}
+
   {{- if eq $onglet "pantheon" }}
     {{ partial "jazz/pantheon.html" . }}
   {{- else if eq $onglet "etudes" }}

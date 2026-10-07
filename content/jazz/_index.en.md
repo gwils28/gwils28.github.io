@@ -2,6 +2,7 @@
 title: "Jazz"
 description: "My jazz notebook: discoveries, learning the double bass, and explorations around a music I love."
 onglet: "albums"
+accroche: "A selection of my favourite albums, neither exhaustive nor set in stone."
 cascade:
   showEdit: false
   showSummary: true

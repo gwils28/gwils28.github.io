@@ -2,6 +2,7 @@
 title: "Jazz"
 description: "Mon carnet de jazz : découvertes, apprentissage de la contrebasse et explorations autour d'une musique qui me passionne."
 onglet: "albums"
+accroche: "Voici une sélection non exhaustive et non figée de mes albums favoris."
 cascade:
   showEdit: false
   showSummary: true
