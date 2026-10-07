@@ -14,6 +14,8 @@ sharingLinks: false
 showRelatedContent: false
 ---
 
+Experienced Data Scientist and ML Engineer with a strong background in statistics. This page traces my path: experience, freelance work, education and certifications.
+
 ## Experience
 
 {{< cv section="experience" >}}
