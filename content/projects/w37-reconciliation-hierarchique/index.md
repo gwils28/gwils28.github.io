@@ -1,5 +1,5 @@
 ---
-title: "Réconciliation hiérarchique : MinT de zéro et éCO2mix"
+title: "Réconciliation hiérarchique : MinT de zéro, testé sur la consommation électrique de 12 régions françaises"
 date: 2026-10-02
 draft: false
 nature: "labo"

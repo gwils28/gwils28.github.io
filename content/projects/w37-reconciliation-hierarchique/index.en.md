@@ -1,5 +1,5 @@
 ---
-title: "Hierarchical reconciliation: MinT from scratch and éCO2mix"
+title: "Hierarchical reconciliation: MinT from scratch, tested on electricity demand in 12 French regions"
 date: 2026-10-02
 draft: false
 nature: "labo"
