@@ -26,19 +26,7 @@ données.
 {{< stat value="88" label="tests" >}}77 unitaires, 11 de bout en bout{{< /stat >}}
 {{< /stats >}}
 
-{{< alert icon="circle-info" cardColor="#f3b73f" iconColor="#1f2937" textColor="#1f2937" >}}
-**Note de transparence.** Ces travaux ont été menés à titre personnel, dans un but
-d'apprentissage, avec l'assistance d'une IA :
-
-- pour le code ;
-- pour comprendre les outils et les méthodes mathématiques ;
-- pour la rédaction et la correction des textes ;
-- pour générer l'image de couverture de cette fiche ;
-- pour la relecture technique et méthodologique.
-
-Le choix du sujet, le protocole, la vérification des résultats et les conclusions sont les
-miens, et j'en assume les erreurs. [Comment j'utilise l'IA]({{< relref "/about#ia" >}})
-{{< /alert >}}
+{{< note-ia >}}
 
 Ce dépôt est le laboratoire de l'article
 [La réconciliation hiérarchique en forecasting : promesses et limites]({{< relref "/posts/reconciliation-hierarchique" >}}).

@@ -19,17 +19,7 @@ lui demander, et surtout quoi vérifier.
 *Temps de lecture : environ 29 minutes. Pas besoin de connaître Claude Code pour suivre :
 chaque fonctionnalité est expliquée la première fois qu'elle apparaît.*
 
-{{< alert icon="circle-info" cardColor="#f3b73f" iconColor="#1f2937" textColor="#1f2937" >}}
-**Note de transparence.** Cet article décrit une méthode personnelle, construite pour
-apprendre et travailler. Il a été écrit avec l'assistance d'une IA :
-
-- pour la rédaction et la correction des textes ;
-- pour générer l'image de couverture de l'article ;
-- pour la relecture technique et méthodologique.
-
-Le choix du sujet, la méthode décrite, la vérification des sources et les conclusions sont les
-miens, et j'en assume les erreurs. [Comment j'utilise l'IA]({{< relref "/about#ia" >}})
-{{< /alert >}}
+{{< note-ia >}}
 
 Claude Code est un agent de programmation qui tourne dans le terminal. Contrairement à un
 chatbot, il ne se contente pas de répondre : il lit les fichiers du projet, lance des

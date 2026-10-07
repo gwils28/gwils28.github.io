@@ -1,0 +1,17 @@
+{{/* Note de transparence sur l'usage de l'IA, la même partout :
+
+       {{< note-ia >}}
+
+     Le texte vit dans i18n/{fr,en}.yaml (transparence.texte) : le modifier
+     là met à jour tous les articles et projets. Même rendu que l'alerte
+     ambre utilisée jusqu'ici ({{< alert icon="circle-info" … >}}). */}}
+{{- $couverture := i18n (printf "transparence.couverture.%s" .Page.Section) | default (i18n "transparence.couverture.posts") -}}
+{{- $lien := relref .Page "/about#ia" -}}
+<div class="flex px-4 py-3 rounded-md shadow" style="background-color: #f3b73f">
+  <span class="pe-3 flex items-center" style="color: #1f2937">
+    {{ partial "icon.html" "circle-info" }}
+  </span>
+  <span style="color: #1f2937">
+    {{- i18n "transparence.texte" (dict "couverture" $couverture "lien" $lien) | markdownify -}}
+  </span>
+</div>

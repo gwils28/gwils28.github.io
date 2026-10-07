@@ -22,18 +22,7 @@ arbitration. It keeps that promise… and only that one.
 maths without losing the thread. The figures come from the original notebooks and are labelled in
 French.*
 
-{{< alert icon="circle-info" cardColor="#f3b73f" iconColor="#1f2937" textColor="#1f2937" >}}
-**Transparency note.** This work was carried out on a personal basis, for learning purposes,
-with the help of an AI:
-
-- for the code;
-- to understand the tools and the mathematical methods;
-- to generate the cover image of the post;
-- for the technical and methodological review.
-
-The choice of topic, the protocol, the checking of the results and the conclusions are mine,
-and so are any mistakes. [How I use AI]({{< relref "/about#ia" >}})
-{{< /alert >}}
+{{< note-ia >}}
 
 This article distils my **active research for week 37** (September 2026). I didn't just read: I
 checked the sources, rewrote MinT from scratch, ran controlled experiments, reconciled the

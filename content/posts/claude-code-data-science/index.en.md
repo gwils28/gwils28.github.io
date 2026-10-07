@@ -19,17 +19,7 @@ and above all what to check.
 *Reading time: about 27 minutes. No prior knowledge of Claude Code needed: every feature is
 explained the first time it appears.*
 
-{{< alert icon="circle-info" cardColor="#f3b73f" iconColor="#1f2937" textColor="#1f2937" >}}
-**Transparency note.** This post describes a personal method, built to learn and to work. It
-was written with the help of an AI:
-
-- for writing and correcting the text;
-- to generate the cover image of the post;
-- for the technical and methodological review.
-
-The choice of topic, the method described, the checking of sources and the conclusions are
-mine, and so are any mistakes. [How I use AI]({{< relref "/about#ia" >}})
-{{< /alert >}}
+{{< note-ia >}}
 
 Claude Code is a coding agent that runs in the terminal. Unlike a chatbot, it doesn't just
 answer: it reads the project's files, runs commands, edits code, runs the tests and iterates

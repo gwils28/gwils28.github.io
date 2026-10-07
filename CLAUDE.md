@@ -61,4 +61,4 @@ Profile photo goes in `assets/img/` (referenced as `image = "img/profile.jpg"` i
 
 ### Shortcodes worth knowing
 
-Blowfish ships `alert`, `button`, `badge`, `chart`, `timeline`, `gallery`, `katex` and others — documented at https://blowfish.page/docs/shortcodes/. **KaTeX only loads on pages that call `{{< katex >}}` at least once**; raw `$$...$$` renders as plain text without it.
+Blowfish ships `alert`, `button`, `badge`, `chart`, `timeline`, `gallery`, `katex` and others — documented at https://blowfish.page/docs/shortcodes/. The AI transparency note at the top of posts and projects is the custom `{{< note-ia >}}` shortcode; its text lives once in `i18n/{fr,en}.yaml` (`transparence.texte`), so edit it there, never per page. **KaTeX only loads on pages that call `{{< katex >}}` at least once**; raw `$$...$$` renders as plain text without it.

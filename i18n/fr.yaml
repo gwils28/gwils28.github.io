@@ -33,3 +33,19 @@ jazz.genre.partition: "Partition"
 jazz.genre.audio: "Enregistrement"
 jazz.filtre: "Filtrer les notes par type"
 jazz.filtre.toutes: "Toutes"
+
+# Note de transparence sur l'IA ({{< note-ia >}}), commune à tous les articles et projets.
+# .couverture = « l'article » ou « cette fiche » selon la section ; .lien = la section IA de la page Présentation.
+transparence.couverture.posts: "l'article"
+transparence.couverture.projects: "cette fiche"
+transparence.texte: |-
+  **Note de transparence.** Ces travaux ont été menés à titre personnel, dans un but
+  d'apprentissage, avec l'assistance d'une IA :
+
+  - pour le code, la relecture technique et méthodologique ;
+  - pour comprendre les outils et les méthodes mathématiques ;
+  - pour l'aide à la rédaction, la traduction et la correction du texte ;
+  - pour générer l'image de couverture de {{ .couverture }}.
+
+  Le choix du sujet, le protocole, la vérification des résultats et les conclusions sont les
+  miens, et j'en assume les erreurs. [Comment j'utilise l'IA]({{ .lien }})

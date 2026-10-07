@@ -25,19 +25,7 @@ why. Not just call it: rewrite it, then put it to the test on real data.
 {{< stat value="88" label="tests" >}}77 unit, 11 end-to-end{{< /stat >}}
 {{< /stats >}}
 
-{{< alert icon="circle-info" cardColor="#f3b73f" iconColor="#1f2937" textColor="#1f2937" >}}
-**Transparency note.** This work was carried out on a personal basis, for learning purposes,
-with the help of an AI:
-
-- for the code;
-- to understand the tools and the mathematical methods;
-- for writing and correcting the texts;
-- to generate the cover image of this page;
-- for the technical and methodological review.
-
-The choice of topic, the protocol, the checking of the results and the conclusions are mine,
-and so are any mistakes. [How I use AI]({{< relref "/about#ia" >}})
-{{< /alert >}}
+{{< note-ia >}}
 
 This repository is the lab behind the post
 [Hierarchical forecast reconciliation: promises and limits]({{< relref "/posts/reconciliation-hierarchique" >}}).
