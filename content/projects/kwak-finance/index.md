@@ -1,7 +1,7 @@
 ---
 title: "Kwak Finance : le budget et le patrimoine d'un foyer, auto-hébergés"
 date: 2026-10-08
-draft: true
+draft: false
 nature: "produit"
 description: "Une application web auto-hébergée pour suivre le budget et le patrimoine d'un foyer, sans que les données quittent la maison. En cours de développement : le module budget est livré."
 summary: "Application web auto-hébergée de budget et de patrimoine familial. Le module budget est livré (import bancaire, catégorisation, matrice budgétaire, indicateurs) ; patrimoine, prévision et IA locale suivent."
