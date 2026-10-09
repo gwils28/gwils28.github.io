@@ -3,14 +3,17 @@
   tout le site). Sert aux polices qu'une seule section utilise.
 
   Caveat  écriture manuscrite des notes jazz (onglet Notes et pages de note) :
-          titres, texte libre et grilles d'accords sur les cartes papier.
+          titres, texte libre et grilles d'accords sur les cartes papier ;
+          aussi sur la page de charte graphique, qui en montre un spécimen.
   jazz-cases.js  rend cochables les listes « - [ ] » des notes jazz.
   jazz-filtre.js filtre le tableau de l'onglet Notes par type de note.
 */}}
-{{ if eq .Section "jazz" }}
+{{ if or (eq .Section "jazz") (eq .Path "/charte") }}
 <link
   rel="stylesheet"
   href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap">
+{{ end }}
+{{ if eq .Section "jazz" }}
 {{ range slice "js/jazz-cases.js" "js/jazz-filtre.js" }}
 {{ with resources.Get . | minify | fingerprint }}
 <script defer src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}"></script>

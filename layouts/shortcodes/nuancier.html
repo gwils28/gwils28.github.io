@@ -1,0 +1,46 @@
+{{- /*
+  Nuancier de la charte graphique : une rangée de pastilles par gamme.
+
+    {{< nuancier gamme="primary" >}}   (primary, secondary ou neutral)
+
+  Les pastilles lisent les variables CSS du site (assets/css/schemes/mousse.css) :
+  la page suit la palette sans jamais être recopiée. Le code hexadécimal est
+  calculé au chargement par le script en bas ; sans JavaScript, seul le nom
+  de la nuance s'affiche.
+*/ -}}
+{{- $gamme := .Get "gamme" | default "primary" -}}
+{{- $en := eq .Page.Language.Lang "en" -}}
+{{- $notes := dict
+    "primary-400" (cond $en "links, dark mode" "liens, mode sombre")
+    "primary-600" (cond $en "links, light mode" "liens, mode clair")
+    "primary-700" (cond $en "source colour" "couleur source")
+    "neutral-800" (cond $en "background, dark mode" "fond, mode sombre")
+    "neutral-900" (cond $en "text, light mode" "texte, mode clair")
+    "neutral-50"  (cond $en "background, light mode" "fond, mode clair")
+-}}
+<div class="not-prose nuancier">
+  {{- range slice 50 100 200 300 400 500 600 700 800 900 }}
+    {{- $nom := printf "%s-%d" $gamme . }}
+    <figure class="nuancier-pastille">
+      <div style="background: rgb(var(--color-{{ $nom }}))" data-variable="--color-{{ $nom }}"></div>
+      <figcaption>
+        <span>{{ . }}</span>
+        <code class="nuancier-hex"></code>
+        {{- with index $notes $nom }}<em>{{ . }}</em>{{ end }}
+      </figcaption>
+    </figure>
+  {{- end }}
+</div>
+{{- if not (.Page.Store.Get "nuancier-script") }}
+  {{- .Page.Store.Set "nuancier-script" true }}
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const style = getComputedStyle(document.documentElement);
+      document.querySelectorAll(".nuancier [data-variable]").forEach((pastille) => {
+        const rgb = style.getPropertyValue(pastille.dataset.variable).split(",").map((v) => parseInt(v, 10));
+        const hex = "#" + rgb.map((v) => v.toString(16).padStart(2, "0")).join("").toUpperCase();
+        pastille.parentElement.querySelector(".nuancier-hex").textContent = hex;
+      });
+    });
+  </script>
+{{- end }}

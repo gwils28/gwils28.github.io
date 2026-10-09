@@ -71,3 +71,8 @@
   name = "Migration"
   pageRef = "migration"
   weight = 27
+
+[[footer]]
+  name = "Charte graphique"
+  pageRef = "charte"
+  weight = 40

@@ -1911,3 +1911,47 @@ span.menu-groupe { display: contents; }
 .prose div.rounded-md.shadow > span[style*="color"] :is(strong, a, code, li::marker) {
   color: inherit;
 }
+
+/* --- Charte graphique (content/charte.md) --------------------------------
+   Nuancier : une rangée de dix pastilles par gamme, sur deux lignes en mobile. */
+.nuancier {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin: 1rem 0 2rem;
+}
+@media (max-width: 640px) {
+  .nuancier { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
+.nuancier-pastille { margin: 0; }
+.nuancier-pastille > div {
+  aspect-ratio: 1;
+  border-radius: 6px;
+  border: 1px solid rgb(var(--color-neutral-500) / 0.3);
+}
+.nuancier-pastille figcaption {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  line-height: 1.35;
+}
+.nuancier-pastille figcaption span { font-weight: 500; }
+.nuancier-hex { color: rgb(var(--color-neutral-500)); font-size: inherit; }
+.dark .nuancier-hex { color: rgb(var(--color-neutral-400)); }
+.nuancier-pastille em { font-style: normal; color: rgb(var(--color-primary-600)); }
+.dark .nuancier-pastille em { color: rgb(var(--color-primary-400)); }
+
+.charte-specimens { display: grid; gap: 1.5rem; margin: 1rem 0 2rem; }
+.charte-etiquette {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: rgb(var(--color-neutral-500));
+  margin-bottom: 0.25rem;
+}
+.charte-titre { font-family: var(--font-display); font-weight: 900; letter-spacing: -0.035em; font-size: 2.5rem; line-height: 1.05; }
+.charte-intertitre { font-family: var(--font-display); font-weight: 800; letter-spacing: -0.025em; font-size: 1.6rem; }
+.charte-texte { font-family: var(--font-sans); font-size: 1.1rem; max-width: 60ch; }
+.charte-mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.charte-manuscrit { font-family: "Caveat", cursive; font-weight: 700; font-size: 1.8rem; }
