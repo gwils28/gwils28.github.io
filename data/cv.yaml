@@ -60,7 +60,7 @@ experience:
     roles:
       - title: { fr: "Data Scientist & IoT Analytics", en: "Data Scientist & IoT Analytics" }
         debut: "2019-07"
-        fin: "2020-10"
+        fin: "2020-12"
         resume:
           fr: "Chez ce spécialiste du conteneur connecté, j'ai transformé les données de capteurs IoT en outils de pilotage pour la logistique maritime : maintenance, chaîne du froid et sécurité."
           en: "At this smart-container specialist, I turned IoT sensor data into decision tools for shipping logistics: maintenance, cold chain and security."
