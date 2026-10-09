@@ -159,26 +159,6 @@ benevolat:
   # Engagements bénévoles, rendus dans la même frise (accent terre cuite).
   # Même format : org = l'association, puis roles avec title, debut / fin,
   # resume, points, stack. Liste vide = pas d'onglet « Bénévole ».
-  - org: Keita One
-    url: https://keita-one-marseille.fr/
-    location: { fr: "Marseille", en: "Marseille" }
-    roles:
-      - title: { fr: "Data Scientist", en: "Data Scientist" }
-        debut: "2021-02"
-        fin: "2021-05"
-        resume:
-          fr: "Pour ce salon de coiffure dont j'étais client fidèle, j'ai transformé trois ans d'historique tenu sur un tableur Excel en outils de pilotage : prévision de la demande, gestion des stocks et organisation des horaires."
-          en: "For this hair salon, where I was a loyal customer, I turned three years of history kept in an Excel spreadsheet into decision tools: demand forecasting, stock management and opening-hours planning."
-        points:
-          - fr: "**Prévision de la demande** : modèle mensuel construit sur trois ans d'historique, et prévision du chiffre d'affaires."
-            en: "**Demand forecasting**: a monthly model built on three years of history, plus a revenue forecast."
-          - fr: "**Stocks** : outil de suivi hebdomadaire des consommables de coiffure."
-            en: "**Stock**: a weekly tracking tool for hairdressing consumables."
-          - fr: "**Affluence** : recommandation des créneaux horaires de forte affluence."
-            en: "**Footfall**: recommendations for the busiest time slots."
-          - fr: "**Stack volontairement frugale**, à la mesure d'un petit commerce."
-            en: "**A deliberately frugal stack**, sized for a small business."
-        stack: ["Python", "statsmodels", "scikit-learn", "Streamlit", "Excel", { fr: "Prévision", en: "Forecasting" }]
   - org: Data For Good
     url: https://dataforgood.fr/
     roles:
