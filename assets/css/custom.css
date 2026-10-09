@@ -1556,6 +1556,8 @@ span.menu-groupe { display: contents; }
   color: rgb(var(--color-neutral-700));
 }
 .dark .cv-exp-points { color: rgb(var(--color-neutral-300)); }
+.cv-exp-points a { color: rgb(var(--color-primary-700)); text-decoration: underline; text-underline-offset: 2px; }
+.dark .cv-exp-points a { color: rgb(var(--color-primary-400)); }
 .cv-exp-points li {
   position: relative;
   padding-left: 1.1rem;

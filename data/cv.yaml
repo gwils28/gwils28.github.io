@@ -163,7 +163,7 @@ benevolat:
     url: https://keita-one-marseille.fr/
     location: { fr: "Marseille", en: "Marseille" }
     roles:
-      - title: { fr: "Data Scientist bénévole", en: "Volunteer Data Scientist" }
+      - title: { fr: "Data Scientist", en: "Data Scientist" }
         debut: "2021-02"
         fin: "2021-05"
         resume:
@@ -179,6 +179,23 @@ benevolat:
           - fr: "**Stack volontairement frugale**, à la mesure d'un petit commerce."
             en: "**A deliberately frugal stack**, sized for a small business."
         stack: ["Python", "statsmodels", "scikit-learn", "Streamlit", "Excel", { fr: "Prévision", en: "Forecasting" }]
+  - org: Data For Good
+    url: https://dataforgood.fr/
+    roles:
+      - title: { fr: "Data Scientist", en: "Data Scientist" }
+        debut: "2019-02"
+        fin: "2019-06"
+        resume:
+          fr: "Au sein de ce collectif de bénévoles, j'ai travaillé sur le projet Open Food Facts, la base de données ouverte des produits alimentaires : analyse statistique, prédiction du Nutri-Score et qualité des données."
+          en: "With this volunteer collective, I worked on the Open Food Facts project, the open database of food products: statistical analysis, Nutri-Score prediction and data quality."
+        points:
+          - fr: "**Analyse et rapport statistique** sur les données du [projet Open Food Facts](https://dataforgood.fr/projets/open-food-facts)."
+            en: "**Statistical analysis and report** on the data of the [Open Food Facts project](https://dataforgood.fr/projets/open-food-facts)."
+          - fr: "**Prédiction du Nutri-Score** : modèle qui l'estime pour les produits qui n'en ont pas encore."
+            en: "**Nutri-Score prediction**: a model that estimates it for products that don't have one yet."
+          - fr: "**Qualité des données** : audit de la base, puis amélioration de sa qualité."
+            en: "**Data quality**: an audit of the database, then improvements to its quality."
+        stack: ["Python", "pandas", "NumPy", "scikit-learn", "statsmodels", "FastAPI", { fr: "Qualité des données", en: "Data quality" }]
 
 education:
   - org: Aix-Marseille Université
