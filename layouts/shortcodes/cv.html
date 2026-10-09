@@ -1,7 +1,8 @@
 {{- /*
-  Rend une section de data/cv.yaml : les expériences (salariées et freelance)
+  Rend une section de data/cv.yaml : les expériences (salariées, freelance, bénévoles)
   en frise (partials/cv-parcours.html), le reste en tableau.
-  Usage : {{< cv section="experience" >}}  (experience, freelance, education, certifications, skills)
+  Usage : {{< cv section="experience" >}}  (experience, freelance, benevolat, education, certifications, skills)
+  section="parcours" réunit les trois catégories d'expérience derrière une bascule à onglets.
   Un texte est soit une chaîne, soit une table { fr, en } : on prend la langue de la page.
 */ -}}
 {{- $section := .Get "section" -}}
@@ -11,7 +12,36 @@
 {{- /* Les diplômes s'affichent sans dates : pas de colonne Période en formation. */ -}}
 {{- $showPeriod := ne $section "education" -}}
 
-{{- if in (slice "experience" "freelance") $section }}
+{{- if eq $section "parcours" }}
+{{- /* Salariat, freelance et bénévolat dans un même bloc, avec une bascule à
+     onglets (assets/js/cv-bascule.js). Une catégorie vide dans data/cv.yaml
+     n'a pas d'onglet. Sans JavaScript, les onglets restent cachés et les
+     frises s'affichent l'une sous l'autre, chacune sous son titre. */}}
+{{- $vues := slice }}
+{{- range slice
+    (dict "id" "salarie" "titre" (cond $fr "Salarié" "Employed") "section" "experience")
+    (dict "id" "freelance" "titre" "Freelance" "section" "freelance")
+    (dict "id" "benevole" "titre" (cond $fr "Bénévole" "Volunteer") "section" "benevolat") }}
+  {{- $n := 0 }}{{ range index hugo.Data.cv .section }}{{ $n = add $n (len .roles) }}{{ end }}
+  {{- if $n }}{{ $vues = $vues | append (merge . (dict "n" $n)) }}{{ end }}
+{{- end }}
+<div class="cv-bascule not-prose" style="--cv-nb: {{ len $vues }}">
+  <div class="cv-bascule-onglets" role="tablist" aria-label="{{ cond $fr "Type d'expérience" "Type of experience" }}" hidden>
+    {{- range $i, $v := $vues }}
+    <button type="button" role="tab" id="cv-onglet-{{ $v.id }}" aria-controls="cv-panneau-{{ $v.id }}"
+      aria-selected="{{ eq $i 0 }}" tabindex="{{ cond (eq $i 0) 0 -1 }}" data-vue="{{ $v.id }}">
+      {{- $v.titre }}<span class="cv-bascule-nb">{{ $v.n }}</span>
+    </button>
+    {{- end }}
+  </div>
+  {{- range $v := $vues }}
+  <section class="cv-bascule-panneau" role="tabpanel" id="cv-panneau-{{ $v.id }}" aria-labelledby="cv-onglet-{{ $v.id }}" data-vue="{{ $v.id }}">
+    <h3 class="cv-bascule-repli">{{ $v.titre }}</h3>
+    {{- partial "cv-parcours.html" (dict "rows" (index hugo.Data.cv $v.section) "lang" $lang "section" $v.section) }}
+  </section>
+  {{- end }}
+</div>
+{{- else if in (slice "experience" "freelance" "benevolat") $section }}
 {{- with $rows }}{{ partial "cv-parcours.html" (dict "rows" . "lang" $lang "section" $section) }}{{ end }}
 {{- else }}
 <div class="cv-table-wrap not-prose">
@@ -87,7 +117,9 @@
         {{- with $url }}<a href="{{ . }}" target="_blank" rel="noopener" title="{{ cond $fr "Vérifier la certification sur Credly" "Verify on Credly" }}">{{ $tag }}</a>{{ else }}{{ $tag }}{{ end -}}
       </th>
       <td class="cv-role">
-        <span class="cv-role-title">{{ $items }}</span>
+        <span class="cv-role-title">
+          {{- with $url }}<a href="{{ . }}" target="_blank" rel="noopener" title="{{ cond $fr "Vérifier la certification sur Credly" "Verify on Credly" }}">{{ $items }}</a>{{ else }}{{ $items }}{{ end -}}
+        </span>
         <span class="cv-loc">{{ $label }}</span>
         {{- with $period }}<span class="cv-period-inline">{{ . }}</span>{{ end }}
       </td>

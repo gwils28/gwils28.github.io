@@ -7,6 +7,7 @@
           aussi sur la page de charte graphique, qui en montre un spécimen.
   jazz-cases.js  rend cochables les listes « - [ ] » des notes jazz.
   jazz-filtre.js filtre le tableau de l'onglet Notes par type de note.
+  cv-bascule.js  bascule du CV entre expériences salariées et freelance.
 */}}
 {{ if or (eq .Section "jazz") (eq .Path "/charte") }}
 <link
@@ -18,5 +19,10 @@
 {{ with resources.Get . | minify | fingerprint }}
 <script defer src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}"></script>
 {{ end }}
+{{ end }}
+{{ end }}
+{{ if eq .Path "/cv" }}
+{{ with resources.Get "js/cv-bascule.js" | minify | fingerprint }}
+<script defer src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}"></script>
 {{ end }}
 {{ end }}

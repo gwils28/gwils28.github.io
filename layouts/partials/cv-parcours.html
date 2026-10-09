@@ -1,22 +1,28 @@
 {{- /*
   Expériences du CV en frise : une carte par poste, reliée à un fil vertical.
-  Appelé par le shortcode cv (section="experience" ou "freelance") avec dict
-  "rows" "lang" "section". Les missions freelance reprennent la même frise,
-  avec leur propre icône et l'accent ambre (classe cv-parcours--freelance).
+  Appelé par le shortcode cv (section="experience", "freelance" ou "benevolat")
+  avec dict "rows" "lang" "section". Les missions freelance et le bénévolat
+  reprennent la même frise, avec leur propre icône et leur propre accent
+  (classes cv-parcours--freelance, ambre, et cv-parcours--benevolat, terre cuite).
   Par poste (data/cv.yaml) : debut / fin en "AAAA-MM" (fin absente = poste
   actuel, mis en avant), resume, points (Markdown), stack.
   La période et la durée sont calculées ; la durée du poste actuel suit la
-  date du build. Chaque poste est repéré par la même icône (« code » en
-  salariat, « ordinateur » en freelance), posée en masque CSS pour suivre le thème.
+  date du build. Chaque poste est repéré par l'icône de sa catégorie (« code »
+  en salariat, « ordinateur » en freelance, « cœur » en bénévolat), posée en
+  masque CSS pour suivre le thème.
 */ -}}
 {{- $lang := .lang -}}
 {{- $fr := eq $lang "fr" -}}
 {{- $mois := cond $fr
   (slice "janv." "févr." "mars" "avr." "mai" "juin" "juil." "août" "sept." "oct." "nov." "déc.")
   (slice "Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec") -}}
-{{- $freelance := eq .section "freelance" -}}
-{{- $icone := resources.Get (cond $freelance "img/cv/freelance.svg" "img/cv/code.webp") -}}
-<ol class="cv-parcours{{ if $freelance }} cv-parcours--freelance{{ end }} not-prose" style="--cv-icone: url({{ $icone.RelPermalink }})">
+{{- $section := .section -}}
+{{- $icone := resources.Get (index (dict "experience" "img/cv/code.webp" "freelance" "img/cv/freelance.svg" "benevolat" "img/cv/benevolat.svg") $section) -}}
+{{- $enCours := index (dict
+    "experience" (cond $fr "En poste" "Current")
+    "freelance" (cond $fr "Mission en cours" "Ongoing")
+    "benevolat" (cond $fr "En cours" "Ongoing")) $section -}}
+<ol class="cv-parcours{{ if ne $section "experience" }} cv-parcours--{{ $section }}{{ end }} not-prose" style="--cv-icone: url({{ $icone.RelPermalink }})">
   {{- range $org := .rows }}
   {{- range $r := $org.roles }}
   {{- $d := time (printf "%s-01" $r.debut) }}
@@ -41,7 +47,7 @@
         <p class="cv-exp-org">
           {{- with $org.url }}<a href="{{ . }}" target="_blank" rel="noopener">{{ $org.org }}</a>{{ else }}{{ $org.org }}{{ end -}}
           <span class="cv-exp-lieu"> · {{ partial "cv-t.html" (dict "v" $org.location "lang" $lang) }}</span>
-          {{- if $actuel }} <span class="cv-badge-texte cv-badge-actuel">{{ if $freelance }}{{ cond $fr "Mission en cours" "Ongoing" }}{{ else }}{{ cond $fr "En poste" "Current" }}{{ end }}</span>{{ end }}
+          {{- if $actuel }} <span class="cv-badge-texte cv-badge-actuel">{{ $enCours }}</span>{{ end }}
         </p>
       </header>
       {{- with $r.resume }}

@@ -227,6 +227,9 @@ time,
 .cv-cert th, .cv-cert td { vertical-align: middle; }
 .cv-badge { display: block; width: 6rem; height: 6rem; transition: transform 0.15s ease; }
 .cv-cert a:hover .cv-badge { transform: scale(1.05); }
+.cv-cert .cv-role-title a { color: rgb(var(--color-primary-700)); text-decoration: none; }
+.dark .cv-cert .cv-role-title a { color: rgb(var(--color-primary-400)); }
+.cv-cert .cv-role-title a:hover { text-decoration: underline; }
 
 /* Téléphone : la pastille disparaît, le tableau garde ses colonnes utiles. */
 @media (max-width: 640px) {
@@ -1416,6 +1419,25 @@ span.menu-groupe { display: contents; }
   --color-primary-800: var(--color-secondary-800);
   --color-primary-900: var(--color-secondary-900);
 }
+/* Bénévolat : même frise, accent terre cuite, le rouge brique du logo
+   (#C94F2B en 500, #8A3B22 en 700, déjà le tampon des post-it jazz). */
+.cv-parcours--benevolat,
+.cv-bascule[data-vue="benevole"] {
+  --cv-terre-400: 222, 125, 92;
+  --cv-terre-600: 168, 64, 34;
+}
+.cv-parcours--benevolat {
+  --color-primary-50:  253, 244, 240;
+  --color-primary-100: 250, 230, 221;
+  --color-primary-200: 242, 201, 184;
+  --color-primary-300: 233, 163, 136;
+  --color-primary-400: var(--cv-terre-400);
+  --color-primary-500: 201, 79, 43;
+  --color-primary-600: var(--cv-terre-600);
+  --color-primary-700: 138, 59, 34;
+  --color-primary-800: 110, 46, 26;
+  --color-primary-900: 82, 34, 19;
+}
 /* Icône des pastilles (« code » en frise, « diplôme » en formation) : l'image
    sert de masque, la couleur vient du texte de la pastille, donc elle
    s'inverse avec le mode sombre. */
@@ -1955,3 +1977,95 @@ span.menu-groupe { display: contents; }
 .charte-texte { font-family: var(--font-sans); font-size: 1.1rem; max-width: 60ch; }
 .charte-mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
 .charte-manuscrit { font-family: "Caveat", cursive; font-weight: 700; font-size: 1.8rem; }
+
+/* --- CV : bascule salariat / freelance / bénévolat (shortcode cv, section="parcours")
+   Un interrupteur à une position par catégorie : le curseur glisse sous
+   l'onglet actif et prend l'accent de la frise qu'il montre (vert, ambre,
+   terre cuite). Sans JavaScript, la barre reste cachée et chaque frise garde son
+   titre de repli. */
+.cv-bascule-onglets {
+  position: relative;
+  display: inline-grid;
+  grid-template-columns: repeat(var(--cv-nb, 2), 1fr);
+  margin: 0.5rem 0 0.25rem;
+  padding: 0.25rem;
+  border: 1px solid rgba(var(--color-neutral-300), 0.8);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(24px);
+}
+.dark .cv-bascule-onglets {
+  border-color: rgba(var(--color-neutral-600), 0.8);
+  background: rgba(var(--color-neutral-800), 0.6);
+}
+.cv-bascule-onglets[hidden] { display: none; }
+/* Le curseur : une pastille pleine qui glisse d'un onglet à l'autre. */
+.cv-bascule-onglets::before {
+  content: "";
+  position: absolute;
+  top: 0.25rem;
+  bottom: 0.25rem;
+  left: 0.25rem;
+  width: calc((100% - 0.5rem) / var(--cv-nb, 2));
+  border-radius: 999px;
+  background: rgb(var(--color-primary-700));
+  transform: translateX(calc(100% * var(--cv-index, 0)));
+  transition: transform 0.3s cubic-bezier(0.3, 0.7, 0.4, 1), background-color 0.3s ease;
+}
+.dark .cv-bascule-onglets::before { background: rgb(var(--color-primary-400)); }
+.cv-bascule[data-vue="freelance"] .cv-bascule-onglets::before { background: rgb(var(--color-secondary-600)); }
+.dark .cv-bascule[data-vue="freelance"] .cv-bascule-onglets::before { background: rgb(var(--color-secondary-400)); }
+.cv-bascule[data-vue="benevole"] .cv-bascule-onglets::before { background: rgb(var(--cv-terre-600)); }
+.dark .cv-bascule[data-vue="benevole"] .cv-bascule-onglets::before { background: rgb(var(--cv-terre-400)); }
+
+.cv-bascule-onglets [role="tab"] {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1.25rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: rgb(var(--color-neutral-600));
+  transition: color 0.3s ease;
+}
+.dark .cv-bascule-onglets [role="tab"] { color: rgb(var(--color-neutral-300)); }
+.cv-bascule-onglets [role="tab"]:hover { color: rgb(var(--color-neutral-900)); }
+.dark .cv-bascule-onglets [role="tab"]:hover { color: rgb(var(--color-neutral-50)); }
+.cv-bascule-onglets [aria-selected="true"],
+.cv-bascule-onglets [aria-selected="true"]:hover { color: rgb(var(--color-neutral-50)); }
+.dark .cv-bascule-onglets [aria-selected="true"],
+.dark .cv-bascule-onglets [aria-selected="true"]:hover { color: rgb(var(--color-neutral-900)); }
+.cv-bascule-nb {
+  min-width: 1.4rem;
+  padding: 0 0.35rem;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  line-height: 1.4rem;
+  background: rgba(var(--color-neutral-500), 0.18);
+}
+[aria-selected="true"] .cv-bascule-nb { background: rgba(var(--color-neutral-50), 0.22); }
+.dark [aria-selected="true"] .cv-bascule-nb { background: rgba(var(--color-neutral-900), 0.18); }
+
+/* Titre de repli, utile seulement sans JavaScript. */
+.cv-bascule-repli {
+  margin: 1.5rem 0 0;
+  font-size: 1.15rem;
+}
+.cv-bascule--active .cv-bascule-repli { display: none; }
+
+/* La frise qui arrive monte légèrement en fondu ; les cartes suivent en
+   cascade, pour que le changement se lise sans être brutal. */
+.cv-bascule-entree .cv-exp {
+  animation: cv-bascule-entree 0.4s cubic-bezier(0.3, 0.7, 0.4, 1) both;
+}
+.cv-bascule-entree .cv-exp:nth-child(2) { animation-delay: 0.05s; }
+.cv-bascule-entree .cv-exp:nth-child(3) { animation-delay: 0.1s; }
+.cv-bascule-entree .cv-exp:nth-child(n+4) { animation-delay: 0.15s; }
+@keyframes cv-bascule-entree {
+  from { opacity: 0; transform: translateY(0.75rem); }
+  to { opacity: 1; transform: none; }
+}

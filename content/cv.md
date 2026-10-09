@@ -14,15 +14,11 @@ sharingLinks: false
 showRelatedContent: false
 ---
 
-Data Scientist et ML Engineer expérimenté, avec un solide background en statistique. Cette page retrace mon parcours : expériences, missions freelance, formation et certifications.
+Data Scientist et ML Engineer expérimenté, avec un solide background en statistique. Cette page retrace mon parcours : expériences salariées, freelance et bénévoles, formation et certifications.
 
 ## Expérience
 
-{{< cv section="experience" >}}
-
-## Freelance
-
-{{< cv section="freelance" >}}
+{{< cv section="parcours" >}}
 
 ## Formation
 
