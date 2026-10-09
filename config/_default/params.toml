@@ -50,7 +50,7 @@ defaultSocialImage = "img/social-card.jpg"
 # -- Pages d'article --
 [article]
   showDate = true
-  showDateUpdated = true
+  showDateUpdated = false    # activé seulement pour les projets (cascade de content/projects/_index*.md)
   showAuthor = true
   showBreadcrumbs = true
   showDraftLabel = true

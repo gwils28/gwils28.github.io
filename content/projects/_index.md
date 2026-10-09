@@ -7,6 +7,7 @@ showSummary: true
 showDate: false
 cascade:
   showDate: true
+  showDateUpdated: true
   showReadingTime: false
   showTableOfContents: true
 ---

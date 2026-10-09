@@ -49,3 +49,5 @@ transparence.texte: |-
 
   Le choix du sujet, le protocole, la vérification des résultats et les conclusions sont les
   miens, et j'en assume les erreurs. [Comment j'utilise l'IA]({{ .lien }})
+
+article.date_updated: "Dernière mise à jour : {{ .Date }}"

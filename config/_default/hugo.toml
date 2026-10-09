@@ -13,6 +13,8 @@ summaryLength = 0
 buildDrafts = false
 buildFuture = false
 enableEmoji = true
+# .Lastmod = date du dernier commit qui touche la page (affichée sur les projets)
+enableGitInfo = true
 
 [pagination]
   pagerSize = 12

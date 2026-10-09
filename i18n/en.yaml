@@ -48,3 +48,5 @@ transparence.texte: |-
 
   The choice of topic, the protocol, the checking of the results and the conclusions are mine,
   and so are any mistakes. [How I use AI]({{ .lien }})
+
+article.date_updated: "Last updated: {{ .Date }}"
