@@ -6,7 +6,7 @@ nature: "produit"
 description: "Une application web auto-hébergée pour suivre le budget et le patrimoine d'un foyer, sans que les données quittent la maison. En cours de développement : le module budget est livré."
 summary: "Application web auto-hébergée de budget et de patrimoine familial. Le module budget est livré (import bancaire, catégorisation, matrice budgétaire, indicateurs) ; patrimoine, prévision et IA locale suivent."
 tags: ["python", "fastapi", "postgresql", "react", "typescript", "docker", "claude code"]
-featureImage: "cover.png"
+featureImage: "carte.png"
 showTableOfContents: true
 ---
 

@@ -6,7 +6,7 @@ nature: "produit"
 description: "A self-hosted web app to track a household's budget and net worth, without the data ever leaving home. Under development: the budget module has shipped."
 summary: "Self-hosted web app for household budgeting and net worth. The budget module has shipped (bank import, categorisation, budget matrix, indicators); net worth, forecasting and local AI come next."
 tags: ["python", "fastapi", "postgresql", "react", "typescript", "docker", "claude code"]
-featureImage: "cover.png"
+featureImage: "carte.png"
 showTableOfContents: true
 ---
 
