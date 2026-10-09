@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" width="1200" height="560" role="img" aria-labelledby="titre desc" font-family="'IBM Plex Sans', 'Segoe UI', Arial, sans-serif">
+  <title id="titre">La chaîne à six maillons d'un système de décision temporel</title>
+  <desc id="desc">Six maillons en série : intégrité de la donnée, estimation, incertitude, décision, protocole, observabilité. La décision agit sur le monde, qui produit les données suivantes : la boucle se referme. Au-dessus, les trois ancrages : le statisticien, l'ingénieur, le décideur.</desc>
+  <defs>
+    <marker id="fleche" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#282c26"/>
+    </marker>
+    <marker id="fleche-ambre" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#b8720a"/>
+    </marker>
+  </defs>
+
+  <!-- Fond : carte claire, lisible aussi sur le thème sombre -->
+  <rect x="2" y="2" width="1196" height="556" rx="18" fill="#f4f6f3" stroke="#d5dbd2" stroke-width="2"/>
+
+  <!-- ===== Les trois ancrages ===== -->
+  <g font-size="17" text-anchor="middle">
+    <rect x="25" y="30" width="370" height="70" rx="10" fill="#e6efe1" stroke="#2e5c1c" stroke-width="2"/>
+    <text x="210" y="60" font-weight="700" fill="#2e5c1c">Le statisticien</text>
+    <text x="210" y="84" font-size="15" fill="#282c26">« Qu'est-ce qui rendrait ce résultat faux ? »</text>
+
+    <rect x="415" y="30" width="370" height="70" rx="10" fill="#e6efe1" stroke="#2e5c1c" stroke-width="2"/>
+    <text x="600" y="60" font-weight="700" fill="#2e5c1c">L'ingénieur</text>
+    <text x="600" y="84" font-size="15" fill="#282c26">« Comment ça tient six mois sans moi ? »</text>
+
+    <rect x="805" y="30" width="370" height="70" rx="10" fill="#e6efe1" stroke="#2e5c1c" stroke-width="2"/>
+    <text x="990" y="60" font-weight="700" fill="#2e5c1c">Le décideur</text>
+    <text x="990" y="84" font-size="15" fill="#282c26">« Combien coûte une erreur, et dans quel sens ? »</text>
+  </g>
+
+  <!-- ===== Les six maillons ===== -->
+  <g font-size="18" text-anchor="middle">
+    <rect x="30" y="170" width="170" height="120" rx="12" fill="#ffffff" stroke="#282c26" stroke-width="2"/>
+    <text x="115" y="205" font-weight="700" fill="#282c26">1. Intégrité</text>
+    <text x="115" y="236" font-size="15" fill="#4a5046">censure, révisions,</text>
+    <text x="115" y="256" font-size="15" fill="#4a5046">point-in-time,</text>
+    <text x="115" y="276" font-size="15" fill="#4a5046">fuite du futur</text>
+
+    <rect x="225" y="170" width="170" height="120" rx="12" fill="#ffffff" stroke="#282c26" stroke-width="2"/>
+    <text x="310" y="205" font-weight="700" fill="#282c26">2. Estimation</text>
+    <text x="310" y="236" font-size="15" fill="#4a5046">prédire, ou bien</text>
+    <text x="310" y="256" font-size="15" fill="#4a5046">mesurer un effet :</text>
+    <text x="310" y="276" font-size="15" fill="#4a5046">pas la même chose</text>
+
+    <rect x="420" y="170" width="170" height="120" rx="12" fill="#ffffff" stroke="#282c26" stroke-width="2"/>
+    <text x="505" y="205" font-weight="700" fill="#282c26">3. Incertitude</text>
+    <text x="505" y="236" font-size="15" fill="#4a5046">quantiles,</text>
+    <text x="505" y="256" font-size="15" fill="#4a5046">couverture réelle</text>
+    <text x="505" y="276" font-size="15" fill="#4a5046">vérifiée</text>
+
+    <rect x="615" y="170" width="170" height="120" rx="12" fill="#fdf3dc" stroke="#e99d16" stroke-width="2.5"/>
+    <text x="700" y="205" font-weight="700" fill="#282c26">4. Décision</text>
+    <text x="700" y="236" font-size="15" fill="#4a5046">coûts asymétriques,</text>
+    <text x="700" y="256" font-size="15" fill="#4a5046">contraintes,</text>
+    <text x="700" y="276" font-size="15" fill="#4a5046">évaluée en euros</text>
+
+    <rect x="810" y="170" width="170" height="120" rx="12" fill="#ffffff" stroke="#282c26" stroke-width="2"/>
+    <text x="895" y="205" font-weight="700" fill="#282c26">5. Protocole</text>
+    <text x="895" y="236" font-size="15" fill="#4a5046">backtest glissant,</text>
+    <text x="895" y="256" font-size="15" fill="#4a5046">baseline imposé,</text>
+    <text x="895" y="276" font-size="15" fill="#4a5046">placebos</text>
+
+    <rect x="1005" y="170" width="170" height="120" rx="12" fill="#ffffff" stroke="#282c26" stroke-width="2"/>
+    <text x="1090" y="205" font-weight="700" fill="#282c26">6. Observabilité</text>
+    <text x="1090" y="236" font-size="15" fill="#4a5046">voir la dérive</text>
+    <text x="1090" y="256" font-size="15" fill="#4a5046">avant que la vérité</text>
+    <text x="1090" y="276" font-size="15" fill="#4a5046">terrain n'arrive</text>
+  </g>
+
+  <!-- Flèches entre maillons -->
+  <g stroke="#282c26" stroke-width="2.2" marker-end="url(#fleche)">
+    <line x1="200" y1="230" x2="222" y2="230"/>
+    <line x1="395" y1="230" x2="417" y2="230"/>
+    <line x1="590" y1="230" x2="612" y2="230"/>
+    <line x1="785" y1="230" x2="807" y2="230"/>
+    <line x1="980" y1="230" x2="1002" y2="230"/>
+  </g>
+
+  <!-- ===== Le monde et la boucle ===== -->
+  <rect x="440" y="400" width="320" height="76" rx="12" fill="#ffffff" stroke="#b8720a" stroke-width="2" stroke-dasharray="7 5"/>
+  <text x="600" y="432" font-size="18" font-weight="700" text-anchor="middle" fill="#b8720a">Le monde réel</text>
+  <text x="600" y="458" font-size="15" text-anchor="middle" fill="#4a5046">commandes, prix, ruptures, interventions</text>
+
+  <g fill="none" stroke="#b8720a" stroke-width="2.4">
+    <path d="M700,290 C700,350 720,370 735,397" marker-end="url(#fleche-ambre)"/>
+    <path d="M440,438 C220,438 115,380 115,294" marker-end="url(#fleche-ambre)"/>
+  </g>
+  <text x="790" y="348" font-size="15" fill="#b8720a">la décision agit…</text>
+  <text x="150" y="505" font-size="15" fill="#b8720a">… et produit les données de demain : la boucle se referme</text>
+</svg>
