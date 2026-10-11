@@ -5,6 +5,7 @@ draft: true
 description: "Quand l'effet d'un traitement arrive en retard, le hazard ratio de Cox change avec la durée du suivi. La RMST propose une autre mesure. Ce qu'elle coûte et ce qu'elle apporte, simulations à l'appui."
 summary: "Sous un effet différé, le hazard ratio de Cox n'est pas une propriété du traitement. La RMST, elle, en est une. Reste à savoir ce qu'elle coûte en puissance."
 categories: ["Veille"]
+featureImage: "cover.png"
 tags: ["analyse de survie", "RMST", "modèle de Cox", "essais cliniques", "simulation", "python", "biostatistique"]
 showTableOfContents: true
 ---
