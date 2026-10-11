@@ -1,0 +1,48 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 760 410' width='760' height='410' font-family='Inter, Helvetica, Arial, sans-serif' role='img' aria-label='Le hazard ratio de Cox passe de 0,83 à 12 mois de suivi à 0,55 à 120 mois'>
+<rect width='760' height='410' fill='#fcfcfb'/>
+<text x='24' y='32' font-size='15' font-weight='600' fill='#0b0b0b'>Le même traitement, quatre hazard ratios</text>
+<text x='24' y='52' font-size='11.5' fill='#52514e'>Le HR de Cox dépend de la durée pendant laquelle on suit les patients, pas seulement du traitement</text>
+<line x1='80' y1='350.0' x2='720' y2='350.0' stroke='#e4e3df' stroke-width='1'/>
+<text x='72' y='354.0' font-size='11' fill='#52514e' text-anchor='end'>0,3</text>
+<line x1='80' y1='315.4' x2='720' y2='315.4' stroke='#e4e3df' stroke-width='1'/>
+<text x='72' y='319.4' font-size='11' fill='#52514e' text-anchor='end'>0,4</text>
+<line x1='80' y1='280.8' x2='720' y2='280.8' stroke='#e4e3df' stroke-width='1'/>
+<text x='72' y='284.8' font-size='11' fill='#52514e' text-anchor='end'>0,5</text>
+<line x1='80' y1='246.2' x2='720' y2='246.2' stroke='#e4e3df' stroke-width='1'/>
+<text x='72' y='250.2' font-size='11' fill='#52514e' text-anchor='end'>0,6</text>
+<line x1='80' y1='211.5' x2='720' y2='211.5' stroke='#e4e3df' stroke-width='1'/>
+<text x='72' y='215.5' font-size='11' fill='#52514e' text-anchor='end'>0,7</text>
+<line x1='80' y1='176.9' x2='720' y2='176.9' stroke='#e4e3df' stroke-width='1'/>
+<text x='72' y='180.9' font-size='11' fill='#52514e' text-anchor='end'>0,8</text>
+<line x1='80' y1='142.3' x2='720' y2='142.3' stroke='#e4e3df' stroke-width='1'/>
+<text x='72' y='146.3' font-size='11' fill='#52514e' text-anchor='end'>0,9</text>
+<line x1='80' y1='107.7' x2='720' y2='107.7' stroke='#e4e3df' stroke-width='1'/>
+<text x='72' y='111.7' font-size='11' fill='#52514e' text-anchor='end'>1,0</text>
+<text x='80.0' y='368' font-size='11' fill='#52514e' text-anchor='middle'>0</text>
+<text x='182.4' y='368' font-size='11' fill='#52514e' text-anchor='middle'>20</text>
+<text x='284.8' y='368' font-size='11' fill='#52514e' text-anchor='middle'>40</text>
+<text x='387.2' y='368' font-size='11' fill='#52514e' text-anchor='middle'>60</text>
+<text x='489.6' y='368' font-size='11' fill='#52514e' text-anchor='middle'>80</text>
+<text x='592.0' y='368' font-size='11' fill='#52514e' text-anchor='middle'>100</text>
+<text x='694.4' y='368' font-size='11' fill='#52514e' text-anchor='middle'>120</text>
+<line x1='80' y1='350' x2='720' y2='350' stroke='#8a8984' stroke-width='1'/>
+<text x='400.0' y='388' font-size='11.5' fill='#52514e' text-anchor='middle'>Durée du suivi administratif (mois)</text>
+<text transform='translate(36 215.0) rotate(-90)' font-size='11.5' fill='#52514e' text-anchor='middle'>Hazard ratio de Cox</text>
+<line x1='80' y1='107.7' x2='720' y2='107.7' stroke='#8a8984' stroke-width='1'/>
+<text x='720.0' y='101.7' font-size='10.5' fill='#52514e' text-anchor='end'>HR(t) avant 8 mois</text>
+<line x1='80' y1='315.4' x2='720' y2='315.4' stroke='#8a8984' stroke-width='1'/>
+<text x='720.0' y='309.4' font-size='10.5' fill='#52514e' text-anchor='end'>HR(t) après 8 mois</text>
+<path d='M110.7 107.7 L121.0 107.7 L121.0 107.7 L131.2 141.8 L141.4 164.9 L151.7 181.6 L161.9 194.2 L172.2 204.0 L182.4 211.9 L192.6 218.3 L202.9 223.6 L213.1 228.1 L223.4 231.9 L233.6 235.1 L243.8 238.0 L254.1 240.4 L264.3 242.6 L274.6 244.5 L284.8 246.1 L295.0 247.6 L305.3 249.0 L315.5 250.1 L325.8 251.2 L336.0 252.1 L346.2 253.0 L356.5 253.8 L366.7 254.5 L377.0 255.1 L387.2 255.6 L397.4 256.2 L407.7 256.6 L417.9 257.0 L428.2 257.4 L438.4 257.8 L448.6 258.1 L458.9 258.4 L469.1 258.6 L479.4 258.8 L489.6 259.1 L499.8 259.3 L510.1 259.4 L520.3 259.6 L530.6 259.7 L540.8 259.9 L551.0 260.0 L561.3 260.1 L571.5 260.2 L581.8 260.3 L592.0 260.4 L602.2 260.4 L612.5 260.5 L622.7 260.6 L633.0 260.6 L643.2 260.7 L653.4 260.7 L663.7 260.8 L673.9 260.8 L684.2 260.8 L694.4 260.9' fill='none' stroke='#2a78d6' stroke-width='2.2' stroke-linejoin='round'/>
+<circle cx='141.4' cy='165.2' r='5.5' fill='#eb6834' stroke='#fcfcfb' stroke-width='2'/>
+<text x='149.4' y='157.2' font-size='11' fill='#0b0b0b' text-anchor='start'>0,83</text>
+<circle cx='202.9' cy='223.3' r='5.5' fill='#eb6834' stroke='#fcfcfb' stroke-width='2'/>
+<text x='210.9' y='215.3' font-size='11' fill='#0b0b0b' text-anchor='start'>0,67</text>
+<circle cx='325.8' cy='251.7' r='5.5' fill='#eb6834' stroke='#fcfcfb' stroke-width='2'/>
+<text x='333.8' y='243.7' font-size='11' fill='#0b0b0b' text-anchor='start'>0,58</text>
+<circle cx='694.4' cy='262.1' r='5.5' fill='#eb6834' stroke='#fcfcfb' stroke-width='2'/>
+<text x='702.4' y='254.1' font-size='11' fill='#0b0b0b' text-anchor='start'>0,55</text>
+<line x1='470' y1='150' x2='496' y2='150' stroke='#2a78d6' stroke-width='2.2'/>
+<text x='504.0' y='154.0' font-size='11' fill='#0b0b0b' text-anchor='start'>HR limite de Cox (théorie)</text>
+<circle cx='483' cy='172' r='5.5' fill='#eb6834' stroke='#fcfcfb' stroke-width='2'/>
+<text x='504.0' y='176.0' font-size='11' fill='#0b0b0b' text-anchor='start'>Cox ajusté, 20 000 patients par bras</text>
+</svg>

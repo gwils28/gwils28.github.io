@@ -1,0 +1,28 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 760 270' width='760' height='270' font-family='Inter, Helvetica, Arial, sans-serif' role='img' aria-label='Erreur de type I de 5,1 % avec tau fixé contre 9,1 % avec tau choisi après coup'>
+<rect width='760' height='270' fill='#fcfcfb'/>
+<text x='24' y='32' font-size='15' font-weight='600' fill='#0b0b0b'>Choisir τ après avoir vu les courbes : presque deux fois plus de faux positifs</text>
+<text x='24' y='52' font-size='11.5' fill='#52514e'>Aucun effet simulé ; l’analyste essaie τ = 12, 15, …, 36 mois et garde le plus significatif</text>
+<line x1='290.0' y1='80' x2='290.0' y2='200' stroke='#e4e3df'/>
+<text x='290.0' y='218.0' font-size='11' fill='#52514e' text-anchor='middle'>0 %</text>
+<line x1='356.7' y1='80' x2='356.7' y2='200' stroke='#e4e3df'/>
+<text x='356.7' y='218.0' font-size='11' fill='#52514e' text-anchor='middle'>2 %</text>
+<line x1='423.3' y1='80' x2='423.3' y2='200' stroke='#e4e3df'/>
+<text x='423.3' y='218.0' font-size='11' fill='#52514e' text-anchor='middle'>4 %</text>
+<line x1='490.0' y1='80' x2='490.0' y2='200' stroke='#e4e3df'/>
+<text x='490.0' y='218.0' font-size='11' fill='#52514e' text-anchor='middle'>6 %</text>
+<line x1='556.7' y1='80' x2='556.7' y2='200' stroke='#e4e3df'/>
+<text x='556.7' y='218.0' font-size='11' fill='#52514e' text-anchor='middle'>8 %</text>
+<line x1='623.3' y1='80' x2='623.3' y2='200' stroke='#e4e3df'/>
+<text x='623.3' y='218.0' font-size='11' fill='#52514e' text-anchor='middle'>10 %</text>
+<line x1='690.0' y1='80' x2='690.0' y2='200' stroke='#e4e3df'/>
+<text x='690.0' y='218.0' font-size='11' fill='#52514e' text-anchor='middle'>12 %</text>
+<rect x='290' y='95' width='170.0' height='32' fill='#2a78d6'/>
+<text x='280.0' y='116.0' font-size='11.5' fill='#0b0b0b' text-anchor='end'>τ = 24, fixé à l’avance</text>
+<text x='468.0' y='116.0' font-size='11.5' fill='#0b0b0b' text-anchor='start'>5,1 % ± 1,0</text>
+<rect x='290' y='150' width='303.3' height='32' fill='#eb6834'/>
+<text x='280.0' y='171.0' font-size='11.5' fill='#0b0b0b' text-anchor='end'>meilleur des 9 τ, choisi après coup</text>
+<text x='601.3' y='171.0' font-size='11.5' fill='#0b0b0b' text-anchor='start'>9,1 % ± 1,3</text>
+<line x1='456.7' y1='80' x2='456.7' y2='200' stroke='#0b0b0b' stroke-width='1.2'/>
+<text x='460.7' y='76.0' font-size='10.5' fill='#52514e' text-anchor='start'>5 % nominal</text>
+<text x='490.0' y='245.0' font-size='11' fill='#52514e' text-anchor='middle'>Erreur de type I sur 2 000 essais sans effet (± = intervalle Monte-Carlo à 95 %)</text>
+</svg>
