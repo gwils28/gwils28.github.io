@@ -229,3 +229,28 @@
   annee: 2015
   note: 4.5
   image: "shaun-martin-7summers.jpg"
+
+- titre: "The Kicker"
+  artiste: "Joe Henderson Sextet"
+  annee: 1968
+  note: 5
+  dore: true
+  image: "joe-henderson-the-kicker.jpg"
+
+- titre: "Paul Chambers Quintet"
+  artiste: "Paul Chambers"
+  annee: 1958
+  note: 5
+  image: "paul-chambers-quintet.jpg"
+
+- titre: "The Sage"
+  artiste: "Jacob Chung"
+  annee: 2024
+  note: 4.5
+  image: "jacob-chung-the-sage.jpg"
+
+- titre: "Blue Train"
+  artiste: "John Coltrane"
+  annee: 1958
+  note: 5
+  image: "john-coltrane-blue-train.jpg"
