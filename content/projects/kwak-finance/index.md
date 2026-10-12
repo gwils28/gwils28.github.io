@@ -3,8 +3,8 @@ title: "Kwak Finance : le budget et le patrimoine d'un foyer, auto-hébergés"
 date: 2026-10-08
 draft: false
 nature: "produit"
-description: "Une application web auto-hébergée pour suivre le budget et le patrimoine d'un foyer, sans que les données quittent la maison. En cours de développement : le module budget est livré."
-summary: "Application web auto-hébergée de budget et de patrimoine familial. Le module budget est livré (import bancaire, catégorisation, matrice budgétaire, indicateurs) ; patrimoine, prévision et IA locale suivent."
+description: "Une application web auto-hébergée pour suivre le budget et le patrimoine d'un foyer, sans que les données quittent la maison. En cours de développement : le module budget est livré, les plans budgétaires et leur bilan aussi."
+summary: "Application web auto-hébergée de budget et de patrimoine familial. Import bancaire, catégorisation, matrice budgétaire, plans par période avec bilan, projection et flux d'argent ; patrimoine, prévision et IA locale suivent."
 tags: ["python", "fastapi", "postgresql", "react", "typescript", "docker", "claude code"]
 featureImage: "carte.png"
 showTableOfContents: true
@@ -16,23 +16,29 @@ ses relevés bancaires à un service en ligne. Tout tourne sur une machine de la
 {{< /lead >}}
 
 {{< fiche-projet
-    statut="En développement · phase 1 sur 5 livrée"
+    statut="En développement · phase 1 livrée, phase 2 en cours"
     periode="Depuis octobre 2026"
     role="Solo : spécifications, architecture, développement, exploitation"
     stack="Python 3.13, FastAPI, SQLAlchemy 2, PostgreSQL 17, React 19, TypeScript, Tailwind, Docker Compose, Caddy, GitHub Actions"
     code="https://github.com/gwils28/kwak-finance" >}}
 
 {{< stats >}}
-{{< stat value="37" label="pull requests fusionnées" >}}chacune bloquée tant que la CI n'est pas verte{{< /stat >}}
-{{< stat value="380" label="tests automatisés" >}}dont 25 tests de propriété sur les invariants financiers{{< /stat >}}
+{{< stat value="53" label="pull requests fusionnées" >}}chacune bloquée tant que la CI n'est pas verte{{< /stat >}}
+{{< stat value="531" label="tests automatisés" >}}dont 35 tests de propriété sur les invariants financiers{{< /stat >}}
 {{< stat value="8" label="décisions d'architecture" >}}écrites, avec les alternatives rejetées{{< /stat >}}
 {{< /stats >}}
 
 {{< note-ia >}}
 
 {{< alert icon="circle-info" >}}
-**Projet en cours.** Cette fiche décrit l'état du dépôt au 8 octobre 2026. Les chiffres
+**Projet en cours.** Cette fiche décrit l'état du dépôt au 11 octobre 2026. Les chiffres
 ci-dessus sont comptés dans le code, et seront mis à jour à chaque phase livrée.
+{{< /alert >}}
+
+{{< alert icon="image" >}}
+**Toutes les captures montrent des données fictives.** Elles viennent d'une instance de
+démonstration, alimentée par un foyer inventé (Camille et Sam, quatre comptes, un an
+d'opérations générées). Aucun montant, libellé ni solde ne provient de comptes réels.
 {{< /alert >}}
 
 ## Le problème
@@ -72,9 +78,11 @@ manuelle, catégorisation par règles, virements internes, matrice budgétaire, 
 dépenses et sauvegardes automatiques. Interface en français et en anglais.
 {{< /timelineItem >}}
 
-{{< timelineItem icon="code" header="Phase 2 · Budget complet" badge="Prochaine" subheader="Ce qui rend l'outil quotidien" >}}
-Report des excédents d'un mois sur l'autre, détection des dépenses récurrentes, partage des
-dépenses communes (« qui doit quoi à qui »), rapports par période.
+{{< timelineItem md="true" icon="code" header="Phase 2 · Budget complet" badge="En cours" subheader="Ce qui rend l'outil quotidien" >}}
+**Livré :** plans budgétaires par trimestre, semestre ou année, avec leur bilan (projection en
+fin de plan, catégories qui dérapent, flux d'argent, comparaison entre plans) ; compte commun du
+foyer et vue par périmètre ; guide intégré ; second format bancaire. **Reste :** dépenses
+récurrentes, partage des dépenses communes (« qui doit quoi à qui »), rapports par période.
 {{< /timelineItem >}}
 
 {{< timelineItem icon="scale-balanced" header="Phase 3 · Patrimoine" badge="À venir" subheader="Actifs et passifs" >}}
@@ -96,46 +104,111 @@ langage local (Ollama), limité à une vue analytique en lecture seule.
 
 ## Ce qui fonctionne aujourd'hui
 
-{{< steps >}}
-{{< step number="1" title="Un foyer, des comptes, des droits" >}}
+### Un foyer, des comptes, trois points de vue
+
 Le propriétaire crée le foyer et invite les autres membres par un lien à usage unique ; il n'y a
-pas d'inscription publique. Chaque compte est **privé** ou **partagé**, et chacun ne voit que ce
-qui le concerne. Connexion par mot de passe (argon2id) et code TOTP obligatoire, avec codes de
-secours et limitation des tentatives.
-{{< /step >}}
-{{< step number="2" title="Importer un relevé sans rien casser" >}}
-On dépose l'export CSV de la banque : l'application affiche un **aperçu** avant d'écrire quoi que
-ce soit (lignes lues, doublons détectés, erreurs avec leur numéro de ligne). Chaque opération
-reçoit une empreinte, si bien que **réimporter le même fichier ne change rien**, et qu'un fichier
-qui chevauche le précédent n'ajoute que ce qui manque. Tout import peut être annulé.
-{{< /step >}}
-{{< step number="3" title="Catégoriser une fois, plus jamais" >}}
-Une arborescence de catégories à deux niveaux, et des **règles** ordonnées (« le libellé contient
-… », montant, compte) appliquées à chaque import. On catégorise une opération, un lot, ou on crée
-une règle à partir d'une opération. Les virements entre ses propres comptes sont proposés, reliés,
-et exclus des dépenses et des revenus.
-{{< /step >}}
-{{< step number="4" title="La matrice budgétaire" >}}
-La vue centrale : une ligne par catégorie, une colonne par mois, l'objectif mensuel en tête.
-Chaque case donne la dépense et l'écart à l'objectif, en euros et en pourcentage, coloré selon
-qu'on est sous l'objectif, dans la tolérance de ±5 % ou au-dessus. Une ligne « à catégoriser »
-reste toujours visible, pour qu'aucun total ne soit faux en silence.
-{{< /step >}}
-{{< /steps >}}
+pas d'inscription publique. Connexion par mot de passe (argon2id) et code TOTP obligatoire, avec
+codes de secours et limitation des tentatives.
 
-![La matrice budgétaire de Kwak Finance sur onze mois](cover.png "La matrice budgétaire, en thème sombre, sur un foyer de démonstration : données fictives. Vert : sous l'objectif ; gris : à ±5 % près ; terre brûlée : au-dessus.")
+Chaque compte a une visibilité : **privé** (son titulaire seul), **partagé** (visible de tout le
+foyer, mais toujours à son titulaire) ou **commun** (le compte joint qui paie le loyer et les
+courses, qui n'est à personne en particulier). Toutes les vues agrégées se lisent ensuite selon
+trois périmètres : le **foyer** entier, les **comptes communs**, ou **seulement les miens**.
 
-{{< steps >}}
-{{< step number="5" title="Les indicateurs du mois" >}}
+Dans une vue restreinte, un virement qui franchit le bord du périmètre n'est pas neutre : la
+participation de chacun au compte commun y apparaît comme de l'argent « reçu d'autres comptes »,
+et l'épargne du compte commun reste juste. À l'échelle du foyer, les mêmes virements s'annulent.
+
+### Importer un relevé sans rien casser
+
+On dépose l'export CSV de la banque (deux banques prises en charge, avec trois mises en page) :
+l'application affiche un **aperçu** avant d'écrire quoi que ce soit. Chaque opération reçoit une
+empreinte, si bien que **réimporter le même fichier ne change rien**, et qu'un fichier qui
+chevauche le précédent n'ajoute que ce qui manque. Après l'import, le solde calculé est comparé à
+celui que donne la banque, et tout import peut être annulé.
+
+![Aperçu d'un import : onze nouvelles opérations, trois déjà importées](import-apercu.webp "Aperçu d'un import sur un relevé qui chevauche le précédent : les trois opérations de fin septembre sont reconnues et ignorées. Données fictives.")
+
+### Catégoriser une fois, plus jamais
+
+Une arborescence de catégories à deux niveaux, nommées dans la langue du foyer, et des
+**règles** ordonnées (« le libellé contient … », montant, compte) appliquées à chaque import et à
+chaque saisie. On catégorise une opération, un lot, ou on crée une règle à partir d'une opération
+avec le bouton « Règle ». Ce que les règles n'ont pas reconnu reste signalé « à catégoriser ».
+
+![La liste des opérations, avec deux opérations à catégoriser](operations.webp "Les opérations de tout le foyer : la catégorie se choisit sur la ligne, les deux opérations qu'aucune règle n'a reconnues sont signalées. Données fictives.")
+
+![Les règles de catégorisation](regles.webp "Les règles, appliquées dans l'ordre : la première qui correspond fixe la catégorie. Elles peuvent être réappliquées aux opérations passées. Données fictives.")
+
+Les virements entre ses propres comptes sont détectés, proposés, puis reliés : ils sortent des
+dépenses et des revenus, et chaque ligne indique l'autre compte.
+
+![Virements internes reliés entre les comptes du foyer](virements.webp "Virements reliés : épargne vers le livret, participations au compte commun. Ni dépense ni revenu. Données fictives.")
+
+### La vue d'ensemble du mois
+
 Dépenses, revenus, solde et taux d'épargne, comparés au mois précédent et à la moyenne sur douze
-mois ; les cinq premières catégories ; des graphiques par catégorie, sur douze mois, et en cumul
-face à la ligne de budget.
-{{< /step >}}
-{{< step number="6" title="Des sauvegardes vérifiées" >}}
+mois, avec le nombre d'opérations à catégoriser. En dessous : les dépenses par catégorie, le
+cumul du mois face au rythme du budget, et les dépenses et revenus des douze derniers mois. Une
+liste « Bien démarrer » guide les premiers pas, et un guide intégré décrit chaque page.
+
+![La vue d'ensemble d'octobre](vue-ensemble.webp "La vue d'ensemble, à l'échelle du foyer : indicateurs du mois, dépenses par catégorie, cumul face au budget et douze mois d'historique. Données fictives.")
+
+### Des plans budgétaires par période
+
+Un objectif mensuel par catégorie ne survit pas à la vie réelle : un changement de poste, une
+augmentation, une nouvelle dépense fixe. Les objectifs vivent donc dans des **plans** qui
+couvrent un trimestre, un semestre ou une année. Un mois moins cher compense un mois plus cher à
+l'intérieur de l'enveloppe du plan, ce qui remplace le report d'excédents prévu au départ.
+
+Un nouveau plan reprend les objectifs du précédent. Il reste modifiable jusqu'à la fin de son
+premier mois ; ensuite, on le **clôture par anticipation**, avec un motif, et un plan de
+remplacement couvre le reste de la période. L'ancien plan garde ses objectifs et sera jugé sur les
+mois qu'il a couverts. Chaque objectif peut aussi dire qui paie : le compte commun ou les comptes
+personnels.
+
+La matrice budgétaire reste la vue centrale : une ligne par catégorie, une colonne par mois,
+l'objectif du plan en tête. Chaque case donne la dépense et l'écart à l'objectif du plan qui
+couvre ce mois, coloré selon qu'on est sous l'objectif, dans la marge de ±5 % ou au-dessus.
+
+![La matrice budgétaire et le plan du trimestre en cours](matrice.webp "La page Budget : le plan du trimestre, ses objectifs et qui les paie, puis la matrice. Vert : sous l'objectif ; gris : à ±5 % près ; terre brûlée : au-dessus. Données fictives.")
+
+### Le bilan du plan
+
+C'est la partie la plus récente, et celle qui ressemble le plus à mon métier. Pendant un plan, le
+bilan dit où l'on en est : part du temps écoulée, dépensé, prévu à ce jour, et surtout une
+**projection** en fin de plan. Les catégories projetées au-dessus de leur enveloppe sont listées
+comme **dérapant**, de la plus grosse à la plus petite. Une fois le plan terminé, le même écran
+donne le résultat final, l'épargne réalisée et l'épargne prévue.
+
+![Synthèse du plan en cours et catégorie qui dérape](bilan-synthese.webp "Synthèse du trimestre en cours, au 12 octobre : les restaurants sont projetés à 88 € au-dessus de leur enveloppe. Données fictives.")
+
+La projection n'est pas une simple règle de trois. Les mois terminés comptent tels quels ; le mois
+en cours et les suivants comptent au moins pour leur objectif, ou pour la moyenne des mois
+terminés si elle est plus élevée. Un loyer prélevé le 1er n'est donc pas pris pour une dérive,
+alors qu'une dépense au-dessus de l'objectif apparaît tout de suite. La prévision de la phase 4
+pourra remplacer cette projection.
+
+Deux graphiques suivent : l'écart projeté par catégorie, dans les couleurs de la matrice, et les
+dépenses cumulées jour après jour face à la ligne d'enveloppe, au total ou pour une catégorie.
+
+![Écart projeté par catégorie et dépenses cumulées](bilan-graphiques.webp "À gauche, l'écart projeté en fin de plan par catégorie ; à droite, le cumul des dépenses face à la ligne d'enveloppe. Données fictives.")
+
+Le diagramme de flux (Sankey) montre d'où vient l'argent du plan et où il va : revenus et
+virements reçus à gauche, un nœud « disponible » au centre, puis les dépenses par catégorie,
+l'épargne et le reste non alloué à droite. Les deux côtés ont toujours le même total.
+
+![Les flux d'argent du plan](bilan-flux.webp "Les flux du plan : salaires à gauche, dépenses, épargne et reste non alloué à droite. Les catégories peuvent être détaillées en sous-catégories. Données fictives.")
+
+Enfin, une comparaison met deux plans côte à côte, en moyennes mensuelles pour que des plans de
+durées différentes restent comparables.
+
+![Comparaison entre le plan d'été et le plan en cours](bilan-comparaison.webp "Comparaison du trimestre d'été et du trimestre en cours : objectifs, dépense mensuelle moyenne et évolution. Données fictives.")
+
+### Des sauvegardes vérifiées
+
 Une sauvegarde complète chaque nuit, contrôlée avant d'être conservée, avec une rotation
 (7 jours, 4 semaines, 12 mois) et une procédure de restauration écrite.
-{{< /step >}}
-{{< /steps >}}
 
 ## Comment c'est construit
 
@@ -147,9 +220,9 @@ même origine que l'API, ce qui permet des sessions par cookie sans configuratio
 
 Côté Python, le code est découpé en paquets avec une règle stricte : `kwak_core` contient
 **toutes les règles métier** (montants, soldes, empreintes de déduplication, règles de
-catégorisation, budget, indicateurs) et ne dépend de rien. Il se teste sans base de données. L'API
-et la future couche analytique en dépendent, jamais l'inverse : un même chiffre n'a qu'une seule
-définition.
+catégorisation, plans, projection, flux, indicateurs) et ne dépend de rien. Il se teste sans base
+de données. L'API et la future couche analytique en dépendent, jamais l'inverse : un même chiffre
+n'a qu'une seule définition.
 
 Le contrat entre l'API et l'interface est le schéma OpenAPI : le client TypeScript en est
 **généré**, jamais écrit à la main. La CI échoue si quelqu'un oublie de le régénérer.
@@ -167,8 +240,10 @@ la main, le test génère des centaines de cas et cherche celui qui casse la rè
 | Import idempotent | Importer deux fois le même fichier ne change rien |
 | Virements | Un virement relié s'annule entre les deux comptes et n'est jamais réutilisé |
 | Matrice | La ligne total égale la somme des catégories plus le « à catégoriser » |
+| Plans | Deux plans ne se chevauchent jamais, et une enveloppe vaut l'objectif mensuel fois le nombre de mois |
+| Flux | Les deux côtés du diagramme de flux ont le même total |
 | Format bancaire | Tout ce que la banque écrit est relu exactement |
-| Visibilité | Un autre membre ne voit que les comptes partagés |
+| Visibilité | Un autre membre ne voit que les comptes partagés et communs |
 
 Les tests d'API tournent contre un **vrai PostgreSQL** lancé dans un conteneur, jamais contre une
 base simulée.
@@ -208,16 +283,22 @@ Le projet applique la méthode décrite dans
 - **Une PR par sujet.** Chaque changement passe par une branche courte et une pull request, qui
   n'est fusionnée qu'une fois tous les contrôles au vert (lint, typage strict, tests, construction
   des images Docker).
+- **La spécification d'abord.** Les plans budgétaires ont commencé par une PR de documentation
+  seule, qui fixait les règles (périodes, clôture anticipée, projection) avant le code.
 
 ## Ce qui a coincé
 
 - **Le format bancaire réel.** Les spécifications prévoyaient des profils d'import configurables
-  par l'utilisateur. La banque exporte en fait deux mises en page différentes selon le type de
-  compte. J'ai préféré coder un format par mise en page, chacun testé sur un fichier synthétique
-  qui en copie la structure exacte. Un profil générique viendra pour les autres banques.
-- **La date d'ouverture d'un compte.** Les lignes antérieures à la date d'ouverture étaient
-  ignorées sans explication. L'aperçu d'import les signale désormais, et propose de déplacer la
-  date.
+  par l'utilisateur. Les banques exportent en fait des mises en page bien différentes, parfois
+  deux pour la même banque selon le type de compte. J'ai préféré coder un format par mise en page,
+  chacun testé sur un fichier synthétique qui en copie la structure exacte. Un profil générique
+  viendra pour les autres banques.
+- **Une projection trop naïve.** La première projection des plans était linéaire : dépensé
+  divisé par la part du temps écoulée. Le 3 du mois, un loyer déjà prélevé apparaissait donc comme
+  une dérive énorme. Elle part désormais de la dépense attendue de chaque mois restant.
+- **Le compte commun.** Tant que tout était « privé » ou « partagé », un virement vers le compte
+  joint n'avait pas de sens dans une vue personnelle. Il a fallu une troisième visibilité, puis
+  juger chaque périmètre sur ses propres virements et sur ses propres objectifs.
 - **L'outillage qui bouge.** Le générateur du client TypeScript a besoin de l'API du compilateur
   JavaScript, que TypeScript 7 n'expose plus : il tourne à part, avec TypeScript 6.
 - **Ce qui ne survit pas au disque.** Une sauvegarde sur le même disque ne protège pas d'une panne
@@ -225,11 +306,12 @@ Le projet applique la méthode décrite dans
 
 ## La suite
 
-La phase 2 rendra l'outil quotidien (récurrences, report d'excédents, partage des dépenses). La
-phase 3 ajoutera le patrimoine. Mais c'est la phase 4 qui m'intéresse le plus : une prévision de
-trésorerie traitée comme un vrai problème de séries temporelles, avec un protocole écrit d'avance,
-un backtest sans fuite du futur et un modèle naïf à battre avant tout le reste. Cette fiche sera
-mise à jour à chaque phase livrée.
+La phase 2 se termine avec les dépenses récurrentes, le partage des dépenses communes et les
+rapports par période. La phase 3 ajoutera le patrimoine. Mais c'est la phase 4 qui m'intéresse le
+plus : une prévision de trésorerie traitée comme un vrai problème de séries temporelles, avec un
+protocole écrit d'avance, un backtest sans fuite du futur et un modèle naïf à battre avant tout le
+reste. Elle aura d'ailleurs un premier client tout trouvé : la projection du bilan de plan. Cette
+fiche sera mise à jour à chaque phase livrée.
 
 ## Essayer
 
@@ -241,4 +323,6 @@ make check        # tout ce que lance la CI
 make up           # la pile complète sur https://localhost:8443
 ```
 
-Les étapes de création du compte propriétaire et de la clé de chiffrement sont dans le `README`.
+Les étapes de création du compte propriétaire et de la clé de chiffrement sont dans le `README`,
+et l'application elle-même propose, en bas de chaque page, un guide pour la lancer, l'arrêter et
+la mettre à jour.
