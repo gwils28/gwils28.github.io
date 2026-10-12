@@ -211,3 +211,21 @@
   note: 5
   dore: true
   image: "nhop-sam-jones-double-bass.jpg"
+
+- titre: "Mingus Ah Um"
+  artiste: "Charles Mingus"
+  annee: 1959
+  note: 5
+  image: "charles-mingus-mingus-ah-um.jpg"
+
+- titre: "Song for My Father"
+  artiste: "Horace Silver"
+  annee: 1965
+  note: 4.5
+  image: "horace-silver-song-for-my-father.jpg"
+
+- titre: "7Summers"
+  artiste: "Shaun Martin"
+  annee: 2015
+  note: 4.5
+  image: "shaun-martin-7summers.jpg"
