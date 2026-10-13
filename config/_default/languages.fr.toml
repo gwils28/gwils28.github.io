@@ -27,6 +27,7 @@ title = "Kwak Jazz"
   links = [
     { github = "https://github.com/gwils28" },
     { linkedin = "https://www.linkedin.com/in/wilson-goma/" },
+    { malt = "https://www.malt.fr/profile/wilsongoma" },
     # { kaggle = "https://www.kaggle.com/username" },
     # { bluesky = "https://bsky.app/profile/username" },
     # { medium = "https://medium.com/@username" },
