@@ -6,7 +6,7 @@ nature: "produit"
 description: "A web app to track a household's electricity, gas, water and fuel use, in units, euros and kgCO₂e, with an AI coach that explains but never computes. Under development: the foundation is in place."
 summary: "Household energy and carbon copilot: actual electricity, gas, water and fuel use, in units, euros and kgCO₂e, with an AI coach that explains. The foundation has shipped; the domain and the Linky import come next."
 tags: ["python", "fastapi", "postgresql", "react", "typescript", "docker", "llm", "claude code"]
-featureImage: "carte.png"
+featureImage: "carte-en.png"
 showTableOfContents: true
 ---
 
