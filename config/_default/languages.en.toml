@@ -23,5 +23,6 @@ title = "Kwak Jazz"
   links = [
     { github = "https://github.com/gwils28" },
     { linkedin = "https://www.linkedin.com/in/wilson-goma/" },
-    { malt = "https://www.malt.fr/profile/wilsongoma" },
+    # Malt hidden until the profile is ready (icon kept in assets/icons/malt.svg).
+    # { malt = "https://www.malt.fr/profile/wilsongoma" },
   ]
