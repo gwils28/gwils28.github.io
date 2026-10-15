@@ -90,7 +90,7 @@ route.
 {{< timelineItem icon="check" header="Phase 3 · Patrimoine" badge="Livrée" subheader="Actifs et passifs, mois par mois" >}}
 Une matrice de patrimoine mensuelle : catégories et lignes saisies à la main, dettes, valeur
 nette, et quatre graphiques (historique, répartition en sunburst et en mosaïque, contributions à
-la variation). Recadrée en cours de route, voir plus bas.
+la variation).
 {{< /timelineItem >}}
 
 {{< timelineItem icon="lightbulb" header="Phase 4 · Analyse et data science" badge="À venir" subheader="Là où mon métier entre en jeu" >}}
@@ -363,71 +363,6 @@ rejetées. Une décision qui change donne une nouvelle note ; l'ancienne n'est j
 | Modèle de langage local (Ollama) | Une API dans le cloud : les données ne doivent jamais quitter la machine |
 
 Les écarts au plan initial sont, eux aussi, journalisés dans le `README`, au jour près.
-
-### Développé avec un agent, sous contrôle
-
-Le projet applique la méthode décrite dans
-[mon article sur Claude Code](/posts/claude-code-data-science/), avec une règle de départ :
-**ce qui doit toujours être vrai devient un hook**, pas une consigne.
-
-- **Je suis le seul auteur des commits.** L'agent prépare le changement et propose le message ; un
-  hook Git et la CI refusent tout message qui n'est pas au format Conventional Commits ou qui
-  ajoute un co-auteur.
-- **Les données réelles sont hors d'atteinte.** Un hook bloque toute écriture dans `data/` et la
-  lecture des secrets ; les fichiers de test sont synthétiques, et reproduisent seulement la mise
-  en page de la banque.
-- **« Fini » veut dire « vérifié ».** Quand l'agent a modifié du code, un hook relance lint, types
-  et tests, et l'empêche de conclure tant qu'ils échouent.
-- **Une relecture à froid.** Un sous-agent en lecture seule relit chaque diff avant la pull
-  request : justesse, invariants, tests, un seul sujet par changement. Un second le relit sous
-  l'angle de la sécurité : comptes privés des autres membres, actions réservées au propriétaire,
-  sessions.
-- **Les migrations fusionnées sont figées.** Un hook refuse toute modification d'une migration de
-  base déjà sur `main` : il faut en ajouter une nouvelle.
-- **Le guide suit l'interface.** Une branche qui change une page sans toucher au guide intégré est
-  arrêtée une fois, avec un rappel.
-- **Vérifier dans le navigateur, sans toucher aux vraies données.** Une compétence lance une
-  instance jetable (base dans un conteneur, données synthétiques), et un sous-agent la parcourt
-  avec l'extension Chrome : deux langues, thème clair et sombre, largeur de téléphone, erreurs de
-  console. Les captures restent hors du contexte principal.
-- **Une PR par sujet.** Chaque changement passe par une branche courte et une pull request, qui
-  n'est fusionnée qu'une fois tous les contrôles au vert (lint, typage strict, tests, construction
-  des images Docker).
-- **La spécification d'abord.** Chaque fonctionnalité commence par une PR de documentation
-  seule, qui fixe les règles avant le code : la spécification en est à sa 23e version. Une
-  compétence décrit le parcours complet d'une fonctionnalité, de la règle métier testée en premier
-  jusqu'au guide bilingue.
-
-## Ce qui a coincé
-
-- **Le format bancaire réel.** Les spécifications prévoyaient des profils d'import configurables
-  par l'utilisateur. Les banques exportent en fait des mises en page bien différentes, parfois
-  deux pour la même banque selon le type de compte. J'ai préféré coder un format par mise en page,
-  chacun testé sur un fichier synthétique qui en copie la structure exacte. Un profil générique
-  viendra pour les autres banques.
-- **Une projection trop naïve.** La première projection des plans était linéaire : dépensé
-  divisé par la part du temps écoulée. Le 3 du mois, un loyer déjà prélevé apparaissait donc comme
-  une dérive énorme. Elle part désormais de la dépense attendue de chaque mois restant.
-- **Le compte commun.** Tant que tout était « privé » ou « partagé », un virement vers le compte
-  joint n'avait pas de sens dans une vue personnelle. Il a fallu une troisième visibilité, puis
-  juger chaque périmètre sur ses propres virements et sur ses propres objectifs.
-- **L'outillage qui bouge.** Le générateur du client TypeScript a besoin de l'API du compilateur
-  JavaScript, que TypeScript 7 n'expose plus : il tourne à part, avec TypeScript 6.
-- **Le patrimoine imaginé contre le patrimoine réel.** La phase 3 prévoyait des positions en
-  titres valorisées par des cours de marché quotidiens, des tableaux d'amortissement et des biens
-  amortis. Au moment de la spécifier en détail, il est apparu que je valorise chaque placement une
-  fois par mois, à la main, dans un tableur, et que c'est ce suivi que je veux retrouver. La phase
-  est devenue une matrice mensuelle, et les cours de marché ont été abandonnés : moins ambitieux,
-  mais livré en une journée, et utilisé.
-- **Une fonctionnalité qui n'a plus servi.** Le partage des dépenses communes (« qui doit quoi à
-  qui ») était prévu dès le départ. Le compte commun et les virements récurrents de chacun vers
-  lui couvrent déjà ce besoin : la fonctionnalité a été retirée de la spécification avant d'être
-  codée, comme l'export CSV, que les sauvegardes rendent inutile.
-- **Le salaire du 28.** Compter les opérations par date réelle mettait chaque salaire dans le
-  mauvais mois, et faisait paraître un mois sur deux déficitaire. D'où le mois budgétaire, et un
-  invariant qui garantit qu'il ne fait que déplacer l'argent d'un mois à l'autre.
-- **Ce qui ne survit pas au disque.** Une sauvegarde sur le même disque ne protège pas d'une panne
-  du disque. La copie hors machine reste manuelle, et c'est une question ouverte.
 
 ## La suite
 

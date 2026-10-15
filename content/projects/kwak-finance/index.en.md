@@ -86,8 +86,7 @@ period, activity log. Splitting shared expenses was dropped along the way.
 
 {{< timelineItem icon="check" header="Phase 3 · Net worth" badge="Shipped" subheader="Assets and liabilities, month by month" >}}
 A monthly net-worth matrix: categories and lines entered by hand, debts, net worth, and four
-charts (history, allocation as a sunburst and a mosaic, what moved net worth). Reshaped along the
-way, see below.
+charts (history, allocation as a sunburst and a mosaic, what moved net worth).
 {{< /timelineItem >}}
 
 {{< timelineItem icon="lightbulb" header="Phase 4 · Analytics and data science" badge="Upcoming" subheader="Where my day job comes in" >}}
@@ -355,65 +354,6 @@ decision that changes gets a new record; the old one is never rewritten.
 | Local language model (Ollama) | A cloud API: the data must never leave the machine |
 
 Deviations from the original plan are logged in the `README` too, to the day.
-
-### Built with an agent, under control
-
-The project applies the method described in
-[my article on Claude Code]({{< relref "/posts/claude-code-data-science" >}}), with one starting
-rule: **what must always be true becomes a hook**, not an instruction.
-
-- **I am the only commit author.** The agent prepares the change and proposes the message; a Git
-  hook and CI reject any message that is not in Conventional Commits format or that adds a
-  co-author.
-- **Real data is out of reach.** A hook blocks any write into `data/` and any read of secrets; the
-  test files are synthetic, and only reproduce the bank's layout.
-- **"Done" means "verified".** When the agent has changed code, a hook re-runs lint, types and
-  tests, and keeps it from wrapping up while they fail.
-- **A cold review.** A read-only subagent reviews each diff before the pull request: correctness,
-  invariants, tests, one topic per change. A second one reviews it for security: other members'
-  private accounts, owner-only actions, sessions.
-- **Merged migrations are frozen.** A hook refuses any edit to a database migration already on
-  `main`: a new one must be added.
-- **The guide follows the interface.** A branch that changes a page without touching the in-app
-  guide is stopped once, with a reminder.
-- **Check in the browser, without touching real data.** A skill starts a throwaway instance
-  (database in a container, synthetic data), and a subagent walks through it with the Chrome
-  extension: both languages, light and dark themes, phone width, console errors. Screenshots stay
-  out of the main context.
-- **One PR per topic.** Every change goes through a short branch and a pull request, merged only
-  once every check is green (lint, strict typing, tests, Docker image builds).
-- **Specification first.** Every feature starts with a documentation-only PR that sets the rules
-  before any code: the specification is at its 23rd version. A skill describes a feature's full
-  path, from the business rule tested first to the bilingual guide.
-
-## What got stuck
-
-- **The real bank format.** The specifications planned user-configurable import profiles. Banks
-  actually export quite different layouts, sometimes two for the same bank depending on the
-  account type. I chose to code one format per layout, each tested on a synthetic file copying its
-  exact structure. A generic profile will come for other banks.
-- **A projection that was too naive.** The first plan projection was linear: spent divided by the
-  share of time elapsed. On the 3rd of the month, rent already paid showed up as a huge drift. It
-  now starts from each remaining month's expected spending.
-- **The joint account.** As long as everything was "private" or "shared", a transfer into the
-  joint account made no sense in a personal view. It took a third visibility, then judging each
-  scope on its own transfers and its own targets.
-- **Moving tooling.** The TypeScript client generator needs the JavaScript compiler API, which
-  TypeScript 7 no longer exposes: it runs separately, with TypeScript 6.
-- **Imagined net worth against real net worth.** Phase 3 planned securities positions valued from
-  daily market prices, amortisation schedules and depreciated assets. When specifying it in
-  detail, it became clear that I value each holding once a month, by hand, in a spreadsheet, and
-  that this is the tracking I want back. The phase became a monthly matrix, and market prices were
-  dropped: less ambitious, but shipped in a day, and used.
-- **A feature no longer needed.** Splitting shared expenses ("who owes what to whom") was planned
-  from the start. The joint account and each member's recurring transfers into it already cover
-  that need: the feature was removed from the specification before being coded, as was the CSV
-  export, which the backups make useless.
-- **The salary of the 28th.** Counting transactions by real date put every salary in the wrong
-  month, and made every other month look like a deficit. Hence the budget month, and an invariant
-  guaranteeing it only moves money from one month to another.
-- **What does not survive the disk.** A backup on the same disk does not protect against a disk
-  failure. Off-machine copies remain manual, and that is an open question.
 
 ## What's next
 
