@@ -1,5 +1,5 @@
-{{/* Jazz : une page à trois onglets. La racine /jazz/ est l'onglet Albums,
-     /jazz/pantheon/ et /jazz/etudes/ les deux autres. Chaque onglet est une
+{{/* Jazz : une page à deux onglets. La racine /jazz/ est l'onglet Albums,
+     /jazz/pantheon/ l'autre (l'onglet Notes, /jazz/etudes/, est retiré). Chaque onglet est une
      vraie page (URL partageable, rien ne dépend de JavaScript) : le titre et
      le paragraphe d'intro viennent toujours de content/jazz/_index.md, puis
      la barre d'onglets, puis la vue choisie par le paramètre « onglet ». */}}
@@ -16,7 +16,7 @@
   </section>
 
   <nav class="jz-onglets" aria-label="{{ i18n "jazz.onglets" }}">
-    {{- range slice "albums" "pantheon" "etudes" }}
+    {{- range slice "albums" "pantheon" }}
       {{- $page := cond (eq . "albums") $racine (site.GetPage (printf "/jazz/%s" .)) }}
       {{- with $page }}
         {{- $actif := eq .RelPermalink $.RelPermalink }}
