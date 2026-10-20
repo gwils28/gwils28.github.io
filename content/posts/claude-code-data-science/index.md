@@ -662,7 +662,7 @@ L'agent fait beaucoup. Certaines choses restent à moi, par principe.
 - **La publication.** Rien ne sort sur ce blog sans que je l'aie relu et que je sache
   l'expliquer.
 
-Ces règles sont publiques, sur la page [Présentation]({{< relref "/about#ia" >}}). Les écrire
+Ces règles sont publiques, sur la page [Comment j'utilise l'IA]({{< relref "/ia" >}}). Les écrire
 m'oblige à les tenir.
 
 ## 10. Les signaux qui me font changer de cap

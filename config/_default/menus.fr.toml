@@ -76,3 +76,8 @@
   name = "Charte graphique"
   pageRef = "charte"
   weight = 40
+
+[[footer]]
+  name = "Usage de l'IA"
+  pageRef = "ia"
+  weight = 35

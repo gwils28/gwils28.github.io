@@ -75,3 +75,8 @@
   name = "Style guide"
   pageRef = "charte"
   weight = 40
+
+[[footer]]
+  name = "Use of AI"
+  pageRef = "ia"
+  weight = 35

@@ -624,7 +624,7 @@ The agent does a lot. Some things stay mine, on principle.
   access.
 - **Publishing.** Nothing goes out on this blog unless I've read it and can explain it.
 
-These rules are public, on the [About]({{< relref "/about#ia" >}}) page. Writing them down
+These rules are public, on the [How I use AI]({{< relref "/ia" >}}) page. Writing them down
 makes me keep them.
 
 ## 10. The signals that make me change course

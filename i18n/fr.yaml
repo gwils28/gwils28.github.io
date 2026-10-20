@@ -35,7 +35,7 @@ jazz.filtre: "Filtrer les notes par type"
 jazz.filtre.toutes: "Toutes"
 
 # Note de transparence sur l'IA ({{< note-ia >}}), commune à tous les articles et projets.
-# .couverture = « l'article » ou « cette fiche » selon la section ; .lien = la section IA de la page Présentation.
+# .couverture = « l'article » ou « cette fiche » selon la section ; .lien = la page « Comment j'utilise l'IA » (content/ia.md).
 transparence.couverture.posts: "l'article"
 transparence.couverture.projects: "cette fiche"
 transparence.texte: |-
