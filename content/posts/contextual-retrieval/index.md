@@ -1,5 +1,5 @@
 ---
-title: "Contextual Retrieval : apprendre le RAG en le mesurant"
+title: "Contextual Retrieval : du RAG naïf aux chunks contextualisés"
 date: 2026-10-16
 draft: true
 description: "Carnet d'apprentissage d'un data scientist débutant en recherche d'information : les fondamentaux du RAG, puis un banc d'essai sur des rapports financiers où chaque couche (hybride, reranker, chunks contextualisés) est mesurée, intervalles de confiance compris."
