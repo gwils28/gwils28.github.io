@@ -40,8 +40,8 @@ dépendait, tests compris.
 
 {{< alert icon="image" >}}
 **Toutes les captures montrent des données fictives.** Elles viennent d'une instance de
-démonstration, alimentée par un foyer inventé. Aucun montant, libellé ni solde ne provient de
-comptes réels. Les captures de la nouvelle saisie et des objectifs arrivent.
+démonstration, alimentée par un foyer inventé (Camille et Sam, dix mois de dépenses, deux ans de
+patrimoine, neuf objectifs). Aucun montant, libellé ni solde ne provient de comptes réels.
 {{< /alert >}}
 
 ## Le problème
@@ -144,6 +144,8 @@ Le patrimoine et les objectifs se lisent ensuite à l'échelle du **foyer**, du 
 **mes lignes**. L'application est rangée en trois espaces, **Dépenses**, **Patrimoine** et
 **Objectifs** ; la vue d'ensemble, en tête, résume les trois.
 
+![La vue d'ensemble d'octobre](vue-ensemble.webp "Octobre à l'échelle du foyer : le patrimoine net et sa variation, la progression de chaque étage de la pyramide, puis les chiffres du mois. Données fictives.")
+
 ### Saisir vite, au clavier
 
 La page principale des dépenses est une **grille** : un mois, ses lignes, chaque case modifiable
@@ -159,10 +161,17 @@ Au-dessus, une **ligne rapide** accepte une dépense tapée dans n'importe quel 
 - le reste est le libellé, et sa catégorie vient de la **mémoire des libellés** : choisir un
   libellé déjà utilisé reprend la catégorie de sa dernière ligne.
 
-La ligne s'affiche telle qu'elle a été comprise pendant la frappe. Un en-tête rappelle la
-dernière ligne saisie et quand, pour reprendre là où l'on s'est arrêté. Une ligne peut aussi être
-**ventilée** sur plusieurs catégories : la dernière part prend le reste, si bien que la somme tombe
-toujours juste.
+![La grille des dépenses et la ligne rapide](grille.webp "La ligne rapide a compris « cinéma 24,50 vendredi #loisirs » avant même la validation ; en dessous, les dépenses fixes à confirmer, grisées, puis les lignes du mois. Données fictives.")
+
+Un en-tête rappelle la dernière ligne saisie et quand, et un point la marque dans la grille, pour
+reprendre là où l'on s'est arrêté.
+
+![La fin de la grille](derniere-saisie.webp "Le point vert marque la dernière ligne saisie ; la ligne vide attend la suivante, à la même date. Données fictives.")
+
+Une ligne peut aussi être **ventilée** sur plusieurs catégories : la dernière part prend le reste,
+si bien que la somme tombe toujours juste.
+
+![Une ligne ventilée](ventilation.webp "Un passage à l'hypermarché : 88,51 € de courses, le reste (36 €) pour le foyer. Données fictives.")
 
 ### Des catégories à trois natures
 
@@ -183,7 +192,11 @@ revient chaque mois, trimestre ou année. Chaque échéance due apparaît grisé
 du mois. Entrée la confirme et crée la ligne, modifiable avant ; on peut aussi la sauter pour le
 mois. Rien n'est jamais créé tout seul.
 
+![La liste des dépenses fixes](depenses-fixes.webp "Loyer, assistante maternelle, abonnements : chaque dépense fixe avec sa fréquence, son jour et sa catégorie. Données fictives.")
+
 La vue d'ensemble liste ce qui reste à confirmer et le **reste projeté** en fin de mois.
+
+![Les dépenses fixes encore à confirmer](a-confirmer.webp "Trois échéances d'octobre encore à confirmer, et le reste projeté une fois qu'elles seront payées. Données fictives.")
 
 ### Des objectifs mensuels
 
@@ -199,14 +212,27 @@ reçoit un minimum à atteindre.
 - **l'année** : les objectifs cumulés à date et sur l'année entière, l'écart, et combien de mois
   ont été au-dessus, dans ou sous l'objectif.
 
+![Les cibles du mois en cours](mois-en-cours.webp "Au 24 octobre : le transport et le shopping ont dépassé leur cible ; le trait vertical marque la part du mois écoulée, et le loyer, payé en une fois, n'est pas jugé sur le rythme. Données fictives.")
+
+![La matrice budgétaire](budget-matrice.webp "Six mois de budget : les revenus reçus en haut, puis chaque catégorie face à sa cible. Vert : sous la cible ; gris : à ±5 % ; orange : au-dessus. Données fictives.")
+
+![La vue annuelle](budget-annee.webp "L'année 2026 à date : cible cumulée, dépensé, écart, et combien de mois au-dessus, dans et sous la cible. Données fictives.")
+
 ### Des rapports sur n'importe quelle période
 
 Un mois, un trimestre, une année ou toute période jusqu'à dix ans, comparée à la **précédente de
 même longueur**. Une période en cours s'arrête au mois courant : « cette année » se compare aux
-mêmes mois de l'an dernier, pas à une année entière. Le rapport donne les totaux, le détail par
-catégorie, un graphique mensuel empilé par catégorie, les dépenses cumulées jour après jour, et
-les **flux d'argent** de la période : les revenus à gauche ; dépenses, épargne et reste non alloué
-à droite, les deux côtés toujours au même total.
+mêmes mois de l'an dernier, pas à une année entière.
+
+![Les totaux et le détail d'un rapport](rapport.webp "Septembre face à août : les totaux, puis chaque catégorie avec sa moyenne, sa part et son évolution. Données fictives.")
+
+Le rapport donne aussi un graphique mensuel empilé par catégorie, les dépenses cumulées jour après
+jour, et les **flux d'argent** de la période : les revenus à gauche ; dépenses, épargne et reste non
+alloué à droite, les deux côtés toujours au même total.
+
+![Les dépenses mois par mois](rapport-mois.webp "2026 mois par mois : les six plus grosses catégories en couleur, les autres en gris, face à la courbe des revenus. Données fictives.")
+
+![Les flux d'argent de l'année](rapport-flux.webp "Les flux de 2026 : salaires et aides à gauche ; chaque catégorie, l'épargne et le reste non alloué à droite. Données fictives.")
 
 ### Le patrimoine, mois par mois
 
@@ -245,11 +271,21 @@ apport immobilier. Ils sont rangés en pyramide, dessinée en pierre :
   rhum), sans échéance, **verrouillée** tant que l'essentiel n'est pas en ordre : précaution
   remplie et au moins trois quarts des objectifs en avance.
 
+![La pyramide des objectifs et le plan d'effort](pyramide.webp "La pyramide du foyer : la colonne de la précaution à 96 %, les trois étages, la coiffe verrouillée ; à droite, le plan d'effort du mois, la précaution servie d'abord. Données fictives.")
+
 Un objectif ne demande aucune saisie de plus : il est financé par des **enveloppes**, la part
 d'une ligne de patrimoine mise de côté pour lui. Quand la ligne monte, chaque objectif reçoit sa
 part de la hausse ; quand elle baisse, la baisse sort d'abord de la partie libre, et les objectifs
 ne perdent qu'une fois la ligne descendue sous ce qu'ils détiennent, les envies en premier et la
 précaution en dernier.
+
+{{< mermaid >}}
+flowchart LR
+    L["Ligne de patrimoine<br/>Assurance-vie fonds euros"] -->|50 % des hausses| A["Enveloppe<br/>Vacances au Portugal"]
+    L -->|30 % des hausses| B["Enveloppe<br/>Nouvelle voiture"]
+    L -->|20 % des hausses| C["Enveloppe<br/>Apport immobilier"]
+    L -.->|baisses d'abord| F["Partie libre"]
+{{< /mermaid >}}
 
 Chaque objectif a son statut (atteint, en avance, dans les temps, en retard), comparé à une
 trajectoire droite du départ à la cible, et ses estimations : l'effort mensuel nécessaire,
@@ -257,6 +293,17 @@ l'effort réel des six derniers mois, la date estimée à ce rythme. Le **plan d
 répartit la capacité d'épargne du foyer : la précaution d'abord, dans la limite d'une part
 réglable, puis les autres objectifs selon leur effort nécessaire, puis les envies déverrouillées.
 C'est une recommandation : rien n'est déplacé.
+
+![Les cartes de l'étage court terme](objectifs-cartes.webp "Le court terme : deux objectifs en avance, chacun avec sa jauge, son repère de rythme et ses estimations. Données fictives.")
+
+![La coiffe et ses envies](coiffe.webp "La coiffe : deux envies verrouillées tant que l'essentiel n'est pas en ordre. Données fictives.")
+
+Chaque objectif a aussi sa page : ses estimations, sa trajectoire, ses enveloppes ligne par ligne
+et son suivi mois par mois.
+
+![La page d'un objectif](objectif-page.webp "Vacances au Portugal : en avance de trois mois ; la trajectoire montre les valeurs, la ligne attendue et la projection au rythme actuel. Données fictives.")
+
+![Les enveloppes d'un objectif et son suivi mensuel](objectif-enveloppes.webp "Son enveloppe sur l'assurance-vie, puis chaque mois : atteint, gagné, attendu et écart. Données fictives.")
 
 ### L'analyse des objectifs
 
@@ -275,12 +322,24 @@ passe jamais pour un mois sans gain.
   partie libre ;
 - **le statut mois par mois** de chaque objectif.
 
+![L'effort requis face à la capacité](analyse-effort.webp "Les efforts requis empilés par objectif face à la capacité : novembre 2026 dépasse, le temps que la précaution de Sam se remplisse. Données fictives.")
+
+![La frise des objectifs](analyse-frise.webp "Chaque objectif de son départ à son échéance : la date estimée au rythme réel (●) et au rythme du plan (◇). Données fictives.")
+
+![Horizon et risque](analyse-risque.webp "Le vélo électrique, à six mois de son échéance, est financé par des lignes volatiles : il tombe dans la zone à surveiller. Données fictives.")
+
+![Où est l'argent des objectifs](analyse-flux.webp "Des catégories aux lignes, puis aux enveloppes des objectifs et à la partie libre de chaque ligne. Données fictives.")
+
+![Le statut des objectifs mois par mois](analyse-statut.webp "Le statut de chaque objectif, mois après mois. Données fictives.")
+
 Au-dessus, des **points à regarder**, calculés par une quinzaine de règles fixes : un objectif en
 retard depuis trois mois, une précaution trop mince ou placée sur des lignes volatiles, un livret
 proche de son plafond, de l'argent qui dort sur un compte courant, des objectifs qui demandent
 plus que la capacité (avec le report d'échéance qui suffirait). Chaque point donne les faits, les
 chiffres, pourquoi c'est important et des options ; jamais une consigne d'achat ou de vente, ni un
 produit nommé. Trois au plus s'affichent, et chaque membre peut en reporter ou en écarter un.
+
+![Les points à regarder](analyse-points.webp "Trois points à regarder : une précaution qui couvre moins de trois mois de charges fixes, deux objectifs proches financés par des lignes volatiles. Données fictives.")
 
 ### Des sauvegardes vérifiées, des actions tracées
 
@@ -291,6 +350,8 @@ Un **journal d'activité** garde les actions sensibles, écrites dans la même t
 l'action elle-même : connexions, invitations, suppressions. Le propriétaire voit tout le foyer, un
 membre ses propres entrées.
 
+![Le journal d'activité](journal.webp "Connexions (dont un code erroné), invitation envoyée puis annulée, réglages, suppression d'une ligne. Données fictives.")
+
 ## Comment c'est construit
 
 ### Une architecture simple, pensée pour la suite
@@ -298,6 +359,17 @@ membre ses propres entrées.
 Tout démarre d'un seul `docker compose up` : un proxy Caddy en TLS sur le réseau local, une API
 FastAPI, une base PostgreSQL et un service de sauvegarde. L'interface React est servie depuis la
 même origine que l'API, ce qui permet des sessions par cookie sans configuration CORS.
+
+{{< mermaid >}}
+flowchart LR
+    N["Navigateur<br/>réseau local"] -->|HTTPS| C["Caddy<br/>TLS + interface React"]
+    C -->|/api| A["API FastAPI<br/>kwak_api"]
+    A --> K["kwak_core<br/>toutes les règles métier"]
+    A -.->|page à venir| M["kwak_analytics<br/>Monte-Carlo, NumPy"]
+    M --> K
+    A --> P[("PostgreSQL")]
+    S["Sauvegarde nocturne<br/>pg_dump vérifié"] --> P
+{{< /mermaid >}}
 
 Côté Python, le code est découpé en paquets avec une règle stricte : `kwak_core` contient
 **toutes les règles métier** (montants, ligne rapide, ventilation, objectifs mensuels, dépenses
