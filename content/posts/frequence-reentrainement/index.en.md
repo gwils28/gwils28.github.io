@@ -282,8 +282,8 @@ The service publishes the mean of the last \(w\) observations, re-estimated ever
 served model has mean age \(\bar a = (k-1)/2\). Its mean squared error decomposes exactly:
 
 $$
-\text{MSE}(k, w) = \underbrace{\sigma^2\left(1 + \tfrac{1}{w}\right)}_{\text{noise}}
-+ q\Big[\underbrace{(\bar a + 1)}_{\text{model age}} + \underbrace{\tfrac{(w-1)(2w-1)}{6w}}_{\text{window lag}}\Big].
+\text{MSE}(k, w) = \underbrace{\sigma^2\left(1 + \tfrac{1}{w}\right)}_{\text{noise}} +
+  q\Big[\underbrace{(\bar a + 1)}_{\text{model age}} + \underbrace{\tfrac{(w-1)(2w-1)}{6w}}_{\text{window lag}}\Big].
 $$
 
 The last term is the **centroid lag**: a mean over \(w\) steps estimates the level as it was
@@ -305,8 +305,8 @@ For stability, the variance of the jump \(R\) between two re-estimations \(k\) s
 \(a = \min(k, w)\) and \(b = \max(k, w)\)) splits into two terms:
 
 $$
-\operatorname{Var}(R) = \underbrace{\frac{2a\,\sigma^2}{w^2}}_{\text{estimation fluctuation}}
-+ \underbrace{\frac{q}{w^2}\left[a^2(b - a + 1) + \frac{(a-1)\,a\,(2a-1)}{3}\right]}_{\text{real level movement}}.
+\operatorname{Var}(R) = \underbrace{\frac{2a\,\sigma^2}{w^2}}_{\text{estimation fluctuation}} +
+  \underbrace{\frac{q}{w^2}\left[a^2(b - a + 1) + \frac{(a-1)\,a\,(2a-1)}{3}\right]}_{\text{real level movement}}.
 $$
 
 The first term is **noise**: the window slid, a few noisy observations came in and out, and the

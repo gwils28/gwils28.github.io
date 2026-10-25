@@ -300,8 +300,8 @@ modèle servi a un âge moyen \(\bar a = (k-1)/2\). Son erreur quadratique moyen
 exactement :
 
 $$
-\text{MSE}(k, w) = \underbrace{\sigma^2\left(1 + \tfrac{1}{w}\right)}_{\text{bruit}}
-+ q\Big[\underbrace{(\bar a + 1)}_{\text{âge du modèle}} + \underbrace{\tfrac{(w-1)(2w-1)}{6w}}_{\text{retard de la fenêtre}}\Big].
+\text{MSE}(k, w) = \underbrace{\sigma^2\left(1 + \tfrac{1}{w}\right)}_{\text{bruit}} +
+  q\Big[\underbrace{(\bar a + 1)}_{\text{âge du modèle}} + \underbrace{\tfrac{(w-1)(2w-1)}{6w}}_{\text{retard de la fenêtre}}\Big].
 $$
 
 Le dernier terme est le **retard du centroïde** : une moyenne sur \(w\) pas estime le niveau tel
@@ -324,8 +324,8 @@ Pour la stabilité, la variance du saut \(R\) entre deux réestimations espacée
 (avec \(a = \min(k, w)\) et \(b = \max(k, w)\)) se décompose en deux termes :
 
 $$
-\operatorname{Var}(R) = \underbrace{\frac{2a\,\sigma^2}{w^2}}_{\text{fluctuation d'estimation}}
-+ \underbrace{\frac{q}{w^2}\left[a^2(b - a + 1) + \frac{(a-1)\,a\,(2a-1)}{3}\right]}_{\text{mouvement réel du niveau}}.
+\operatorname{Var}(R) = \underbrace{\frac{2a\,\sigma^2}{w^2}}_{\text{fluctuation d'estimation}} +
+  \underbrace{\frac{q}{w^2}\left[a^2(b - a + 1) + \frac{(a-1)\,a\,(2a-1)}{3}\right]}_{\text{mouvement réel du niveau}}.
 $$
 
 Le premier terme correspond au **bruit** : la fenêtre a glissé, quelques observations bruitées
