@@ -70,8 +70,8 @@
   label: { fr: "une pièce d'échiquier", en: "a chess piece" }
   value: { fr: "Un fou", en: "A bishop" }
   pourquoi:
-    fr: "Il ne marche pas en ligne droite, n’impose pas une force brute, il attend son heure quand le jeu est fermé, mais il est redoutable dans les positions ouvertes."
-    en: "It never moves in a straight line and imposes no brute force; it bides its time when the game is closed, but it is formidable in open positions."
+    fr: "Il ne marche pas en ligne droite, n’a pas une force brute, il attend son heure quand le jeu est fermé, mais il est redoutable dans les positions ouvertes."
+    en: "It never moves in a straight line and has no brute force; it bides its time when the game is closed, but it is formidable in open positions."
 - icon: ""
   svg: "img/portrait/huit-de-trefle.svg"
   label: { fr: "une carte au poker", en: "a poker card" }
