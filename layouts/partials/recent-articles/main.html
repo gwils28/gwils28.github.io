@@ -3,8 +3,12 @@
   projets, au lieu d'une grille unique qui mélangeait les deux sections.
   Chaque bloc a son titre et son lien « Voir tout » vers sa section.
 
-  Nombre de cartes par bloc : homepage.showRecentItems (params.toml).
-  Un bloc sans contenu n'est pas affiché.
+  Le bloc projets se lit en deux rangées, Produits puis Labo (paramètre
+  « nature », défaut produit), comme la page Projets ; chaque rangée a un
+  intertitre repris de l'étiquette des cartes (losange plein ou évidé).
+
+  Nombre de cartes par bloc, ou par rangée : homepage.showRecentItems
+  (params.toml). Un bloc ou une rangée sans contenu n'est pas affiché.
 */ -}}
 {{ if site.Params.homepage.showRecent | default false }}
   {{ $n := site.Params.homepage.showRecentItems | default 3 }}
@@ -16,11 +20,35 @@
           <h2 class="text-2xl font-extrabold">{{ i18n $bloc.titre }}</h2>
           <a href="{{ (site.GetPage (printf "/%s" $bloc.section)).RelPermalink }}">{{ i18n "accueil.voir_tout" }}&nbsp;→</a>
         </div>
-        <div class="w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-          {{ range first $n . }}
-            {{ partial "article-link/card.html" . }}
+        {{ if eq $bloc.section "projects" }}
+          {{ $produits := slice }}
+          {{ $labos := slice }}
+          {{ range . }}
+            {{ if eq (.Params.nature | default "produit") "labo" }}
+              {{ $labos = $labos | append . }}
+            {{ else }}
+              {{ $produits = $produits | append . }}
+            {{ end }}
           {{ end }}
-        </div>
+          {{ range $rangee := slice (dict "nature" "produit" "pages" $produits) (dict "nature" "labo" "pages" $labos) }}
+            {{ with $rangee.pages }}
+              <div class="accueil-rangee">
+                <h3 class="type-contenu type-contenu--projet type-contenu--{{ $rangee.nature }}">{{ i18n (printf "projets.%s.titre" $rangee.nature) }}</h3>
+                <div class="w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+                  {{ range first $n . }}
+                    {{ partial "article-link/card.html" . }}
+                  {{ end }}
+                </div>
+              </div>
+            {{ end }}
+          {{ end }}
+        {{ else }}
+          <div class="w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+            {{ range first $n . }}
+              {{ partial "article-link/card.html" . }}
+            {{ end }}
+          </div>
+        {{ end }}
       </section>
     {{ end }}
   {{ end }}

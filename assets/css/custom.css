@@ -703,6 +703,14 @@ time,
 .accueil-bloc-entete a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .dark .accueil-bloc-entete a { color: rgb(var(--color-primary-400)); }
 
+/* Bloc projets : une rangée Produits, une rangée Labo, chacune sous un
+   intertitre qui reprend l'étiquette des cartes, un cran plus grand. */
+.accueil-rangee + .accueil-rangee { margin-top: 2.25rem; }
+.accueil-rangee > .type-contenu {
+  margin: 0 0 0.85rem;
+  font-size: 0.78rem;
+}
+
 /* --- Étiquette de type sur les cartes (partials/type-contenu.html) -------
    Petite capitale en mono, précédée d'une puce : ronde et ambre pour un
    article, en losange et verte pour un projet (plein pour un produit,
