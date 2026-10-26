@@ -264,38 +264,126 @@ time,
   padding: 0;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  /* Toutes les rangées prennent la hauteur de la plus haute : les cartes
+     ont toutes la même taille, quel que soit leur verso. */
+  grid-auto-rows: 1fr;
   gap: 1rem;
 }
 @media (max-width: 768px) {
   .portrait-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
+/* La carte (li) porte l'inclinaison et le soulèvement ; .portrait-carte
+   pivote d'un demi-tour ; les deux faces, empilées dans la même case de
+   grille, portent le papier (bord, fond, ombre). La carte prend la hauteur
+   de sa face la plus haute, recto ou verso. */
 .portrait-card {
   --tilt: -1.6deg;
+  display: grid;
+  perspective: 60rem;
+  transform: rotate(var(--tilt));
+  transition: transform 0.2s ease;
+}
+.portrait-card:nth-child(3n + 2) { --tilt: 1.2deg; }
+.portrait-card:nth-child(3n + 3) { --tilt: -0.6deg; }
+.portrait-card:nth-child(4n + 4) { --tilt: 1.8deg; }
+
+.portrait-card:hover { transform: rotate(0) translateY(-4px); }
+
+.portrait-carte {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.3, 1.3, 0.5, 1);
+}
+button.portrait-carte { cursor: pointer; }
+button.portrait-carte:focus-visible { outline: none; }
+.portrait-carte[aria-pressed="true"] { transform: rotateY(180deg); }
+
+.portrait-face {
+  grid-area: 1 / 1;
   position: relative;
   overflow: hidden;
+  display: block;
   min-height: 8.5rem;
   padding: 0.9rem 1rem 2.6rem;
   border-radius: 0.75rem;
   border: 1px solid rgb(var(--color-neutral-300));
   background: rgb(var(--color-neutral) / 0.85);
   box-shadow: 0 1px 2px rgb(0 0 0 / 0.06);
-  transform: rotate(var(--tilt));
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  backface-visibility: hidden;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
 }
-.portrait-card:nth-child(3n + 2) { --tilt: 1.2deg; }
-.portrait-card:nth-child(3n + 3) { --tilt: -0.6deg; }
-.portrait-card:nth-child(4n + 4) { --tilt: 1.8deg; }
-
-.dark .portrait-card {
+.dark .portrait-face {
   border-color: rgb(var(--color-neutral-600));
   background: rgb(var(--color-neutral-800) / 0.85);
 }
-
-.portrait-card:hover {
-  transform: rotate(0) translateY(-4px);
+.portrait-card:hover .portrait-face,
+.portrait-carte:focus-visible .portrait-face {
   border-color: rgb(var(--color-primary-400));
   box-shadow: 0 10px 24px -8px rgb(var(--color-primary-900) / 0.35);
+}
+
+/* Verso : un papier teinté de vert, la raison en clair, et l'icône du
+   recto en filigrane dans le coin, plus effacée encore. */
+.portrait-verso {
+  padding-bottom: 1rem;
+  transform: rotateY(180deg);
+  background: rgba(var(--color-primary-100), 0.9);
+  border-color: rgb(var(--color-primary-300));
+}
+.dark .portrait-verso {
+  background: rgba(var(--color-primary-800), 0.45);
+  border-color: rgb(var(--color-primary-700));
+}
+.portrait-verso .portrait-label,
+.portrait-verso .portrait-pourquoi { position: relative; z-index: 1; }
+.portrait-verso .portrait-icon,
+.portrait-card:hover .portrait-verso .portrait-icon {
+  opacity: 0.12;
+  filter: grayscale(1);
+  transform: rotate(-12deg);
+}
+.dark .portrait-verso .portrait-icon,
+.dark .portrait-card:hover .portrait-verso .portrait-icon { opacity: 0.18; }
+.portrait-label--verso { color: rgb(var(--color-primary-700)); }
+.dark .portrait-label--verso { color: rgb(var(--color-primary-400)); }
+
+.portrait-pourquoi {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: rgb(var(--color-neutral-800));
+}
+.dark .portrait-pourquoi { color: rgb(var(--color-neutral-200)); }
+.portrait-pourquoi p { margin: 0; }
+
+/* Indice « pourquoi ? » en pied de recto, affiché seulement quand le
+   script est là pour retourner la carte. */
+.portrait-indice {
+  display: none;
+  position: absolute;
+  left: 1rem;
+  bottom: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: rgb(var(--color-primary-700));
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+.dark .portrait-indice { color: rgb(var(--color-primary-400)); }
+.portrait--retournable .portrait-indice { display: block; }
+.portrait-card:hover .portrait-indice { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .portrait-carte { transition: none; }
 }
 
 .portrait-label {

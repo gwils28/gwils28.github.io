@@ -8,6 +8,7 @@
   jazz-cases.js  rend cochables les listes « - [ ] » des notes jazz.
   jazz-filtre.js filtre le tableau de l'onglet Notes par type de note.
   cv-bascule.js  bascule du CV entre expériences salariées et freelance.
+  portrait-retourne.js  retourne les cartes du portrait chinois (À propos).
 */}}
 {{ if or (eq .Section "jazz") (eq .Path "/charte") }}
 <link
@@ -23,6 +24,11 @@
 {{ end }}
 {{ if eq .Path "/cv" }}
 {{ with resources.Get "js/cv-bascule.js" | minify | fingerprint }}
+<script defer src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}"></script>
+{{ end }}
+{{ end }}
+{{ if eq .Path "/about" }}
+{{ with resources.Get "js/portrait-retourne.js" | minify | fingerprint }}
 <script defer src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}"></script>
 {{ end }}
 {{ end }}

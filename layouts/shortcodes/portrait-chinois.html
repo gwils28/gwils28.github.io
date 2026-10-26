@@ -1,6 +1,11 @@
 {{- /*
   Portrait chinois : une grille de cartes tirées de data/portrait.yaml.
   Usage : {{< portrait-chinois >}}
+
+  Une carte qui a un `pourquoi` est un bouton : un clic la retourne et le
+  verso donne la raison, l'icône de la carte en filigrane
+  (assets/js/portrait-retourne.js). Sans JavaScript, la carte reste côté
+  recto.
 */ -}}
 {{- $lang := .Page.Language.Lang -}}
 {{- $fr := eq $lang "fr" -}}
@@ -8,17 +13,44 @@
   <h2 class="portrait-lead">{{ cond $fr "Si j'étais…" "If I were…" }}</h2>
   <ul class="portrait-grid">
   {{- range $i, $e := hugo.Data.portrait }}
+    {{- $pourquoi := "" }}
+    {{- with $e.pourquoi }}{{ $pourquoi = partial "cv-t.html" (dict "v" . "lang" $lang) }}{{ end }}
+    {{- $icone := "" }}
+    {{- with $e.swatch }}
+      {{- $icone = printf `<span class="portrait-icon portrait-swatch" style="--swatch: %s" aria-hidden="true"></span>` (. | safeCSS) }}
+    {{- else with $e.svg }}
+      {{- $icone = printf `<span class="portrait-icon portrait-svg" aria-hidden="true">%s</span>` (resources.Get .).Content }}
+    {{- else }}
+      {{- $icone = printf `<span class="portrait-icon" aria-hidden="true">%s</span>` $e.icon }}
+    {{- end }}
+    {{- $icone = $icone | safeHTML }}
     <li class="portrait-card" style="--i: {{ $i }}">
-      <span class="portrait-label">{{ partial "cv-t.html" (dict "v" $e.label "lang" $lang) }}</span>
-      <span class="portrait-would">{{ cond $fr "je serais" "I'd be" }}</span>
-      <span class="portrait-value">{{ partial "cv-t.html" (dict "v" $e.value "lang" $lang) }}</span>
-      {{- with $e.note }}<span class="portrait-note">{{ . }}</span>{{ end }}
-      {{- with $e.swatch }}
-      <span class="portrait-icon portrait-swatch" style="--swatch: {{ . | safeCSS }}" aria-hidden="true"></span>
-      {{- else with $e.svg }}
-      <span class="portrait-icon portrait-svg" aria-hidden="true">{{ (resources.Get .).Content | safeHTML }}</span>
+      {{- if $pourquoi }}
+      <button type="button" class="portrait-carte" aria-pressed="false">
       {{- else }}
-      <span class="portrait-icon" aria-hidden="true">{{ $e.icon }}</span>
+      <span class="portrait-carte">
+      {{- end }}
+        <span class="portrait-face portrait-recto">
+          <span class="portrait-label">{{ partial "cv-t.html" (dict "v" $e.label "lang" $lang) }}</span>
+          <span class="portrait-would">{{ cond $fr "je serais" "I'd be" }}</span>
+          <span class="portrait-value">{{ partial "cv-t.html" (dict "v" $e.value "lang" $lang) }}</span>
+          {{- with $e.note }}<span class="portrait-note">{{ . }}</span>{{ end }}
+          {{- $icone }}
+          {{- if $pourquoi }}
+          <span class="portrait-indice" aria-hidden="true">{{ cond $fr "pourquoi ?" "why?" }}</span>
+          {{- end }}
+        </span>
+        {{- if $pourquoi }}
+        <span class="portrait-face portrait-verso">
+          <span class="portrait-label portrait-label--verso">{{ cond $fr "parce que" "because" }}</span>
+          <span class="portrait-pourquoi">{{ $pourquoi | markdownify }}</span>
+          {{- $icone }}
+        </span>
+        {{- end }}
+      {{- if $pourquoi }}
+      </button>
+      {{- else }}
+      </span>
       {{- end }}
     </li>
   {{- end }}

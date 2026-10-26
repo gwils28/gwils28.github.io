@@ -2,47 +2,86 @@
 # Même convention que cv.yaml : chaque texte est une chaîne ou une table { fr, en }.
 # `swatch` (facultatif) affiche une pastille de la couleur indiquée ;
 # `svg` (facultatif) remplace l'emoji par une icône de assets/.
+# `pourquoi` (facultatif) : la raison, au verso ; un clic retourne la carte.
+#   Deux phrases, 240 caractères au plus : toutes les cartes prennent la hauteur
+#   du verso le plus long, même non retournées.
 
 - icon: "🦆"
   label: { fr: "un animal", en: "an animal" }
   value: { fr: "Un canard", en: "A duck" }
+  pourquoi:
+    fr: "Avec d’anciens collègues, nous formions la squad Ducks. Multiterrain comme le canard, on exploitait la donnée dans tous les environnements : sur terre avec les data warehouses, sur l’eau avec les data lakes, dans les airs avec le cloud."
+    en: "With former colleagues, we formed the Ducks squad. All-terrain like the duck, we worked with data in every environment: on land with data warehouses, on water with data lakes, in the air with the cloud."
 - icon: "🎺"
   label: { fr: "une musique", en: "a tune" }
   value: "So What"
   note: "Miles Davis"
+  pourquoi:
+    fr: "Les premières notes de la ligne de basse de Paul Chambers m’ont marqué. Ce morceau m’évoque un élan de force, de liberté et de robustesse."
+    en: "Paul Chambers’ opening bass notes stayed with me. To me, this tune evokes a surge of strength, freedom and robustness."
 - icon: ""
   swatch: "#1F5130"
   label: { fr: "une couleur", en: "a colour" }
   value: { fr: "Vert forêt", en: "Forest green" }
+  pourquoi:
+    fr: "La même couleur qu’on peut avoir la chance d’admirer dans une canopée tropicale un matin pluvieux, ma couleur préférée depuis toujours."
+    en: "The same colour you may be lucky enough to admire in a tropical canopy on a rainy morning, my favourite colour for as long as I can remember."
 - icon: ""
   svg: "img/portrait/tipunch.svg"
   label: { fr: "une boisson", en: "a drink" }
   value: "Ti'punch"
+  pourquoi:
+    fr: "Selon ma tradition, chacun dose lui-même sa propre mort en ajustant comme bon lui semble les 3 ingrédients. C’est là le meilleur symbole de tolérance et d’ouverture que je connaisse."
+    en: "In my tradition, everyone measures out their own death, adjusting the 3 ingredients as they see fit. That is the best symbol of tolerance and openness I know."
 - icon: "🌬️"
   label: { fr: "un élément", en: "an element" }
   value: { fr: "L'air", en: "Air" }
+  pourquoi:
+    fr: "Sans lui, on suffoquerait en quelques instants ; pourtant, on pense plus volontiers à l’eau comme essentielle. C’est la force tranquille qu’il ne faut pas contrarier : mieux vaut le calme que la tempête."
+    en: "Without it, we would suffocate within moments; yet we more readily think of water as essential. It is the quiet strength you must not cross: better the calm than the storm."
 - icon: "🍕"
   label: { fr: "un plat", en: "a dish" }
   value: { fr: "Une pizza", en: "A pizza" }
+  pourquoi:
+    fr: "Il y a autant de recettes possibles que l’imagination nous le permet, et tout le monde a une idée précise de ce qu’est une bonne pizza. Je me reconnais dans cette diversité."
+    en: "There are as many possible recipes as imagination allows, and everyone has a clear idea of what makes a good pizza. I see myself in that diversity."
 - icon: "📖"
   label: { fr: "un livre", en: "a book" }
   value: { fr: "Essais", en: "Essays" }
   note: "Michel de Montaigne"
+  pourquoi:
+    fr: "Michel a dicté ce livre pour se peindre lui-même. Si j’étais ce livre, ce serait pour cette recherche constante de sincérité et d’honnêteté envers moi-même et envers les autres."
+    en: "Michel dictated this book to portray himself. If I were this book, it would be for that constant search for sincerity and honesty, towards myself and towards others."
 - icon: ""
   svg: "img/portrait/troll-pretre.svg"
   label: { fr: "un joueur de WoW", en: "a WoW player" }
   value: { fr: "Troll prêtre", en: "Troll priest" }
+  pourquoi:
+    fr: "Le prêtre troll n’est pas un dogmatique rigide : il a un côté sauvage, instinctif et proche de la nature. Il sait s’adapter à toutes les situations, qu’il s’agisse de soigner ses alliés ou d’attaquer."
+    en: "The troll priest is no rigid dogmatist: he has a wild, instinctive side, close to nature. He can adapt to any situation, whether healing his allies or going on the attack."
 - icon: "🌴"
   label: { fr: "un arbre", en: "a tree" }
   value: { fr: "Un cocotier", en: "A coconut palm" }
+  pourquoi:
+    fr: "Élancé et perché en hauteur, le cocotier surplombe le paysage sans jamais imposer d’ombre étouffante."
+    en: "Slender and perched up high, the coconut palm overlooks the landscape without ever casting a stifling shade."
 - icon: ""
   svg: "img/portrait/fou.svg"
   label: { fr: "une pièce d'échiquier", en: "a chess piece" }
   value: { fr: "Un fou", en: "A bishop" }
+  pourquoi:
+    fr: "Il ne marche pas en ligne droite, n’impose pas une force brute, il attend son heure quand le jeu est fermé, mais il est redoutable dans les positions ouvertes."
+    en: "It never moves in a straight line and imposes no brute force; it bides its time when the game is closed, but it is formidable in open positions."
 - icon: ""
   svg: "img/portrait/huit-de-trefle.svg"
   label: { fr: "une carte au poker", en: "a poker card" }
   value: { fr: "Le 8 de trèfle", en: "The eight of clubs" }
+  pourquoi:
+    fr: "C’est une carte de liaison formidable, idéale pour créer des suites et des couleurs tout en discrétion. Et le trèfle est le seul symbole du poker qui nous rattache à la nature."
+    en: "It is a superb connecting card, ideal for quietly building straights and flushes. And clubs are the only poker suit that ties us to nature."
 - icon: "🌅"
   label: { fr: "un moment de la journée", en: "a time of day" }
   value: { fr: "L'aube", en: "Dawn" }
+  pourquoi:
+    fr: "C’est un moment de sérénité absolue, mais qui porte en lui toute l’énergie de la journée à venir."
+    en: "It is a moment of absolute serenity, yet one that carries all the energy of the day ahead."
