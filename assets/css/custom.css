@@ -263,7 +263,8 @@ time,
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  /* Neuf cartes visibles : un carré de 3 × 3. */
+  grid-template-columns: repeat(3, 1fr);
   /* Toutes les rangées prennent la hauteur de la plus haute : les cartes
      ont toutes la même taille, quel que soit leur verso. */
   grid-auto-rows: 1fr;
@@ -271,6 +272,13 @@ time,
 }
 @media (max-width: 768px) {
   .portrait-grid { grid-template-columns: repeat(2, 1fr); }
+  /* Neuf cartes sur deux colonnes : la dernière, seule sur sa rangée,
+     est centrée et garde la largeur des autres. */
+  .portrait-card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    width: calc(50% - 0.5rem);
+    justify-self: center;
+  }
 }
 
 /* La carte (li) porte l'inclinaison et le soulèvement ; .portrait-carte

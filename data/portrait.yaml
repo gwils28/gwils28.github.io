@@ -5,22 +5,25 @@
 # `pourquoi` (facultatif) : la raison, au verso ; un clic retourne la carte.
 #   Deux phrases, 240 caractères au plus : toutes les cartes prennent la hauteur
 #   du verso le plus long, même non retournées.
+# `masque: true` (facultatif) : la carte est gardée ici mais pas publiée.
+#   Neuf cartes visibles, pour une grille de 3 × 3.
 
 - icon: "🦆"
   label: { fr: "un animal", en: "an animal" }
   value: { fr: "Un canard", en: "A duck" }
   pourquoi:
-    fr: "Avec d’anciens collègues, nous formions la squad Ducks. Multiterrain comme le canard, on exploitait la donnée dans tous les environnements : sur terre avec les data warehouses, sur l’eau avec les data lakes, dans les airs avec le cloud."
-    en: "With former colleagues, we formed the Ducks squad. All-terrain like the duck, we worked with data in every environment: on land with data warehouses, on water with data lakes, in the air with the cloud."
+    fr: "Sur terre, sur l’eau ou dans les airs, il est à l’aise partout sans dépendre d’aucun terrain. Il m’inspire par son adaptabilité et sa grande résilience, malgré son allure parfois nonchalante."
+    en: "On land, on water or in the air, it is at ease everywhere without depending on any one terrain. It inspires me with its adaptability and great resilience, despite its sometimes nonchalant air."
 - icon: "🎺"
   label: { fr: "une musique", en: "a tune" }
   value: "So What"
   note: "Miles Davis"
   pourquoi:
-    fr: "Les premières notes de la ligne de basse de Paul Chambers m’ont marqué. Ce morceau m’évoque un élan de force, de liberté et de robustesse."
-    en: "Paul Chambers’ opening bass notes stayed with me. To me, this tune evokes a surge of strength, freedom and robustness."
+    fr: "La basse de Paul Chambers pose une question, les cuivres répondent « so what ». J’aime ce haussement d’épaules tranquille : avancer avec force et liberté, sans se laisser impressionner."
+    en: "Paul Chambers’ bass asks a question, the horns answer “so what”. I love that quiet shrug: moving forward with strength and freedom, without being impressed by anything."
 - icon: ""
   swatch: "#1F5130"
+  masque: true
   label: { fr: "une couleur", en: "a colour" }
   value: { fr: "Vert forêt", en: "Forest green" }
   pourquoi:
@@ -37,8 +40,8 @@
   label: { fr: "un élément", en: "an element" }
   value: { fr: "L'air", en: "Air" }
   pourquoi:
-    fr: "Sans lui, on suffoquerait en quelques instants ; pourtant, on pense plus volontiers à l’eau comme essentielle. C’est la force tranquille qu’il ne faut pas contrarier : mieux vaut le calme que la tempête."
-    en: "Without it, we would suffocate within moments; yet we more readily think of water as essential. It is the quiet strength you must not cross: better the calm than the storm."
+    fr: "Sans lui, on suffoquerait en quelques instants ; pourtant, on pense plus volontiers à l’eau comme essentielle. C’est la force tranquille et discrète."
+    en: "Without it, we would suffocate within moments; yet we more readily think of water as essential. It is the quiet, unassuming strength."
 - icon: "🍕"
   label: { fr: "un plat", en: "a dish" }
   value: { fr: "Une pizza", en: "A pizza" }
@@ -50,10 +53,11 @@
   value: { fr: "Essais", en: "Essays" }
   note: "Michel de Montaigne"
   pourquoi:
-    fr: "Michel a dicté ce livre pour se peindre lui-même. Si j’étais ce livre, ce serait pour cette recherche constante de sincérité et d’honnêteté envers moi-même et envers les autres."
-    en: "Michel dictated this book to portray himself. If I were this book, it would be for that constant search for sincerity and honesty, towards myself and towards others."
+    fr: "Douter de soi (« que sais-je ? »), se méfier de ses certitudes (« chacun appelle barbarie ce qui n’est pas de son usage ») et se reconnaître en chacun (« chaque homme porte la forme entière de l’humaine condition »)."
+    en: "Doubting oneself (“what do I know?”), distrusting one’s certainties (“everyone calls barbarity what is not his own custom”) and recognising oneself in everyone (“each man bears the entire form of the human condition”)."
 - icon: ""
   svg: "img/portrait/troll-pretre.svg"
+  masque: true
   label: { fr: "un joueur de WoW", en: "a WoW player" }
   value: { fr: "Troll prêtre", en: "Troll priest" }
   pourquoi:
@@ -74,6 +78,7 @@
     en: "It never moves in a straight line and has no brute force; it bides its time when the game is closed, but it is formidable in open positions."
 - icon: ""
   svg: "img/portrait/huit-de-trefle.svg"
+  masque: true
   label: { fr: "une carte au poker", en: "a poker card" }
   value: { fr: "Le 8 de trèfle", en: "The eight of clubs" }
   pourquoi:

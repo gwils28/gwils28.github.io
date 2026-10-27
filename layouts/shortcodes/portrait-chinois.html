@@ -2,6 +2,9 @@
   Portrait chinois : une grille de cartes tirées de data/portrait.yaml.
   Usage : {{< portrait-chinois >}}
 
+  Une entrée avec `masque: true` est ignorée : elle reste dans les données
+  sans être publiée.
+
   Une carte qui a un `pourquoi` est un bouton : un clic la retourne et le
   verso donne la raison, l'icône de la carte en filigrane
   (assets/js/portrait-retourne.js). Sans JavaScript, la carte reste côté
@@ -9,10 +12,12 @@
 */ -}}
 {{- $lang := .Page.Language.Lang -}}
 {{- $fr := eq $lang "fr" -}}
+{{- $cartes := slice -}}
+{{- range hugo.Data.portrait }}{{ if not .masque }}{{ $cartes = $cartes | append . }}{{ end }}{{ end -}}
 <div class="portrait not-prose">
   <h2 class="portrait-lead">{{ cond $fr "Si j'étais…" "If I were…" }}</h2>
   <ul class="portrait-grid">
-  {{- range $i, $e := hugo.Data.portrait }}
+  {{- range $i, $e := $cartes }}
     {{- $pourquoi := "" }}
     {{- with $e.pourquoi }}{{ $pourquoi = partial "cv-t.html" (dict "v" . "lang" $lang) }}{{ end }}
     {{- $icone := "" }}
