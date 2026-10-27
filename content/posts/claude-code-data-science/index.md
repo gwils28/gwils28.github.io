@@ -1,6 +1,6 @@
 ---
 title: "Claude Code en data science et ML-AI Engineering : ma méthode de travail"
-date: 2026-10-04
+date: 2026-09-29
 draft: false
 description: "Comment je travaille avec Claude Code en data science et en ML-AI engineering : gérer le contexte, écrire un CLAUDE.md court, planifier avant de coder, déléguer à des sous-agents, et surtout tout vérifier."
 summary: "Un agent qui code vite ne remplace pas la méthode. Ma façon de travailler avec Claude Code : le contexte comme ressource rare, la vérification comme seule étape non négociable."

@@ -1,6 +1,6 @@
 ---
 title: "Claude Code for data science and ML-AI Engineering: my working method"
-date: 2026-10-04
+date: 2026-09-29
 draft: false
 description: "How I work with Claude Code in data science and ML-AI engineering: managing context, keeping CLAUDE.md short, planning before coding, delegating to subagents, and above all verifying everything."
 summary: "A fast-coding agent doesn't replace method. How I work with Claude Code: context as the scarce resource, verification as the one non-negotiable step."
