@@ -21,7 +21,7 @@ title = "Kwak Jazz"
   # Pas d'e-mail public : contact via GitHub et LinkedIn.
   image = "img/profile.jpg"
   imageQuality = 96
-  headline = "Data Scientist"
+  headline = "Data Scientist · séries temporelles, inférence causale, agents IA"
   bio = "All models are wrong but some are useful - George E. P. Box"
   # Retire les lignes dont tu n'as pas l'usage, complète les autres.
   links = [
