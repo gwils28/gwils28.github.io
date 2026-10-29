@@ -7,6 +7,10 @@
   « nature », défaut produit), comme la page Projets ; chaque rangée a un
   intertitre repris de l'étiquette des cartes (losange plein ou évidé).
 
+  Le bloc articles ne montre que la veille (genre « veille » d'après la
+  première catégorie, partials/functions/genre-article.html) : les articles
+  de méthode restent sur la page Articles, sous leur propre bloc.
+
   Nombre de cartes par bloc, ou par rangée : homepage.showRecentItems
   (params.toml). Un bloc ou une rangée sans contenu n'est pas affiché.
 */ -}}
@@ -14,6 +18,13 @@
   {{ $n := site.Params.homepage.showRecentItems | default 3 }}
   {{ range $bloc := slice (dict "section" "posts" "titre" "accueil.articles") (dict "section" "projects" "titre" "accueil.projets") }}
     {{ $pages := where site.RegularPages "Section" $bloc.section }}
+    {{ if eq $bloc.section "posts" }}
+      {{ $veille := slice }}
+      {{ range $pages }}
+        {{ if eq (partial "functions/genre-article.html" .) "veille" }}{{ $veille = $veille | append . }}{{ end }}
+      {{ end }}
+      {{ $pages = $veille }}
+    {{ end }}
     {{ with $pages }}
       <section class="accueil-bloc">
         <div class="accueil-bloc-entete">

@@ -27,7 +27,7 @@ experience:
             en: "**MLOps on GCP**: automated ingestion, preprocessing and training pipelines, with versioning, performance monitoring and continuous deployment."
           - fr: "**Référent Data Science** : appui technique de l'équipe, encadrement de stagiaires et d'alternants."
             en: "**Data Science lead**: technical reference for the team, mentoring interns and apprentices."
-        stack: ["Python", { fr: "Séries temporelles", en: "Time series" }, "LLM & agents", "GCP", "Airflow", "Docker", "Linux"]
+        stack: ["Python", { fr: "Séries temporelles", en: "Time series" }, "LLM & agents", "GCP", "Airflow", "CI/CD", "GitLab", "Docker", "Linux"]
 
   - org: BPCE-SI
     url: https://www.groupebpce.com
