@@ -21,6 +21,12 @@ explained the first time it appears.*
 
 {{< note-ia >}}
 
+{{< alert icon="circle-info" >}}
+**Update, 29 October 2026.** A revised version of this method exists:
+[Claude Code for data science: what changes in my working method]({{< ref "/posts/claude-code-methode-revisee" >}}).
+This article stays as published; its principles still hold.
+{{< /alert >}}
+
 Claude Code is a coding agent that runs in the terminal. Unlike a chatbot, it doesn't just
 answer: it reads the project's files, runs commands, edits code, runs the tests and iterates
 until the work seems done to it. That "seems done" is exactly what calls for a method.

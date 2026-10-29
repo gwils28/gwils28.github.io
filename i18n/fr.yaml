@@ -1,6 +1,8 @@
 # Complète les traductions du thème (themes/blowfish/i18n/fr.yaml).
 
 type.article: "Article"
+type.veille: "Veille"
+type.methode: "Méthode"
 type.projet: "Projet"
 type.jazz: "Jazz"
 type.produit: "Produit"
@@ -14,6 +16,11 @@ projets.produit.titre: "Produits"
 projets.produit.intro: "Des projets, pensés pour couvrir un besoin réel (aboutis ou en cours...)"
 projets.labo.titre: "Labo"
 projets.labo.intro: "Des projets pour apprendre et maîtriser une techno ou un concept."
+
+articles.veille.titre: "Veille"
+articles.veille.intro: "Un outil, un concept, un papier : testé avec un dépôt et des mesures."
+articles.methode.titre: "Méthode"
+articles.methode.intro: "Ma façon de travailler avec un outil ou une organisation."
 
 nav.groupe.apropos: "À propos"
 nav.groupe.tech: "Travaux"

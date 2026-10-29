@@ -1,14 +1,20 @@
 {{- /*
-  Étiquette de type au-dessus du titre des cartes : « Article », « Projet »…
-  Sert là où les sections se mélangent (articles connexes, anciennes listes)
-  et, sur l'accueil, redouble le titre de chaque bloc d'un repère visuel.
-  Un projet affiche sa nature (« Produit » ou « Labo », paramètre « nature »,
-  défaut produit) plutôt que « Projet ». Une section absente de la liste
-  n'affiche rien.
+  Étiquette de type au-dessus du titre des cartes : « Veille », « Méthode »,
+  « Produit », « Labo »… Sert là où les sections se mélangent (articles
+  connexes, anciennes listes) et, sur l'accueil, redouble le titre de chaque
+  bloc d'un repère visuel.
+  Un article affiche son genre, lu dans sa première catégorie (« Veille »
+  ou « Méthode », en français comme en anglais ; défaut veille) plutôt
+  qu'« Article ». Un projet affiche sa nature (« Produit » ou « Labo »,
+  paramètre « nature », défaut produit) plutôt que « Projet ». Une section
+  absente de la liste n'affiche rien.
 */ -}}
 {{- $types := dict "posts" "article" "projects" "projet" "jazz" "jazz" -}}
 {{- with index $types .Section -}}
-  {{- if eq . "projet" -}}
+  {{- if eq . "article" -}}
+    {{- $genre := partial "functions/genre-article.html" $ -}}
+    <span class="type-contenu type-contenu--article type-contenu--{{ $genre }}">{{ i18n (printf "type.%s" $genre) }}</span>
+  {{- else if eq . "projet" -}}
     {{- $nature := $.Params.nature | default "produit" -}}
     <span class="type-contenu type-contenu--projet type-contenu--{{ $nature }}">{{ i18n (printf "type.%s" $nature) }}</span>
   {{- else -}}

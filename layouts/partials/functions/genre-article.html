@@ -1,0 +1,13 @@
+{{- /*
+  Genre d'un article, d'après sa première catégorie : « veille » (veille
+  technique : outil, concept, framework, papier, testé avec un dépôt) ou
+  « methode » (façon de travailler avec un outil ou une organisation).
+  Les noms de catégorie sont ceux des deux langues ; tout autre nom, ou
+  l'absence de catégorie, vaut veille. Retourne la clé, pas le libellé.
+*/ -}}
+{{- $genres := dict "veille" "veille" "tech watch" "veille" "méthode" "methode" "method" "methode" -}}
+{{- $genre := "veille" -}}
+{{- with .Params.categories -}}
+  {{- with index $genres (lower (index . 0)) -}}{{- $genre = . -}}{{- end -}}
+{{- end -}}
+{{- return $genre -}}

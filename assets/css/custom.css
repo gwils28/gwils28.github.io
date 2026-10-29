@@ -809,9 +809,9 @@ button.portrait-carte:focus-visible { outline: none; }
 
 /* --- Étiquette de type sur les cartes (partials/type-contenu.html) -------
    Petite capitale en mono, précédée d'une puce : ronde et ambre pour un
-   article, en losange et verte pour un projet (plein pour un produit,
-   évidé pour un labo). La forme double la couleur,
-   pour rester lisible sans distinguer les teintes. */
+   article (pleine pour une veille, évidée pour une méthode), en losange et
+   verte pour un projet (plein pour un produit, évidé pour un labo). La forme
+   double la couleur, pour rester lisible sans distinguer les teintes. */
 .type-contenu {
   display: inline-flex;
   align-items: center;
@@ -837,6 +837,12 @@ button.portrait-carte:focus-visible { outline: none; }
   border-radius: 999px;
   background: rgb(var(--color-secondary-500));
 }
+/* Méthode : le même rond, mais évidé — une façon de faire, pas un test. */
+.type-contenu--methode::before,
+.dark .type-contenu--methode::before {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px rgb(var(--color-secondary-500));
+}
 .type-contenu--projet::before {
   transform: rotate(45deg) scale(0.9);
   background: rgb(var(--color-primary-600));
@@ -850,7 +856,9 @@ button.portrait-carte:focus-visible { outline: none; }
 }
 .dark .type-contenu--labo::before { box-shadow: inset 0 0 0 1.5px rgb(var(--color-primary-400)); }
 
-/* --- Page Projets : blocs Produits puis Labo (layouts/projects/list.html) */
+/* --- Pages Projets et Articles : blocs Produits puis Labo
+   (layouts/projects/list.html), Veille puis Méthode (layouts/posts/list.html,
+   qui reprend les mêmes classes). */
 .projets-bloc + .projets-bloc { margin-top: 3.5rem; }
 .projets-bloc-entete { margin-bottom: 1.5rem; }
 .projets-bloc-entete p {

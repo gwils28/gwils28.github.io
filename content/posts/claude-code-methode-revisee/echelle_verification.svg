@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" width="1200" height="640" role="img" aria-labelledby="titre desc" font-family="'IBM Plex Sans', 'Segoe UI', Arial, sans-serif">
+<title id="titre">La vérification : une échelle, pas une étape</title><desc id="desc">Cinq niveaux de vérification, du moins au plus exigeant : dans le prompt, une condition de fin avec /goal, un hook Stop qui bloque tant que les tests échouent, un relecteur en contexte neuf, puis moi qui relis le diff et les preuves avant de commiter.</desc>
+<rect x="2" y="2" width="1196" height="636" rx="18" fill="#f4f6f3" stroke="#d5dbd2" stroke-width="2"/>
+<text x="600.0" y="50" text-anchor="middle" font-size="28" font-weight="700" fill="#282c26">La vérification : une échelle, pas une étape</text>
+<text x="140" y="96" font-size="15" font-weight="600" fill="#282c26">Niveau</text>
+<text x="430" y="96" font-size="15" font-weight="600" fill="#282c26">Mécanisme</text>
+<text x="900" y="96" font-size="15" font-weight="600" fill="#282c26">Quand</text>
+<rect x="60" y="116" width="1080" height="88" rx="10" fill="#e99d1666" stroke="#e99d16" stroke-width="2"/>
+<rect x="74" y="178" width="8" height="10" rx="2" fill="#282c26"/>
+<rect x="86" y="168" width="8" height="20" rx="2" fill="#282c26"/>
+<rect x="98" y="158" width="8" height="30" rx="2" fill="#282c26"/>
+<rect x="110" y="148" width="8" height="40" rx="2" fill="#282c26"/>
+<rect x="122" y="138" width="8" height="50" rx="2" fill="#282c26"/>
+<text x="140" y="166.0" font-size="18" font-weight="700" fill="#282c26">5 · Moi</text>
+<text x="430" y="166.0" font-size="16" fill="#282c26">le diff, les preuves, /verify ; puis mon commit</text>
+<text x="900" y="166.0" font-size="15" font-style="italic" fill="#282c26">toujours, avant commit</text>
+<rect x="60" y="214" width="1080" height="88" rx="10" fill="#6aa64a" stroke="#2e5c1c" stroke-width="2"/>
+<rect x="74" y="276" width="8" height="10" rx="2" fill="#282c26"/>
+<rect x="86" y="266" width="8" height="20" rx="2" fill="#282c26"/>
+<rect x="98" y="256" width="8" height="30" rx="2" fill="#282c26"/>
+<rect x="110" y="246" width="8" height="40" rx="2" fill="#282c26"/>
+<rect x="122" y="236" width="8" height="50" rx="2" fill="#d5dbd2"/>
+<text x="140" y="264.0" font-size="18" font-weight="700" fill="#282c26">4 · Relecteur en contexte neuf</text>
+<text x="430" y="254.0" font-size="16" fill="#282c26">/code-review : écarts de correction seulement,</text>
+<text x="430" y="276.0" font-size="16" fill="#282c26">pas de style</text>
+<text x="900" y="254.0" font-size="15" font-style="italic" fill="#282c26">avant de considérer la</text>
+<text x="900" y="276.0" font-size="15" font-style="italic" fill="#282c26">tâche finie</text>
+<rect x="60" y="312" width="1080" height="88" rx="10" fill="#9cc784" stroke="#2e5c1c" stroke-width="2"/>
+<rect x="74" y="374" width="8" height="10" rx="2" fill="#282c26"/>
+<rect x="86" y="364" width="8" height="20" rx="2" fill="#282c26"/>
+<rect x="98" y="354" width="8" height="30" rx="2" fill="#282c26"/>
+<rect x="110" y="344" width="8" height="40" rx="2" fill="#d5dbd2"/>
+<rect x="122" y="334" width="8" height="50" rx="2" fill="#d5dbd2"/>
+<text x="140" y="362.0" font-size="18" font-weight="700" fill="#282c26">3 · Hook Stop</text>
+<text x="430" y="352.0" font-size="16" fill="#282c26">la suite de tests bloque la fin du tour tant</text>
+<text x="430" y="374.0" font-size="16" fill="#282c26">qu&#x27;elle échoue</text>
+<text x="900" y="352.0" font-size="15" font-style="italic" fill="#282c26">chaque tour « terminé »</text>
+<text x="900" y="374.0" font-size="15" font-style="italic" fill="#282c26">doit être vert</text>
+<rect x="60" y="410" width="1080" height="88" rx="10" fill="#c4ddb3" stroke="#2e5c1c" stroke-width="2"/>
+<rect x="74" y="472" width="8" height="10" rx="2" fill="#282c26"/>
+<rect x="86" y="462" width="8" height="20" rx="2" fill="#282c26"/>
+<rect x="98" y="452" width="8" height="30" rx="2" fill="#d5dbd2"/>
+<rect x="110" y="442" width="8" height="40" rx="2" fill="#d5dbd2"/>
+<rect x="122" y="432" width="8" height="50" rx="2" fill="#d5dbd2"/>
+<text x="140" y="460.0" font-size="18" font-weight="700" fill="#282c26">2 · /goal</text>
+<text x="430" y="450.0" font-size="16" fill="#282c26">une condition mesurable, un check nommé, une</text>
+<text x="430" y="472.0" font-size="16" fill="#282c26">borne de tours</text>
+<text x="900" y="460.0" font-size="15" font-style="italic" fill="#282c26">travail non surveillé</text>
+<rect x="60" y="508" width="1080" height="88" rx="10" fill="#e3eedb" stroke="#2e5c1c" stroke-width="2"/>
+<rect x="74" y="570" width="8" height="10" rx="2" fill="#282c26"/>
+<rect x="86" y="560" width="8" height="20" rx="2" fill="#d5dbd2"/>
+<rect x="98" y="550" width="8" height="30" rx="2" fill="#d5dbd2"/>
+<rect x="110" y="540" width="8" height="40" rx="2" fill="#d5dbd2"/>
+<rect x="122" y="530" width="8" height="50" rx="2" fill="#d5dbd2"/>
+<text x="140" y="558.0" font-size="18" font-weight="700" fill="#282c26">1 · Dans le prompt</text>
+<text x="430" y="548.0" font-size="16" fill="#282c26">« écris la fonction, voici trois cas de test,</text>
+<text x="430" y="570.0" font-size="16" fill="#282c26">lance les tests après »</text>
+<text x="900" y="558.0" font-size="15" font-style="italic" fill="#282c26">toute tâche</text>
+<text x="60" y="622" font-size="15" fill="#282c26">Les niveaux 1 à 3 ferment la boucle sans moi ; aux niveaux 4 et 5, je décide.</text>
+</svg>

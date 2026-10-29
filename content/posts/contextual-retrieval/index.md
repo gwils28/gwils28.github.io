@@ -4,7 +4,7 @@ date: 2026-10-16
 draft: true
 description: "Carnet d'apprentissage d'un data scientist débutant en recherche d'information : les fondamentaux du RAG, puis un banc d'essai sur des rapports financiers où chaque couche (hybride, reranker, chunks contextualisés) est mesurée, intervalles de confiance compris."
 summary: "Débutant en RAG, j'ai voulu comprendre pourquoi le RAG naïf échoue, puis mesurer ce que rapporte chaque couche sur des rapports financiers. Ce que j'ai appris, et ce qui m'a surpris."
-categories: ["Machine Learning"]
+categories: ["Veille"]
 featureImage: "cover.png"
 tags: ["RAG", "recherche d'information", "Contextual Retrieval", "BM25", "reranking", "évaluation", "LLM", "python"]
 showTableOfContents: true

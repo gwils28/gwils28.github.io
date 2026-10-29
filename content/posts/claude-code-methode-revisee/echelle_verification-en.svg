@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" width="1200" height="640" role="img" aria-labelledby="titre desc" font-family="'IBM Plex Sans', 'Segoe UI', Arial, sans-serif">
+<title id="titre">Verification: a ladder, not a step</title><desc id="desc">Five levels of verification, from the least to the most demanding: in the prompt, an end condition with /goal, a Stop hook that blocks while tests fail, a reviewer in a fresh context, then me reading the diff and the evidence before committing.</desc>
+<rect x="2" y="2" width="1196" height="636" rx="18" fill="#f4f6f3" stroke="#d5dbd2" stroke-width="2"/>
+<text x="600.0" y="50" text-anchor="middle" font-size="28" font-weight="700" fill="#282c26">Verification: a ladder, not a step</text>
+<text x="140" y="96" font-size="15" font-weight="600" fill="#282c26">Level</text>
+<text x="430" y="96" font-size="15" font-weight="600" fill="#282c26">Mechanism</text>
+<text x="900" y="96" font-size="15" font-weight="600" fill="#282c26">When</text>
+<rect x="60" y="116" width="1080" height="88" rx="10" fill="#e99d1666" stroke="#e99d16" stroke-width="2"/>
+<rect x="74" y="178" width="8" height="10" rx="2" fill="#282c26"/>
+<rect x="86" y="168" width="8" height="20" rx="2" fill="#282c26"/>
+<rect x="98" y="158" width="8" height="30" rx="2" fill="#282c26"/>
+<rect x="110" y="148" width="8" height="40" rx="2" fill="#282c26"/>
+<rect x="122" y="138" width="8" height="50" rx="2" fill="#282c26"/>
+<text x="140" y="166.0" font-size="18" font-weight="700" fill="#282c26">5 · Me</text>
+<text x="430" y="166.0" font-size="16" fill="#282c26">the diff, the evidence, /verify; then my commit</text>
+<text x="900" y="166.0" font-size="15" font-style="italic" fill="#282c26">always, before commit</text>
+<rect x="60" y="214" width="1080" height="88" rx="10" fill="#6aa64a" stroke="#2e5c1c" stroke-width="2"/>
+<rect x="74" y="276" width="8" height="10" rx="2" fill="#282c26"/>
+<rect x="86" y="266" width="8" height="20" rx="2" fill="#282c26"/>
+<rect x="98" y="256" width="8" height="30" rx="2" fill="#282c26"/>
+<rect x="110" y="246" width="8" height="40" rx="2" fill="#282c26"/>
+<rect x="122" y="236" width="8" height="50" rx="2" fill="#d5dbd2"/>
+<text x="140" y="264.0" font-size="18" font-weight="700" fill="#282c26">4 · Reviewer in a fresh context</text>
+<text x="430" y="264.0" font-size="16" fill="#282c26">/code-review: correctness gaps only, no style</text>
+<text x="900" y="254.0" font-size="15" font-style="italic" fill="#282c26">before calling the task</text>
+<text x="900" y="276.0" font-size="15" font-style="italic" fill="#282c26">done</text>
+<rect x="60" y="312" width="1080" height="88" rx="10" fill="#9cc784" stroke="#2e5c1c" stroke-width="2"/>
+<rect x="74" y="374" width="8" height="10" rx="2" fill="#282c26"/>
+<rect x="86" y="364" width="8" height="20" rx="2" fill="#282c26"/>
+<rect x="98" y="354" width="8" height="30" rx="2" fill="#282c26"/>
+<rect x="110" y="344" width="8" height="40" rx="2" fill="#d5dbd2"/>
+<rect x="122" y="334" width="8" height="50" rx="2" fill="#d5dbd2"/>
+<text x="140" y="362.0" font-size="18" font-weight="700" fill="#282c26">3 · Stop hook</text>
+<text x="430" y="352.0" font-size="16" fill="#282c26">the test suite blocks the end of the turn while</text>
+<text x="430" y="374.0" font-size="16" fill="#282c26">it fails</text>
+<text x="900" y="352.0" font-size="15" font-style="italic" fill="#282c26">every “done” turn must be</text>
+<text x="900" y="374.0" font-size="15" font-style="italic" fill="#282c26">green</text>
+<rect x="60" y="410" width="1080" height="88" rx="10" fill="#c4ddb3" stroke="#2e5c1c" stroke-width="2"/>
+<rect x="74" y="472" width="8" height="10" rx="2" fill="#282c26"/>
+<rect x="86" y="462" width="8" height="20" rx="2" fill="#282c26"/>
+<rect x="98" y="452" width="8" height="30" rx="2" fill="#d5dbd2"/>
+<rect x="110" y="442" width="8" height="40" rx="2" fill="#d5dbd2"/>
+<rect x="122" y="432" width="8" height="50" rx="2" fill="#d5dbd2"/>
+<text x="140" y="460.0" font-size="18" font-weight="700" fill="#282c26">2 · /goal</text>
+<text x="430" y="450.0" font-size="16" fill="#282c26">one measurable condition, a named check, a bound</text>
+<text x="430" y="472.0" font-size="16" fill="#282c26">on turns</text>
+<text x="900" y="460.0" font-size="15" font-style="italic" fill="#282c26">unattended work</text>
+<rect x="60" y="508" width="1080" height="88" rx="10" fill="#e3eedb" stroke="#2e5c1c" stroke-width="2"/>
+<rect x="74" y="570" width="8" height="10" rx="2" fill="#282c26"/>
+<rect x="86" y="560" width="8" height="20" rx="2" fill="#d5dbd2"/>
+<rect x="98" y="550" width="8" height="30" rx="2" fill="#d5dbd2"/>
+<rect x="110" y="540" width="8" height="40" rx="2" fill="#d5dbd2"/>
+<rect x="122" y="530" width="8" height="50" rx="2" fill="#d5dbd2"/>
+<text x="140" y="558.0" font-size="18" font-weight="700" fill="#282c26">1 · In the prompt</text>
+<text x="430" y="548.0" font-size="16" fill="#282c26">“write the function, here are three test cases,</text>
+<text x="430" y="570.0" font-size="16" fill="#282c26">run the tests afterwards”</text>
+<text x="900" y="558.0" font-size="15" font-style="italic" fill="#282c26">every task</text>
+<text x="60" y="622" font-size="15" fill="#282c26">Levels 1 to 3 close the loop without me; at levels 4 and 5, I decide.</text>
+</svg>

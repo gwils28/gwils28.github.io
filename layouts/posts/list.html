@@ -1,0 +1,56 @@
+{{/* Articles : deux blocs au lieu d'une grille par année, choisis par la
+     première catégorie de chaque article (partials/functions/genre-article).
+       veille   veille technique : un outil, un concept, un papier, testé
+                avec un dépôt et des mesures : en premier ;
+       methode  façon de travailler avec un outil ou une organisation
+                (Claude Code, Scrum…) : en dessous.
+     Même construction que projects/list.html : l'en-tête et l'intro
+     reprennent _default/list.html du thème, pas de pagination, un bloc vide
+     n'est pas affiché. Dans chaque bloc, du plus récent au plus ancien. */}}
+{{ define "main" }}
+  <header>
+    {{ if .Params.showBreadcrumbs | default (site.Params.list.showBreadcrumbs | default false) }}
+      {{ partial "breadcrumbs.html" . }}
+    {{ end }}
+    <h1 class="mt-5 text-4xl font-extrabold text-neutral-900 dark:text-neutral">{{ .Title | emojify }}</h1>
+  </header>
+
+  <section class="prose max-w-prose dark:prose-invert mb-10">
+    {{ .Content }}
+  </section>
+
+  {{ $articles := .Pages.ByDate.Reverse }}
+  {{ $veille := slice }}
+  {{ $methode := slice }}
+  {{ range $articles }}
+    {{ if eq (partial "functions/genre-article.html" .) "methode" }}
+      {{ $methode = $methode | append . }}
+    {{ else }}
+      {{ $veille = $veille | append . }}
+    {{ end }}
+  {{ end }}
+
+  {{ range $bloc := slice
+      (dict "genre" "veille" "pages" $veille)
+      (dict "genre" "methode" "pages" $methode) }}
+    {{ with $bloc.pages }}
+      <section class="projets-bloc articles-bloc articles-bloc--{{ $bloc.genre }}">
+        <div class="projets-bloc-entete">
+          <h2 class="text-2xl font-extrabold">{{ i18n (printf "articles.%s.titre" $bloc.genre) }}</h2>
+          <p>{{ i18n (printf "articles.%s.intro" $bloc.genre) }}</p>
+        </div>
+        <div class="w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+          {{ range . }}
+            {{ partial "article-link/card.html" . }}
+          {{ end }}
+        </div>
+      </section>
+    {{ end }}
+  {{ end }}
+
+  {{ if not $articles }}
+    <section class="mt-10 prose dark:prose-invert">
+      <p class="py-8 border-t"><em>{{ i18n "list.no_articles" | emojify }}</em></p>
+    </section>
+  {{ end }}
+{{ end }}

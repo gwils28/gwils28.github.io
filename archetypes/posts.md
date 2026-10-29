@@ -4,7 +4,7 @@ date: {{ .Date }}
 draft: true
 description: ""          # résumé affiché dans les listes et sur les réseaux
 summary: ""
-categories: ["Veille"]   # Veille · Machine Learning · MLOps · Analyse
+categories: ["Veille"]   # Veille (outil, concept, papier testé) ou Méthode (façon de travailler)
 tags: []                 # ex. ["python", "pytorch", "nlp"]
 # featureImage: "cover.jpg"   # dépose l'image à côté du .md (page bundle)
 showTableOfContents: true

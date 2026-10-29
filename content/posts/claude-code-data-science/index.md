@@ -21,6 +21,12 @@ chaque fonctionnalité est expliquée la première fois qu'elle apparaît.*
 
 {{< note-ia >}}
 
+{{< alert icon="circle-info" >}}
+**Mise à jour du 29 octobre 2026.** Une version révisée de cette méthode existe :
+[Claude Code en data science : ce qui change dans ma méthode]({{< ref "/posts/claude-code-methode-revisee" >}}).
+Cet article reste tel qu'il a été publié ; les principes y sont toujours valables.
+{{< /alert >}}
+
 Claude Code est un agent de programmation qui tourne dans le terminal. Contrairement à un
 chatbot, il ne se contente pas de répondre : il lit les fichiers du projet, lance des
 commandes, modifie le code, exécute les tests et itère jusqu'à ce que le travail lui semble

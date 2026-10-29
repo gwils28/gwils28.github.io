@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800" role="img" aria-labelledby="titre desc" font-family="'IBM Plex Sans', 'Segoe UI', Arial, sans-serif">
+<title id="titre">What survives a compaction</title><desc id="desc">Ten pieces of context and what happens to them after a compaction: re-injected from disk, partly re-injected, reloaded at the next matching file, or lost.</desc>
+<rect x="2" y="2" width="1196" height="796" rx="18" fill="#f4f6f3" stroke="#d5dbd2" stroke-width="2"/>
+<text x="600.0" y="52" text-anchor="middle" font-size="28" font-weight="700" fill="#282c26">What survives a compaction</text>
+<text x="60" y="98" font-size="17" font-weight="600" fill="#282c26">In context before the compaction</text>
+<text x="700" y="98" font-size="17" font-weight="600" fill="#282c26">After the compaction</text>
+<defs><marker id="fl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#282c26"/></marker></defs>
+<rect x="60" y="120" width="560" height="44" rx="9" fill="#ffffff" stroke="#d5dbd2" stroke-width="1.5"/>
+<text x="78" y="148" font-size="17" fill="#282c26">Claude Code system prompt</text>
+<line x1="630" y1="142" x2="680" y2="142" stroke="#282c26" stroke-width="2" marker-end="url(#fl)"/>
+<rect x="700" y="120" width="440" height="44" rx="9" fill="#5ca03c" stroke="#2e5c1c" stroke-width="2" stroke-dasharray="none"/>
+<text x="720" y="148" font-size="16" fill="#282c26">re-injected</text>
+<rect x="60" y="176" width="560" height="44" rx="9" fill="#ffffff" stroke="#d5dbd2" stroke-width="1.5"/>
+<text x="78" y="204" font-size="17" fill="#282c26">Root CLAUDE.md, rules without paths</text>
+<line x1="630" y1="198" x2="680" y2="198" stroke="#282c26" stroke-width="2" marker-end="url(#fl)"/>
+<rect x="700" y="176" width="440" height="44" rx="9" fill="#5ca03c" stroke="#2e5c1c" stroke-width="2" stroke-dasharray="none"/>
+<text x="720" y="204" font-size="16" fill="#282c26">re-injected from disk</text>
+<rect x="60" y="232" width="560" height="44" rx="9" fill="#ffffff" stroke="#d5dbd2" stroke-width="1.5"/>
+<text x="78" y="260" font-size="17" fill="#282c26">Auto memory (MEMORY.md)</text>
+<line x1="630" y1="254" x2="680" y2="254" stroke="#282c26" stroke-width="2" marker-end="url(#fl)"/>
+<rect x="700" y="232" width="440" height="44" rx="9" fill="#5ca03c" stroke="#2e5c1c" stroke-width="2" stroke-dasharray="none"/>
+<text x="720" y="260" font-size="16" fill="#282c26">re-injected from disk</text>
+<rect x="60" y="288" width="560" height="44" rx="9" fill="#ffffff" stroke="#d5dbd2" stroke-width="1.5"/>
+<text x="78" y="316" font-size="17" fill="#282c26">Plan written in plan mode</text>
+<line x1="630" y1="310" x2="680" y2="310" stroke="#282c26" stroke-width="2" marker-end="url(#fl)"/>
+<rect x="700" y="288" width="440" height="44" rx="9" fill="#5ca03c" stroke="#2e5c1c" stroke-width="2" stroke-dasharray="none"/>
+<text x="720" y="316" font-size="16" fill="#282c26">re-injected</text>
+<rect x="60" y="344" width="560" height="44" rx="9" fill="#ffffff" stroke="#d5dbd2" stroke-width="1.5"/>
+<text x="78" y="372" font-size="17" fill="#282c26">Git state</text>
+<line x1="630" y1="366" x2="680" y2="366" stroke="#282c26" stroke-width="2" marker-end="url(#fl)"/>
+<rect x="700" y="344" width="440" height="44" rx="9" fill="#5ca03c" stroke="#2e5c1c" stroke-width="2" stroke-dasharray="none"/>
+<text x="720" y="372" font-size="16" fill="#282c26">re-read</text>
+<rect x="60" y="400" width="560" height="44" rx="9" fill="#ffffff" stroke="#d5dbd2" stroke-width="1.5"/>
+<text x="78" y="428" font-size="17" fill="#282c26">Recently read or edited files</text>
+<line x1="630" y1="422" x2="680" y2="422" stroke="#282c26" stroke-width="2" marker-end="url(#fl)"/>
+<rect x="700" y="400" width="440" height="44" rx="9" fill="#cfe3c4" stroke="#5ca03c" stroke-width="2" stroke-dasharray="none"/>
+<text x="720" y="428" font-size="16" fill="#282c26">5 at most; above 5,000 tokens, the path only</text>
+<rect x="60" y="456" width="560" height="44" rx="9" fill="#ffffff" stroke="#d5dbd2" stroke-width="1.5"/>
+<text x="78" y="484" font-size="17" fill="#282c26">Bodies of invoked skills</text>
+<line x1="630" y1="478" x2="680" y2="478" stroke="#282c26" stroke-width="2" marker-end="url(#fl)"/>
+<rect x="700" y="456" width="440" height="44" rx="9" fill="#cfe3c4" stroke="#5ca03c" stroke-width="2" stroke-dasharray="none"/>
+<text x="720" y="484" font-size="16" fill="#282c26">5,000 tokens per skill, 25,000 in total</text>
+<rect x="60" y="512" width="560" height="44" rx="9" fill="#ffffff" stroke="#d5dbd2" stroke-width="1.5"/>
+<text x="78" y="540" font-size="17" fill="#282c26">Rules with paths, nested CLAUDE.md</text>
+<line x1="630" y1="534" x2="680" y2="534" stroke="#282c26" stroke-width="2" marker-end="url(#fl)"/>
+<rect x="700" y="512" width="440" height="44" rx="9" fill="#fdf3dc" stroke="#e99d16" stroke-width="2" stroke-dasharray="none"/>
+<text x="720" y="540" font-size="16" fill="#282c26">at the next matching file</text>
+<rect x="60" y="568" width="560" height="44" rx="9" fill="#ffffff" stroke="#d5dbd2" stroke-width="1.5"/>
+<text x="78" y="596" font-size="17" fill="#282c26">Instructions given in conversation</text>
+<line x1="630" y1="590" x2="680" y2="590" stroke="#282c26" stroke-width="2" marker-end="url(#fl)"/>
+<rect x="700" y="568" width="440" height="44" rx="9" fill="#e7eae5" stroke="#9aa39a" stroke-width="2" stroke-dasharray="6 5"/>
+<text x="720" y="596" font-size="16" fill="#282c26">lost</text>
+<rect x="60" y="624" width="560" height="44" rx="9" fill="#ffffff" stroke="#d5dbd2" stroke-width="1.5"/>
+<text x="78" y="652" font-size="17" fill="#282c26">Listing of skill descriptions</text>
+<line x1="630" y1="646" x2="680" y2="646" stroke="#282c26" stroke-width="2" marker-end="url(#fl)"/>
+<rect x="700" y="624" width="440" height="44" rx="9" fill="#e7eae5" stroke="#9aa39a" stroke-width="2" stroke-dasharray="6 5"/>
+<text x="720" y="652" font-size="16" fill="#282c26">lost</text>
+<rect x="60" y="702" width="26" height="18" rx="4" fill="#5ca03c" stroke="#2e5c1c" stroke-width="2" stroke-dasharray="none"/>
+<text x="94" y="716" font-size="15" fill="#282c26">re-injected</text>
+<rect x="233" y="702" width="26" height="18" rx="4" fill="#cfe3c4" stroke="#5ca03c" stroke-width="2" stroke-dasharray="none"/>
+<text x="267" y="716" font-size="15" fill="#282c26">partly</text>
+<rect x="361" y="702" width="26" height="18" rx="4" fill="#fdf3dc" stroke="#e99d16" stroke-width="2" stroke-dasharray="none"/>
+<text x="395" y="716" font-size="15" fill="#282c26">reloaded later</text>
+<rect x="561" y="702" width="26" height="18" rx="4" fill="#e7eae5" stroke="#9aa39a" stroke-width="2" stroke-dasharray="6 5"/>
+<text x="595" y="716" font-size="15" fill="#282c26">lost</text>
+</svg>
