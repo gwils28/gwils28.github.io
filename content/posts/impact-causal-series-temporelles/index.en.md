@@ -24,6 +24,14 @@ maths without losing the thread.*
 
 {{< note-ia >}}
 
+{{< alert icon="circle-info" >}}
+**Update, 29 October 2026.** This research has since been applied to a fictional client case,
+the promotions of a grocery chain on the Favorita panel:
+[NovaRetail: promotion incrementality measured on the Favorita panel]({{< ref "/projects/novaretail-incrementalite-promos" >}}).
+The project page shows what becomes of the design on real series, with campaigns to detect and
+a control pool to declare.
+{{< /alert >}}
+
 This article distils **three weeks of hands-on research** into causal inference for time series,
 announced at the end of [the article on retraining
 frequency]({{< ref "/posts/frequence-reentrainement" >}}). The starting plan had four blocks: two

@@ -24,6 +24,14 @@ peut les survoler sans perdre le fil. Le dépôt est en anglais, ses figures aus
 
 {{< note-ia >}}
 
+{{< alert icon="circle-info" >}}
+**Mise à jour du 29 octobre 2026.** Cette veille a depuis été appliquée à un cas client fictif,
+les promotions d'une chaîne d'épicerie sur le panel Favorita :
+[NovaRetail : l'incrémentalité des promotions mesurée sur le panel Favorita]({{< ref "/projects/novaretail-incrementalite-promos" >}}).
+La fiche montre ce que devient le design sur de vraies séries, avec des campagnes à détecter et
+un pool de contrôle à déclarer.
+{{< /alert >}}
+
 Cet article restitue **trois semaines de veille active** sur l'inférence causale appliquée aux
 séries temporelles, annoncées à la fin de [l'article sur la fréquence de
 réentraînement]({{< ref "/posts/frequence-reentrainement" >}}). Le plan de départ tenait en quatre
