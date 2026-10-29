@@ -2,7 +2,7 @@
 title: "Causal impact on time series: the counterfactual and its placebos"
 date: 2026-10-26
 draft: false
-description: "A day of hands-on research into estimating the effect of an intervention on a time series: a structural counterfactual built by hand, validated by placebo tests on a panel with a known truth and on the Volkswagen dieselgate, then compared with Google's CausalImpact."
+description: "Three weeks of hands-on research into estimating the effect of an intervention on a time series: a structural counterfactual built by hand, validated by placebo tests on a panel with a known truth and on the Volkswagen dieselgate, then compared with Google's CausalImpact."
 summary: "A counterfactual is a forecast. What I observed building one by hand, measuring its coverage on 100 panels with a known truth, planting four violations of the design, and applying it to Volkswagen's share price after dieselgate."
 categories: ["Tech watch"]
 featureImage: "cover.png"
@@ -19,20 +19,19 @@ without the intervention. Building one by hand, what I mostly learned is what th
 say on its own, and what placebo tests can check about it.
 {{< /lead >}}
 
-*Reading time: about 40 minutes. Every formula is followed by its intuition, so you can skim the
+*Reading time: about 30 minutes. Every formula is followed by its intuition, so you can skim the
 maths without losing the thread.*
 
 {{< note-ia >}}
 
-This article distils a **day of hands-on research** into causal inference for time series, the
-one announced at the end of [the article on retraining
-frequency]({{< ref "/posts/frequence-reentrainement" >}}). I started from a work plan in four
-blocks: two recent papers to read at the source, a counterfactual to build and validate by
-placebo, an architecture decision for a continuous incrementality measurement, and the founding
-paper by Brodersen and colleagues to reread equation by equation. The plan proposed a simple success
-criterion: a real effect whose interval excludes zero, a placebo effect whose interval contains
-zero. I met it, then looked for what it actually guarantees, on a panel where the truth is known.
-Everything is reproducible in the
+This article distils **three weeks of hands-on research** into causal inference for time series,
+announced at the end of [the article on retraining
+frequency]({{< ref "/posts/frequence-reentrainement" >}}). The starting plan had four blocks: two
+recent papers to read at the source, a counterfactual to build and validate by placebo, an
+architecture decision for a continuous incrementality measurement, and the founding paper by
+Brodersen and colleagues to reread. Its success criterion: a real effect whose interval excludes
+zero, a placebo effect whose interval contains zero. I met it, then looked for what it actually
+guarantees, on a panel where the truth is known. Everything is reproducible in the
 [time_series_causal_statistics](https://github.com/gwils28/time_series_causal_statistics)
 repository.
 
@@ -40,40 +39,36 @@ repository.
 **In short.** The main results, with their scope:
 
 1. **The plan's criterion is met on a known truth and on Volkswagen**: −20.9% [−33.9%, −1.7%] on
-   VW's share price after the EPA notice, and twelve fake intervention dates all clean.
+   VW's share price after the EPA notice, twelve fake dates all clean.
 2. **The placebo-in-time only validates the pre-intervention model.** On 100 panels where a
-   control is contaminated by the intervention, it is green exactly as often as on clean panels
-   (17% false alarms in both cases). Contamination needs the placebo-in-space; a relationship that
-   breaks at the intervention date is seen by nothing.
-3. **A placebo that "finds" an effect is partly a property of the placebo itself**: with a 243-day
-   pre period, the maximum-likelihood interval under-covers and the placebo fires on 11 to 17% of
-   clean panels, for a nominal 5%.
+   control is contaminated by the intervention, it is green as often as on clean panels.
+   Contamination needs the placebo-in-space; a relationship that breaks at the intervention date
+   is seen by nothing.
+3. **A placebo that "finds" an effect is partly a property of the placebo itself**: with a
+   shortened pre period, it fires on 11 to 17% of clean panels, for a nominal 5%.
 4. **Static estimators (OLS on the controls, convex synthetic control, difference-in-differences)
    are as accurate as the local level on the point estimate, and six to seven times too
    confident**: 80% false positives at zero effect.
 5. **The Python port of Google's CausalImpact gives the same point estimates with intervals half as
-   wide.** That is its default prior on the level standard deviation (0.01), not the data: on 30
-   panels with a known truth, its 95% interval covers 77% of the time, the hand-built one 90%.
+   wide.** That is its default prior on the level standard deviation, not the data: on 30 panels
+   with a known truth, it covers 77% of the time, against 90% by hand.
 {{< /alert >}}
 
 ## 1. The problem: one unit, two worlds
 
 The causal effect of an intervention on a unit at time \(t\) is the difference between what is
 observed, \(y_t\), and what would have been observed without the intervention, \(y^0_t\). The
-second quantity no longer exists once the intervention has happened. A counterfactual analysis is
-therefore a **forecast** of \(y^0_t\) over the post-intervention period, and the effect is the gap
-between the observed series and that forecast.
+second quantity no longer exists once the intervention has happened: a counterfactual analysis is
+therefore a **forecast** of \(y^0_t\) over the post period, and the effect is the gap between the
+observed series and that forecast.
 
 ![The treated unit: observed and counterfactual](nb01_two_worlds.svg "On the synthetic panel the counterfactual y0 is known (green): its difference from the observed series (blue) is the true effect, here a 10% lift planted over 90 days. In practice only the blue curve exists.")
 
-The whole point is to make that forecast credible, and honest about its uncertainty. But a good
-forecast is not a causal model. The work plan put it as a reflex to acquire: know when a forecast
-has causal content, and prove it with placebo tests.
-
-The counterfactual is built from **control series**: comparable units, untouched by the
-intervention, whose relationship with the treated unit, learned before the date, is extrapolated
-after it. Three assumptions carry the result, and none of them is visible in the quality of the
-pre-intervention fit:
+The whole point is to make that forecast credible and honest about its uncertainty. But a good
+forecast is not a causal model. The counterfactual is built from **control series**: comparable
+units, untouched, whose relationship with the treated unit, learned before the date, is
+extrapolated after it. Three assumptions carry the result, and none of them is visible in the
+quality of the pre-intervention fit:
 
 | Assumption | What it means for one treated series | What tests it |
 |---|---|---|
@@ -81,74 +76,41 @@ pre-intervention fit:
 | the controls are not affected, directly or by spillover | no interference: the promotion on A does not cannibalise B, used as a control | **placebo-in-space**: each control treated as if it were the unit of interest, at the real date |
 | the pre-period relationship persists | the coefficients linking controls and target still hold after the date | stability diagnostics on the pre period, and coverage on a panel with a known truth |
 
-The plan's protocol has three steps: fit a structural model on the pre period only, forecast the
-counterfactual and estimate the pointwise and cumulative effect with a 95% interval, then rerun
-exactly the same analysis with a fake intervention date placed inside the pre period. I did it
-twice: on a semi-synthetic panel where the truth is known, so that the method can be graded rather
-than merely run, and on the Volkswagen dieselgate panel.
+The protocol: fit a structural model on the pre period only, forecast the counterfactual with a
+95% interval, then rerun the same analysis with a fake date placed inside the pre period. I
+applied it on a semi-synthetic panel with a known truth, then on the Volkswagen dieselgate panel.
 
 ## 2. What the recent papers say
 
-I read two papers from 2026 and reread the 2015 one that founds the method. For each, I went to
-the body of the text to check what the plan said about it.
-
 **Time-Aware Synthetic Control** (Rho, Illick, Narasipura, Abadie, Hsu and Misra,
 [arXiv 2601.03099](https://arxiv.org/abs/2601.03099), January 2026). Classical synthetic control
-treats the pre-period time indices as interchangeable: permuting the columns leaves the weights
-unchanged. TASC keeps the low-rank structure of synthetic control but encodes time through a linear
-Gaussian state-space model with a constant trend, learned by EM (Kalman filter and
-Rauch-Tung-Striebel smoother). The counterfactual comes from the target's loading on the smoothed
-states, not from a convex combination of donors. What I kept from the simulations: TASC wins when
-observation noise is high, loses to robust synthetic control when it is low, and brings little
-without a trend. Permuting the pre-period order raises its error by 48.5%, which is the proof that
-it uses temporal structure.
-
-Two gaps between the plan and the source. The plan presented the paper as "signed by Abadie
-himself": Alberto Abadie is the fourth of six authors. And the plan noted that TASC "produces
-narrower confidence intervals" than the Bayesian CausalImpact: that is indeed what the authors
-write for Proposition 99 and cricket, but it is a claim about **width**, and no coverage is
-reported anywhere in the paper. A narrower interval is not shown to be better. This comes back in
-part 9, where I measure what a narrow interval costs.
+treats the pre-period time indices as interchangeable; TASC encodes time through a linear Gaussian
+state-space model learned by EM. It wins when observation noise is high and loses to robust
+synthetic control when it is low. Two gaps with the plan: Alberto Abadie is the fourth of six
+authors, not the lead signatory; and the "narrower intervals" than CausalImpact are a claim about
+**width**, with no coverage reported anywhere. Part 9 measures what a narrow interval can cost.
 
 **When are time series predictions causal?** (Carlson and Shephard,
 [arXiv 2603.20394](https://arxiv.org/abs/2603.20394), March 2026). The conceptual paper. Its
-"potential system" indexes potential outcomes by assignment paths, with two structural
-restrictions: non-anticipation (the outcome at \(t\) depends only on assignments up to \(t\)) and
-triangularity (the features at \(t\) depend only on assignments up to \(t-1\)). The central
-result, theorem 2, fits in one sentence: **under a matching assignment condition, a difference of
+central theorem fits in one sentence: **under a matching assignment condition, a difference of
 predictions is a causal effect.** Without that condition, it is a difference of predictions. The
-table in part 1 is my translation of that condition into three concrete requirements for a single
-treated series. The paper also connects impulse response functions, local projections and SVARs to
-this framework, and recalls that Granger causality is "not really about causality, but about
-prediction". The "Harvard" affiliation given in the plan is not on the abstract page; I did not
-verify it.
+table in part 1 is my translation of that condition for a single treated series.
 
 **Brodersen, Gallusser, Koehler, Remy and Scott (2015)**,
 [*Inferring causal impact using Bayesian structural time-series models*](https://arxiv.org/abs/1506.00356),
-Annals of Applied Statistics. The model: a state space whose observation is a linear read-out of a
-latent state, assembled block by block (local level, trend, seasonality, static or dynamic
-regression on the controls), with priors on the variances and a spike-and-slab prior on the
-regression coefficients, inferred by Gibbs sampling. What matters for causal impact is the
-posterior predictive distribution, conditioned on the treated series before the date and on the
-controls before and after, defined **jointly** over the post period so that serial structure
-propagates into the cumulative effect.
-
-Three things from this paper served me in what follows. Their simulation study grades the method
-by two curves, power and coverage, and shows that a 1% lift is missed in 90% of cases. Their third
-empirical analysis applies the model to the **untreated regions** and demands a null result: that
-is the placebo-in-space, in their own words, "if the effect of the campaign was truly specific to
-treated regions, there should be no effect in the controls". And their central warning, repeated
-word for word by the plan: all these inferences depend on the assumption that the covariates were
-not themselves affected by the intervention. The paper names two more, which the plan did not
-quote: the pre-period relationship persists, and the model structure stays intact. Figure 4 of the
-paper shows what happens otherwise: tripling the random-walk standard deviation of a coefficient 90
-days into the campaign makes the error explode.
+Annals of Applied Statistics. A state space assembled block by block (local level, trend,
+seasonality, regression on the controls), priors on the variances and coefficients, inferred by
+Gibbs sampling; the predictive distribution is defined **jointly** over the post period so that
+serial structure propagates into the cumulative effect. Three things served me: their simulation
+study grades the method by two curves, power and coverage; their third analysis applies the model
+to the **untreated regions** and demands a null result, which is the placebo-in-space; and their
+three named assumptions: covariates unaffected by the intervention, a pre-period relationship that
+persists, a model structure that stays intact. The plan quoted only the first.
 
 ## 3. The model: a local level and a regression on the controls
 
-The plan suggested `tfcausalimpact` or `pycausalimpact`, otherwise `statsmodels` by hand. I chose
-the hand, to know what is inside, and kept Google's port as a cross-check (part 9). The model is
-Brodersen's without its Bayesian layer:
+I built the model by hand with `statsmodels`, to know what is inside, and kept Google's port as a
+cross-check (part 9). It is Brodersen's without its Bayesian layer:
 
 $$
 y_t = \mu_t + \beta' x_t + \varepsilon_t, \qquad \mu_{t+1} = \mu_t + \eta_t,
@@ -156,15 +118,10 @@ y_t = \mu_t + \beta' x_t + \varepsilon_t, \qquad \mu_{t+1} = \mu_t + \eta_t,
 $$
 
 **The intuition.** The regression \(\beta' x_t\) explains the part the treated unit shares with
-its controls. The level \(\mu_t\), a random walk, absorbs the rest: what the target does on its own
-and the controls do not see. Both variances are estimated by maximum likelihood on the pre period
-only; the counterfactual is the Kalman-filter forecast over the post period, given the controls
-observed after the date. Since that distribution is Gaussian, I simulate **joint** paths of the
-counterfactual, which the cumulative effect's interval needs; a test in the repository checks that
-the simulated quantiles land on the analytic interval.
-
-To see what each component brings, I fitted three models on the same panel: a static regression
-alone, the local level plus regression, and a local linear trend plus regression.
+its controls; the level \(\mu_t\), a random walk, absorbs what the target does on its own. Both
+variances are estimated by maximum likelihood on the pre period only; the counterfactual is the
+Kalman-filter forecast over the post period, simulated as **joint** paths for the cumulative
+effect's interval. Three models on the same panel:
 
 | | static | local level | local trend |
 |---|---|---|---|
@@ -173,41 +130,34 @@ alone, the local level plus regression, and a local linear trend plus regression
 | Ljung-Box on the residuals (p) | **0.000** | 0.94 | 0.90 |
 | estimated cumulative effect (truth 831) | 681 [617, 748] | 569 [207, 926] | 530 [120, 947] |
 
-The residuals of the static regression are autocorrelated: a slow component remains that the
-regression does not see, and that is what the local level absorbs. But the difference between the
-models is not in the fit, which looks similar. It is in the **forecast**: the static model assumes
-the unexplained part is independent noise every day, the local level assumes it can wander. Those
-two beliefs give very different uncertainties 90 days out.
+The residuals of the static regression are autocorrelated: a slow component remains, which the
+local level absorbs. But the real difference is in the **forecast**: the static model assumes the
+unexplained part is independent noise every day, the local level assumes it can wander.
 
 ![Three models, three counterfactuals, three uncertainties](nb01_three_models.svg "Same panel, same pre period. The static regression (left) gives a narrow interval that misses the truth; the local level (centre) a wide interval that contains it; the local trend (right) a wider one still.")
 
-The forecast variance of a static regression is constant. A local level adds a random-walk
-variance that grows linearly with the horizon \(h\), so the interval on one day grows like
-\(\sqrt h\). A local linear trend adds a random slope and the variance grows like \(h^3\). For the
-**cumulative** effect these powers go up by two.
+The forecast variance of a static regression is constant. A local level adds a variance linear in
+the horizon \(h\), hence an interval in \(\sqrt h\); a local linear trend adds a random slope and
+the variance grows like \(h^3\). For the **cumulative** effect these powers go up by two.
 
 ![How fast each model admits it does not know](nb01_interval_width.svg "Width of the 95% interval on one day as a function of the horizon: flat for the static regression, square root of h for the local level, faster still for the local trend.")
 
-On this panel the static interval is narrow and misses the truth; the local level's interval is
-wide and contains it. Which is right is not a matter of taste: it is a matter of coverage, which
-part 5 measures over 100 panels.
+On this panel the static interval misses the truth and the local level's contains it. Which is
+right is a matter of coverage, which part 5 measures over 100 panels.
 
-**A second source of uncertainty.** The forecast distribution at the maximum-likelihood estimate
-accounts for future shocks and for the uncertainty of the current state. It does not account for
-the variances and coefficients being estimates themselves. CausalImpact integrates the parameters
-out by MCMC; the cheap frequentist counterpart is to draw the parameters from the asymptotic normal
-of the MLE and mix the forecast over those draws. On this panel, with 365 pre-period days, that
-barely changes the cumulative interval: [207, 926] becomes [203, 914]. Part 5 shows where those
-draws matter.
+**A second source of uncertainty.** The forecast at the maximum-likelihood estimate ignores that
+the parameters are themselves estimates. CausalImpact integrates them out by MCMC; the cheap
+frequentist counterpart is to draw them from the asymptotic normal of the MLE and mix the forecast
+over those draws. With 365 pre-period days, the cumulative interval barely moves: [207, 926]
+becomes [203, 914].
 
 ## 4. The protocol on a known truth
 
 The panel: one treated unit and five controls, 365 days before the intervention and 90 after. All
-units load on two latent factors (random walks) and a weekly pattern, with their own weights; each
-unit also has a small random-walk level of its own that nobody else sees, and observation noise. The
-controls are therefore noisy proxies of what drives the target, not copies. The planted effect is a
-10% lift over the post period, 831 cumulative units. The counterfactual \(y^0\) is kept, so every
-estimator can be graded.
+units load on two latent factors (random walks) and a weekly pattern, with their own weights, plus
+a small random-walk level of their own and observation noise. The controls are noisy proxies of
+what drives the target, not copies. The planted effect is a 10% lift over the post period, 831
+cumulative units, and the counterfactual \(y^0\) is kept so every estimator can be graded.
 
 | | relative effect, 95% interval | cumulative effect | tail probability |
 |---|---|---|---|
@@ -216,36 +166,29 @@ estimator can be graded.
 
 ![The real intervention and its placebo-in-time](nb02_real_vs_placebo.svg "Top: the analysis at the real date, the cumulative interval excludes zero and contains the truth. Bottom: the same analysis with a fake date two thirds into the pre period, on data that stops at the real date; the cumulative effect stays around zero.")
 
-Criterion (a) is met: the real interval excludes zero and contains the truth. Criterion (b) too:
-the placebo interval contains zero comfortably, and its point estimate is a small fraction of the
-real one. One implementation detail matters here: the placebo is computed on data **truncated at
-the real date**, so that no treated data enters the analysis.
+Both criteria are met: the real interval excludes zero and contains the truth, the placebo
+interval contains zero. The placebo is computed on data **truncated at the real date**, so that no
+treated data enters the analysis.
 
-One panel proves nothing about the method; it proves the protocol runs. Two extensions make the
-placebo more informative:
+One panel proves the protocol runs, not that the method is good. Two extensions make the placebo
+more informative:
 
 - **The placebo-in-time as a sweep.** One fake date is one draw. Eight fake dates spread over the
-  pre period give the distribution of "effects" the design produces when nothing happens, and that
-  is the right yardstick for the real effect. On this panel, all eight intervals contain zero, and
-  the fake effects have a standard deviation of 1.8 points.
+  pre period give the distribution of "effects" the design produces when nothing happens: that is
+  the yardstick for the real effect. Here, all eight intervals contain zero.
 - **The placebo-in-space as a ranking.** Each control is treated in turn as the unit of interest,
-  at the real date, with the other controls as donors; the real treated unit is never used as
-  anybody's control. The real unit ranks first of six by absolute effect.
+  at the real date. The real unit ranks first of six by absolute effect.
 
 ![Placebo-in-time sweep and placebo-in-space ranking](nb02_placebo_sweep_space.svg "Left: eight fake dates with 90-day post windows; the intervals contain zero, the real effect (orange) sits outside the cloud. Right: each unit treated as if it were the target; the real unit is the only one whose interval excludes zero.")
 
 ## 5. Is the 95% interval a 95% interval?
 
-Brodersen and colleagues grade their method by two curves: the share of intervals that exclude
-zero as a function of the true effect (power, and at zero effect the false-positive rate), and the
-share of intervals that contain the truth (coverage, which must stay near 95% whatever the effect).
-I drew the same curves over 100 panels per effect size, for the maximum-likelihood interval, for
-the interval mixed over parameter draws, and for the placebo-in-time computed on the same panels.
-
-One property of the setup simplifies the reading: with a fixed pre period, the estimation error
-does not depend on the planted effect. The counterfactual is fitted on the pre period and forecast
-from the post-period controls, neither of which the effect touches. Coverage, width and bias are
-therefore the same at every effect size; only detection moves.
+Two curves grade the method: the share of intervals that exclude zero by true effect (power, and at
+zero effect the false-positive rate), and the share that contain the truth (coverage, which must
+stay near 95%). I drew them over 100 panels per effect size, for the maximum-likelihood interval,
+for the interval mixed over parameter draws, and for the placebo-in-time on the same panels. Since
+the effect touches neither the pre period nor the controls, coverage, width and bias are the same
+at every effect size; only detection moves.
 
 | estimator | coverage | false positives at 0% | detection at 1% | 2% | 5% | 10% | mean width |
 |---|---|---|---|---|---|---|---|
@@ -255,21 +198,16 @@ therefore the same at every effect size; only detection moves.
 
 ![Power and coverage over 100 panels](nb02_power_coverage.svg "Left: the share of intervals excluding zero by true effect. Right: the share containing the truth; a little under 95% for the MLE interval, one point more with parameter draws, 89% for the placebo.")
 
-Three observations.
-
-**Detection is modest.** A 1% lift is invisible, a 5% lift is seen one time in two, a 10% lift
-almost always, with 90 post days and this noise level. That is the same order of magnitude as
-Brodersen's simulation, where 1% is missed in 90% of cases.
+**Detection is modest.** A 1% lift is invisible, 5% is seen one time in two, 10% almost always,
+with 90 post days. That is the order of magnitude of Brodersen's simulation.
 
 **The placebo fires more often than 5%.** The placebo windows have a shorter pre period (243 days
-instead of 365), and their interval is on average wider but less well calibrated: 11% false
-positives. The plan said "if your placebo finds an effect, your design is invalid". On these
-panels, one placebo in nine finds an effect on a perfectly valid design. Reading a placebo as one
-date against a 5% threshold therefore rejects a correct design one time in nine. Reading the
-**sweep** against its own clean-panel rate is fairer, and errs on the cautious side.
+instead of 365) and a less well calibrated interval: 11% false positives. One placebo in nine
+therefore finds an effect on a perfectly valid design. Reading the **sweep** against its own
+clean-panel rate is fairer than one date against a 5% threshold.
 
-**The length of the pre period matters, because a variance needs more points than a mean.** Over
-50 panels per cell, at a 5% effect:
+**The length of the pre period matters, because a variance needs more points than a mean.**
+Coverage over 50 panels per cell, at a 5% effect:
 
 | pre period (days) | 60 | 120 | 240 | 365 | 730 |
 |---|---|---|---|---|---|
@@ -279,18 +217,16 @@ date against a 5% threshold therefore rejects a correct design one time in nine.
 
 ![Coverage, width and error by pre-period length](nb02_pre_length.svg "The MLE interval under-covers on short pre periods; the parameter draws correct it. OLS stays around 0.2 at every length.")
 
-The parameter draws earn their keep on short pre periods and become unnecessary around a year of
-daily data. The reason is known: on a short sample, the maximum-likelihood estimate of a level
-variance can collapse to zero, and a zero-variance level is a static model with a flat,
-overconfident interval. Drawing parameters around a zero maximum does not fix that; a prior does,
-and that is one honest reason CausalImpact puts one on the level standard deviation. Part 9 shows
-the other side of that prior.
+The parameter draws earn their keep on short pre periods, where the estimated level variance can
+collapse to zero and hand back an overconfident static model. A prior corrects that too, and that
+is one honest reason CausalImpact puts one on the level standard deviation. Part 9 shows the other
+side of it.
 
 ## 6. Nine estimators on the same panels
 
 Each estimator fits on the pre period and returns the cumulative effect with the interval a
-practitioner would compute for it (iid errors for the simple ones). Same 100 panels, two effect
-sizes, 0 and 5%.
+practitioner would compute for it (iid errors for the simple ones). Same 100 panels, effects of 0
+and 5%.
 
 | estimator | coverage | false positives at 0% | detection at 5% | width | RMSE |
 |---|---|---|---|---|---|
@@ -306,46 +242,39 @@ sizes, 0 and 5%.
 
 ![Coverage and false positives of the nine estimators](nb02_baselines.svg "In red, estimators whose coverage is below 90% (left) or whose false-positive rate is above 10% (right). Only the models with a stochastic level, and the trend alone, pass both.")
 
-What I observed:
-
-- **OLS on the controls and the static state-space regression are the same estimator** (identical
-  bias and RMSE). Their point estimate is nearly as accurate as the local level's (RMSE 274 against
-  227). Their interval is six to seven times too narrow: coverage around 20%, and **80% false
-  positives at zero effect**. Four promotions out of five that did nothing would be declared
-  effective. That is the measured version of the "overoptimistic inferences" Brodersen cites, after
-  Bertrand, Duflo and Mullainathan, against static difference-in-differences.
-- **The convex synthetic control is nearly unbiased but inherits the same iid interval**, and the
-  same 80% false positives. The classical method knows this: that is why it reports permutation
-  ranks rather than intervals.
-- **Difference-in-differences is worse on both counts** (RMSE 400, coverage 12%): the mean of the
-  controls is a poor synthetic control when loadings differ across units.
-- **Trend extrapolation without controls covers**, because its interval is two and a half times
-  the local level's, and it detects a 5% lift one time in seven.
+- **OLS on the controls and the static state-space regression are the same estimator.** Point
+  estimate nearly as accurate as the local level's (RMSE 274 against 227), interval six to seven
+  times too narrow: **80% false positives at zero effect**. Four promotions out of five that did
+  nothing would be declared effective. That is the measured version of the "overoptimistic
+  inferences" Brodersen cites, after Bertrand, Duflo and Mullainathan.
+- **The convex synthetic control is nearly unbiased but inherits the same iid interval.** The
+  classical method knows this: it reports permutation ranks rather than intervals.
+- **Difference-in-differences is worse on both counts**: the mean of the controls is a poor
+  synthetic control when loadings differ across units.
+- **Trend extrapolation without controls covers**, with an interval two and a half times wider,
+  and detects a 5% lift one time in seven.
 - **The local level is the only estimator with near-nominal coverage and false positives near
-  5%.** The local trend pays for its extra component with a wider interval and lower power.
+  5%.** The local trend pays for its extra component in width and power.
 
-That table is, of the whole day, the strongest argument for the placebo: on these panels the
-placebo-in-time of an OLS design would fire four times out of five too, and that is how the
-practitioner would find out.
+That table is, of these three weeks, the strongest argument for the placebo: the placebo-in-time
+of an OLS design would fire four times out of five too.
 
 ## 7. When the design breaks: who catches what
 
-The plan said the real deliverable is not the effect but the ability to say why a measurement is
-invalid. I planted four violations one at a time in the panel, with a 5% lift, and ran four checks
-on each, 100 panels per scenario:
+The real deliverable is not the effect but the ability to say why a measurement is invalid. I
+planted four violations one at a time, with a 5% lift, 100 panels per scenario:
 
 - **cannibalised control**: the treated effect is subtracted, one for one, from controls c0 and c1
   (a promotion on A that eats the sales of B and C, used as controls);
 - **halo on the controls**: the same amount is added to c0 and c1;
-- **own trend**: the treated unit drifts by +0.1 per day on its own, from day one (about 36% a year
-  on a level of 100), while the controls do not;
+- **own trend**: the treated unit drifts by +0.1 per day on its own from day one (about 36% a year
+  on a level of 100);
 - **relation break**: the treated unit's loadings on the common factors change by +30% at the
   intervention date.
 
-The checks: the placebo-in-time, the placebo-in-space (each control as if treated, at the real
-date), a Chow test on differences between the two halves of the pre period, and the estimate's bias
-against the truth, which one would like to know in practice and never can. The "clean" row gives
-each check's false-alarm rate, and the other rows are read against it.
+Four checks on each: the placebo-in-time, the placebo-in-space, a Chow test on differences between
+the two halves of the pre period, and the bias against the truth, which one never knows in
+practice. The "clean" row gives each check's false-alarm rate.
 
 | scenario | coverage | relative bias | placebo-in-time fires | placebo-in-space flags c0 / c1 | flags a clean control | Chow rejects |
 |---|---|---|---|---|---|---|
@@ -357,75 +286,56 @@ each check's false-alarm rate, and the other rows are read against it.
 
 ![Who catches what: the share of panels where each check fires, and the bias it is supposed to protect](nb03_who_catches_what.svg "Left: each check's firing rate by scenario. Right: the relative bias of the cumulative effect and the coverage. The relation break is biased and under-covered without any check rising above its false-alarm rate.")
 
-Row by row:
-
-- **Cannibalised control and halo.** The bias is large (+26% and −27% of the true effect) and
-  coverage slips. Yet **the placebo-in-time is exactly as often green as on clean panels**: nothing
-  is wrong with the pre period, the contamination starts at the intervention. The
-  placebo-in-space flags each contaminated control about four times more often than a clean one
-  (39% and 36% against 10% and 8%): the check has power, but far from certainty for a
-  contamination of this size. It also flags clean controls more often (34% against 24%): a
-  contaminated donor contaminates the placebos that use it.
-- **Own trend.** The placebo-in-time fires in 39% of panels, more than twice its clean rate. That
-  is the design doing its job: a unit that drifts on its own relative to its controls produces
-  "effects" at any date. The bias is +71%, because the local level forecasts flat and the drift
-  continues.
+- **Cannibalised control and halo.** The bias is large (+26% and −27%), and yet **the
+  placebo-in-time is exactly as often green as on clean panels**: the contamination starts at the
+  intervention, nothing is wrong before. The placebo-in-space flags each contaminated control about
+  four times more often than a clean one: power, but far from certainty. It also flags clean
+  controls more often: a contaminated donor contaminates the placebos that use it.
+- **Own trend.** The placebo-in-time fires in 39% of panels, more than twice its clean rate: a
+  unit that drifts on its own produces "effects" at any date. The bias is +71%, because the local
+  level forecasts flat and the drift continues.
 - **Relation break.** Biased, under-covered, and **no check fires above its clean rate**. A
   relationship that stops holding at the intervention date is indistinguishable, in the data, from
-  an effect of the intervention. This is the assumption Brodersen names as the one everything rests
-  on, and it is untestable by construction. The only defences are outside the data: a reason to
-  believe the relationship persists, and the business reconciliation of part 10.
+  an effect of the intervention: the assumption is untestable by construction. The only defences
+  are outside the data: a reason to believe the relationship persists, and the business
+  reconciliation of part 10.
 
 ### Isolating a contaminated control
 
-When the placebo-in-space flags several controls, one of them may be the culprit and the others its
-victims. The repository's procedure removes the worst one (the smallest tail probability), reruns
-the check on the rest, and repeats until nothing is flagged.
+When the placebo-in-space flags several controls, one may be the culprit and the others its
+victims. The procedure removes the worst one (the smallest tail probability), reruns the check on
+the rest, and repeats until nothing is flagged.
 
 ![Contamination check on a cannibalised panel](nb03_isolation.svg "Each control's own effect at the real date, with its interval. The controls removed by the isolation are marked; c0 and c1 are the two controls contaminated by construction.")
 
-On this panel the first round flags only c1; c0, also contaminated, has an interval that just
-touches zero ([−10.3%, +0.2%]). The isolation removes c1, then c0, then a clean control, c2, and
-keeps c3 and c4. With all controls, the effect is estimated at 601 [283, 937] for a truth of 503:
-the interval covers, but the estimate is 20% too high. With the two kept controls: 118 [−416,
-676]. The interval still covers, but the estimate has become very imprecise. Removing controls
-trades bias for variance, and with five donors the trade is a poor one. That is what made me
-write, in part 10, that one should start from a pool of 10 to 20 eligible donors, chosen
-**before** the campaign among products that cannot interact with the promoted one: the check is a
-guard, not a selection procedure.
+On this panel the isolation removes c1, then c0, then a clean control, c2. With all controls the
+effect is estimated 20% too high; with the two kept ones it is covered but very imprecise. Removing
+controls trades bias for variance, and with five donors the trade is a poor one. Hence the rule of
+part 10: a pool of 10 to 20 donors chosen **before** the campaign among products that cannot
+interact with the promoted one. The check is a guard, not a selection procedure.
 
 ## 8. A real case: Volkswagen, 18 September 2015
 
-The plan suggested a series from the Favorita dataset. With no Kaggle credentials on the machine, I
-took the public panel that the CausalImpact port uses as a test fixture: weekly closing prices of
+I took the public panel that the CausalImpact port uses as a test fixture: weekly closing prices of
 Volkswagen, BMW and Allianz, 325 weeks from January 2011 to March 2017. The intervention is dated:
-the US EPA's notice of violation against Volkswagen, published on Friday 18 September 2015. Here no
-truth is available, and every claim has to be defended by a placebo or a sensitivity analysis.
+the US EPA's notice of violation against Volkswagen, on Friday 18 September 2015. Here no truth is
+available, and every claim has to be defended by a placebo or a sensitivity analysis.
 
 ![Weekly closes, 2011 to 2017](nb04_series.svg "VW, BMW and Allianz, with the date of the EPA notice. VW's price loses 28% in one week.")
 
 ### The first thing to notice
 
-The row dated Sunday 20 September 2015 already contains the crash: VW goes from 155.4 to 111.3,
-−28%, then to 97.4 the following week. Rows are labelled by the Sunday that opens the week, and
-that week holds the Monday 21 and Tuesday 22 sessions. The pre period therefore ends on 13
-September (246 weeks) and the post period starts on 20 September (79 weeks, to March 2017), as in
-the package's own example.
-
-But **BMW falls in the same week**: −8%, from 75.5 to 69.5, while Allianz gains 1%. BMW's shares
-dropped after press reports, on 24 September, about the emissions of one of its models, and the
-whole sector was repriced before recovering in October. If BMW reacted to the same event, it is not
-an untreated control. The question is dealt with below.
+The week of Sunday 20 September 2015 already contains the crash: VW loses 28%. The pre period
+therefore ends on 13 September (246 weeks) and the post period starts on 20 September (79 weeks).
+But **BMW falls in the same week** (−8%) while Allianz gains 1%: the whole sector was repriced
+before recovering in October. If BMW reacted to the same event, it is not an untreated control.
 
 ### Is the pre-period relationship stable?
 
-The counterfactual extrapolates the relationship between VW and its controls. If it was already
-drifting before the date, extrapolating it is a guess. A rolling 52-week regression shows
-coefficients that wander and an R² far from constant: in levels, three share prices co-move through
-the market factor, but the loadings are not a law. A Chow test between the two halves of the pre
-period, computed on weekly **differences** so that a drifting level does not masquerade as a change
-of loadings, does not reject stability (F = 0.95, p = 0.42). My reading: stable enough to try, not
-stable enough to trust the result without a placebo.
+A rolling 52-week regression shows coefficients that wander: three share prices co-move through the
+market factor, but the loadings are not a law. A Chow test between the two halves of the pre
+period, computed on weekly **differences**, does not reject stability (p = 0.42). Stable enough to
+try, not stable enough to skip the placebo.
 
 ### The effect, with BMW and Allianz as controls
 
@@ -441,37 +351,27 @@ stable enough to trust the result without a placebo.
 ![VW, local level and regression on BMW and Allianz](nb04_impact_bmw_allianz.svg "The three usual panels: observed and counterfactual, pointwise effect, cumulative effect. The interval widens fast: 79 weeks is a long horizon for a random-walk level.")
 
 The interval excludes zero, but not by much, and it widens fast: 79 weeks is a long horizon for a
-random-walk level whose weekly variance, estimated from the data, is not negligible. The point
-estimate says VW traded about a fifth below its counterfactual over the following eighteen months.
-
-The one-step R² of 0.99 says nothing about the controls: a share price is close to a random walk,
-and one-step forecasts of a random walk are always excellent. Another number is more telling: the
-ratio of the residual spread after and before the date is 3.4. The post period behaves very
-differently from the pre period.
+random-walk level. VW traded about a fifth below its counterfactual over the following eighteen
+months. The one-step R² of 0.99 says nothing: one-step forecasts of a random walk are always
+excellent. More telling: the residual spread after the date is 3.4 times the one before.
 
 ### The placebo-in-time, one year earlier
 
-I pretend the intervention happened on 14 September 2014 and rerun the identical analysis on data
-that stops on 13 September 2015, so that no post-notice data is seen. Nothing happened to VW in
-particular on that date; the estimated effect must be indistinguishable from zero: **+5.4%
-[−8.2%, +23.1%]**, tail probability 0.24.
-
-Then the sweep: twelve fake dates between February 2012 and March 2015, each with a 26-week post
-window.
+I pretend the intervention happened on 14 September 2014, on data that stops on 13 September 2015.
+The estimated effect is indeed indistinguishable from zero: **+5.4% [−8.2%, +23.1%]**. Then the
+sweep: twelve fake dates between February 2012 and March 2015, 26-week post windows.
 
 ![Placebo-in-time sweep on Volkswagen](nb04_placebo_sweep.svg "Twelve fake dates, 26-week post windows, 95% intervals. All contain zero; the real effect over 79 weeks (orange) sits outside the cloud.")
 
-All twelve intervals contain zero, and the placebo estimates scatter on both sides, between −7.6%
-and +9.0%. The real effect sits well outside that scatter. This is the (b) half of the criterion,
-and it is what makes the (a) half reportable.
-
-This placebo validates the pre-intervention model. It says nothing about BMW, because in the
-placebo windows BMW was hit by nothing.
+All twelve intervals contain zero, the placebo estimates scatter between −7.6% and +9.0%, and the
+real effect sits well outside that cloud. This is the (b) half of the criterion, the one that makes
+the (a) half reportable. This placebo validates the pre-intervention model; it says nothing about
+BMW, which was hit by nothing in the placebo windows.
 
 ### Were the controls themselves treated?
 
-Brodersen's third analysis: run the model on each control as if it were the treated unit, with the
-other control as its donor, at the real date.
+Brodersen's third analysis: each control as if it were the treated unit, with the other control as
+its donor, at the real date.
 
 | | own effect over 79 weeks | over the 14 weeks after the notice |
 |---|---|---|
@@ -480,12 +380,10 @@ other control as its donor, at the real date.
 
 ![Each control treated as if it were the target](nb04_control_check.svg "BMW forecast from Allianz, and Allianz forecast from BMW, over the 14 weeks after the notice. Allianz 'rises' 9.4% relative to BMW: it is BMW that fell.")
 
-With only two controls, this check is a mirror: "BMW fell relative to Allianz" and "Allianz rose
-relative to BMW" are the same fact seen from both sides, and the intervals are wide because a single
-donor is a poor counterfactual. The weekly rows around the notice are the most direct evidence:
-BMW lost 8% in the week of 20 September and recovered 12% two weeks later, Allianz did not move.
-The sector was repriced for a few weeks, and BMW is a doubtful control, at least for the short-run
-effect. Rather than pick a verdict, I reported the effect under each control set.
+With two controls this check is a mirror: "BMW fell relative to Allianz" and "Allianz rose
+relative to BMW" are the same fact. BMW lost 8% then recovered 12% within three weeks, Allianz did
+not move: BMW is a doubtful control, at least in the short run. Rather than pick a verdict, I
+reported the effect under each control set.
 
 ### Sensitivity: how much of the answer is a modelling choice?
 
@@ -504,35 +402,29 @@ effect. Rather than pick a verdict, I reported the effect under each control set
 ![Sensitivity of the effect to the specification](nb04_sensitivity.svg "Nine specifications. In grey, those whose interval contains zero. The sign never changes; the interval is what moves.")
 
 Every specification in prices with a control puts the estimate between about −15% and −30%, and
-the sign never flips. What moves is the interval. The static regression is confidently narrow, and
-part 6 showed that confidence is not earned on autocorrelated data. BMW alone is not significant.
-The local linear trend adds a stochastic slope to a share price, and its 79-week forecast is too
-uncertain to conclude. Allianz alone, the reference and the shorter pre periods are significant and
-agree. The log specification is in the table for its sign only: a relative effect on the log scale
-is not a relative effect on the price.
-
-The defensible report is a **range from −17% to −27%**, with the control-set question flagged.
+the sign never flips. What moves is the interval: the static regression is narrow with a confidence
+part 6 showed to be unearned, the local linear trend too uncertain at 79 weeks to conclude, BMW
+alone not significant. The defensible report is a **range from −17% to −27%**, with the control-set
+question flagged.
 
 ### Does the model use time order at all?
 
 A cheap check, after TASC: shuffle the pre-period rows and refit. A static regression gives the
-same answer. A model with a stochastic level does not, because a shuffled random walk is no longer
-a random walk, and the level variance collapses.
+same answer; a model with a stochastic level does not, because a shuffled random walk is no longer
+one and the level variance collapses.
 
 ![Shuffling the pre period: the local level's answer changes, the static regression's cannot](nb04_time_order.svg "Over 20 permutations of the pre period, the local level's cumulative effect converges to the static answer, with an interval ten times narrower than the original.")
 
-Over the permutations, the local level's cumulative effect converges to −4,305 (standard
-deviation 64), with a mean interval width of 518 against 4,971 in the original order. The shuffled
-fits converge to the static answer and its narrow interval. In other words, the local level's wider
-interval is the price of taking the serial dependence of the pre period seriously, and the static
-regression's narrow interval is what one gets by pretending the weeks are exchangeable.
+Over 20 permutations, the local level's cumulative effect converges to the static answer and its
+narrow interval (width 518 against 4,971 in the original order). The local level's wider interval
+is the price of serial dependence; the static regression's narrow interval is what one gets by
+pretending the weeks are exchangeable.
 
 ## 9. Comparison with Google's CausalImpact
 
 The hand-built model is a frequentist cousin of CausalImpact: same state space, maximum
-likelihood instead of priors and MCMC. If the two disagree, the difference is informative. I ran
-`tfcausalimpact`, the TensorFlow Probability port (variational inference by default), on the
-Volkswagen panel and on synthetic panels.
+likelihood instead of priors and MCMC. I ran `tfcausalimpact`, the TensorFlow Probability port, on
+the Volkswagen panel and on synthetic panels.
 
 | case | method | cumulative effect, 95% interval | width |
 |---|---|---|---|
@@ -543,20 +435,13 @@ Volkswagen panel and on synthetic panels.
 ![Volkswagen: same state space, half the interval](nb05_vw_intervals.svg "Cumulative effect and 95% interval under four variants, for both control sets. The point estimates sit inside each other's intervals; the widths do not.")
 
 Same data, same state space, point estimates each inside the other's interval, and an interval
-half as wide. CausalImpact's default prior on the level standard deviation is 0.01, in units of the
-standardised series, inherited from the R package. On a weekly share price, the maximum-likelihood
-level standard deviation is about 0.085 in the same units, eight times larger. The prior wins the
-argument over 246 weeks of data, because variational inference with a tight prior around a small
-value keeps the level nearly deterministic, and a nearly deterministic level forecasts 79 weeks
-ahead with a nearly constant variance. Loosening the prior to 0.1 opens the interval up to the
-hand-built one. **The narrow interval was the prior, not the data.**
-
-This is not a flaw of either implementation. A prior is the statement that share prices do not
-wander, which one may or may not want to make; maximum likelihood is the statement that the pre
-period is the only information about how much they wander. What I take from it is that the
-interval width on a real case is a modelling choice, and must be reported as such.
-
-On a known truth one can go further and ask who covers:
+half as wide. CausalImpact's default prior on the level standard deviation is 0.01, in units of
+the standardised series; maximum likelihood gives 0.085 here, eight times larger. A tight prior
+keeps the level nearly deterministic, which forecasts 79 weeks ahead with a nearly constant
+variance. Loosening it to 0.1 opens the interval up to the hand-built one. **The narrow interval
+was the prior, not the data.** This is not a flaw of either implementation, but the interval width
+on a real case is a modelling choice, to be reported as such. On a known truth one can ask who
+covers:
 
 | 30 panels, 5% lift | coverage | detection | mean width | RMSE | seconds per fit |
 |---|---|---|---|---|---|
@@ -565,45 +450,35 @@ On a known truth one can go further and ask who covers:
 
 ![Intervals centred on the truth, 30 panels](nb05_coverage_side_by_side.svg "Each segment is a 95% interval recentred on the truth: a segment that misses zero missed the truth. The tfcausalimpact intervals are shorter and miss more often.")
 
-The default prior buys an interval 45% narrower and a higher detection rate (80% against 53%) at
-the price of coverage: its 95% interval contains the truth in 77% of panels, the hand-built one in
-90%. The point estimates are of similar accuracy. The prior is a reasonable default for the daily
-marketing series the method was built for, with a small level variance relative to the regression
-on many controls, and a poor default for a series with a large own random walk, which is what this
-panel and a share price are. A placebo-in-time sweep would reveal it: its false-positive rate would
-sit well above 5%.
+The default prior buys an interval 45% narrower and a higher detection rate at the price of
+coverage: 77% against 90%. It is a reasonable default for the daily marketing series the method
+was built for, and a poor default for a series with a large own random walk, such as a share
+price. A placebo sweep would reveal it: its false-positive rate would sit well above 5%.
 
 Neither "narrow" nor "Bayesian" is a synonym for "calibrated". Coverage on a known truth, or a
-placebo sweep on real data, are the only evidence I found. And that brings me back to TASC: its
-intervals "narrower than CIM" are a claim about width, and this day showed me what width without
-coverage can hide. One practical point, finally: 0.1 seconds per fit against 12 to 16, which
-matters for placebo sweeps and Monte Carlo studies.
+placebo sweep on real data, are the only evidence I found, and that brings me back to TASC's
+"narrower" intervals. One practical point, finally: 0.1 seconds per fit against 12 to 16, which
+matters for sweeps and Monte Carlo studies.
 
 ## 10. Measuring promotion incrementality continuously
 
 The plan's third block was an architecture decision, with no code: a promotion engine runs
-campaigns on products in stores, and for each campaign one wants the causal effect on sales, by
-counterfactual rather than by holdout, because the business will not hold out stores or customers
-for every promotion. Three points decide whether the number is worth anything. The figures quoted
-are those of parts 5 to 7.
+campaigns on products in stores, and for each campaign one wants the causal effect on sales by
+counterfactual, because the business will not accept a holdout for every promotion. Three points
+decide whether the number is worth anything.
 
-**Selection and integrity of the controls.** With part of the promoted product's lift
-cannibalised from a product used as a control, the effect is overestimated by a quarter and the
-placebo-in-time stays green in 83% of cases. Interference is invisible to the check everybody runs.
-My answer is twofold. Before the campaign, candidate controls come from a **registry of eligible
-donors** built from the product graph: same store cluster and seasonality class as the target, but
-a different category and no substitution edge (from basket co-occurrence and past cross-elasticity
-estimates). A product in the same category, the same brand family, or a known substitute or
-complement is excluded whatever the quality of its pre-period fit, because the best-fitting control
-is often the closest substitute. Any donor itself promoted, out of stock, delisted or repriced in
-the window is excluded. And the pool holds 10 to 20 donors, to afford losing some. After the
-campaign, the placebo-in-space at the real date, with leave-one-out isolation (part 7), flags the
-donors that moved with the campaign. A negative own effect on a same-aisle product is a
-cannibalisation finding in its own right, and it is part of the promotion's net effect; a positive
-one is a halo. Both go into the campaign report, and the effect is reported on the kept pool.
+**Selection and integrity of the controls.** With part of the lift cannibalised from a product
+used as a control, the effect is overestimated by a quarter and the placebo-in-time stays green in
+83% of cases. Before the campaign, candidate controls therefore come from a **registry of eligible
+donors** built from the product graph: same store cluster and seasonality as the target, but a
+different category and no substitution edge, whatever the quality of the fit, because the
+best-fitting control is often the closest substitute. The pool holds 10 to 20 donors, to afford
+losing some. After the campaign, the placebo-in-space with leave-one-out isolation flags the donors
+that moved: a negative own effect is a cannibalisation, a positive one a halo, and the effect is
+reported on the kept pool.
 
-**Monitoring the causal assumption over time.** The counterfactual is unobservable, so nothing is
-monitored directly. Four substitutes, each tied to a failure mode the panel reproduces:
+**Monitoring the causal assumption over time.** The counterfactual is unobservable. Four
+substitutes, each tied to a failure mode the panel reproduces:
 
 | Signal | What it guards | Rule |
 |---|---|---|
@@ -613,75 +488,55 @@ monitored directly. Four substitutes, each tied to a failure mode the panel repr
 | stability of the donor-target relationship: Chow on differences, drift of the coefficients between successive campaigns of the same target | the relationship that is extrapolated | p < 0.01 or a sign change of a coefficient blocks the donor |
 
 What this monitoring cannot see, and the dashboard says so: a relationship that breaks at the
-campaign date. The scenario of part 7 is biased and under-covered without any check firing above
-its clean rate. That failure mode is caught only by the third point.
+campaign date. Only the third point catches it.
 
 **The business guard-rail.** The estimated effect is a forecast residual. It is tied to money
-through a quantity that *is* observed later: the **realised incremental margin**, reconciled per
-campaign and per month. Each report carries the estimated incremental units with their interval,
-converted into margin with the promotion's unit margin, and the *implied* margin that the ledger
-should show for the product-store set over the post window. Each month, the sum of estimated
-counterfactual and incremental margins is compared with the realised margin of the promoted sets.
-The reconciliation gap is a time series: its level is noisy by nature, its **drift** is the alarm.
-A gap that grows in one direction for three months means the counterfactuals are systematically
-off, and that is what a silently drifting model looks like from outside, including a relation break
-that nothing else sees. Two more anchors: an occasional real holdout, on a small share of campaigns
-chosen by the engine, with a randomised store holdout, whose experimental effect is compared with
-the counterfactual effect on the same campaign, the way Brodersen and colleagues validated their
-observational estimate against the randomised one; and the sum of effects across campaigns of the
-same category, which cannot exceed the category's observed growth for long without a
-cannibalisation the controls missed. As long as the reconciliation gap has not been closed for a
-product family, the effect that goes into a decision is the lower bound of the interval, not the
-point estimate.
+through a quantity observed later: the **realised incremental margin**, reconciled every month
+against the sum of estimated counterfactual and incremental margins. The reconciliation gap is a
+time series: its level is noisy, its **drift** is the alarm. A gap that grows in one direction for
+three months means the counterfactuals are systematically off, and that is what a relation break
+that nothing else sees looks like from outside. Two more anchors: an occasional real holdout on a
+small share of campaigns, compared with the counterfactual effect; and the sum of effects within a
+category, which cannot exceed its observed growth for long. As long as the gap has not been closed
+for a product family, the effect that goes into a decision is the lower bound of the interval.
 
 ## 11. What I take away
 
-These observations hold for the setups studied here: a semi-synthetic panel with two latent
-factors, five controls and 90 post days, and a panel of three share prices. I present them as such.
+These observations hold for the setups studied here: a semi-synthetic panel with five controls and
+90 post days, and a panel of three share prices.
 
 1. **The counterfactual is a forecast, and its uncertainty is the model's belief about what the
-   unexplained part does over time.** A static regression believes it is independent every day; a
-   local level lets it wander. On these panels only the second belief gives a 95% interval that
-   covers at 95%.
-2. **Static estimators are accurate and overconfident**: nearly the same RMSE as the local level,
-   and 80% false positives at zero effect. That is, of the day, the strongest argument for not
-   skipping the placebo.
+   unexplained part does over time.** On these panels only a level that can wander gives a 95%
+   interval that covers at 95%.
+2. **Static estimators are accurate and overconfident**: 80% false positives at zero effect. That
+   is the strongest argument for not skipping the placebo.
 3. **The placebo-in-time validates the pre-intervention model, and nothing that starts at the
-   intervention date.** It catches a unit drifting on its own (twice its clean rate); it is blind
-   to a contaminated control and to a relation break.
-4. **The placebo-in-space is the check for interference**, with modest power (about 40% per
-   contaminated control against 10% false alarm, for a one-for-one contamination on a 5% effect),
-   and it needs leave-one-out isolation because a contaminated donor flags its neighbours.
-5. **A relationship that breaks at the intervention date is seen by no data-only check.** Naming
-   that limit is what separates a forecast from a causal claim: making it plausible by construction
-   (control selection) and auditable afterwards (business reconciliation) is the only treatment I
-   found.
-6. **A placebo that fires does not necessarily invalidate the design.** With a shortened pre
-   period, the interval under-covers and the placebo fires on 11 to 17% of clean panels. I now read
-   a sweep against its clean rate, not one date against 5%.
+   intervention date.** It is blind to a contaminated control and to a relation break.
+4. **The placebo-in-space is the check for interference**, with modest power and a necessary
+   leave-one-out isolation, because a contaminated donor flags its neighbours.
+5. **A relationship that breaks at the intervention date is seen by no data-only check.** Control
+   selection before, business reconciliation after: that is the only treatment I found.
+6. **A placebo that fires does not necessarily invalidate the design.** I now read a sweep against
+   its clean rate, not one date against 5%.
 7. **On Volkswagen, the effect of the EPA notice is −17% to −27% over 79 weeks, depending on the
-   control set**, placebo clean at twelve fake dates, with BMW flagged as a doubtful control in the
-   weeks that follow.
+   control set**, placebo clean at twelve fake dates, BMW flagged as a doubtful control.
 8. **The interval width on a real case is a modelling choice.** CausalImpact's default prior gives
-   an interval half as wide as maximum likelihood, and covers 77% instead of 90% on a known truth.
-   Loosening the prior reconciles the two.
+   an interval half as wide, which covers 77% instead of 90%.
 
-**Open questions.** I did not implement TASC, nor measure its coverage. The synthetic panel has a
-step-shaped effect; the generator can produce a ramp and a pulse, which I did not study. The
-placebo-in-space was measured for a single contamination size. And the monitoring of part 10 is a
-line of reasoning, not a production system: its thresholds come from the panel, not from promotion
-data.
+**Open questions.** I did not implement TASC, nor measure its coverage. A ramp and a pulse remain
+to be studied in place of the step-shaped effect, and the placebo-in-space was measured for a
+single contamination size. The monitoring of part 10 is a line of reasoning, not a production
+system.
 
 {{< alert icon="circle-question" >}}
 **A question to check your understanding.** *A promotion on product A is measured by
 counterfactual with, as controls, three products from the same aisle chosen for the quality of
 their pre-period fit. The effect is +12% [+4%, +20%], and the placebo-in-time at three fake dates
-is clean. What is that number worth?* The placebo-in-time only tests the pre period, where the three
-controls were contaminated by nothing (part 7). If the promotion on A took sales from products in
-the same aisle, the counterfactual is pulled down and the effect overestimated, without any
-placebo-in-time seeing it. What is needed is the placebo-in-space at the real date on each of the
-three controls, and, if the aisle is the same, a good reason for having chosen those controls other
-than their fit, since the best-fitting control is often the closest substitute.
+is clean. What is that number worth?* The placebo-in-time only tests the pre period, where the
+controls were contaminated by nothing (part 7). If the promotion took sales from the same aisle,
+the counterfactual is pulled down and the effect overestimated without any placebo-in-time seeing
+it. What is needed is the placebo-in-space on each of the three controls, and a reason for having
+chosen them other than their fit.
 {{< /alert >}}
 
 ## Reproduce and go further
@@ -690,8 +545,7 @@ The code, the five notebooks and the 22 tests are in the
 [gwils28/time_series_causal_statistics](https://github.com/gwils28/time_series_causal_statistics)
 repository (Python 3.13, versions locked with `uv`). Every table in this article comes out of a
 `cts synth`, `cts vw`, `cts study all` or `cts tfci` command, with fixed seeds; the Monte Carlo
-studies take about fifteen minutes and the cross-check about ten. The Volkswagen panel is
-downloaded once from the test fixture of the CausalImpact port.
+studies take about fifteen minutes and the cross-check about ten.
 
 **Sources**
 
