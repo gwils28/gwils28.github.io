@@ -41,7 +41,7 @@ tests included.
 {{< alert icon="image" >}}
 **Every screenshot shows fictional data.** They come from a demo instance, filled with an
 invented household (Camille and Sam, ten months of spending, two years of net worth, nine goals).
-No amount, label or balance comes from real accounts. The interface is shown in French.
+No amount, label or balance comes from real accounts.
 {{< /alert >}}
 
 ## The problem
@@ -138,7 +138,7 @@ Net worth and goals can then be read at the level of the **household**, the **jo
 **my lines**. The app is arranged in three spaces, **Spending**, **Wealth** and **Goals**; the
 overview, at the top, sums up all three.
 
-![The October overview](vue-ensemble.webp "October for the whole household: net worth and its change, the progress of each tier of the pyramid, then the month's figures. Fictional data.")
+![The October overview](vue-ensemble-en.webp "October for the whole household: net worth and its change, the progress of each tier of the pyramid, then the month's figures. Fictional data.")
 
 ### Quick entry, at the keyboard
 
@@ -146,8 +146,8 @@ The spending space's main page is a **grid**: one month, its lines, every cell e
 An empty row always waits at the bottom; Tab moves to the next cell, Enter saves and opens a new
 row with the same date. Everything works without the mouse.
 
-Above it, a **quick line** takes an expense typed in any order: `boulangerie 12,50 hier`,
-`45 sncf 13/10` or `carrefour 87.40 #foyer`.
+Above it, a **quick line** takes an expense typed in any order: `bakery 12.50 yesterday`,
+`45 train 13/10` or `groceries 87.40 #home`.
 
 - the date is recognised ("yesterday", a weekday, `dd/mm`);
 - the amount is the last number, the others stay in the label;
@@ -155,17 +155,17 @@ Above it, a **quick line** takes an expense typed in any order: `boulangerie 12,
 - the rest is the label, and its category comes from the **label memory**: picking a label
   already used brings back the category of its latest line.
 
-![The spending grid and the quick line](grille.webp "The quick line has understood « cinéma 24,50 vendredi #loisirs » before it is even saved; below, the fixed expenses to confirm, greyed, then the month's lines. Fictional data.")
+![The spending grid and the quick line](grille-en.webp "The quick line has understood “cinema 24.50 friday #leisure” before it is even saved; below, the fixed expenses to confirm, greyed, then the month's lines. Fictional data.")
 
 A header recalls the last line entered and when, and a dot marks it in the grid, to pick up where
 you stopped.
 
-![The end of the grid](derniere-saisie.webp "The green dot marks the last line entered; the empty row waits for the next one, with the same date. Fictional data.")
+![The end of the grid](derniere-saisie-en.webp "The green dot marks the last line entered; the empty row waits for the next one, with the same date. Fictional data.")
 
 A line can also be **split** across several categories: the last part takes the rest, so the sum
 always comes out exact.
 
-![A split line](ventilation.webp "A hypermarket run: €88.51 of groceries, the rest (€36) for the home. Fictional data.")
+![A split line](ventilation-en.webp "A hypermarket run: €88.51 of groceries, the rest (€36) for the home. Fictional data.")
 
 ### Categories of three kinds
 
@@ -186,11 +186,11 @@ back every month, quarter or year. Each occurrence due shows greyed at the top o
 grid. Enter confirms it and creates the line, editable first; it can also be skipped for the
 month. Nothing is ever created by itself.
 
-![The list of fixed expenses](depenses-fixes.webp "Rent, the childminder, subscriptions: each fixed expense with its frequency, day and category. Fictional data.")
+![The list of fixed expenses](depenses-fixes-en.webp "Rent, the childminder, subscriptions: each fixed expense with its frequency, day and category. Fictional data.")
 
 The overview lists what is still to confirm and the **projected rest** at the end of the month.
 
-![Fixed expenses still to confirm](a-confirmer.webp "Three October occurrences still to confirm, and the projected rest once they are paid. Fictional data.")
+![Fixed expenses still to confirm](a-confirmer-en.webp "Three October occurrences still to confirm, and the projected rest once they are paid. Fictional data.")
 
 ### Monthly targets
 
@@ -204,11 +204,11 @@ past months keep theirs. A savings category gets a minimum to reach.
 - **the year**: the targets to date and for the whole year, the gap, and how many months were
   over, on or under target.
 
-![The month so far](mois-en-cours.webp "On 24 October: transport and shopping have overrun their target; the vertical mark shows the share of the month elapsed, and rent, paid in one go, is not judged against the pace. Fictional data.")
+![The month so far](mois-en-cours-en.webp "On 24 October: transport and shopping have overrun their target; the vertical mark shows the share of the month elapsed, and rent, paid in one go, is not judged against the pace. Fictional data.")
 
-![The budget matrix](budget-matrice.webp "Six months of budget: income received at the top, then each category against its target. Green: under; grey: within ±5 %; orange: over. Fictional data.")
+![The budget matrix](budget-matrice-en.webp "Six months of budget: income received at the top, then each category against its target. Green: under; grey: within ±5 %; orange: over. Fictional data.")
 
-![The year view](budget-annee.webp "2026 to date: cumulated target, spent, gap, and how many months were over, on and under target. Fictional data.")
+![The year view](budget-annee-en.webp "2026 to date: cumulated target, spent, gap, and how many months were over, on and under target. Fictional data.")
 
 ### Reports over any period
 
@@ -216,22 +216,22 @@ A month, a quarter, a year or any period up to ten years, compared with the **pr
 the same length**. A running period stops at the current month: "this year" is compared with the
 same months last year, not with a whole year.
 
-![A report's totals and breakdown](rapport.webp "September against August: the totals, then each category with its average, its share and its change. Fictional data.")
+![A report's totals and breakdown](rapport-en.webp "September against August: the totals, then each category with its average, its share and its change. Fictional data.")
 
 A report also gives a monthly chart stacked by category, spending accumulated day by day, and the
 period's **money flows**: income on the left; spending, savings and the unallocated rest on the
 right, both sides always adding up to the same total.
 
-![Spending month by month](rapport-mois.webp "2026 month by month: the six largest categories in colour, the others in grey, against the income line. Fictional data.")
+![Spending month by month](rapport-mois-en.webp "2026 month by month: the six largest categories in colour, the others in grey, against the income line. Fictional data.")
 
-![The year's money flows](rapport-flux.webp "2026's flows: salaries and benefits on the left; each category, savings and the unallocated rest on the right. Fictional data.")
+![The year's money flows](rapport-flux-en.webp "2026's flows: salaries and benefits on the left; each category, savings and the unallocated rest on the right. Fictional data.")
 
 ### Net worth, month by month
 
 Net worth is tracked as in a spreadsheet: one line per holding, filed in a category, one column per
 month, and a value entered by hand once a month.
 
-![The net-worth matrix](patrimoine-matrice.webp "Monthly tracking: net worth, gross assets and debts, then the lines by category and each one's share. Fictional data.")
+![The net-worth matrix](patrimoine-matrice-en.webp "Monthly tracking: net worth, gross assets and debts, then the lines by category and each one's share. Fictional data.")
 
 - a month without a value carries the previous one forward, shown as carried;
 - "Update this month" lists every line with its last value, to enter them all at once;
@@ -241,11 +241,11 @@ month, and a value entered by hand once a month.
 An *Analysis* page gives four charts, each category in its colour. Since ten hues cannot all stay
 apart for every colour-vision deficiency, every chart also keeps its labels and its data table.
 
-![Net worth over time](patrimoine-temps.webp "Categories stacked month by month, debts below zero, and net worth as a line. Fictional data.")
+![Net worth over time](patrimoine-temps-en.webp "Categories stacked month by month, debts below zero, and net worth as a line. Fictional data.")
 
-![Allocation as a sunburst and a mosaic](patrimoine-repartition.webp "October's allocation: categories then lines in the sunburst, one tile per category in the mosaic. Fictional data.")
+![Allocation as a sunburst and a mosaic](patrimoine-repartition-en.webp "October's allocation: categories then lines in the sunburst, one tile per category in the mosaic. Fictional data.")
 
-![What moved net worth](patrimoine-variation.webp "From November 2025 to October 2026, each category's contribution to net worth; the loan being repaid lifts it. Fictional data.")
+![What moved net worth](patrimoine-variation-en.webp "From November 2025 to October 2026, each category's contribution to net worth; the loan being repaid lifts it. Fictional data.")
 
 ### Goals, in a pyramid
 
@@ -261,7 +261,7 @@ arranged in a pyramid, drawn in stone:
   deadline, **locked** until the essentials are in order: the emergency fund full and at least
   three quarters of the goals ahead.
 
-![The goals pyramid and the effort plan](pyramide.webp "The household's pyramid: the emergency fund's column at 96 %, the three tiers, the locked capstone; on the right, the month's effort plan, the emergency fund served first. Fictional data.")
+![The goals pyramid and the effort plan](pyramide-en.webp "The household's pyramid: the emergency fund's column at 96 %, the three tiers, the locked capstone; on the right, the month's effort plan, the emergency fund served first. Fictional data.")
 
 A goal needs nothing more to enter: it is funded by **envelopes**, the part of a net-worth line
 set aside for it. When the line rises, each goal receives its share of the rise; when it falls,
@@ -282,16 +282,16 @@ months, the estimated date at that pace. The month's **effort plan** shares out 
 savings capacity: the emergency fund first, up to an adjustable share, then the other goals by
 their required effort, then the unlocked treats. It is a recommendation: nothing is moved.
 
-![The short-term tier's cards](objectifs-cartes.webp "The short term: two goals ahead, each with its gauge, its pace marker and its estimates. Fictional data.")
+![The short-term tier's cards](objectifs-cartes-en.webp "The short term: two goals ahead, each with its gauge, its pace marker and its estimates. Fictional data.")
 
-![The capstone and its treats](coiffe.webp "The capstone: two treats locked until the essentials are in order. Fictional data.")
+![The capstone and its treats](coiffe-en.webp "The capstone: two treats locked until the essentials are in order. Fictional data.")
 
 Each goal also has its page: its estimates, its trajectory, its envelopes line by line and its
 month-by-month tracking.
 
-![A goal's page](objectif-page.webp "Trip to Portugal: three months ahead; the trajectory shows the values, the expected line and the projection at the current pace. Fictional data.")
+![A goal's page](objectif-page-en.webp "Trip to Portugal: three months ahead; the trajectory shows the values, the expected line and the projection at the current pace. Fictional data.")
 
-![A goal's envelopes and monthly tracking](objectif-enveloppes.webp "Its envelope on the life insurance, then each month: reached, gained, expected and gap. Fictional data.")
+![A goal's envelopes and monthly tracking](objectif-enveloppes-en.webp "Its envelope on the life insurance, then each month: reached, gained, expected and gap. Fictional data.")
 
 ### The goals analysis
 
@@ -309,15 +309,15 @@ month without gain.
   free part;
 - **status month by month** for each goal.
 
-![Required effort against capacity](analyse-effort.webp "Required efforts stacked by goal against the capacity: November 2026 goes over, while Sam's emergency fund fills. Fictional data.")
+![Required effort against capacity](analyse-effort-en.webp "Required efforts stacked by goal against the capacity: November 2026 goes over, while Sam's emergency fund fills. Fictional data.")
 
-![The goals timeline](analyse-frise.webp "Each goal from its start to its deadline: the estimated date at the actual pace (●) and at the plan's pace (◇). Fictional data.")
+![The goals timeline](analyse-frise-en.webp "Each goal from its start to its deadline: the estimated date at the actual pace (●) and at the plan's pace (◇). Fictional data.")
 
-![Horizon and risk](analyse-risque.webp "The e-bike, six months from its deadline, is funded by volatile lines: it falls in the zone to watch. Fictional data.")
+![Horizon and risk](analyse-risque-en.webp "The e-bike, six months from its deadline, is funded by volatile lines: it falls in the zone to watch. Fictional data.")
 
-![Where the goals' money sits](analyse-flux.webp "From categories to lines, then to the goals' envelopes and each line's free part. Fictional data.")
+![Where the goals' money sits](analyse-flux-en.webp "From categories to lines, then to the goals' envelopes and each line's free part. Fictional data.")
 
-![The goals' status month by month](analyse-statut.webp "Each goal's status, month after month. Fictional data.")
+![The goals' status month by month](analyse-statut-en.webp "Each goal's status, month after month. Fictional data.")
 
 Above them, **points to look at**, computed by some fifteen fixed rules: a goal behind for three
 months, an emergency fund too thin or held on volatile lines, a savings account close to its
@@ -326,7 +326,7 @@ postponement that would be enough). Each point gives the facts, the figures, why
 options; never an instruction to buy or sell, nor a named product. Three at most are shown, and
 each member can snooze or dismiss one.
 
-![Points to look at](analyse-points.webp "Three points to look at: an emergency fund covering less than three months of fixed expenses, two near goals funded by volatile lines. Fictional data.")
+![Points to look at](analyse-points-en.webp "Three points to look at: an emergency fund covering less than three months of fixed expenses, two near goals funded by volatile lines. Fictional data.")
 
 ### Verified backups, logged actions
 
@@ -336,7 +336,7 @@ and a written restore procedure.
 An **activity log** keeps sensitive actions, written in the same transaction as the action itself:
 sign-ins, invitations, deletions. The owner sees the whole household, a member their own entries.
 
-![The activity log](journal.webp "Sign-ins (one with a wrong code), an invitation sent then cancelled, settings, a line deleted. Fictional data.")
+![The activity log](journal-en.webp "Sign-ins (one with a wrong code), an invitation sent then cancelled, settings, a line deleted. Fictional data.")
 
 ## How it is built
 
