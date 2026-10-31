@@ -585,6 +585,12 @@ décisions prises avant d'écrire du code sont dans `SPEC.md`, les écarts et co
 régimes rares. Le [rapport en ligne](https://gwils28.github.io/W25_tsfm_viability/) reprend les
 figures dans leur ordre d'origine.
 
+La suite est un cas client : la fiche
+[FlexGrid : la prévision J-1 d'un portefeuille d'équilibre, face à RTE]({{< relref "/projects/flexgrid-prevision-j1" >}})
+repose la question avec la météo et le calendrier en covariables, la prévision J-1 de RTE comme
+benchmark et un coût en euros. Contre un LightGBM qui reçoit ces covariables, Chronos-2 ne gagne
+plus partout, et le mélange des deux fait mieux que tout routeur.
+
 **Sources**
 
 - Soni, Das et Guduguntla, [*Assessing the operational viability of foundation models for time series forecasting*](https://arxiv.org/abs/2605.24381), arXiv, mai 2026, et le [code des auteurs](https://github.com/kavin-soni/TimeSeries-ZeroShot-Eval).

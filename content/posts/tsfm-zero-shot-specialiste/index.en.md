@@ -562,6 +562,12 @@ in `IMPLEMENTATION_NOTES.md`, including an independent review that fixed the boo
 regimes. The [online report](https://gwils28.github.io/W25_tsfm_viability/) presents the figures in
 their original order.
 
+The follow-up is a client case: the project page
+[FlexGrid: day-ahead forecasting for a balancing portfolio, against RTE]({{< relref "/projects/flexgrid-prevision-j1" >}})
+asks the question again with weather and calendar as covariates, RTE's day-ahead forecast as the
+benchmark, and a cost in euros. Against a LightGBM given those covariates, Chronos-2 no longer
+wins everywhere, and blending the two beats any router.
+
 **Sources**
 
 - Soni, Das and Guduguntla, [*Assessing the operational viability of foundation models for time series forecasting*](https://arxiv.org/abs/2605.24381), arXiv, May 2026, and the [authors' code](https://github.com/kavin-soni/TimeSeries-ZeroShot-Eval).

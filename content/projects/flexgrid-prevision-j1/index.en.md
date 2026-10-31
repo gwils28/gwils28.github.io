@@ -1,7 +1,7 @@
 ---
 title: "FlexGrid: day-ahead forecasting for a balancing portfolio, against RTE"
 date: 2026-10-31
-draft: true
+draft: false
 nature: "labo"
 description: "Seven weeks applying the tech watch on foundation models to a client case: forecast every day the consumption of a commercial-building portfolio, beat RTE's day-ahead forecast, put a euro figure on the error, then run the whole thing as a service and monitor it."
 summary: "The TSFM tech watch applied to a fictional balance responsible party, on real public data: LightGBM, Chronos-2 and their blend against RTE's day-ahead forecast, published and debiased. A 2.7% MAPE on the portfolio against 5.6% without a model, a router that does not beat the blend, a cold start handled by the naive forecast, Timestral and TimesFM 3.0 in an addendum, a Dagster service and its replayed monitoring."

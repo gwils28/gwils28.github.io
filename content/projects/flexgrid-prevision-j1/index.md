@@ -1,7 +1,7 @@
 ---
 title: "FlexGrid : la prévision J-1 d'un portefeuille d'équilibre, face à RTE"
 date: 2026-10-31
-draft: true
+draft: false
 nature: "labo"
 description: "Sept semaines pour appliquer la veille sur les modèles de fondation à un cas client : prévoir chaque veille la consommation d'un portefeuille tertiaire, battre la prévision J-1 de RTE, chiffrer l'écart en euros, puis mettre le tout en service et le surveiller."
 summary: "La veille TSFM appliquée à un responsable d'équilibre fictif, sur données publiques réelles : LightGBM, Chronos-2 et leur mélange contre la prévision J-1 de RTE, publiée et débiaisée. Un MAPE de 2,7 % sur le portefeuille contre 5,6 % sans modèle, un router qui ne bat pas le mélange, un cold-start à la naïve, Timestral et TimesFM 3.0 en addendum, un service Dagster et sa surveillance rejouée."
