@@ -1,7 +1,7 @@
 ---
 title: "Time series foundation models: zero-shot against the specialist"
 date: 2026-10-30
-draft: true
+draft: false
 description: "Two weeks of hands-on research into time series foundation models: Chronos-Bolt and Chronos-2 zero-shot against refitted statistical models, on hourly French electricity load, then the complexity router of a recent paper rebuilt on 50 European series."
 summary: "When does a foundation model used without any training beat a model fitted on the series? What I observed over a year of French electricity load, with interval coverage and not only the mean error, then rebuilding a router between the two on 50 series."
 categories: ["Tech watch"]
