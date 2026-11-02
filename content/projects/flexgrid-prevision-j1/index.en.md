@@ -1,5 +1,5 @@
 ---
-title: "FlexGrid: day-ahead forecasting for a balancing portfolio, against RTE"
+title: "Time series foundation models: forecasting tomorrow's electricity consumption for 3,517 commercial buildings"
 date: 2026-10-31
 draft: false
 nature: "labo"

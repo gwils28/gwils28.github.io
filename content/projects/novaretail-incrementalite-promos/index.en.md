@@ -1,5 +1,5 @@
 ---
-title: "NovaRetail: promotion incrementality measured on the Favorita panel"
+title: "Causal impact on time series: measuring what a grocery chain's promotions really bring in"
 date: 2026-10-29
 draft: false
 nature: "labo"

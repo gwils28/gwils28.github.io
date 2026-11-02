@@ -27,7 +27,7 @@ maths without losing the thread.*
 {{< alert icon="circle-info" >}}
 **Update, 29 October 2026.** This research has since been applied to a fictional client case,
 the promotions of a grocery chain on the Favorita panel:
-[NovaRetail: promotion incrementality measured on the Favorita panel]({{< ref "/projects/novaretail-incrementalite-promos" >}}).
+[Causal impact on time series: measuring what a grocery chain's promotions really bring in]({{< ref "/projects/novaretail-incrementalite-promos" >}}).
 The project page shows what becomes of the design on real series, with campaigns to detect and
 a control pool to declare.
 {{< /alert >}}

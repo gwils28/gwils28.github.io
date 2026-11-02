@@ -1,5 +1,5 @@
 ---
-title: "NovaRetail : l'incrémentalité des promotions mesurée sur le panel Favorita"
+title: "Impact causal en séries temporelles : mesurer ce que les promotions d'une chaîne d'épicerie rapportent vraiment"
 date: 2026-10-29
 draft: false
 nature: "labo"

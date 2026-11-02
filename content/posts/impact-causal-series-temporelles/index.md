@@ -27,7 +27,7 @@ peut les survoler sans perdre le fil. Le dépôt est en anglais, ses figures aus
 {{< alert icon="circle-info" >}}
 **Mise à jour du 29 octobre 2026.** Cette veille a depuis été appliquée à un cas client fictif,
 les promotions d'une chaîne d'épicerie sur le panel Favorita :
-[NovaRetail : l'incrémentalité des promotions mesurée sur le panel Favorita]({{< ref "/projects/novaretail-incrementalite-promos" >}}).
+[Impact causal en séries temporelles : mesurer ce que les promotions d'une chaîne d'épicerie rapportent vraiment]({{< ref "/projects/novaretail-incrementalite-promos" >}}).
 La fiche montre ce que devient le design sur de vraies séries, avec des campagnes à détecter et
 un pool de contrôle à déclarer.
 {{< /alert >}}

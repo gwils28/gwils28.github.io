@@ -1,5 +1,5 @@
 ---
-title: "FlexGrid : la prévision J-1 d'un portefeuille d'équilibre, face à RTE"
+title: "Modèles de fondation pour séries temporelles : prévoir la consommation électrique du lendemain de 3 517 bâtiments tertiaires"
 date: 2026-10-31
 draft: false
 nature: "labo"

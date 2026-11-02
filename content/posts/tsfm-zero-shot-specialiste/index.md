@@ -586,7 +586,7 @@ régimes rares. Le [rapport en ligne](https://gwils28.github.io/W25_tsfm_viabili
 figures dans leur ordre d'origine.
 
 La suite est un cas client : la fiche
-[FlexGrid : la prévision J-1 d'un portefeuille d'équilibre, face à RTE]({{< relref "/projects/flexgrid-prevision-j1" >}})
+[Modèles de fondation pour séries temporelles : prévoir la consommation électrique du lendemain de 3 517 bâtiments tertiaires]({{< relref "/projects/flexgrid-prevision-j1" >}})
 repose la question avec la météo et le calendrier en covariables, la prévision J-1 de RTE comme
 benchmark et un coût en euros. Contre un LightGBM qui reçoit ces covariables, Chronos-2 ne gagne
 plus partout, et le mélange des deux fait mieux que tout routeur.
