@@ -1,6 +1,6 @@
 ---
 title: "Causal impact on time series: the counterfactual and its placebos"
-date: 2026-10-26
+date: 2026-10-27
 draft: false
 description: "Three weeks of hands-on research into estimating the effect of an intervention on a time series: a structural counterfactual built by hand, validated by placebo tests on a panel with a known truth and on the Volkswagen dieselgate, then compared with Google's CausalImpact."
 summary: "A counterfactual is a forecast. What I observed building one by hand, measuring its coverage on 100 panels with a known truth, planting four violations of the design, and applying it to Volkswagen's share price after dieselgate."

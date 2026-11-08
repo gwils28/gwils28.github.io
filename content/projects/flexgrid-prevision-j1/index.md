@@ -1,6 +1,6 @@
 ---
 title: "Modèles de fondation pour séries temporelles : prévoir la consommation électrique du lendemain de 3 517 bâtiments tertiaires"
-date: 2026-10-31
+date: 2026-11-08
 draft: false
 nature: "labo"
 description: "Sept semaines pour appliquer la veille sur les modèles de fondation à un cas client : prévoir chaque veille la consommation d'un portefeuille tertiaire, battre la prévision J-1 de RTE, chiffrer l'écart en euros, puis mettre le tout en service et le surveiller."

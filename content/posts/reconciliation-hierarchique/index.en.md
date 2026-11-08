@@ -1,6 +1,6 @@
 ---
 title: "Hierarchical forecast reconciliation: promises and limits"
-date: 2026-10-03
+date: 2026-10-06
 draft: false
 description: "A week of hands-on research into hierarchical reconciliation: MinT rewritten from scratch, three places where it breaks, and a mini-project on French grid data where bottom-up wins."
 summary: "MinT guarantees coherence, not accuracy, and not calibration. Shown through theory, simulation, French grid data and count sales."

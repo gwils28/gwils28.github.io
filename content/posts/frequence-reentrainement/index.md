@@ -1,6 +1,6 @@
 ---
 title: "La fréquence de réentraînement en forecasting : exactitude, fraîcheur et stabilité"
-date: 2026-10-25
+date: 2026-10-17
 draft: false
 description: "Une semaine de veille active sur la fréquence de réentraînement des modèles de prévision : un banc de dix politiques, des formules analytiques de la stabilité, des données réelles sous protocole pré-enregistré et la mesure de l'effet d'un réentraînement."
 summary: "Exactitude, fraîcheur et stabilité ne demandent pas la même fréquence de réentraînement. Ce que j'ai observé sur un banc de dix politiques, un modèle analytique, les données d'électricité Monash et une simulation causale."

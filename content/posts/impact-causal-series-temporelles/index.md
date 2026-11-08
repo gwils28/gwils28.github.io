@@ -1,6 +1,6 @@
 ---
 title: "L'impact causal en séries temporelles : le contrefactuel et ses placebos"
-date: 2026-10-26
+date: 2026-10-27
 draft: false
 description: "Trois semaines de veille active sur l'estimation de l'effet d'une intervention sur une série temporelle : un contrefactuel structurel construit à la main, validé par des tests placebo sur un panel à vérité connue et sur le dieselgate de Volkswagen, puis comparé au CausalImpact de Google."
 summary: "Un contrefactuel est une prévision. Ce que j'ai observé en le construisant à la main, en mesurant sa couverture sur 100 panels à vérité connue, en plantant quatre violations du design et en l'appliquant au cours de Volkswagen après le dieselgate."

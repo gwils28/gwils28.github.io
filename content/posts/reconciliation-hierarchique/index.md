@@ -1,6 +1,6 @@
 ---
 title: "La réconciliation hiérarchique en forecasting : promesses et limites"
-date: 2026-10-03
+date: 2026-10-06
 draft: false
 description: "Une semaine de veille active sur la réconciliation hiérarchique : MinT réécrit de zéro, trois endroits où il casse, et un mini-projet sur les données RTE où le bottom-up gagne."
 summary: "MinT garantit la cohérence, pas la précision ni la calibration. Démonstration par la théorie, la simulation, les données RTE et des ventes de comptage."

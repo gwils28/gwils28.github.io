@@ -1,6 +1,6 @@
 ---
 title: "Réconciliation hiérarchique : MinT de zéro, testé sur la consommation électrique de 12 régions françaises"
-date: 2026-10-02
+date: 2026-10-08
 draft: false
 nature: "labo"
 description: "Une semaine pour maîtriser la réconciliation hiérarchique : MinT réécrit en NumPy, ses limites mesurées, et un mini-projet sur les données RTE où le bottom-up gagne, confirmé par un benchmark complet et trois études."

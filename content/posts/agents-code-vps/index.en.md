@@ -1,6 +1,6 @@
 ---
 title: "A coding agent on a VPS: isolation, secrets and costs"
-date: 2026-10-31
+date: 2026-11-03
 draft: false
 description: "Running Claude Code or Codex CLI on a small European server rather than on your laptop: what it brings, how to isolate it, where to put the secrets, how to deploy, and what it costs in October 2026, for a data and MLOps profile."
 summary: "A CPU VPS dedicated to the agent, reachable only over a private network, a separate production machine and GPUs rented by the hour: the state of play on 31 October 2026, from isolation to secrets and costs."

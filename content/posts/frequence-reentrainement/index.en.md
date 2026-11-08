@@ -1,6 +1,6 @@
 ---
 title: "Retraining frequency in forecasting: accuracy, freshness and stability"
-date: 2026-10-25
+date: 2026-10-17
 draft: false
 description: "A week of hands-on research into how often to retrain forecasting models: a ten-policy bench, closed-form expressions for stability, real data under a pre-registered protocol, and measuring the effect of a retrain."
 summary: "Accuracy, freshness and stability don't call for the same retraining frequency. What I observed on a ten-policy bench, an analytical model, the Monash electricity data and a causal simulation."

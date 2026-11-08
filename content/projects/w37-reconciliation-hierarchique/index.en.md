@@ -1,6 +1,6 @@
 ---
 title: "Hierarchical reconciliation: MinT from scratch, tested on electricity demand in 12 French regions"
-date: 2026-10-02
+date: 2026-10-08
 draft: false
 nature: "labo"
 description: "One week to master hierarchical reconciliation: MinT rewritten in NumPy, its limits measured, and a mini-project on French grid data where bottom-up wins, confirmed by a full benchmark and three studies."

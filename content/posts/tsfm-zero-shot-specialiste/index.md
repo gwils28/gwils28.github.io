@@ -1,6 +1,6 @@
 ---
 title: "Les modèles de fondation pour séries temporelles : zero-shot contre spécialiste"
-date: 2026-10-30
+date: 2026-11-06
 draft: false
 description: "Deux semaines de veille active sur les modèles de fondation pour séries temporelles : Chronos-Bolt et Chronos-2 en zero-shot contre des modèles statistiques réajustés, sur la charge électrique française heure par heure, puis le routeur de complexité d'un article récent reconstruit sur 50 séries européennes."
 summary: "Quand un modèle de fondation utilisé sans entraînement bat-il un modèle ajusté sur la série ? Ce que j'ai observé sur un an de charge électrique française, avec la couverture des intervalles et pas seulement l'erreur moyenne, puis en reconstruisant un routeur entre les deux sur 50 séries."

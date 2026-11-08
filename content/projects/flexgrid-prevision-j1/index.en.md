@@ -1,6 +1,6 @@
 ---
 title: "Time series foundation models: forecasting tomorrow's electricity consumption for 3,517 commercial buildings"
-date: 2026-10-31
+date: 2026-11-08
 draft: false
 nature: "labo"
 description: "Seven weeks applying the tech watch on foundation models to a client case: forecast every day the consumption of a commercial-building portfolio, beat RTE's day-ahead forecast, put a euro figure on the error, then run the whole thing as a service and monitor it."
