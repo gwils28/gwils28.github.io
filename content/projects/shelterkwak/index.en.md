@@ -6,7 +6,7 @@ nature: "produit"
 description: "A local, offline app to track how ready a household is for civil emergencies (outages, storms, evacuation): 279 goals across 14 areas, nine tiers that can be earned and lost, an inventory measured in days of self-sufficiency and a screen for the day itself."
 summary: "An app installed on the phone, with no account and no third-party service: 279 goals in nine blocking tiers, a level that drops when supplies expire, an inventory that computes the household's days of self-sufficiency, and an offline Crisis screen for the day itself."
 tags: ["python", "fastapi", "sqlite", "react", "typescript", "pwa", "claude code"]
-featureImage: "carte.png"
+featureImage: "carte-en.png"
 showTableOfContents: true
 ---
 
