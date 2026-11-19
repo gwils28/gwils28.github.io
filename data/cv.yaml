@@ -25,6 +25,8 @@ experience:
             en: "**Generative AI (R&D)**: feasibility study of AI-agent and LLM architectures to automate business processes and speed up decision-making."
           - fr: "**MLOps sur GCP** : pipelines automatisés d'ingestion, de prétraitement et d'entraînement, avec versionnage, suivi de performance et déploiement continu."
             en: "**MLOps on GCP**: automated ingestion, preprocessing and training pipelines, with versioning, performance monitoring and continuous deployment."
+          - fr: "**Hackathon interne** : prototype mesurant l'impact des formations des collaborateurs sur le ROI et la satisfaction client, par des méthodes d'inférence causale."
+            en: "**Internal hackathon**: prototype measuring how employee training affects ROI and customer satisfaction, using causal inference methods."
           - fr: "**Référent Data Science** : appui technique de l'équipe, encadrement de stagiaires et d'alternants."
             en: "**Data Science lead**: technical reference for the team, mentoring interns and apprentices."
         stack: ["Python", { fr: "Séries temporelles", en: "Time series" }, "LLM & agents", "GCP", "Airflow", "CI/CD", "GitLab", "Docker", "Linux"]
