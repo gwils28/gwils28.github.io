@@ -65,10 +65,6 @@ Je voulais un outil entre les deux :
 - **honnête sur l'incertitude** : chaque estimation donne sa fourchette et ses limites, jamais un
   chiffre seul présenté comme une certitude.
 
-C'est aussi mon premier produit : un projet qui doit tenir dans la durée, pas une expérience
-jetable. Il me sert donc de terrain d'application pour
-[ma méthode de travail avec Claude Code](/posts/claude-code-data-science/).
-
 ## Où en est le projet
 
 {{< timeline >}}
@@ -121,25 +117,6 @@ est à venir. Il remplace l'assistant en langage naturel prévu au départ.
 {{< /timelineItem >}}
 
 {{< /timeline >}}
-
-### Pourquoi l'import bancaire a disparu
-
-L'import était le point de départ du projet : déposer l'export CSV de la banque, laisser les
-règles ranger les dépenses. À l'usage, je saisissais déjà mes dépenses à la main chaque semaine,
-et le relevé arrivait ensuite comme une corvée : des lignes à trier de nouveau, des doublons de ce
-qui était déjà saisi, un rapprochement à vérifier. La v1.0 a donc retiré les comptes, l'import,
-les virements, les règles, les récurrences, le mois budgétaire et les plans, avec leurs données,
-pour garder ce qui sert : une saisie rapide et un budget lisible. L'écart est consigné dans le
-`README` du dépôt, comme chaque écart au plan initial.
-
-### Pourquoi l'assistant IA a changé de forme
-
-La phase 6 devait être un assistant qui répondrait en langage naturel sur les données du foyer, à
-partir d'un modèle de langage local (Ollama). Elle est devenue un **document d'audit** : un
-résumé des finances du foyer, écrit pour un lecteur précis, que l'on imprime en PDF ou que l'on
-copie en Markdown. Pour un assistant conversationnel, le document s'ouvre sur une consigne d'audit
-et masque par défaut les noms des membres et des lignes. Aucun modèle ne tourne dans
-l'application, et rien n'en sort sans que le foyer copie ou imprime le document lui-même.
 
 ## Ce qui fonctionne aujourd'hui
 

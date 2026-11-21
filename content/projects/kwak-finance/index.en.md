@@ -62,9 +62,6 @@ I wanted a tool in between:
 - **honest about uncertainty**: every estimate gives its range and its limits, never a lone figure
   presented as a certainty.
 
-It is also my first product: a project meant to last, not a throwaway experiment. So it is where
-I apply [my way of working with Claude Code]({{< relref "/posts/claude-code-data-science" >}}).
-
 ## Where the project stands
 
 {{< timeline >}}
@@ -115,25 +112,6 @@ planned at first.
 {{< /timelineItem >}}
 
 {{< /timeline >}}
-
-### Why bank import went away
-
-Import was where the project started: drop the bank's CSV export, let the rules file the
-expenses. In practice, I was already entering my expenses by hand every week, and the statement
-then arrived as a chore: lines to sort again, duplicates of what was already entered, a
-reconciliation to check. v1.0 therefore removed accounts, import, transfers, rules, recurring
-items, the budget month and plans, with their data, to keep what is useful: quick entry and a
-readable budget. The deviation is logged in the repository's `README`, like every deviation from
-the original plan.
-
-### Why the AI assistant changed shape
-
-Phase 6 was to be an assistant answering questions in natural language about the household's
-data, from a local language model (Ollama). It became an **audit document**: a summary of the
-household's finances, written for one specific reader, printed to PDF or copied as Markdown. For an
-AI chat, the document opens with an audit prompt and hides the names of members and lines by
-default. No model runs in the app, and nothing leaves it unless the household copies or prints the
-document itself.
 
 ## What works today
 
