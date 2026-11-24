@@ -1,5 +1,5 @@
 ---
-title: "MLOps : surveiller un modèle de prévision en production, la demande de taxis de New York quand la vérité arrive deux mois plus tard"
+title: "MLOps : surveiller un modèle de prévision en production, étude de cas sur la demande de taxis à New York"
 date: 2026-11-24
 draft: false
 description: "Deux mois de veille active sur l'observabilité d'un modèle de prévision : un forecaster de demande de taxis par zone et par heure, figé puis observé à travers le COVID, la taxe de congestion de 2025 et 240 dérives injectées. Ce qu'on peut mesurer sans attendre les données réelles, où cette mesure se trompe, et comment en faire une astreinte qui ne sonne pas pour rien."

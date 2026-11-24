@@ -1,5 +1,5 @@
 ---
-title: "MLOps: monitoring a forecasting model in production, New York taxi demand when the ground truth arrives two months late"
+title: "MLOps: monitoring a forecasting model in production, a case study on New York taxi demand"
 date: 2026-11-24
 draft: false
 description: "Two months of hands-on research into the observability of a forecasting model: a taxi demand forecaster by zone and by hour, frozen and then watched through COVID, the 2025 congestion charge and 240 injected drifts. What can be measured before the real data arrives, where that measurement goes wrong, and how to turn it into an on-call rota that does not ring for nothing."
