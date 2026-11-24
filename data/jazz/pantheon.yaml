@@ -76,3 +76,20 @@
       *Nigerian Marketplace* with Oscar Peterson at the Montreux Jazz Festival
       that anchored me forever to this artist, whom I admire and who inspires
       me endlessly.
+
+- nom: "Ron Carter"
+  role: { fr: "Contrebasse", en: "Double bass" }
+  dates: "1937"
+  image: "ron-carter.jpg"
+  cadrage: "Top"
+  texte:
+    fr: >-
+      On me compare plus volontiers à lui pour ma taille que pour mon jeu,
+      qu'importe : être associé à Ron est un accomplissement ! Architecte du
+      rythme, impérial sur *Maiden Voyage*, il reste le contrebassiste le plus
+      enregistré de l'histoire.
+    en: >-
+      People compare me to him for my height rather than my playing, but no
+      matter: being associated with Ron is an achievement! An architect of
+      rhythm, majestic on *Maiden Voyage*, he remains the most recorded double
+      bassist in history.
