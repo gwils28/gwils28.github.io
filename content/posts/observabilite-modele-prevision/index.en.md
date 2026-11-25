@@ -19,10 +19,6 @@ can we know about the model's health in the meantime, and at what point does tha
 to lie?
 {{< /lead >}}
 
-*Reading time: about 40 minutes, the longest post on the blog. Each section stands on its own; the
-boxes and tables are enough for a first pass. The repository and its figures are in French; each
-caption explains what the figure shows.*
-
 {{< note-ia >}}
 
 This post distils **two months of hands-on research** (2 July to 2 September 2026, 670 commits)

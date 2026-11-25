@@ -19,10 +19,6 @@ terrain. Quand elle met deux mois à arriver, que peut-on savoir de la santé du
 et à quel moment cette mesure se met-elle à mentir ?
 {{< /lead >}}
 
-*Temps de lecture : environ 40 minutes, l'article le plus long du blog. Chaque section se lit
-seule ; les encadrés et les tableaux suffisent pour une première lecture. Le dépôt et ses figures
-sont en français.*
-
 {{< note-ia >}}
 
 Cet article restitue **deux mois de veille active** (du 2 juillet au 2 septembre 2026, 670 commits)
