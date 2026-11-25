@@ -3,8 +3,8 @@ title: "Kwak Finance : le budget et le patrimoine d'un foyer, auto-hébergés"
 date: 2026-10-08
 draft: false
 nature: "produit"
-description: "Une application web auto-hébergée pour suivre le budget, le patrimoine et les objectifs financiers d'un foyer, sans que les données quittent la maison. En cours de développement : budget, patrimoine, objectifs, projection, retraite et prévision de trésorerie sont livrés ; le document d'audit est en cours."
-summary: "Application web auto-hébergée de budget et de patrimoine familial. Saisie au clavier, dépenses fixes, objectifs budgétaires, rapports, matrice de patrimoine mensuelle, objectifs financiers en pyramide, projection du patrimoine par Monte-Carlo, retraite, et prévision de trésorerie choisie par back-test."
+description: "Une application web auto-hébergée pour suivre le budget, le patrimoine et les objectifs financiers d'un foyer, sans que les données quittent la maison. Toutes les phases prévues sont livrées : budget, patrimoine, objectifs, projection, retraite, prévision de trésorerie et document d'audit."
+summary: "Application web auto-hébergée de budget et de patrimoine familial. Saisie au clavier, dépenses fixes, objectifs budgétaires, rapports, matrice de patrimoine mensuelle, objectifs financiers en pyramide, projection du patrimoine par Monte-Carlo, retraite, prévision de trésorerie choisie par back-test, et document d'audit pour un banquier, un conseiller ou un notaire."
 tags: ["python", "fastapi", "postgresql", "react", "typescript", "docker", "séries temporelles", "forecasting", "monte carlo", "LightGBM", "claude code"]
 featureImage: "carte.png"
 showTableOfContents: true
@@ -17,26 +17,26 @@ Tout tourne sur une machine de la maison.
 {{< /lead >}}
 
 {{< fiche-projet
-    statut="En développement · phases 1 à 5 livrées, phase 6 en cours"
+    statut="En développement · phases 0 à 6 livrées, place à l'usage réel"
     periode="Depuis octobre 2026"
     role="Solo : spécifications, architecture, développement, exploitation"
     stack="Python 3.13, FastAPI, SQLAlchemy 2, PostgreSQL 17, NumPy, statsforecast, mlforecast, LightGBM, React 19, TypeScript, Tailwind, Recharts, Docker Compose, Caddy, GitHub Actions"
     code="https://github.com/gwils28/kwak-finance" >}}
 
 {{< stats >}}
-{{< stat value="195" label="pull requests fusionnées" >}}chacune bloquée tant que la CI n'est pas verte{{< /stat >}}
-{{< stat value="1 176" label="tests automatisés" >}}dont 70 tests de propriété sur les invariants financiers{{< /stat >}}
+{{< stat value="212" label="pull requests fusionnées" >}}chacune bloquée tant que la CI n'est pas verte{{< /stat >}}
+{{< stat value="1 213" label="tests automatisés" >}}dont 70 tests de propriété sur les invariants financiers{{< /stat >}}
 {{< stat value="8" label="décisions d'architecture" >}}écrites, avec les alternatives rejetées{{< /stat >}}
 {{< /stats >}}
 
 {{< note-ia >}}
 
 {{< alert icon="circle-info" >}}
-**Projet en cours.** Cette fiche décrit l'état du dépôt au 17 novembre 2026. Les chiffres
-ci-dessus sont comptés dans le code, et seront mis à jour à chaque phase livrée. Depuis la version
-précédente de cette fiche (24 octobre), 58 pull requests ont livré la fin de la phase 5 : la page
-de projection, la retraite, la prévision de trésorerie, un foyer de démonstration, puis les
-objectifs professionnels.
+**Projet en cours.** Cette fiche décrit l'état du dépôt au 25 novembre 2026. Les chiffres
+ci-dessus sont comptés dans le code. Depuis la version précédente de cette fiche (17 novembre),
+17 pull requests ont livré la page du document d'audit, qui clôt la phase 6 et la feuille de route,
+puis une passe d'ergonomie : une barre d'onglets par espace, une navigation propre au téléphone,
+des pages vides qui guident, une aide sur chaque page et des libellés plus clairs.
 {{< /alert >}}
 
 {{< alert icon="image" >}}
@@ -84,8 +84,7 @@ ensuite été remplacée par la refonte v1.0.
 
 {{< timelineItem icon="check" header="Phase 3 · Patrimoine" badge="Livrée" subheader="Actifs et passifs, mois par mois" >}}
 Une matrice de patrimoine mensuelle : catégories et lignes saisies à la main, dettes, valeur
-nette, et quatre graphiques (historique, répartition en sunburst et en mosaïque, contributions à
-la variation).
+nette, et des graphiques (historique, répartition, contributions à la variation).
 {{< /timelineItem >}}
 
 {{< timelineItem icon="check" header="Phase 4 · Objectifs financiers" badge="Livrée" subheader="Une somme à réunir pour une date" >}}
@@ -98,7 +97,7 @@ lignes de patrimoine, avec leur suivi mensuel et un plan d'effort pour le mois. 
 {{< timelineItem icon="check" header="Refonte v1.0 · Des dépenses plus simples" badge="Livrée" subheader="Ce que je fais vraiment, pas ce que j'avais imaginé" >}}
 Plus de comptes, d'import ni de virements : chaque dépense est une ligne saisie à la main, dans
 une grille pensée pour le clavier. Un seul niveau de catégories, des dépenses fixes à confirmer,
-des objectifs mensuels avec leur matrice et une vue annuelle. Les données des dépenses repartent
+des cibles mensuelles avec leur matrice et une vue annuelle. Les données des dépenses repartent
 de zéro.
 {{< /timelineItem >}}
 
@@ -110,10 +109,16 @@ modèles statistiques, LightGBM et, en option, deux modèles de fondation. Un fo
 permet de tout essayer avant d'avoir de l'historique.
 {{< /timelineItem >}}
 
-{{< timelineItem icon="file-lines" header="Phase 6 · Document d'audit" badge="En cours" subheader="Les finances du foyer, résumées pour un lecteur" >}}
+{{< timelineItem icon="check" header="Phase 6 · Document d'audit" badge="Livrée" subheader="Les finances du foyer, résumées pour un lecteur" >}}
 Un document construit à la demande pour un banquier, un conseiller en gestion de patrimoine, un
-comptable ou notaire, ou un assistant conversationnel. Les règles et l'API sont livrées, la page
-est à venir. Il remplace l'assistant en langage naturel prévu au départ.
+comptable ou notaire, ou un assistant conversationnel, imprimé en PDF ou copié en Markdown. Il
+remplace l'assistant en langage naturel prévu au départ.
+{{< /timelineItem >}}
+
+{{< timelineItem icon="check" header="Passe d'ergonomie" badge="Livrée" subheader="Relire l'application comme un nouvel utilisateur" >}}
+Un audit de l'interface a ouvert 24 tickets, dont 22 sont traités en 16 pull requests : la
+navigation, le téléphone, les pages vides, les chargements, les libellés et le vocabulaire. Deux
+restent ouverts, dont une vue d'ensemble plus légère.
 {{< /timelineItem >}}
 
 {{< /timeline >}}
@@ -133,10 +138,16 @@ et les objectifs, eux, ont une visibilité, ligne par ligne :
 - **commun** : le bien du foyer, qui n'est à personne.
 
 Le patrimoine et les objectifs se lisent ensuite à l'échelle du **foyer**, du **commun** ou de
-**mes lignes**. L'application est rangée en trois espaces, **Dépenses**, **Patrimoine** et
-**Objectifs** ; la vue d'ensemble, en tête, résume les trois.
+**mes lignes**. L'application est rangée en trois espaces, **Dépenses** (lignes, budget, rapports,
+prévision), **Patrimoine** (suivi mensuel, analyse, projection, retraite, audit) et **Objectifs**
+(pyramide, analyse) ; chaque espace a sa barre d'onglets, et la vue d'ensemble, en tête, résume
+les trois. Chaque titre de page porte un « ? » qui ouvre le guide intégré à la bonne section, et
+une page encore vide dit ce qui y apparaîtra et comment commencer.
 
-![La vue d'ensemble de novembre](vue-ensemble.webp "Novembre à l'échelle du foyer : le patrimoine net et sa variation, la progression de chaque étage de la pyramide, puis les chiffres du mois. Données fictives.")
+Sur un téléphone, une barre en bas de l'écran mène aux trois espaces, et chaque ligne de dépense
+devient une carte qui se modifie sur place, comme sur ordinateur.
+
+![La vue d'ensemble de novembre](vue-ensemble.webp "Novembre à l'échelle du foyer : le patrimoine net et sa variation, la progression de chaque étage de la pyramide, puis les chiffres du mois, dont la part des revenus non dépensée. Données fictives.")
 
 ### Un foyer de démonstration
 
@@ -148,7 +159,7 @@ membres du foyer et se réinitialise d'un clic. Un invariant testé garantit que
 foyer ne se croisent jamais : aucune réponse donnée dans la démo ne lit ni n'écrit une ligne du
 vrai foyer.
 
-![Le bandeau de la démo](demo-banniere.webp "Dans la démo, un bandeau le rappelle sur chaque page, avec de quoi revenir à son foyer ou repartir de zéro. Données fictives.")
+![Le bandeau de la démo](demo-banniere.webp "Les trois espaces en haut ; dans la démo, un bandeau le rappelle sur chaque page, avec de quoi revenir à son foyer ou repartir de zéro. Sur téléphone, il se replie en une ligne. Données fictives.")
 
 ### Saisir vite, au clavier
 
@@ -165,7 +176,11 @@ Au-dessus, une **ligne rapide** accepte une dépense tapée dans n'importe quel 
 - le reste est le libellé, et sa catégorie vient de la **mémoire des libellés** : choisir un
   libellé déjà utilisé reprend la catégorie de sa dernière ligne.
 
-![La grille des dépenses et la ligne rapide](grille.webp "La ligne rapide a compris « cinéma 24,50 vendredi #loisirs » avant même la validation ; en dessous, la box internet à confirmer, la taxe foncière sautée ce mois-ci, puis les lignes du mois. Données fictives.")
+Sous la ligne rapide, un aperçu dit ce qui a été compris avant la validation. Une ligne ajoutée
+s'annonce avec un bouton *Annuler* ; les montants se lisent comme de l'argent, les revenus en vert
+précédés d'un « + ».
+
+![La grille des dépenses et la ligne rapide](grille.webp "« cinéma 24,50 vendredi #loisirs », compris comme le 20 novembre, cinéma, 24,50 €, Loisirs, avant même la validation ; en dessous, la box internet à confirmer, la taxe foncière sautée ce mois-ci, puis les lignes du mois. Données fictives.")
 
 Un en-tête rappelle la dernière ligne saisie et quand, et un point la marque dans la grille, pour
 reprendre là où l'on s'est arrêté.
@@ -186,8 +201,8 @@ Un seul niveau de catégories, chacune d'une nature :
 - **revenu** : salaires, aides, remboursements.
 
 Le revenu d'un mois est la somme de ses lignes de revenu, et le reste vaut revenus moins dépenses
-moins épargne. Les catégories **ponctuelles** (logement, abonnements), payées en une fois, ne sont
-jamais jugées sur le rythme du mois.
+moins épargne. Les catégories **payées en une fois** dans le mois (logement, abonnements) ne sont
+jamais jugées sur son rythme.
 
 ### Les dépenses fixes
 
@@ -196,27 +211,30 @@ ligne qui revient chaque mois, trimestre ou année. Chaque échéance due appara
 la grille du mois. Entrée la confirme et crée la ligne, modifiable avant ; on peut aussi la sauter
 pour le mois. Rien n'est jamais créé tout seul.
 
-![La liste des dépenses fixes](depenses-fixes.webp "Chaque dépense fixe avec sa catégorie, son montant, sa fréquence et ses dates : la Spotify Family s'est arrêtée en avril, l'assistante maternelle en juin 2025, remplacée par la cantine. Données fictives.")
+![La liste des dépenses fixes](depenses-fixes.webp "Chaque dépense fixe avec sa catégorie, son montant, sa fréquence et son état : la Spotify Family s'est arrêtée en avril, l'assistante maternelle en juin 2025, remplacée par la cantine ; les deux sont marquées terminées. Données fictives.")
 
-La vue d'ensemble liste ce qui reste à confirmer et le **reste projeté** en fin de mois.
+La vue d'ensemble liste ce qui reste à confirmer, et sa tuile *Reste* donne le **reste projeté**,
+une fois ces dépenses payées.
 
-![Les dépenses fixes encore à confirmer](a-confirmer.webp "La box internet de novembre reste à confirmer ; le reste projeté en fin de mois la déduit déjà. Données fictives.")
+![Les dépenses fixes encore à confirmer](a-confirmer.webp "La box internet de novembre reste à confirmer ; le reste projeté, 1 772 €, la déduit déjà. Données fictives.")
 
-### Des objectifs mensuels
+### Des cibles mensuelles
 
-Chaque catégorie de dépense peut recevoir un **objectif mensuel**, fixé à partir d'un mois et
-gardé jusqu'à ce qu'on le change ; les mois passés gardent les leurs. Une catégorie d'épargne
-reçoit un minimum à atteindre.
+Chaque catégorie de dépense peut recevoir une **cible mensuelle**, fixée à partir d'un mois et
+gardée jusqu'à ce qu'on la change ; les mois passés gardent les leurs. Une catégorie d'épargne
+reçoit un minimum à atteindre. (Dans l'interface française, « cible » désigne le budget et
+« objectif » seulement une somme à réunir : les deux mots se mélangeaient.)
 
-- **le mois en cours**, sur la vue d'ensemble : une barre par catégorie, triée par part
-  consommée, avec un trait qui marque la part du mois écoulée, si bien qu'une dépense en avance
-  sur le calendrier se voit avant de dépasser ;
+- **le mois en cours**, sur la vue d'ensemble : seules les catégories à surveiller s'affichent,
+  et *Voir tout* les déplie toutes, triées par part consommée, avec un trait qui marque la part
+  du mois écoulée, si bien qu'une dépense en avance sur le calendrier se voit avant de dépasser ;
 - **la matrice** : une ligne par catégorie, une colonne par mois, chaque case colorée selon
-  l'écart à l'objectif (vert en dessous, gris à ±5 %, terre brûlée au-dessus) ;
-- **l'année** : les objectifs cumulés à date et sur l'année entière, l'écart, et combien de mois
-  ont été au-dessus, dans ou sous l'objectif.
+  l'écart à la cible (vert en dessous, gris à ±5 %, terre brûlée au-dessus) ; elle s'ouvre sur
+  le mois en cours ;
+- **l'année** : les cibles cumulées à date et sur l'année entière, l'écart, et combien de mois
+  ont été au-dessus, dans ou sous la cible.
 
-![Les cibles du mois en cours](mois-en-cours.webp "Au 17 novembre : le foyer a dépassé sa cible ; le trait vertical marque la part du mois écoulée, et le logement, payé en une fois, n'est pas jugé sur le rythme. Données fictives.")
+![Les cibles du mois en cours](mois-en-cours.webp "Au 25 novembre, tout déplié : le foyer a dépassé sa cible ; le trait vertical marque la part du mois écoulée, et le logement, payé en une fois dans le mois, n'est pas jugé sur le rythme. Données fictives.")
 
 ![La matrice budgétaire](budget-matrice.webp "Six mois de budget : les revenus reçus, chaque catégorie face à sa cible, l'épargne, puis le bilan de chaque mois. Juillet, le mois des vacances, finit en négatif. Données fictives.")
 
@@ -228,22 +246,24 @@ Un mois, un trimestre, une année ou toute période jusqu'à dix ans, comparée 
 même longueur**. Une période en cours s'arrête au mois courant : « cette année » se compare aux
 mêmes mois de l'an dernier, pas à une année entière.
 
-![Les totaux et le détail d'un rapport](rapport.webp "Octobre face à septembre : les totaux, puis chaque catégorie avec sa part et son évolution. Le logement monte de 35 % : les charges de copropriété tombent chaque trimestre. Données fictives.")
+Le rapport s'ouvre sur les **flux d'argent** de la période : les revenus à gauche ; dépenses,
+épargne et reste non alloué à droite, les deux côtés toujours au même total.
 
-Le rapport donne aussi un graphique mensuel empilé par catégorie, les dépenses cumulées jour après
-jour, et les **flux d'argent** de la période : les revenus à gauche ; dépenses, épargne et reste non
-alloué à droite, les deux côtés toujours au même total.
+![Les flux d'argent de l'année](rapport-flux.webp "Les flux de 2026 : 61 299 € disponibles à gauche ; chaque catégorie, l'épargne (11 000 €) et le non alloué (10 683 €) à droite. Données fictives.")
+
+Viennent ensuite les totaux, le détail par catégorie, un classement des dépenses et un graphique
+mensuel empilé par catégorie.
+
+![Les totaux et le détail d'un rapport](rapport.webp "Janvier à novembre 2026 face aux mêmes mois de 2025 : les totaux, puis chaque catégorie avec sa part et son évolution. Les dépenses pour les enfants baissent de 61 % : l'assistante maternelle s'est arrêtée en juin 2025. Données fictives.")
 
 ![Les dépenses mois par mois](rapport-mois.webp "2026 mois par mois : les six plus grosses catégories en couleur, les autres en gris, face à la courbe des revenus. Données fictives.")
-
-![Les flux d'argent de l'année](rapport-flux.webp "Les flux de 2026 : les salaires à gauche ; chaque catégorie, l'épargne et le reste non alloué à droite. Données fictives.")
 
 ### Le patrimoine, mois par mois
 
 Le patrimoine se suit comme dans un tableur : une ligne par placement, rangée dans une catégorie,
 une colonne par mois, et une valeur saisie à la main une fois par mois.
 
-![La matrice de patrimoine](patrimoine-matrice.webp "Le suivi mensuel : valeur nette, actif brut et dettes, puis les lignes par catégorie, avec ce que chacune réserve aux objectifs. Les valeurs en italique sont reportées. Données fictives.")
+![La matrice de patrimoine](patrimoine-matrice.webp "Le suivi mensuel, ouvert sur le mois en cours : les lignes par catégorie, avec ce que chacune réserve aux objectifs, puis l'actif brut, les dettes, la valeur nette et sa variation. Les valeurs en italique sont reportées. Données fictives.")
 
 - un mois sans saisie reprend la valeur précédente, affichée comme reportée ;
 - « Mettre à jour ce mois-ci » liste toutes les lignes avec leur dernière valeur, marque celles
@@ -254,14 +274,14 @@ une colonne par mois, et une valeur saisie à la main une fois par mois.
 
 ![La mise à jour du mois](patrimoine-maj.webp "Cinq lignes sur treize déjà mises à jour en novembre, sur fond teinté ; les autres attendent, avec leur dernière valeur. Données fictives.")
 
-Une page *Analyse* donne quatre graphiques, chaque catégorie dans sa couleur. Comme dix teintes
+Une page *Analyse* donne trois graphiques, chaque catégorie dans sa couleur. Comme dix teintes
 ne peuvent pas toutes rester distinctes pour tous les daltonismes, chaque graphique garde aussi
 ses libellés et son tableau de données. Des cases à cocher sortent une catégorie de l'analyse :
 sans la résidence principale ni la voiture, on voit enfin comment se répartit l'épargne.
 
-![La valeur nette dans le temps](patrimoine-temps.webp "Les catégories empilées mois par mois, les dettes sous zéro, et la valeur nette en ligne : la résidence principale écrase tout le reste. Données fictives.")
+![La valeur nette dans le temps](patrimoine-temps.webp "La valeur nette mois par mois, sur un axe ajusté qui ne part pas de zéro : de 187 387 € en décembre 2025 à 214 664 € en novembre 2026. Une case la montre sans l'immobilier. Données fictives.")
 
-![La répartition en sunburst et en mosaïque](patrimoine-repartition.webp "La même répartition, immobilier et matériels décochés : les livrets font 54 % de ce qui reste, les obligations 33 %. Données fictives.")
+![La répartition en sunburst](patrimoine-repartition.webp "La répartition, immobilier et matériels décochés : les catégories au centre, leurs lignes autour ; les livrets font 54 % de ce qui reste, les obligations 33 %. La mosaïque, qui redisait les anneaux, a été retirée. Données fictives.")
 
 ![Ce qui a fait bouger le patrimoine](patrimoine-variation.webp "De décembre 2025 à novembre 2026, la contribution de chaque catégorie à la valeur nette ; les prêts remboursés la font le plus monter. Données fictives.")
 
@@ -280,7 +300,7 @@ apport immobilier. Ils sont rangés en pyramide, dessinée en pierre :
   rhum), sans échéance, **verrouillée** tant que l'essentiel n'est pas en ordre : précaution
   remplie et au moins trois quarts des objectifs en avance.
 
-![La pyramide des objectifs et le plan d'effort](pyramide.webp "La pyramide du foyer : la précaution à 100 %, les trois étages, dont la part professionnelle hachurée, et la coiffe ; à droite, le plan d'effort du mois. Données fictives.")
+![La pyramide des objectifs et le plan d'effort](pyramide.webp "La pyramide du foyer : chaque étage avec sa progression écrite en grand, la part professionnelle hachurée, et la coiffe verrouillée ; à droite, le plan d'effort du mois. Données fictives.")
 
 Un objectif ne demande aucune saisie de plus : il est financé par des **enveloppes**, la part
 d'une ligne de patrimoine mise de côté pour lui. Quand la ligne monte, chaque objectif reçoit sa
@@ -303,7 +323,7 @@ répartit la capacité d'épargne du foyer : la précaution d'abord, dans la lim
 réglable, puis les autres objectifs selon leur effort nécessaire, puis les envies déverrouillées.
 C'est une recommandation : rien n'est déplacé.
 
-![Les cartes de l'étage court terme](objectifs-cartes.webp "Le court terme : un voyage en avance, et un ordinateur professionnel en retard, à renouveler tous les quatre ans. Données fictives.")
+![Les cartes de l'étage court terme](objectifs-cartes.webp "Le court terme : un voyage en avance, et un ordinateur portable professionnel en retard, à renouveler tous les quatre ans. Données fictives.")
 
 Un **objectif professionnel** sert le travail : un équipement, une formation, la création d'une
 entreprise, une reconversion, un déménagement. Il reste à son étage, hachuré, avec son type. Le
@@ -311,9 +331,12 @@ formulaire demande son coût et ce que d'autres paient (le CPF, l'employeur, Fra
 d'honneur), et la cible est ce qu'il reste au foyer à réunir. Un équipement peut se renouveler
 tous les N ans : une fois l'achat fait, le cycle suivant repart tout seul.
 
-![Les cartes de l'étage moyen terme](objectifs-moyen.webp "Le moyen terme : une certification de 2 400 €, dont 1 500 € pris en charge par le CPF, ne demande que 900 € au foyer ; la moto, elle, prend du retard. Données fictives.")
+Le formulaire d'un nouvel objectif commence par un seul choix, son type : précaution, projet,
+plaisir ou professionnel. Un projet peut être *permanent*, gardé en vue une fois atteint.
 
-![La coiffe et ses envies](coiffe.webp "La coiffe : la guitare d'Alex reste verrouillée tant que sa précaution et ses objectifs ne sont pas en ordre ; le week-end spa reçoit déjà ce que les autres laissent. Données fictives.")
+![Les cartes de l'étage moyen terme](objectifs-moyen.webp "Le moyen terme : une certification de 2 400 €, dont 1 500 € pris en charge par le CPF, ne demande que 900 € au foyer ; elle et la moto prennent du retard. Données fictives.")
+
+![La coiffe et ses envies](coiffe.webp "La coiffe, verrouillée : deux objectifs sur quatre sont en avance, il en faut trois. La guitare d'Alex et le week-end spa attendent que l'essentiel soit en ordre. Données fictives.")
 
 Chaque objectif a aussi sa page : ses estimations, sa trajectoire, ses enveloppes ligne par ligne
 et son suivi mois par mois.
@@ -359,9 +382,10 @@ plus que la capacité (avec le report d'échéance qui suffirait), une dette plu
 rapportent les placements, des mensualités au-delà de 35 % des revenus. Chaque point donne les
 faits, les chiffres, pourquoi c'est important et des options ; jamais une consigne d'achat ou de
 vente, ni un produit nommé. Trois au plus s'affichent, et chaque membre peut en reporter ou en
-écarter un.
+écarter un. Un objectif en retard depuis trois mois est toujours un avertissement, quelle que
+soit son échéance.
 
-![Les points à regarder](analyse-points.webp "Trois points à regarder : une précaution qui couvre 5,8 mois de charges fixes, une moto en retard depuis trois mois (avec trois façons de rattraper), une cible lointaine à revaloriser avec l'inflation. Données fictives.")
+![Les points à regarder](analyse-points.webp "Trois points à regarder : l'ordinateur portable et la moto en retard depuis trois mois, chacun avec trois façons de rattraper, et une précaution qui couvre 5,8 mois de charges fixes. Données fictives.")
 
 ### La projection du patrimoine
 
@@ -380,11 +404,11 @@ un **simulateur** : on règle à gauche, la réponse se recalcule à droite pend
   neuf dixièmes des résultats l'atteignent ;
 - **et si…** : deux variantes (épargne, rendement, volatilité, inflation), le temps de la visite.
 
-![Le simulateur de projection](projection-simulateur.webp "Avec l'épargne mesurée (1 776 € par mois), un patrimoine net médian de 929 900 € dans 20 ans, en euros d'aujourd'hui, décomposé en ce qu'il est aujourd'hui, les versements, les prêts remboursés et les plus-values. Données fictives.")
+![Le simulateur de projection](projection-simulateur.webp "Avec l'épargne mesurée (1 776 € par mois), un patrimoine net médian de 930 900 € dans 20 ans, en euros d'aujourd'hui, décomposé en ce qu'il est aujourd'hui, les versements, les prêts remboursés et les plus-values. Données fictives.")
 
 ![La fourchette des résultats](projection-fourchette.webp "La même projection en éventail : la médiane, la moitié des résultats dans la bande foncée, huit sur dix dans la claire. Données fictives.")
 
-![Atteindre un montant et comparer des variantes](projection-montant.webp "430 000 € en novembre 2046 : atteints dans plus de 99 % des cas, par la moitié des résultats dès septembre 2032. À droite, deux variantes à comparer. Données fictives.")
+![Atteindre un montant et comparer des variantes](projection-montant.webp "430 000 € en novembre 2046 : atteints dans plus de 99 % des cas, par la moitié des résultats dès septembre 2032, par neuf sur dix en janvier 2035. À droite, deux variantes à comparer. Données fictives.")
 
 Chaque page dit ses limites en clair : une estimation à partir d'hypothèses, ni une prévision ni un
 conseil ; une bande à 10–90 % laisse un résultat sur cinq dehors, et la vraie dispersion est plus
@@ -392,7 +416,7 @@ large que celle du modèle.
 
 ### La retraite
 
-L'onglet *Retraite* tourne sur le même moteur : quel niveau de vie le foyer pourra-t-il garder une
+L'onglet *Retraite*, dans l'espace Patrimoine, tourne sur le même moteur : quel niveau de vie le foyer pourra-t-il garder une
 fois retraité ? Chaque membre saisit son mois de naissance, quand il arrête de travailler, le
 revenu qui s'arrête alors, et la pension estimée sur info-retraite.fr ; l'application ne calcule
 aucun droit. Le foyer règle ses dépenses de retraite (80 % des dépenses d'aujourd'hui hors prêts,
@@ -409,23 +433,61 @@ s'épuiserait sinon.
 
 ### La prévision de trésorerie
 
-L'onglet *Prévision* montre les douze prochains mois : revenus, dépenses, épargne et reste, par
-catégorie, avec une fourchette, face aux objectifs du budget. Les dépenses fixes à venir sont
+L'onglet *Prévision*, dans l'espace Dépenses, montre les douze prochains mois : revenus, dépenses,
+épargne et reste, par catégorie, avec une fourchette, face aux cibles du budget. Les dépenses fixes à venir sont
 connues ; le reste est prévu à partir de l'historique du foyer, par la méthode qui s'est le moins
-trompée sur les mois déjà saisis (voir [plus bas](#une-prévision-choisie-par-back-test)).
+trompée sur les mois déjà saisis (voir [plus bas](#une-prévision-choisie-par-back-test)). Le
+calcul prend quelques secondes : la page le dit, et garde la dernière prévision à l'écran pendant
+qu'elle se recalcule.
 
-![Le résumé de la prévision](prevision-resume.webp "De novembre 2026 à octobre 2027, un reste attendu de 13 466 €, entre 5 979 € et 18 224 € environ huit fois sur dix. Au-dessus, un avertissement : sur les mois testés, la prévision surestimait le reste de 162 € par mois. Données fictives.")
+![Le résumé de la prévision](prevision-resume.webp "De novembre 2026 à octobre 2027, un reste attendu de 13 466 €, entre 5 979 € et 18 224 € environ huit fois sur dix ; trois cibles sur dix à risque ce mois-ci, et les revenus, dépenses et épargne des douze mois. Données fictives.")
 
 ![Les mois passés et à venir](prevision-mois.webp "Douze mois saisis puis douze mois prévus, en pointillés avec leurs bandes ; en dessous, le reste de chaque mois. Le pic de juillet, les vacances, revient l'été suivant. Données fictives.")
 
-![La prévision face aux objectifs du mois](prevision-objectifs.webp "Novembre : chaque catégorie en pourcentage de son objectif, la prévision en point, la fourchette en barre. Le foyer dépassera probablement le sien. Données fictives.")
+![La prévision face aux cibles du mois](prevision-objectifs.webp "Novembre : chaque catégorie en pourcentage de sa cible, la prévision en point, la fourchette en barre. Le foyer dépassera probablement la sienne. Données fictives.")
 
-![La prévision face aux objectifs de l'année](prevision-annee.webp "L'année 2026 : le dépensé à fin octobre, plus la prévision jusqu'à décembre, face à l'objectif annuel. Les loisirs finiront autour de 160 %. Données fictives.")
+![La prévision face aux cibles de l'année](prevision-annee.webp "L'année 2026 : le dépensé à fin octobre, plus la prévision jusqu'à décembre, face à la cible annuelle. Les loisirs finiront autour de 160 %. Données fictives.")
 
 Repliée en bas, la **fiabilité** : pour chaque catégorie, la méthode retenue et ce qu'elle gagne
 sur la moyenne des six derniers mois, son biais, puis le back-test des totaux.
 
 ![La fiabilité de la prévision](prevision-fiabilite.webp "Pour chaque catégorie, l'erreur en moins face à la moyenne de six mois et le biais ; à droite, les totaux prévus un mois à l'avance face à ce qui a été saisi, avec MASE, WAPE et RMSSE. Données fictives.")
+
+### Le document d'audit
+
+Le dernier onglet du patrimoine, *Audit*, construit un document qui résume les finances du foyer
+pour **un lecteur** : un banquier (une demande de prêt immobilier), un conseiller en gestion de
+patrimoine, un comptable ou un notaire, ou un assistant conversationnel à qui l'on demande un
+audit. Un formulaire règle le lecteur, le périmètre, la période, la langue et la confidentialité
+(membres nommés ou *Membre A*, lignes nommées ou par catégorie, montants exacts ou arrondis) ; le
+document se reconstruit en dessous à chaque changement, tel qu'il sera imprimé.
+
+![Le formulaire du document d'audit](audit-formulaire.webp "Pour un banquier : le périmètre, la période en mois complets, la langue, la confidentialité, les revenus comptés dans le taux d'endettement, un taux de prélèvement facultatif et un projet immobilier à simuler. Données fictives.")
+
+Chaque lecteur a ses sections :
+
+- **le banquier** : les revenus mois par mois, pour montrer leur régularité, les dépenses fixes,
+  les crédits en cours, le taux d'endettement et le reste à vivre, la capacité d'épargne, le
+  patrimoine disponible et, s'il le faut, un projet immobilier simulé (mensualité, endettement
+  face au plafond de 35 %, apport) ;
+- **le conseiller** : le patrimoine par catégorie avec sa liquidité, les livrets et leurs
+  plafonds, les objectifs, la retraite et les analyses de l'application, puis tout ce que
+  l'application ne sait pas (profil de risque, tranche d'imposition, régime matrimonial…) ;
+- **le comptable ou le notaire** : un inventaire par titulaire, tel que classé dans
+  l'application, qui rappelle que ce classement n'est pas la propriété juridique ;
+- **l'assistant conversationnel** : tout cela en Markdown structuré, anonymisé par défaut, ouvert
+  par une consigne qui lui demande d'abord ce qui lui manque, puis de séparer ce qu'il observe de
+  ce qu'il suggère, sans nommer de produit.
+
+![Le début du dossier pour un banquier](audit-document.webp "Le dossier pour une demande de prêt : la période, la date, le périmètre et la confidentialité, le sommaire, puis le foyer. Données fictives.")
+
+![Les crédits et le taux d'endettement](audit-endettement.webp "Deux crédits en cours, 1 351 € de mensualités et d'assurances pour 5 721 € de revenus comptés : 23,6 % après prélèvement, dans la limite du plafond de 35 %. Données fictives.")
+
+Rien n'est stocké : le document est refait à partir des données du jour. Il s'imprime en PDF ou,
+pour l'assistant, se copie ou se télécharge en Markdown ; chaque impression ou copie laisse une
+trace dans le journal d'activité, sans aucun chiffre. Il se termine toujours par des définitions
+et par la même phrase : des chiffres saisis par le foyer, non certifiés, qui ne sont pas un
+conseil financier.
 
 ### Des sauvegardes vérifiées, des actions tracées
 
@@ -458,7 +520,7 @@ flowchart LR
 {{< /mermaid >}}
 
 Côté Python, le code est découpé en paquets avec une règle stricte : `kwak_core` contient
-**toutes les règles métier** (montants, ligne rapide, ventilation, objectifs mensuels, dépenses
+**toutes les règles métier** (montants, ligne rapide, ventilation, cibles mensuelles, dépenses
 fixes, rapports, patrimoine, enveloppes et plan d'effort, règles de l'analyse, séries et choix des
 modèles de prévision) et ne dépend de rien. Il se teste sans base de données. L'API et la couche
 analytique `kwak_analytics` (les simulations et l'ajustement des modèles) en dépendent, jamais
@@ -485,7 +547,7 @@ règle.
 | Ligne rapide | Chaque mot tapé finit dans exactement un champ : date, montant, catégorie ou libellé |
 | Ventilation | Les parts d'une ligne ventilée font exactement son montant, chacune positive |
 | Épargne | L'épargne n'est jamais une dépense, et le reste du mois est la somme de ses lignes |
-| Objectifs mensuels | Un seul objectif en vigueur par catégorie et par mois, et l'objectif annuel est la somme des mois |
+| Cibles mensuelles | Une seule cible en vigueur par catégorie et par mois, et la cible annuelle est la somme des mois |
 | Dépenses fixes | Une ligne honore au plus une échéance, et le reste projeté déduit exactement celles qui restent |
 | Cohérence | Un rapport, la matrice, l'année et le mois en cours donnent toujours les mêmes chiffres |
 | Flux | Les deux côtés du diagramme de flux ont le même total |
@@ -573,17 +635,9 @@ milliers de nombres, et l'assistant local a laissé la place au document d'audit
 
 ## La suite
 
-La phase 6 se termine avec la page du **document d'audit** : un formulaire (lecteur, périmètre,
-période, confidentialité, langue), puis le document tel qu'il sera imprimé. Chaque lecteur a ses
-sections : le banquier voit les revenus mois par mois, les prêts en cours, le taux d'endettement
-et, s'il le faut, un projet immobilier simulé face au plafond de 35 % ; le conseiller voit le
-patrimoine par catégorie, les objectifs, la retraite et les analyses de l'application ; le
-notaire, un inventaire par titulaire tel que classé dans l'application. Le document se termine
-toujours par ce que l'application ne sait pas, et par la même phrase : des chiffres saisis par le
-foyer, non certifiés, qui ne sont pas un conseil financier.
-
-Ensuite viendra l'usage réel : la prévision ne s'appliquera à mes propres données qu'une fois
-douze mois complets saisis depuis la v1.0. Cette fiche sera mise à jour à chaque étape livrée.
+La feuille de route prévue est livrée. Vient maintenant l'usage réel, qui dira ce qui manque :
+la prévision ne s'appliquera à mes propres données qu'une fois douze mois complets saisis depuis
+la v1.0, soit à l'automne 2027. Cette fiche sera mise à jour à chaque étape livrée.
 
 ## Essayer
 

@@ -3,8 +3,8 @@ title: "Kwak Finance: a household's budget and net worth, self-hosted"
 date: 2026-10-08
 draft: false
 nature: "produit"
-description: "A self-hosted web app to track a household's budget, net worth and financial goals, without the data ever leaving home. Under development: budget, net worth, goals, projection, retirement and cash-flow forecast have shipped; the audit document is under way."
-summary: "Self-hosted web app for household budgeting and net worth. Keyboard entry, fixed expenses, budget targets, reports, a monthly net-worth matrix, financial goals in a pyramid, a Monte Carlo net-worth projection, retirement, and a cash-flow forecast chosen by back-testing."
+description: "A self-hosted web app to track a household's budget, net worth and financial goals, without the data ever leaving home. Every planned phase has shipped: budget, net worth, goals, projection, retirement, cash-flow forecast and audit document."
+summary: "Self-hosted web app for household budgeting and net worth. Keyboard entry, fixed expenses, budget targets, reports, a monthly net-worth matrix, financial goals in a pyramid, a Monte Carlo net-worth projection, retirement, a cash-flow forecast chosen by back-testing, and an audit document for a banker, an advisor or a notary."
 tags: ["python", "fastapi", "postgresql", "react", "typescript", "docker", "time series", "forecasting", "monte carlo", "LightGBM", "claude code"]
 featureImage: "carte-en.png"
 showTableOfContents: true
@@ -17,25 +17,26 @@ online service. Everything runs on a machine at home.
 {{< /lead >}}
 
 {{< fiche-projet
-    statut="In development · phases 1 to 5 shipped, phase 6 under way"
+    statut="In development · phases 0 to 6 shipped, now on to real use"
     periode="Since October 2026"
     role="Solo: specifications, architecture, development, operations"
     stack="Python 3.13, FastAPI, SQLAlchemy 2, PostgreSQL 17, NumPy, statsforecast, mlforecast, LightGBM, React 19, TypeScript, Tailwind, Recharts, Docker Compose, Caddy, GitHub Actions"
     code="https://github.com/gwils28/kwak-finance" >}}
 
 {{< stats >}}
-{{< stat value="195" label="merged pull requests" >}}each one blocked until CI is green{{< /stat >}}
-{{< stat value="1,176" label="automated tests" >}}including 70 property tests on financial invariants{{< /stat >}}
+{{< stat value="212" label="merged pull requests" >}}each one blocked until CI is green{{< /stat >}}
+{{< stat value="1,213" label="automated tests" >}}including 70 property tests on financial invariants{{< /stat >}}
 {{< stat value="8" label="architecture decisions" >}}written down, with the rejected alternatives{{< /stat >}}
 {{< /stats >}}
 
 {{< note-ia >}}
 
 {{< alert icon="circle-info" >}}
-**Work in progress.** This page describes the repository as of 17 November 2026. The figures above
-are counted in the code, and will be updated with each phase shipped. Since the previous version
-of this page (24 October), 58 pull requests have completed phase 5: the projection page,
-retirement, the cash-flow forecast, a demo household, then professional goals.
+**Work in progress.** This page describes the repository as of 25 November 2026. The figures above
+are counted in the code. Since the previous version of this page (17 November), 17 pull requests
+have shipped the audit document page, which completes phase 6 and the roadmap, then a usability
+pass: a tab bar for each space, navigation of its own on phones, empty pages that guide, help on
+every page and clearer labels.
 {{< /alert >}}
 
 {{< alert icon="image" >}}
@@ -80,8 +81,8 @@ redesign.
 {{< /timelineItem >}}
 
 {{< timelineItem icon="check" header="Phase 3 · Net worth" badge="Shipped" subheader="Assets and liabilities, month by month" >}}
-A monthly net-worth matrix: categories and lines entered by hand, debts, net worth, and four charts
-(history, allocation as a sunburst and a mosaic, contributions to the change).
+A monthly net-worth matrix: categories and lines entered by hand, debts, net worth, and charts
+(history, allocation, contributions to the change).
 {{< /timelineItem >}}
 
 {{< timelineItem icon="check" header="Phase 4 · Financial goals" badge="Shipped" subheader="An amount to gather by a date" >}}
@@ -105,10 +106,14 @@ and, optionally, two foundation models. A demo household lets you try it all bef
 history.
 {{< /timelineItem >}}
 
-{{< timelineItem icon="file-lines" header="Phase 6 · Audit document" badge="Under way" subheader="The household's finances, summed up for one reader" >}}
-A document built on demand for a banker, a wealth advisor, an accountant or notary, or an AI chat.
-The rules and the API have shipped, the page is next. It replaces the natural-language assistant
-planned at first.
+{{< timelineItem icon="check" header="Phase 6 · Audit document" badge="Shipped" subheader="The household's finances, summed up for one reader" >}}
+A document built on demand for a banker, a wealth advisor, an accountant or notary, or an AI chat,
+printed to PDF or copied as Markdown. It replaces the natural-language assistant planned at first.
+{{< /timelineItem >}}
+
+{{< timelineItem icon="check" header="Usability pass" badge="Shipped" subheader="Reading the app again as a new user would" >}}
+An interface audit opened 24 issues, 22 of them handled in 16 pull requests: navigation, phones,
+empty pages, loading, labels and wording. Two remain open, including a lighter overview.
 {{< /timelineItem >}}
 
 {{< /timeline >}}
@@ -128,10 +133,16 @@ on the other hand, have a visibility, line by line:
 - **joint**: the household's property, which belongs to no one.
 
 Net worth and goals are then read at the scale of the **household**, the **joint** part or **my
-lines**. The app is organised in three spaces, **Spending**, **Net worth** and **Goals**; the
-overview, on top, sums up all three.
+lines**. The app is organised in three spaces, **Spending** (lines, budget, reports, forecast),
+**Net worth** (monthly tracking, analysis, projection, retirement, audit) and **Goals** (pyramid,
+analysis); each space has its own tab bar, and the overview, on top, sums up all three. Every page
+title carries a "?" that opens the built-in guide at the right section, and a page that is still
+empty says what will appear there and how to start.
 
-![The November overview](vue-ensemble-en.webp "November for the whole household: net worth and its change, each tier of the pyramid's progress, then the month's figures. Fictional data.")
+On a phone, a bar at the bottom of the screen leads to the three spaces, and each spending line
+becomes a card that is edited in place, as on a computer.
+
+![The November overview](vue-ensemble-en.webp "November for the whole household: net worth and its change, each tier of the pyramid's progress, then the month's figures, including the share of income not spent. Fictional data.")
 
 ### A demo household
 
@@ -142,7 +153,7 @@ give the same demo). It is shared by the household's members and resets in one c
 invariant guarantees that the demo and the real household never meet: no answer given in the demo
 reads or writes a row of the real household.
 
-![The demo banner](demo-banniere-en.webp "In the demo, a banner says so on every page, with a way back to your own household or a fresh start. Fictional data.")
+![The demo banner](demo-banniere-en.webp "The three spaces at the top; in the demo, a banner says so on every page, with a way back to your own household or a fresh start. On a phone, it folds into one line. Fictional data.")
 
 ### Quick entry, at the keyboard
 
@@ -159,7 +170,10 @@ Above it, a **quick line** accepts an expense typed in any order: `bakery 12.50 
 - the rest is the label, and its category comes from **label memory**: picking a label already
   used takes the category of its last line.
 
-![The spending grid and the quick line](grille-en.webp "The quick line has understood \"cinema 24.50 friday #leisure\" before it is even saved; below, the internet box to confirm, the property tax skipped this month, then the month's lines. Fictional data.")
+Under the quick line, a preview says what was understood before it is saved. A line added is
+announced with an *Undo* button; amounts read as money, income in green with a "+".
+
+![The spending grid and the quick line](grille-en.webp "\"cinema 24.50 friday #leisure\", understood as 20 November, cinema, €24.50, Leisure, before it is even saved; below, the internet box to confirm, the property tax skipped this month, then the month's lines. Fictional data.")
 
 A header recalls the last line entered and when, and a dot marks it in the grid, to pick up where
 you left off.
@@ -180,7 +194,7 @@ One level of categories, each of one kind:
 - **income**: salaries, benefits, refunds.
 
 A month's income is the sum of its income lines, and the rest is income minus spending minus
-savings. **One-off** categories (housing, subscriptions), paid in one go, are never judged on the
+savings. Categories **paid once a month** (housing, subscriptions) are never judged on the
 month's pace.
 
 ### Fixed expenses
@@ -190,25 +204,27 @@ back every month, quarter or year. Each occurrence due appears greyed out at the
 month's grid. Enter confirms it and creates the line, editable first; it can also be skipped for
 the month. Nothing is ever created on its own.
 
-![The list of fixed expenses](depenses-fixes-en.webp "Each fixed expense with its category, amount, frequency and dates: Spotify Family stopped in April, the childminder in June 2025, replaced by the school canteen. Fictional data.")
+![The list of fixed expenses](depenses-fixes-en.webp "Each fixed expense with its category, amount, frequency and state: Spotify Family stopped in April, the childminder in June 2025, replaced by the school canteen; both are marked ended. Fictional data.")
 
-The overview lists what is still to confirm and the **projected rest** at the end of the month.
+The overview lists what is still to confirm, and its *Rest* tile gives the **projected rest**, once
+those expenses are paid.
 
-![Fixed expenses still to confirm](a-confirmer-en.webp "November's internet box is still to confirm; the projected end-of-month rest already deducts it. Fictional data.")
+![Fixed expenses still to confirm](a-confirmer-en.webp "November's internet box is still to confirm; the projected rest, €1,772, already deducts it. Fictional data.")
 
 ### Monthly targets
 
 Each expense category can get a **monthly target**, set from a month on and kept until it is
 changed; past months keep theirs. A savings category gets a minimum to reach.
 
-- **the month so far**, on the overview: one bar per category, sorted by share used, with a mark
-  for the share of the month gone, so an expense ahead of the calendar shows before it overruns;
+- **the month so far**, on the overview: only the categories at risk are shown, and *See all*
+  unfolds them all, sorted by share used, with a mark for the share of the month gone, so an
+  expense ahead of the calendar shows before it overruns;
 - **the matrix**: one row per category, one column per month, each cell coloured by its gap to
-  the target (green below, grey within ±5 %, burnt orange above);
+  the target (green below, grey within ±5 %, burnt orange above); it opens on the current month;
 - **the year**: targets cumulated to date and over the whole year, the gap, and how many months
   were above, within or below target.
 
-![The month so far](mois-en-cours-en.webp "On 17 November: the home category has gone over its target; the vertical mark shows the share of the month gone, and housing, paid in one go, is not judged on pace. Fictional data.")
+![The month so far](mois-en-cours-en.webp "On 25 November, all unfolded: the home category has gone over its target; the vertical mark shows the share of the month gone, and housing, paid once a month, is not judged on pace. Fictional data.")
 
 ![The budget matrix](budget-matrice-en.webp "Six months of budget: income received, each category against its target, savings, then each month's balance. July, the holiday month, ends in the red. Fictional data.")
 
@@ -220,22 +236,24 @@ A month, a quarter, a year or any period up to ten years, compared with the **pr
 same length**. A period in progress stops at the current month: "this year" is compared with the
 same months last year, not with a whole year.
 
-![A report's totals and breakdown](rapport-en.webp "October against September: the totals, then each category with its share and change. Housing is up 35 %: the condo fees fall due every quarter. Fictional data.")
+The report opens on the period's **money flows**: income on the left; spending, savings and
+unallocated rest on the right, both sides always adding up to the same total.
 
-The report also gives a monthly chart stacked by category, spending accumulated day by day, and the
-period's **money flows**: income on the left; spending, savings and unallocated rest on the right,
-both sides always adding up to the same total.
+![The year's money flows](rapport-flux-en.webp "2026's flows: €61,299 available on the left; each category, savings (€11,000) and the unallocated rest (€10,683) on the right. Fictional data.")
+
+Then come the totals, the breakdown by category, a ranking of spending and a monthly chart stacked
+by category.
+
+![A report's totals and breakdown](rapport-en.webp "January to November 2026 against the same months of 2025: the totals, then each category with its share and change. Spending on children is down 61 %: the childminder stopped in June 2025. Fictional data.")
 
 ![Spending month by month](rapport-mois-en.webp "2026 month by month: the six largest categories in colour, the others in grey, against the income line. Fictional data.")
-
-![The year's money flows](rapport-flux-en.webp "2026's flows: salaries on the left; each category, savings and the unallocated rest on the right. Fictional data.")
 
 ### Net worth, month by month
 
 Net worth is tracked as in a spreadsheet: one line per holding, filed in a category, one column per
 month, and a value entered by hand once a month.
 
-![The net-worth matrix](patrimoine-matrice-en.webp "Monthly tracking: net worth, gross assets and debts, then the lines by category, with what each one sets aside for goals. Values in italics are carried forward. Fictional data.")
+![The net-worth matrix](patrimoine-matrice-en.webp "Monthly tracking, opened on the current month: the lines by category, with what each one sets aside for goals, then gross assets, debts, net worth and its change. Values in italics are carried forward. Fictional data.")
 
 - a month with no entry takes the previous value, shown as carried forward;
 - "Update this month" lists every line with its last value, marks those already updated, and saves
@@ -246,14 +264,14 @@ month, and a value entered by hand once a month.
 
 ![This month's update](patrimoine-maj-en.webp "Five lines out of thirteen already updated in November, on a tinted background; the others wait, with their last value. Fictional data.")
 
-An *Analysis* page gives four charts, each category in its colour. Since ten hues cannot all stay
+An *Analysis* page gives three charts, each category in its colour. Since ten hues cannot all stay
 distinct for every kind of colour blindness, each chart also keeps its labels and its data table.
 Checkboxes leave a category out of the analysis: without the home and the car, you finally see how
 the savings are spread.
 
-![Net worth over time](patrimoine-temps-en.webp "Categories stacked month by month, debts below zero, and net worth as a line: the home dwarfs everything else. Fictional data.")
+![Net worth over time](patrimoine-temps-en.webp "Net worth month by month, on an axis fitted to it that does not start at zero: from €187,387 in December 2025 to €214,664 in November 2026. A checkbox shows it without real estate. Fictional data.")
 
-![Allocation as a sunburst and a mosaic](patrimoine-repartition-en.webp "The same allocation with real estate and equipment unticked: savings accounts make up 54 % of what remains, bonds 33 %. Fictional data.")
+![Allocation as a sunburst](patrimoine-repartition-en.webp "The allocation with real estate and equipment unticked: categories in the centre, their lines around; savings accounts make up 54 % of what remains, bonds 33 %. The mosaic, which repeated the rings, was removed. Fictional data.")
 
 ![What moved net worth](patrimoine-variation-en.webp "From December 2025 to November 2026, each category's contribution to net worth; repaid loans push it up the most. Fictional data.")
 
@@ -272,7 +290,7 @@ arranged in a pyramid, drawn in stone:
   deadline, **locked** until the essentials are in order: the emergency fund full and at least
   three quarters of the goals ahead.
 
-![The goals pyramid and the effort plan](pyramide-en.webp "The household's pyramid: the emergency fund at 100 %, the three tiers with their professional part hatched, and the capstone; on the right, this month's effort plan. Fictional data.")
+![The goals pyramid and the effort plan](pyramide-en.webp "The household's pyramid: each tier with its progress written large, the professional part hatched, and the capstone locked; on the right, this month's effort plan. Fictional data.")
 
 A goal needs no extra entry: it is funded by **envelopes**, the part of a net-worth line set aside
 for it. When the line rises, each goal gets its share of the rise; when it falls, the fall comes
@@ -302,9 +320,12 @@ others pay (the personal training account CPF, the employer, France Travail, an 
 the target is what the household still has to gather. Equipment can be renewed every N years: once
 the purchase is made, the next cycle starts on its own.
 
-![The medium-term tier's cards](objectifs-moyen-en.webp "The medium term: a €2,400 certification, €1,500 of it covered by the CPF, asks only €900 of the household; the motorbike is falling behind. Fictional data.")
+The new-goal form starts with a single choice, its type: emergency fund, project, treat or
+professional. A project can be *permanent*, kept in view once reached.
 
-![The capstone and its treats](coiffe-en.webp "The capstone: Alex's guitar stays locked until his emergency fund and goals are in order; the spa weekend already gets what the others leave. Fictional data.")
+![The medium-term tier's cards](objectifs-moyen-en.webp "The medium term: a €2,400 certification, €1,500 of it covered by the CPF, asks only €900 of the household; it and the motorbike are falling behind. Fictional data.")
+
+![The capstone and its treats](coiffe-en.webp "The capstone, locked: two goals out of four are ahead, three are needed. Alex's guitar and the spa weekend wait until the essentials are in order. Fictional data.")
 
 Each goal also has its own page: its estimates, its trajectory, its envelopes line by line and its
 monthly tracking.
@@ -348,9 +369,9 @@ money sleeping in a current account, goals asking for more than the capacity (wi
 postponement that would be enough), a debt costing more than the investments earn, loan payments
 above 35 % of income. Each point gives the facts, the figures, why it matters and options; never a
 buy or sell instruction, nor a named product. Three at most are shown, and each member can snooze
-or dismiss one.
+or dismiss one. A goal behind for three months is always a warning, whatever its deadline.
 
-![Points to look at](analyse-points-en.webp "Three points to look at: an emergency fund covering 5.8 months of fixed expenses, a motorbike behind for three months (with three ways to catch up), a distant target to raise with inflation. Fictional data.")
+![Points to look at](analyse-points-en.webp "Three points to look at: the laptop and the motorbike behind for three months, each with three ways to catch up, and an emergency fund covering 5.8 months of fixed expenses. Fictional data.")
 
 ### The net-worth projection
 
@@ -368,18 +389,18 @@ The *Projection* tab answers one question: where could net worth be in 1 to 40 y
   then nine tenths of the outcomes get there;
 - **what if…**: two variants (savings, return, volatility, inflation), for the length of the visit.
 
-![The projection simulator](projection-simulateur-en.webp "With measured savings (€1,776 a month), a median net worth of €929,900 in 20 years, in today's euros, broken down into what it is today, contributions, repaid loans and gains. Fictional data.")
+![The projection simulator](projection-simulateur-en.webp "With measured savings (€1,776 a month), a median net worth of €930,600 in 20 years, in today's euros, broken down into what it is today, contributions, repaid loans and gains. Fictional data.")
 
 ![The range of outcomes](projection-fourchette-en.webp "The same projection as a fan: the median, half of the outcomes in the dark band, eight in ten in the light one. Fictional data.")
 
-![Reaching an amount and comparing variants](projection-montant-en.webp "€430,000 in November 2046: reached in more than 99 % of outcomes, by half of them as early as September 2032. On the right, two variants to compare. Fictional data.")
+![Reaching an amount and comparing variants](projection-montant-en.webp "€430,000 in November 2046: reached in more than 99 % of outcomes, by half of them as early as September 2032, by nine in ten in January 2035. On the right, two variants to compare. Fictional data.")
 
 Each page states its limits plainly: an estimate from assumptions, neither a forecast nor advice; a
 10–90 % band leaves one outcome in five outside, and the real spread is wider than the model's.
 
 ### Retirement
 
-The *Retirement* tab runs on the same engine: what standard of living could the household keep
+The *Retirement* tab, in the Net worth space, runs on the same engine: what standard of living could the household keep
 once retired? Each member enters their birth month, when they stop working, the earnings that stop
 then, and the pension estimated on info-retraite.fr; the app computes no pension rights. The
 household sets its retirement spending (80 % of today's spending excluding loans, by default),
@@ -396,12 +417,13 @@ run out.
 
 ### The cash-flow forecast
 
-The *Forecast* tab shows the next twelve months: income, spending, savings and rest, by category,
-with a range, against the budget targets. Upcoming fixed expenses are known; the rest is forecast
-from the household's history, by the method that erred least on the months already entered (see
-[below](#a-forecast-chosen-by-back-testing)).
+The *Forecast* tab, in the Spending space, shows the next twelve months: income, spending, savings
+and rest, by category, with a range, against the budget targets. Upcoming fixed expenses are known;
+the rest is forecast from the household's history, by the method that erred least on the months
+already entered (see [below](#a-forecast-chosen-by-back-testing)). The computation takes a few
+seconds: the page says so, and keeps the last forecast on screen while it is recomputed.
 
-![The forecast summary](prevision-resume-en.webp "From November 2026 to October 2027, an expected rest of €13,466, between €5,979 and €18,224 about eight times in ten. Above, a warning: on the months tested, the forecast overstated the rest by €162 a month. Fictional data.")
+![The forecast summary](prevision-resume-en.webp "From November 2026 to October 2027, an expected rest of €13,466, between €5,979 and €18,224 about eight times in ten; three targets out of ten at risk this month, and the twelve months' income, spending and savings. Fictional data.")
 
 ![Past and coming months](prevision-mois-en.webp "Twelve months entered, then twelve forecast, dashed with their bands; below, each month's rest. The July peak, the holidays, comes back the following summer. Fictional data.")
 
@@ -413,6 +435,39 @@ Folded at the bottom, **how reliable it is**: for each category, the method kept
 over the six-month average, its bias, then the back-test of the totals.
 
 ![How reliable the forecast is](prevision-fiabilite-en.webp "For each category, the error saved against the six-month average and the bias; on the right, the totals forecast one month ahead against what was entered, with MASE, WAPE and RMSSE. Fictional data.")
+
+### The audit document
+
+The last net-worth tab, *Audit*, builds a document that sums up the household's finances for **one
+reader**: a banker (a mortgage application), a wealth advisor, an accountant or a notary, or an AI
+chat asked for an audit. A form sets the reader, the scope, the period, the language and the
+privacy (members by name or as *Member A*, lines by name or by category, amounts exact or rounded);
+the document is rebuilt below at every change, as it will be printed.
+
+![The audit document form](audit-formulaire-en.webp "For a banker: the scope, the period in complete months, the language, the privacy, the income counted in the debt ratio, an optional withholding rate and a property project to simulate. Fictional data.")
+
+Each reader has their own sections:
+
+- **the banker**: income month by month, to show its regularity, fixed expenses, running loans,
+  the debt ratio and remaining income, the saving capacity, the liquid wealth and, if needed, a
+  simulated property project (payment, debt ratio against the 35 % ceiling, down payment);
+- **the advisor**: net worth by category with its liquidity, regulated savings and their ceilings,
+  the goals, retirement and the app's analyses, then everything the app does not know (risk
+  profile, tax bracket, matrimonial regime…);
+- **the accountant or notary**: an inventory by holder, as filed in the app, which says that this
+  filing is not legal ownership;
+- **the AI chat**: all of it as structured Markdown, anonymised by default, opened by a prompt that
+  asks it first for what it lacks, then to separate what it observes from what it suggests,
+  without naming any product.
+
+![The start of the file for a banker](audit-document-en.webp "The file for a mortgage application: the period, the date, the scope and the privacy, the contents, then the household. Fictional data.")
+
+![Loans and debt ratio](audit-endettement-en.webp "Two running loans, €1,351 of payments and insurance for €5,721 of counted income: 23.6 % after withholding, within the 35 % ceiling. Fictional data.")
+
+Nothing is stored: the document is rebuilt from today's data. It prints to PDF or, for the AI chat,
+is copied or downloaded as Markdown; each print or copy leaves an entry in the activity log, with no
+figure. It always ends with definitions and the same sentence: figures entered by the household,
+not certified, and not financial advice.
 
 ### Verified backups, logged actions
 
@@ -556,16 +611,9 @@ local assistant has given way to the audit document.
 
 ## What's next
 
-Phase 6 ends with the **audit document** page: a form (reader, scope, period, privacy, language),
-then the document as it will be printed. Each reader gets their own sections: the banker sees
-income month by month, running loans, the debt ratio and, if needed, a property project simulated
-against the 35 % ceiling; the advisor sees net worth by category, goals, retirement and the app's
-analyses; the notary, an inventory by holder as filed in the app. The document always ends with
-what the app does not know, and with the same sentence: figures entered by the household, not
-certified, and not financial advice.
-
-Then comes real use: the forecast will apply to my own data only once twelve complete months have
-been entered since v1.0. This page will be updated with each step shipped.
+The planned roadmap has shipped. Now comes real use, which will show what is missing: the forecast
+will apply to my own data only once twelve complete months have been entered since v1.0, that is
+in autumn 2027. This page will be updated with each step shipped.
 
 ## Try it
 
