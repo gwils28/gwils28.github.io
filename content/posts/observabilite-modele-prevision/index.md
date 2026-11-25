@@ -25,10 +25,12 @@ Cet article restitue **deux mois de veille active** (du 2 juillet au 2 septembre
 sur l'**observabilité** d'un modèle de prévision : la surveillance de sa santé une fois en
 production. Parti d'un plan d'une heure (lire NannyML et un article récent, passer un modèle au
 travers du COVID, esquisser une architecture), le projet est devenu un cas complet : dix
-expériences, une mise en exploitation de démonstration et une version 1.0. Tout est reproductible
+expériences, une mise en exploitation de démonstration et une version 1.0. Cet article
+en restitue les constats ; l'architecture, la démarche et la mise en production de démonstration
+(Dagster, MLflow) sont décrites dans la
+[fiche Labo du projet]({{< relref "/projects/zonefleet-observabilite" >}}). Tout est reproductible
 dans le dépôt [zonefleet-observability](https://github.com/gwils28/zonefleet-observability), dont
-viennent les figures ; son [site de documentation](https://gwils28.github.io/zonefleet-observability/)
-détaille chaque point.
+viennent les figures.
 
 {{< alert icon="lightbulb" >}}
 **En bref.** Un forecaster de demande de taxis par zone et par heure, figé, observé sans labels :
@@ -134,37 +136,18 @@ le papier fondateur du MLOps, relu comme une grille d'observabilité :
 | *Up-stream producers* | contrat de données, contrôles de qualité |
 | Boucles de rétroaction | le modèle positionne la flotte, la flotte fait les courses, les courses deviennent ses labels |
 
-## 3. La démarche : un protocole figé et des chiffres qui se régénèrent
+## 3. La démarche : un protocole figé
 
 Avant tout code, j'ai fixé le protocole dans `SPEC.md` (2 juillet), avec une règle : **on ne le
-modifie pas pour accommoder un résultat**, comme un pré-enregistrement d'étude clinique. Il n'a pas
-bougé depuis. Cinq règles ont structuré le projet plus que n'importe quel choix technique :
+modifie pas pour accommoder un résultat**, comme un pré-enregistrement d'étude clinique. Chaque
+extension est **déclarée dans une issue avant d'être exécutée**, avec la question, la mesure et
+**« ce qui serait une surprise »** ; aucun chiffre n'est tapé à la main, et la CI échoue si une
+phrase cite un chiffre périmé. La [fiche Labo]({{< relref "/projects/zonefleet-observabilite" >}})
+détaille cette chaîne et les erreurs qu'elle a rattrapées.
 
-1. **Protocole figé** ; chaque écart daté et justifié dans `docs/notes/implementation.md`.
-2. **Une expérience se déclare avant de s'exécuter** : chaque extension a une issue avec la
-   question, la mesure et **« ce qui serait une surprise »**. Un signal ajouté après coup est
-   étiqueté comme tel.
-3. **Aucun chiffre tapé à la main** : tables et figures générées depuis `results/` ; un registre
-   recalcule les 33 chiffres cités dans la prose, et la CI échoue si une phrase est périmée.
-4. **Des garde-fous mécaniques** : un hook protège les données brutes, la CI refuse un test rouge,
-   un lien mort ou une image sans texte alternatif.
-5. **Les résultats imprévus sont publiés tels quels.**
-
-La règle 2 a servi : l'issue de E4 quater (section 12) envisageait qu'un signal saisonnier fasse des
-fausses alertes. C'est arrivé, et la déclaration préalable m'a empêché de régler le signal jusqu'à
-ce que le problème disparaisse. Une méthode se juge aussi à ce qu'elle rattrape :
-
-| Problème | Comment il a été trouvé | Correction |
-|---|---|---|
-| Entrées de saison extrapolées hors de l'entraînement | erreur de référence anormalement haute | retrait, MAE 29,5 → 22,7 |
-| PSI journalier sur une moyenne glissante de 7 jours | 73 % de jours en alerte sans déplacement | artefact documenté |
-| Rappel de 100 % pour une alarme toujours allumée | délai incohérent | détection par « front montant » |
-| E3 mesurée en avant / après | effet non nul sans dérive | comparaison à un contrefactuel |
-| Rapport du matin lisant des labels « du futur » | relecture d'un exemple | horloge des labels |
-| 53 images sans texte alternatif, rendu en échec masqué en CI | contrôle du site rendu | CI qui échoue vraiment |
-
-Vérifié dans un conteneur vierge : plus de 160 tests passent, et `make release-check` régénère
-toutes les figures et tables sans aucune différence.
+La déclaration préalable a servi : l'issue de E4 quater (section 12) envisageait qu'un signal
+saisonnier fasse des fausses alertes. C'est arrivé, et elle m'a empêché de régler le signal jusqu'à
+ce que le problème disparaisse.
 
 ## 4. Les données : de 120 fichiers à un panel zone × heure
 
@@ -180,36 +163,23 @@ l'échelle de la ville. Si elle déplace la demande, c'est entre zones et entre 
 ### Un contrat de données, premier capteur du monitoring
 
 Avant le modèle, ce sont souvent les **données** qui changent de forme. Chaque fichier est validé
-contre un **contrat de données** versionné : colonnes **requises** (bloquantes), **ruptures connues
-et datées** (`cbd_congestion_fee` à partir de 2025, acceptée seulement après sa date), et **tout le
-reste**, journalisé comme rupture inconnue. Seul le schéma est lu : 120 fichiers en moins d'une
-seconde.
-
-![Chronologie du schéma](data_schema_timeline.webp "Présence et type de sept colonnes des fichiers jaunes, mois par mois : airport_fee de type nul jusqu'en 2020, compteurs passés en entiers en 2024, cbd_congestion_fee apparue en 2025.")
-
-Aucune de ces ruptures ne casse ce pipeline, mais un pipeline utilisant le montant total des
+contre un **contrat de données** versionné, qui distingue les ruptures connues et datées des
+ruptures inconnues. Aucune ne casse ce pipeline, mais un pipeline utilisant le montant total des
 courses aurait vu sa variable changer de sens le 5 janvier 2025, sans une ligne de code modifiée.
 
 ### Le panel
 
-Les courses sont agrégées avec duckdb en un **panel** : prises en charge par zone et par heure
-locale. **60 zones figées** (les plus actives en 2019, 93 % des courses : les recalculer changerait
-l'objet surveillé en même temps que le monde), zéros explicites, et réparation des heures du
-changement d'heure (2 h absente au printemps, 1 h doublée à l'automne). Résultat : 2,6 millions de
-lignes, 10 Mo, versionnées.
+Les courses sont agrégées en un **panel** : prises en charge par zone et par heure locale, sur
+**60 zones figées** (les plus actives en 2019, 93 % des courses : les recalculer changerait l'objet
+surveillé en même temps que le monde). Résultat : 2,6 millions de lignes.
 
 ![Les 60 zones surveillées](data_carte_zones.webp "En bleu, les 32 zones de la zone de tarification de congestion (CBD) ; en vert, les 28 autres.")
 
 L'appartenance au CBD (*central business district*, la zone taxée) se lit dans les données : la
-part des courses 2025 qui paient la taxe vaut près de 1 pour une zone intérieure.
-
-![Bimodalité de la part taxée](data_cbd_bimodal.webp "Part de courses taxées par zone : deux modes nets, aucune zone entre 0,6 et 0,9.")
-
-![Profils horaires](data_profils_horaires.webp "Courses moyennes par heure et jour en 2019 : les zones CBD culminent le soir en semaine, les autres ont un plateau en journée.")
-
-Les niveaux couvrent deux ordres de grandeur (20 à plus de 300 courses par heure), d'où une cible
-en `log1p` (logarithme de 1 + la valeur) et un **modèle global** avec la zone en variable
-catégorielle : un seul objet à surveiller.
+part des courses 2025 qui paient la taxe vaut près de 1 pour une zone intérieure. Les niveaux
+couvrent deux ordres de grandeur (20 à plus de 300 courses par heure), d'où une cible en `log1p`
+(logarithme de 1 + la valeur) et un **modèle global** avec la zone en variable catégorielle : un
+seul objet à surveiller.
 
 ## 5. Le modèle surveillé (E0)
 
@@ -762,35 +732,22 @@ Le premier levier n'est pourtant pas un algorithme. Aucun réglage ne rend le co
 réalisé sur les journaux internes fait passer la fenêtre aveugle de 61 jours à 2**, et rend aussi le
 réentraînement (E5) et la calibration (E0 bis) réactifs.
 
-### Une mise en production de démonstration
+### Ce que la mise en exploitation a appris
 
-Le dépôt contient une chaîne locale complète : **Dagster** orchestre le monitoring comme un graphe
-d'*assets* (données et dépendances déclarées) avec quatre contrôles qualité, en 22 secondes ;
-**MLflow** tient le registre (alias `champion`, challenger promu à +5 %) ; les décisions sont des
-fonctions pures testées sans orchestrateur ; une CLI `zonefleet` lance les 17 expériences et
-variantes, les alertes et le rapport du matin.
+Le dépôt contient une chaîne de démonstration complète (orchestration Dagster, registre MLflow,
+rapport du matin), décrite avec ses captures dans la
+[fiche Labo]({{< relref "/projects/zonefleet-observabilite" >}}). Deux constats en sont sortis.
 
-Ce **rapport du matin** résume chaque jour sévérité, signaux, zones en tête de perte estimée et
+Le **rapport du matin** résume chaque jour sévérité, signaux, zones en tête de perte estimée et
 recommandation. Une règle y a été ajoutée après une erreur : dans un rejeu historique, il masque
 toute perte réalisée publiée après sa date. Sans elle, le rapport du 23 mars 2020 affichait une
 perte connue seulement en mai et recommandait de réentraîner.
 
 En relisant ce rapport pour l'article, j'ai remarqué que sa sévérité est « **INCIDENT DONNÉES** »,
 pas « page » : le volume du jour vaut 7 % de la médiane des quatre lundis précédents, bien sous le
-seuil qualité, et la page de documentation, écrite avant cette couche, commente encore une page. Le
-constat est instructif : **un effondrement réel ressemble exactement à un fichier tronqué**, et la
-décision finale demande un humain qui sait qu'un état d'urgence vient d'être déclaré.
-
-{{< mermaid >}}
-flowchart TD
-  P["PAGE reçue"] --> C1{"contrat et qualité<br/>des données OK ?"}
-  C1 -- non --> D["Incident DONNÉES :<br/>geler les prévisions,<br/>positionnement de repli"]
-  C1 -- oui --> C2{"perte estimée par zone :<br/>quelques zones ou toute la ville ?"}
-  C2 -- quelques zones --> L["repositionnement manuel<br/>des zones en tête de carte"]
-  C2 -- toute la ville --> G{"événement connu ?<br/>(météo, férié, grève)"}
-  G -- oui --> E["annoter, surveiller 48 h,<br/>pas de réentraînement"]
-  G -- non --> R["bascule seasonal naive<br/>sur les zones critiques"]
-{{< /mermaid >}}
+seuil qualité. Le constat est instructif : **un effondrement réel ressemble exactement à un fichier
+tronqué**, et la décision finale demande un humain qui sait qu'un état d'urgence vient d'être
+déclaré.
 
 ## 14. Ce que j'en retiens
 
@@ -828,19 +785,9 @@ ouvre un ticket, et pourquoi la vraie réponse est d'obtenir des labels plus tô
 ## Reproduire et aller plus loin
 
 Le code, les tests et les résultats sont dans le dépôt
-[gwils28/zonefleet-observability](https://github.com/gwils28/zonefleet-observability) (Python 3.12,
-`uv`, image Docker). Le panel agrégé est versionné : aucune donnée brute n'est nécessaire.
-
-```bash
-git clone https://github.com/gwils28/zonefleet-observability && cd zonefleet-observability
-uv sync --all-extras
-make check            # lint, typage, plus de 160 tests
-make e0 e1 e2 e3      # quelques minutes
-make e4 e5            # environ 20 minutes
-make release-check    # toutes les figures et tables régénérées, sans différence
-```
-
-Le [site du projet](https://gwils28.github.io/zonefleet-observability/) propose trois parcours de
+[gwils28/zonefleet-observability](https://github.com/gwils28/zonefleet-observability) ; les commandes
+pour tout relancer sont dans la [fiche Labo]({{< relref "/projects/zonefleet-observabilite" >}}). Le
+[site du projet](https://gwils28.github.io/zonefleet-observability/) propose trois parcours de
 lecture (15 minutes, une heure, une journée), des graphiques interactifs, trois notebooks, le
 runbook et le journal de bord ; la
 [version 1.0](https://github.com/gwils28/zonefleet-observability/releases/tag/v1.0.0) archive les

@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" width="1200" height="640" role="img" aria-labelledby="titre desc" font-family="'IBM Plex Sans', 'Segoe UI', Arial, sans-serif">
+  <title id="titre">From alert to action: three layers and a runbook</title>
+  <desc id="desc">On the left, three monitoring layers in order of priority. Data quality, which raises a data incident and overrides everything else. The label-free monitor: cleaned drift and smoothed estimated loss above their thresholds two days in a row raise a page, a single signal opens a ticket. Realised performance, known once labels arrive, audits the monitor and decides guarded retraining. On the right, the runbook for a page: check the data, look at the map of estimated loss by zone, then depending on the case reposition a few zones, annotate a known event or fall back to the seasonal naive.</desc>
+  <defs>
+    <marker id="fleche" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#282c26"/></marker>
+    <marker id="fleche-verte" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2e6218"/></marker>
+    <marker id="fleche-ambre" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#e99d16"/></marker>
+    <marker id="fleche-terre" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a84022"/></marker>
+    <marker id="fleche-grise" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5a6356"/></marker>
+  </defs>
+  <rect x="2" y="2" width="1196" height="636" rx="18" fill="#f4f6f3" stroke="#d5dbd2" stroke-width="2"/>
+  <text x="30" y="46" text-anchor="start" font-size="18" font-weight="700" fill="#2e6218">Three layers, by priority</text>
+  <text x="640" y="46" text-anchor="start" font-size="18" font-weight="700" fill="#2e6218">Runbook for a page</text>
+  <rect x="30" y="66" width="560" height="112" rx="12" fill="#f9e6df" stroke="#de7d5c" stroke-width="2"/>
+  <text x="48" y="96" text-anchor="start" font-size="16" font-weight="700" fill="#a84022">1. Data quality</text>
+  <text x="48" y="122" text-anchor="start" font-size="13.5" fill="#3b4338">schema contract, daily volume,</text>
+  <text x="48" y="143" text-anchor="start" font-size="13.5" fill="#3b4338">hourly profile, zones without trips</text>
+  <rect x="400" y="82" width="172" height="58" rx="10" fill="#ffffff" stroke="#a84022" stroke-width="2"/>
+  <text x="486" y="108" text-anchor="middle" font-size="14.5" font-weight="700" fill="#a84022">DATA INCIDENT</text>
+  <text x="486" y="128" text-anchor="middle" font-size="11.5" fill="#3b4338">overrides everything else</text>
+  <rect x="30" y="196" width="560" height="176" rx="12" fill="#e3efdc" stroke="#54a630" stroke-width="2"/>
+  <text x="48" y="226" text-anchor="start" font-size="16" font-weight="700" fill="#2e6218">2. Label-free monitor</text>
+  <text x="48" y="252" text-anchor="start" font-size="13.5" fill="#3b4338">cleaned drift (lag_24, lag_168, PCA)</text>
+  <text x="48" y="273" text-anchor="start" font-size="13.5" fill="#3b4338">AND DLE estimated loss, 7-day &gt; threshold</text>
+  <rect x="400" y="212" width="172" height="58" rx="10" fill="#ffffff" stroke="#2e6218" stroke-width="2"/>
+  <text x="486" y="238" text-anchor="middle" font-size="14.5" font-weight="700" fill="#2e6218">PAGE</text>
+  <text x="486" y="258" text-anchor="middle" font-size="11.5" fill="#3b4338">if both, 2 days in a row</text>
+  <rect x="400" y="286" width="172" height="58" rx="10" fill="#ffffff" stroke="#e99d16" stroke-width="2"/>
+  <text x="486" y="312" text-anchor="middle" font-size="14.5" font-weight="700" fill="#79460c">TICKET</text>
+  <text x="486" y="332" text-anchor="middle" font-size="11.5" fill="#3b4338">just one of the two signals</text>
+  <rect x="30" y="390" width="560" height="112" rx="12" fill="#eceee9" stroke="#b5beb1" stroke-width="2"/>
+  <text x="48" y="420" text-anchor="start" font-size="16" font-weight="700" fill="#282c26">3. Realised performance</text>
+  <text x="48" y="446" text-anchor="start" font-size="13.5" fill="#3b4338">labels at D + 60 (TLC), D + 2 with</text>
+  <text x="48" y="467" text-anchor="start" font-size="13.5" fill="#3b4338">internal logs</text>
+  <rect x="400" y="406" width="172" height="58" rx="10" fill="#ffffff" stroke="#282c26" stroke-width="2"/>
+  <text x="486" y="432" text-anchor="middle" font-size="14.5" font-weight="700" fill="#282c26">AUDIT</text>
+  <text x="486" y="452" text-anchor="middle" font-size="11.5" fill="#3b4338">guarded retraining</text>
+  <polyline points="16,72 16,496" fill="none" stroke="#5a6356" stroke-width="1.5" marker-end="url(#fleche-grise)"/>
+  <polyline points="572,241 606,241 606,88 813,88" fill="none" stroke="#2e6218" stroke-width="2" marker-end="url(#fleche-verte)"/>
+  <rect x="815" y="66" width="180" height="44" rx="22" fill="#2e6218" stroke="#2e6218" stroke-width="2"/>
+  <text x="905" y="94" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">PAGE received</text>
+  <polyline points="905,110 905,132" fill="none" stroke="#282c26" stroke-width="2" marker-end="url(#fleche)"/>
+  <rect x="735" y="134" width="340" height="48" rx="24" fill="#ffffff" stroke="#282c26" stroke-width="2"/>
+  <text x="905" y="163" text-anchor="middle" font-size="14.5" font-weight="700" fill="#282c26">Data contract and quality OK?</text>
+  <polyline points="735,158 660,158 660,520" fill="none" stroke="#a84022" stroke-width="2" marker-end="url(#fleche-terre)"/>
+  <text x="668" y="200" text-anchor="start" font-size="13" font-weight="700" fill="#a84022">no</text>
+  <rect x="640" y="522" width="250" height="70" rx="10" fill="#f9e6df" stroke="#de7d5c" stroke-width="2"/>
+  <text x="656" y="547" text-anchor="start" font-size="14.5" font-weight="700" fill="#a84022">DATA incident</text>
+  <text x="656" y="567" text-anchor="start" font-size="12.5" fill="#3b4338">freeze forecasts, fallback</text>
+  <text x="656" y="587" text-anchor="start" font-size="12.5" fill="#3b4338">positioning</text>
+  <polyline points="905,182 905,214" fill="none" stroke="#282c26" stroke-width="2" marker-end="url(#fleche)"/>
+  <text x="915" y="202" text-anchor="start" font-size="13" font-weight="700" fill="#2e6218">yes</text>
+  <rect x="735" y="216" width="340" height="48" rx="10" fill="#e3efdc" stroke="#54a630" stroke-width="2"/>
+  <text x="905" y="245" text-anchor="middle" font-size="14.5" font-weight="700" fill="#282c26">Map of estimated loss by zone</text>
+  <polyline points="845,264 845,290 790,290 790,310" fill="none" stroke="#282c26" stroke-width="2" marker-end="url(#fleche)"/>
+  <polyline points="965,264 965,290 1040,290 1040,310" fill="none" stroke="#282c26" stroke-width="2" marker-end="url(#fleche)"/>
+  <rect x="690" y="312" width="200" height="84" rx="10" fill="#ffffff" stroke="#54a630" stroke-width="2"/>
+  <text x="706" y="337" text-anchor="start" font-size="14.5" font-weight="700" fill="#282c26">A few zones</text>
+  <text x="706" y="357" text-anchor="start" font-size="12.5" fill="#3b4338">manually reposition the</text>
+  <text x="706" y="377" text-anchor="start" font-size="12.5" fill="#3b4338">top zones</text>
+  <rect x="920" y="312" width="250" height="70" rx="24" fill="#ffffff" stroke="#282c26" stroke-width="2"/>
+  <text x="1045" y="342" text-anchor="middle" font-size="13" font-weight="700" fill="#282c26">Whole city: known event?</text>
+  <text x="1045" y="362" text-anchor="middle" font-size="12.5" fill="#5a6356">(weather, holiday, strike)</text>
+  <polyline points="990,382 990,410 960,410 960,424" fill="none" stroke="#282c26" stroke-width="2" marker-end="url(#fleche)"/>
+  <polyline points="1100,382 1100,410 1120,410 1120,424" fill="none" stroke="#282c26" stroke-width="2" marker-end="url(#fleche)"/>
+  <text x="984" y="404" text-anchor="end" font-size="12.5" font-weight="700" fill="#2e6218">yes</text>
+  <text x="1106" y="404" text-anchor="start" font-size="12.5" font-weight="700" fill="#a84022">no</text>
+  <rect x="905" y="426" width="130" height="120" rx="10" fill="#e3efdc" stroke="#54a630" stroke-width="2"/>
+  <text x="921" y="451" text-anchor="start" font-size="13.5" font-weight="700" fill="#282c26">Yes: annotate</text>
+  <rect x="1045" y="426" width="125" height="120" rx="10" fill="#fdf3dc" stroke="#e99d16" stroke-width="2"/>
+  <text x="1061" y="451" text-anchor="start" font-size="13.5" font-weight="700" fill="#79460c">No: fall back</text>
+  <text x="919" y="474" text-anchor="start" font-size="12.5" fill="#3b4338">watch for 48 h,</text>
+  <text x="919" y="493" text-anchor="start" font-size="12.5" fill="#3b4338">no retraining</text>
+  <text x="1059" y="474" text-anchor="start" font-size="12.5" fill="#3b4338">seasonal naive on</text>
+  <text x="1059" y="493" text-anchor="start" font-size="12.5" fill="#3b4338">critical zones</text>
+</svg>

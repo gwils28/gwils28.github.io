@@ -25,10 +25,12 @@ This post distils **two months of hands-on research** (2 July to 2 September 202
 into the **observability** of a forecasting model: monitoring its health once in production.
 Starting from a one-hour plan (read NannyML and a recent paper, run a model through COVID, sketch an
 architecture), the project grew into a full case: ten experiments, a demonstration production setup
-and a version 1.0. Everything is reproducible in the
+and a version 1.0. This post
+gives its findings; the architecture, the approach and the demonstration production setup (Dagster,
+MLflow) are described on the [project's Labo page]({{< relref "/projects/zonefleet-observabilite" >}}).
+Everything is reproducible in the
 [zonefleet-observability](https://github.com/gwils28/zonefleet-observability) repository, where the
-figures come from; its [documentation site](https://gwils28.github.io/zonefleet-observability/) (in
-French) details every point.
+figures come from.
 
 {{< alert icon="lightbulb" >}}
 **In short.** A taxi demand forecaster by zone and by hour, frozen, watched without labels:
@@ -131,36 +133,18 @@ the founding paper of MLOps, read again as an observability checklist:
 | *Up-stream producers* | data contract, quality checks |
 | Feedback loops | the model positions the fleet, the fleet makes the rides, the rides become its labels |
 
-## 3. The approach: a frozen protocol and figures that regenerate
+## 3. The approach: a frozen protocol
 
 Before any code, I fixed the protocol in `SPEC.md` (2 July), with one rule: **it is not changed to
-accommodate a result**, like a clinical trial pre-registration. It has not moved since. Five rules
-shaped the project more than any technical choice:
+accommodate a result**, like a clinical trial pre-registration. Each extension is **declared in an
+issue before it runs**, with the question, the measurement and **"what would be a surprise"**; no
+figure is typed by hand, and CI fails if a sentence quotes a stale figure. The
+[Labo page]({{< relref "/projects/zonefleet-observabilite" >}}) details this chain and the mistakes
+it caught.
 
-1. **Frozen protocol**; every deviation dated and justified in `docs/notes/implementation.md`.
-2. **An experiment is declared before it runs**: each extension has an issue with the question, the
-   measurement and **"what would be a surprise"**. A signal added afterwards is labelled as such.
-3. **No figure typed by hand**: tables and figures generated from `results/`; a register recomputes
-   the 33 figures quoted in the prose, and CI fails if a sentence is stale.
-4. **Mechanical safeguards**: a hook protects the raw data, CI refuses a red test, a dead link or an
-   image without alt text.
-5. **Unexpected results are published as they are.**
-
-Rule 2 proved useful: the issue for E4 quater (section 12) anticipated that a seasonal signal would
-raise false alarms. It did, and the prior declaration stopped me from tuning the signal until the
-problem went away. A method is also judged by what it catches:
-
-| Problem | How it was found | Fix |
-|---|---|---|
-| Season inputs extrapolated outside training | abnormally high reference error | removed, MAE 29.5 → 22.7 |
-| Daily PSI on a 7-day rolling mean | 73 % of days on alert with no shift | artefact documented |
-| 100 % recall for an alarm always on | inconsistent delay | detection on the "rising edge" |
-| E3 measured as before / after | non-zero effect without drift | comparison with a counterfactual |
-| Morning report reading labels "from the future" | rereading an example | label clock |
-| 53 images without alt text, failed render hidden in CI | check of the rendered site | CI that really fails |
-
-Checked in a clean container: more than 160 tests pass, and `make release-check` regenerates every
-figure and table with no difference at all.
+The prior declaration proved useful: the issue for E4 quater (section 12) anticipated that a
+seasonal signal would raise false alarms. It did, and it stopped me from tuning the signal until the
+problem went away.
 
 ## 4. The data: from 120 files to a zone × hour panel
 
@@ -176,34 +160,22 @@ demand, it does so between zones and between hours.
 ### A data contract, the monitor's first sensor
 
 Before the model, it is often the **data** that changes shape. Each file is validated against a
-versioned **data contract**: **required** columns (blocking), **known, dated breaks**
-(`cbd_congestion_fee` from 2025, accepted only after its date), and **everything else**, logged as an
-unknown break. Only the schema is read: 120 files in under a second.
-
-![Schema timeline](data_schema_timeline.webp "Presence and type of seven columns in the yellow taxi files, month by month: airport_fee null until 2020, counters switched to integers in 2024, cbd_congestion_fee appearing in 2025.")
-
-None of these breaks affects this pipeline, but one using the total fare would have seen its
-variable change meaning on 5 January 2025, without a single line of code changing.
+versioned **data contract**, which separates known, dated breaks from unknown ones. None of them
+breaks this pipeline, but one using the total fare would have seen its variable change meaning on
+5 January 2025, without a single line of code changing.
 
 ### The panel
 
-Rides are aggregated with duckdb into a **panel**: pickups per zone and per local hour. **60 frozen
-zones** (the busiest in 2019, 93 % of rides: recomputing them would change the monitored object at
-the same time as the world), explicit zeros, and repaired daylight-saving hours (2 am missing in
-spring, 1 am doubled in autumn). Result: 2.6 million rows, 10 MB, versioned.
+Rides are aggregated into a **panel**: pickups per zone and per local hour, over **60 frozen zones**
+(the busiest in 2019, 93 % of rides: recomputing them would change the monitored object at the same
+time as the world). Result: 2.6 million rows.
 
 ![The 60 monitored zones](data_carte_zones.webp "In blue, the 32 zones in the congestion pricing zone (CBD); in green, the 28 others.")
 
 Membership of the CBD (*central business district*, the charged zone) is read from the data: the
-share of 2025 rides paying the charge is close to 1 for an inner zone.
-
-![Bimodal charged share](data_cbd_bimodal.webp "Share of charged rides by zone: two clear modes, no zone between 0.6 and 0.9.")
-
-![Hourly profiles](data_profils_horaires.webp "Average rides by hour and day in 2019: CBD zones peak on weekday evenings, the others have a daytime plateau.")
-
-Levels span two orders of magnitude (20 to more than 300 rides an hour), hence a `log1p` target (the
-logarithm of 1 + the value) and a **global model** with the zone as a categorical variable: a single
-object to monitor.
+share of 2025 rides paying the charge is close to 1 for an inner zone. Levels span two orders of
+magnitude (20 to more than 300 rides an hour), hence a `log1p` target (the logarithm of 1 + the
+value) and a **global model** with the zone as a categorical variable: a single object to monitor.
 
 ## 5. The monitored model (E0)
 
@@ -741,35 +713,21 @@ ZoneFleet knows its own rides the next day: **plugging realised monitoring into 
 shrinks the blind window from 61 days to 2**, and also makes retraining (E5) and calibration (E0 bis)
 responsive.
 
-### A demonstration production setup
+### What running it taught me
 
-The repository contains a complete local chain: **Dagster** orchestrates monitoring as a graph of
-*assets* (declared data and dependencies) with four quality checks, in 22 seconds; **MLflow** holds
-the registry (`champion` alias, challenger promoted at +5 %); decisions are pure functions tested
-without the orchestrator; a `zonefleet` CLI runs the 17 experiments and variants, the alerts and the
-morning report.
+The repository contains a complete demonstration chain (Dagster orchestration, MLflow registry,
+morning report), described with screenshots on the
+[Labo page]({{< relref "/projects/zonefleet-observabilite" >}}). Two findings came out of it.
 
-That **morning report** sums up each day's severity, signals, zones with the highest estimated loss
+The **morning report** sums up each day's severity, signals, zones with the highest estimated loss
 and recommendation. One rule was added after a mistake: in a historical replay, it hides any realised
 loss published after its date. Without it, the report for 23 March 2020 showed a loss only known in
 May and recommended retraining.
 
 Rereading this report for the post, I noticed its severity is "**DATA INCIDENT**", not "page": the
-day's volume is 7 % of the median of the four previous Mondays, far below the quality threshold, and
-the documentation page, written before that layer, still discusses a page. The observation is
-instructive: **a real collapse looks exactly like a truncated file**, and the final decision needs a
-human who knows a state of emergency has just been declared.
-
-{{< mermaid >}}
-flowchart TD
-  P["PAGE received"] --> C1{"data contract<br/>and quality OK?"}
-  C1 -- no --> D["DATA incident:<br/>freeze forecasts,<br/>fallback positioning"]
-  C1 -- yes --> C2{"estimated loss by zone:<br/>a few zones or the whole city?"}
-  C2 -- a few zones --> L["manual repositioning<br/>of the top zones on the map"]
-  C2 -- whole city --> G{"known event?<br/>(weather, holiday, strike)"}
-  G -- yes --> E["annotate, watch 48 h,<br/>no retraining"]
-  G -- no --> R["switch to seasonal naive<br/>on critical zones"]
-{{< /mermaid >}}
+day's volume is 7 % of the median of the four previous Mondays, far below the quality threshold. The
+observation is instructive: **a real collapse looks exactly like a truncated file**, and the final
+decision needs a human who knows a state of emergency has just been declared.
 
 ## 14. What I take away
 
@@ -805,18 +763,8 @@ why the real answer is to get labels sooner.
 ## Reproduce and go further
 
 The code, tests and results are in the
-[gwils28/zonefleet-observability](https://github.com/gwils28/zonefleet-observability) repository
-(Python 3.12, `uv`, Docker image). The aggregated panel is versioned: no raw data is needed.
-
-```bash
-git clone https://github.com/gwils28/zonefleet-observability && cd zonefleet-observability
-uv sync --all-extras
-make check            # lint, type checking, more than 160 tests
-make e0 e1 e2 e3      # a few minutes
-make e4 e5            # about 20 minutes
-make release-check    # every figure and table regenerated, no difference
-```
-
+[gwils28/zonefleet-observability](https://github.com/gwils28/zonefleet-observability) repository;
+the commands to rerun everything are on the [Labo page]({{< relref "/projects/zonefleet-observabilite" >}}).
 The [project site](https://gwils28.github.io/zonefleet-observability/) (in French) offers three
 reading paths (15 minutes, one hour, one day), interactive charts, three notebooks, the runbook and the
 logbook; [version 1.0](https://github.com/gwils28/zonefleet-observability/releases/tag/v1.0.0) archives

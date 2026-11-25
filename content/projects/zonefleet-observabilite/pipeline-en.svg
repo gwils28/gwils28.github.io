@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 790" width="1200" height="790" role="img" aria-labelledby="titre desc" font-family="'IBM Plex Sans', 'Segoe UI', Arial, sans-serif">
+  <title id="titre">Architecture of the ZoneFleet monitoring pipeline</title>
+  <desc id="desc">Four sources (TLC files, zones, Open-Meteo weather, calendar) feed a Dagster asset graph in three groups. Data: data contract, zone by hour panel, weather, with three quality checks. Model: feature matrix, champion model loaded from the MLflow registry, checked predictions. Monitoring: daily signals, alert severity, retraining recommendation and morning report. A CLI runs the experiments, the MLflow registry promotes challengers, the repository is checked by CI.</desc>
+  <defs>
+    <marker id="fleche" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#282c26"/></marker>
+    <marker id="fleche-verte" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2e6218"/></marker>
+    <marker id="fleche-ambre" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#e99d16"/></marker>
+    <marker id="fleche-terre" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a84022"/></marker>
+    <marker id="fleche-grise" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5a6356"/></marker>
+  </defs>
+  <rect x="2" y="2" width="1196" height="786" rx="18" fill="#f4f6f3" stroke="#d5dbd2" stroke-width="2"/>
+  <rect x="30" y="30" width="1140" height="84" rx="12" fill="#ffffff" stroke="#d5dbd2" stroke-width="2"/>
+  <text x="50" y="78" text-anchor="start" font-size="17" font-weight="700" fill="#282c26">Sources</text>
+  <rect x="170" y="44" width="235" height="56" rx="8" fill="#eceee9" stroke="#b5beb1" stroke-width="1.5"/>
+  <text x="184" y="67" text-anchor="start" font-size="14.5" font-weight="700" fill="#282c26">TLC yellow and green taxis</text>
+  <text x="184" y="88" text-anchor="start" font-size="12.5" fill="#5a6356">120 Parquet files, 3.6 GB</text>
+  <rect x="420" y="44" width="235" height="56" rx="8" fill="#eceee9" stroke="#b5beb1" stroke-width="1.5"/>
+  <text x="434" y="67" text-anchor="start" font-size="14.5" font-weight="700" fill="#282c26">TLC zones</text>
+  <text x="434" y="88" text-anchor="start" font-size="12.5" fill="#5a6356">60 frozen zones out of 263</text>
+  <rect x="670" y="44" width="235" height="56" rx="8" fill="#eceee9" stroke="#b5beb1" stroke-width="1.5"/>
+  <text x="684" y="67" text-anchor="start" font-size="14.5" font-weight="700" fill="#282c26">Open-Meteo</text>
+  <text x="684" y="88" text-anchor="start" font-size="12.5" fill="#5a6356">hourly weather, Times Square</text>
+  <rect x="920" y="44" width="235" height="56" rx="8" fill="#eceee9" stroke="#b5beb1" stroke-width="1.5"/>
+  <text x="934" y="67" text-anchor="start" font-size="14.5" font-weight="700" fill="#282c26">US calendar</text>
+  <text x="934" y="88" text-anchor="start" font-size="12.5" fill="#5a6356">holidays, day of week</text>
+  <rect x="18" y="140" width="1164" height="448" rx="14" fill="none" stroke="#2e6218" stroke-width="2" stroke-dasharray="7 5"/>
+  <text x="1162" y="162" text-anchor="end" font-size="14" fill="#2e6218">Dagster · asset graph, a full run in about 20 s</text>
+  <text x="1162" y="162" text-anchor="end" font-size="14" font-weight="700" fill="#2e6218" opacity="0">.</text>
+  <rect x="30" y="174" width="350" height="398" rx="12" fill="#ffffff" stroke="#9fd08a" stroke-width="2"/>
+  <text x="48" y="202" text-anchor="start" font-size="17" font-weight="700" fill="#2e6218">Data</text>
+  <rect x="425" y="174" width="350" height="398" rx="12" fill="#ffffff" stroke="#9fd08a" stroke-width="2"/>
+  <text x="443" y="202" text-anchor="start" font-size="17" font-weight="700" fill="#2e6218">Model</text>
+  <rect x="820" y="174" width="350" height="398" rx="12" fill="#ffffff" stroke="#9fd08a" stroke-width="2"/>
+  <text x="838" y="202" text-anchor="start" font-size="17" font-weight="700" fill="#2e6218">Monitoring</text>
+  <rect x="48" y="216" width="314" height="84" rx="10" fill="#e3efdc" stroke="#54a630" stroke-width="2"/>
+  <text x="64" y="241" text-anchor="start" font-size="16" font-weight="700" fill="#282c26">Data contract</text>
+  <text x="64" y="261" text-anchor="start" font-size="12.5" fill="#5a6356" font-family="'IBM Plex Mono', Consolas, monospace">tlc_schema_report</text>
+  <rect x="64" y="268" width="177" height="22" rx="11.0" fill="#fdf3dc" stroke="#e99d16" stroke-width="1.5"/>
+  <text x="75" y="283.5" text-anchor="start" font-size="12.5" font-weight="500" fill="#79460c">✓ no contract violation</text>
+  <rect x="48" y="318" width="314" height="116" rx="10" fill="#e3efdc" stroke="#54a630" stroke-width="2"/>
+  <text x="64" y="343" text-anchor="start" font-size="16" font-weight="700" fill="#282c26">Zone × hour panel</text>
+  <text x="64" y="363" text-anchor="start" font-size="12.5" fill="#5a6356" font-family="'IBM Plex Mono', Consolas, monospace">panel · duckdb, 2.6 M rows</text>
+  <rect x="64" y="370" width="144" height="22" rx="11.0" fill="#fdf3dc" stroke="#e99d16" stroke-width="1.5"/>
+  <text x="75" y="385.5" text-anchor="start" font-size="12.5" font-weight="500" fill="#79460c">✓ duplicates, caps</text>
+  <rect x="64" y="400" width="238" height="22" rx="11.0" fill="#fdf3dc" stroke="#e99d16" stroke-width="1.5"/>
+  <text x="75" y="415.5" text-anchor="start" font-size="12.5" font-weight="500" fill="#79460c">✓ daily quality: volume, profile</text>
+  <rect x="48" y="452" width="314" height="64" rx="10" fill="#e3efdc" stroke="#54a630" stroke-width="2"/>
+  <text x="64" y="477" text-anchor="start" font-size="16" font-weight="700" fill="#282c26">Hourly weather</text>
+  <text x="64" y="497" text-anchor="start" font-size="12.5" fill="#5a6356" font-family="'IBM Plex Mono', Consolas, monospace">weather · Open-Meteo cache</text>
+  <polyline points="205,300 205,316" fill="none" stroke="#282c26" stroke-width="2" marker-end="url(#fleche)"/>
+  <rect x="443" y="216" width="314" height="84" rx="10" fill="#e3efdc" stroke="#54a630" stroke-width="2"/>
+  <text x="459" y="241" text-anchor="start" font-size="16" font-weight="700" fill="#282c26">Feature matrix</text>
+  <text x="459" y="261" text-anchor="start" font-size="12.5" fill="#5a6356" font-family="'IBM Plex Mono', Consolas, monospace">feature_matrix</text>
+  <text x="459" y="281" text-anchor="start" font-size="13" fill="#3b4338">lags ≥ 24 h, calendar, weather</text>
+  <rect x="443" y="318" width="314" height="84" rx="10" fill="#e3efdc" stroke="#54a630" stroke-width="2"/>
+  <text x="459" y="343" text-anchor="start" font-size="16" font-weight="700" fill="#282c26">Champion model</text>
+  <text x="459" y="363" text-anchor="start" font-size="12.5" fill="#5a6356" font-family="'IBM Plex Mono', Consolas, monospace">champion_model</text>
+  <text x="459" y="383" text-anchor="start" font-size="13" fill="#3b4338">global LightGBM, 3 quantiles, frozen</text>
+  <rect x="443" y="420" width="314" height="96" rx="10" fill="#e3efdc" stroke="#54a630" stroke-width="2"/>
+  <text x="459" y="445" text-anchor="start" font-size="16" font-weight="700" fill="#282c26">Day-ahead forecasts</text>
+  <text x="459" y="465" text-anchor="start" font-size="12.5" fill="#5a6356" font-family="'IBM Plex Mono', Consolas, monospace">predictions</text>
+  <rect x="459" y="474" width="238" height="22" rx="11.0" fill="#fdf3dc" stroke="#e99d16" stroke-width="1.5"/>
+  <text x="470" y="489.5" text-anchor="start" font-size="12.5" font-weight="500" fill="#79460c">✓ one forecast per zone and hour</text>
+  <polyline points="600,402 600,418" fill="none" stroke="#282c26" stroke-width="2" marker-end="url(#fleche)"/>
+  <polyline points="443,285 433,285 433,470 441,470" fill="none" stroke="#282c26" stroke-width="2" marker-end="url(#fleche)"/>
+  <rect x="838" y="216" width="314" height="84" rx="10" fill="#e3efdc" stroke="#54a630" stroke-width="2"/>
+  <text x="854" y="241" text-anchor="start" font-size="16" font-weight="700" fill="#282c26">Daily signals</text>
+  <text x="854" y="261" text-anchor="start" font-size="12.5" fill="#5a6356" font-family="'IBM Plex Mono', Consolas, monospace">monitoring_signals</text>
+  <text x="854" y="281" text-anchor="start" font-size="13" fill="#3b4338">drift KS, PSI, PCA · DLE · realised</text>
+  <rect x="838" y="312" width="314" height="84" rx="10" fill="#fdf3dc" stroke="#e99d16" stroke-width="2"/>
+  <text x="854" y="337" text-anchor="start" font-size="16" font-weight="700" fill="#282c26">Alert severity</text>
+  <text x="854" y="357" text-anchor="start" font-size="12.5" fill="#5a6356" font-family="'IBM Plex Mono', Consolas, monospace">alert_decision</text>
+  <text x="854" y="377" text-anchor="start" font-size="13" fill="#3b4338">DATA INCIDENT · PAGE · TICKET</text>
+  <rect x="838" y="408" width="314" height="54" rx="10" fill="#e3efdc" stroke="#54a630" stroke-width="2"/>
+  <text x="854" y="433" text-anchor="start" font-size="16" font-weight="700" fill="#282c26">Retraining</text>
+  <text x="854" y="452" text-anchor="start" font-size="12.5" fill="#5a6356" font-family="'IBM Plex Mono', Consolas, monospace">retrain_recommendation</text>
+  <rect x="838" y="474" width="314" height="54" rx="10" fill="#e3efdc" stroke="#54a630" stroke-width="2"/>
+  <text x="854" y="499" text-anchor="start" font-size="16" font-weight="700" fill="#282c26">Morning report</text>
+  <text x="854" y="518" text-anchor="start" font-size="12.5" fill="#5a6356" font-family="'IBM Plex Mono', Consolas, monospace">daily_report → results/reports/</text>
+  <polyline points="995,300 995,310" fill="none" stroke="#282c26" stroke-width="2" marker-end="url(#fleche)"/>
+  <polyline points="1152,258 1162,258 1162,435 1154,435" fill="none" stroke="#282c26" stroke-width="2" marker-end="url(#fleche)"/>
+  <polyline points="1162,435 1162,501 1154,501" fill="none" stroke="#282c26" stroke-width="2" marker-end="url(#fleche)"/>
+  <polyline points="362,376 402,376 402,245 441,245" fill="none" stroke="#282c26" stroke-width="2" marker-end="url(#fleche)"/>
+  <polyline points="362,484 402,484 402,376" fill="none" stroke="#282c26" stroke-width="2"/>
+  <polyline points="757,468 797,468 797,258 836,258" fill="none" stroke="#282c26" stroke-width="2" marker-end="url(#fleche)"/>
+  <polyline points="330,114 330,172" fill="none" stroke="#282c26" stroke-width="2" marker-end="url(#fleche)"/>
+  <text x="340" y="131" text-anchor="start" font-size="12.5" fill="#5a6356">TLC, zones, weather</text>
+  <polyline points="1045,100 1045,124 690,124 690,172" fill="none" stroke="#282c26" stroke-width="2" marker-end="url(#fleche)"/>
+  <text x="868" y="119" text-anchor="middle" font-size="12.5" fill="#5a6356">calendar</text>
+  <rect x="30" y="622" width="350" height="70" rx="10" fill="#ffffff" stroke="#b5beb1" stroke-width="2"/>
+  <text x="46" y="647" text-anchor="start" font-size="16" font-weight="700" fill="#282c26">zonefleet CLI</text>
+  <text x="46" y="667" text-anchor="start" font-size="13" fill="#3b4338">17 experiments and variants, alerts</text>
+  <rect x="425" y="622" width="350" height="70" rx="10" fill="#ffffff" stroke="#b5beb1" stroke-width="2"/>
+  <text x="441" y="647" text-anchor="start" font-size="16" font-weight="700" fill="#282c26">MLflow registry</text>
+  <text x="441" y="667" text-anchor="start" font-size="13" fill="#3b4338">champion alias, challenger promoted at +5%</text>
+  <rect x="820" y="622" width="350" height="70" rx="10" fill="#ffffff" stroke="#b5beb1" stroke-width="2"/>
+  <text x="836" y="647" text-anchor="start" font-size="16" font-weight="700" fill="#282c26">Reproducible repository</text>
+  <text x="836" y="667" text-anchor="start" font-size="13" fill="#3b4338">160+ tests, CI, Docker, Quarto site</text>
+  <polyline points="560,622 560,574" fill="none" stroke="#2e6218" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#fleche-verte)"/>
+  <text x="570" y="610" text-anchor="start" font-size="12.5" fill="#2e6218">loads the champion</text>
+  <polyline points="995,574 995,604 720,604 720,620" fill="none" stroke="#e99d16" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#fleche-ambre)"/>
+  <text x="1005" y="600" text-anchor="start" font-size="12.5" fill="#79460c">challenger promoted</text>
+  <polyline points="205,622 205,590" fill="none" stroke="#5a6356" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#fleche-grise)"/>
+  <text x="215" y="610" text-anchor="start" font-size="12.5" fill="#5a6356">runs</text>
+  <rect x="40" y="721" width="34" height="22" rx="6" fill="#e3efdc" stroke="#54a630" stroke-width="2"/>
+  <text x="84" y="737" text-anchor="start" font-size="13" fill="#3b4338">asset (versioned data)</text>
+  <rect x="330" y="721" width="34" height="22" rx="11" fill="#fdf3dc" stroke="#e99d16" stroke-width="1.5"/>
+  <text x="374" y="737" text-anchor="start" font-size="13" fill="#3b4338">quality check (asset check)</text>
+  <polyline points="630,732 680,732" fill="none" stroke="#282c26" stroke-width="2" marker-end="url(#fleche)"/>
+  <text x="692" y="737" text-anchor="start" font-size="13" fill="#3b4338">data flow</text>
+  <polyline points="860,732 910,732" fill="none" stroke="#2e6218" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#fleche-verte)"/>
+  <text x="922" y="737" text-anchor="start" font-size="13" fill="#3b4338">control</text>
+</svg>

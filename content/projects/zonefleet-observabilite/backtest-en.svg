@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" width="1200" height="600" role="img" aria-labelledby="titre desc" font-family="'IBM Plex Sans', 'Segoe UI', Arial, sans-serif">
+  <title id="titre">Backtesting the monitor on 240 scenarios</title>
+  <desc id="desc">Three steps. Build: 240 randomly drawn scenarios on the calm period of 2025, split into no drift, harmful covariate shift, benign covariate shift, pure concept drift and propagated shock. Replay: each scenario goes through the frozen monitor, and its drift-free twin serves as counterfactual. Score: a scenario is harmful if the realised error rises by more than 10% over 28 days, detected if an alert switches on within those 28 days. Result for the joint condition smoothed over 7 days: 51% recall, no false alert, 3-day median delay.</desc>
+  <defs>
+    <marker id="fleche" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#282c26"/></marker>
+    <marker id="fleche-verte" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2e6218"/></marker>
+    <marker id="fleche-ambre" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#e99d16"/></marker>
+    <marker id="fleche-terre" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#a84022"/></marker>
+    <marker id="fleche-grise" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5a6356"/></marker>
+  </defs>
+  <rect x="2" y="2" width="1196" height="596" rx="18" fill="#f4f6f3" stroke="#d5dbd2" stroke-width="2"/>
+  <text x="30" y="46" text-anchor="start" font-size="18" font-weight="700" fill="#2e6218">1. Build</text>
+  <text x="400" y="46" text-anchor="start" font-size="18" font-weight="700" fill="#2e6218">2. Replay</text>
+  <text x="820" y="46" text-anchor="start" font-size="18" font-weight="700" fill="#2e6218">3. Score</text>
+  <rect x="30" y="64" width="330" height="70" rx="10" fill="#ffffff" stroke="#b5beb1" stroke-width="2"/>
+  <text x="46" y="89" text-anchor="start" font-size="16" font-weight="700" fill="#282c26">Calm period, 2025</text>
+  <text x="46" y="109" text-anchor="start" font-size="13" fill="#3b4338">reference Sept.-Dec. 2024</text>
+  <polyline points="195,134 195,158" fill="none" stroke="#282c26" stroke-width="2" marker-end="url(#fleche)"/>
+  <rect x="30" y="160" width="330" height="338" rx="12" fill="#ffffff" stroke="#54a630" stroke-width="2"/>
+  <text x="48" y="188" text-anchor="start" font-size="15.5" font-weight="700" fill="#282c26">240 randomly drawn scenarios</text>
+  <text x="48" y="210" text-anchor="start" font-size="12.5" fill="#5a6356">intensity, zones or hours, start date</text>
+  <rect x="48" y="230" width="64" height="39.75" rx="5" fill="#eceee9" stroke="#b5beb1" stroke-width="1.5"/>
+  <text x="124" y="254.875" text-anchor="start" font-size="14" font-weight="600" fill="#282c26">no drift</text>
+  <text x="342" y="254.875" text-anchor="end" font-size="15" font-weight="700" fill="#282c26">42</text>
+  <rect x="48" y="273.75" width="64" height="48.083333333333336" rx="5" fill="#f9e6df" stroke="#de7d5c" stroke-width="1.5"/>
+  <text x="124" y="302.7916666666667" text-anchor="start" font-size="14" font-weight="600" fill="#282c26">harmful covariate</text>
+  <text x="342" y="302.7916666666667" text-anchor="end" font-size="15" font-weight="700" fill="#282c26">50</text>
+  <rect x="48" y="325.8333333333333" width="64" height="41.83333333333333" rx="5" fill="#e3efdc" stroke="#54a630" stroke-width="1.5"/>
+  <text x="124" y="351.75" text-anchor="start" font-size="14" font-weight="600" fill="#282c26">benign covariate</text>
+  <text x="342" y="351.75" text-anchor="end" font-size="15" font-weight="700" fill="#282c26">44</text>
+  <rect x="48" y="371.66666666666663" width="64" height="47.041666666666664" rx="5" fill="#fdf3dc" stroke="#e99d16" stroke-width="1.5"/>
+  <text x="124" y="400.18749999999994" text-anchor="start" font-size="14" font-weight="600" fill="#282c26">pure concept</text>
+  <text x="342" y="400.18749999999994" text-anchor="end" font-size="15" font-weight="700" fill="#282c26">49</text>
+  <rect x="48" y="422.7083333333333" width="64" height="53.291666666666664" rx="5" fill="#e6e9f2" stroke="#8a93b0" stroke-width="1.5"/>
+  <text x="124" y="454.35416666666663" text-anchor="start" font-size="14" font-weight="600" fill="#282c26">propagated shock</text>
+  <text x="342" y="454.35416666666663" text-anchor="end" font-size="15" font-weight="700" fill="#282c26">55</text>
+  <rect x="400" y="64" width="380" height="70" rx="10" fill="#f9e6df" stroke="#de7d5c" stroke-width="2"/>
+  <text x="416" y="89" text-anchor="start" font-size="16" font-weight="700" fill="#282c26">With the injected drift</text>
+  <text x="416" y="109" text-anchor="start" font-size="13" fill="#3b4338">the world changes, the model stays frozen</text>
+  <rect x="400" y="150" width="380" height="70" rx="10" fill="#eceee9" stroke="#b5beb1" stroke-width="2"/>
+  <text x="416" y="175" text-anchor="start" font-size="16" font-weight="700" fill="#282c26">Drift-free twin</text>
+  <text x="416" y="195" text-anchor="start" font-size="13" fill="#3b4338">same days: the counterfactual</text>
+  <polyline points="360,330 380,330 380,99 398,99" fill="none" stroke="#282c26" stroke-width="2" marker-end="url(#fleche)"/>
+  <polyline points="380,185 398,185" fill="none" stroke="#282c26" stroke-width="2" marker-end="url(#fleche)"/>
+  <rect x="400" y="262" width="380" height="92" rx="10" fill="#e3efdc" stroke="#54a630" stroke-width="2"/>
+  <text x="416" y="287" text-anchor="start" font-size="16" font-weight="700" fill="#282c26">Frozen monitor</text>
+  <text x="416" y="307" text-anchor="start" font-size="13" fill="#3b4338">daily signals of the policies</text>
+  <text x="416" y="327" text-anchor="start" font-size="13" fill="#3b4338">P1b · P2 · P3b · P4</text>
+  <polyline points="590,220 590,260" fill="none" stroke="#282c26" stroke-width="2" marker-end="url(#fleche)"/>
+  <polyline points="780,99 800,99 800,292 818,292" fill="none" stroke="#a84022" stroke-width="2" marker-end="url(#fleche-terre)"/>
+  <polyline points="780,185 800,185" fill="none" stroke="#5a6356" stroke-width="2"/>
+  <text x="786" y="246" text-anchor="end" font-size="12.5" fill="#a84022">realised error</text>
+  <polyline points="590,354 590,420 818,420" fill="none" stroke="#282c26" stroke-width="2" marker-end="url(#fleche)"/>
+  <rect x="820" y="250" width="350" height="92" rx="10" fill="#f9e6df" stroke="#de7d5c" stroke-width="2"/>
+  <text x="836" y="275" text-anchor="start" font-size="16" font-weight="700" fill="#a84022">Harmful?</text>
+  <text x="836" y="295" text-anchor="start" font-size="13" fill="#3b4338">realised error &gt; +10% over 28 d</text>
+  <text x="836" y="315" text-anchor="start" font-size="13" fill="#3b4338">vs counterfactual: 87 out of 240</text>
+  <rect x="820" y="360" width="350" height="112" rx="10" fill="#ffffff" stroke="#54a630" stroke-width="2"/>
+  <text x="836" y="385" text-anchor="start" font-size="16" font-weight="700" fill="#282c26">Detected?</text>
+  <text x="836" y="405" text-anchor="start" font-size="13" fill="#3b4338">an alert switches on within 28 days</text>
+  <text x="836" y="425" text-anchor="start" font-size="13" fill="#3b4338">(rising edge: an alarm that is</text>
+  <text x="836" y="445" text-anchor="start" font-size="13" fill="#3b4338">already on detects nothing)</text>
+  <rect x="820" y="64" width="350" height="166" rx="12" fill="#ffffff" stroke="#e99d16" stroke-width="2.5"/>
+  <text x="838" y="92" text-anchor="start" font-size="15" font-weight="700" fill="#79460c">Joint condition, smoothed over 7 days</text>
+  <rect x="838" y="108" width="102" height="104" rx="10" fill="#fdf3dc" stroke="#e99d16" stroke-width="1.5"/>
+  <text x="889" y="155" text-anchor="middle" font-size="27" font-weight="700" fill="#282c26">51%</text>
+  <text x="889" y="182" text-anchor="middle" font-size="12" fill="#3b4338">recall</text>
+  <rect x="950" y="108" width="102" height="104" rx="10" fill="#fdf3dc" stroke="#e99d16" stroke-width="1.5"/>
+  <text x="1001" y="155" text-anchor="middle" font-size="27" font-weight="700" fill="#282c26">0.00</text>
+  <text x="1001" y="182" text-anchor="middle" font-size="12" fill="#3b4338">false alerts</text>
+  <text x="1001" y="198" text-anchor="middle" font-size="12" fill="#3b4338">/ 30 d</text>
+  <rect x="1062" y="108" width="102" height="104" rx="10" fill="#fdf3dc" stroke="#e99d16" stroke-width="1.5"/>
+  <text x="1113" y="155" text-anchor="middle" font-size="27" font-weight="700" fill="#282c26">3 d</text>
+  <text x="1113" y="182" text-anchor="middle" font-size="12" fill="#3b4338">median delay</text>
+  <polyline points="995,250 995,232" fill="none" stroke="#e99d16" stroke-width="2" marker-end="url(#fleche-ambre)"/>
+  <rect x="400" y="512" width="770" height="58" rx="10" fill="#eceee9" stroke="#b5beb1" stroke-width="1.5"/>
+  <text x="418" y="546" text-anchor="start" font-size="13" fill="#3b4338">Row-level scorer on the NannyML models (equality tested): backtest down from several days to 11 min.</text>
+</svg>
