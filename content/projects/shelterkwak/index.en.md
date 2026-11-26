@@ -3,8 +3,8 @@ title: "Shelterkwak: tracking a household's crisis preparedness, tier by tier"
 date: 2026-11-09
 draft: false
 nature: "produit"
-description: "A local, offline app to track how ready a household is for civil emergencies (outages, storms, evacuation): 280 goals across 14 areas, nine tiers that can be earned and lost, an inventory measured in days of self-sufficiency whose items prove goals, and a screen for the day itself."
-summary: "An app installed on the phone, with no account and no third-party service: 280 goals in nine blocking tiers, a level that drops when supplies expire, a card inventory that computes days of self-sufficiency and validates what it proves, buying guides, and an offline Crisis screen for the day itself."
+description: "A local, offline app to track how ready a household is for civil emergencies (outages, storms, evacuation): 280 goals across 14 areas, nine tiers that can be earned and lost, an inventory measured in days of self-sufficiency whose items prove goals, a screen for the day itself, and a public version that runs without a server."
+summary: "An app installed on the phone, with no account and no third-party service: 280 goals in nine blocking tiers, a level that drops when supplies expire, a card inventory that computes days of self-sufficiency and validates what it proves, buying guides, an offline Crisis screen for the day itself, and a public version on GitHub Pages where the data stays on the device."
 tags: ["python", "fastapi", "sqlite", "react", "typescript", "pwa", "claude code"]
 featureImage: "carte-en.png"
 showTableOfContents: true
@@ -12,32 +12,33 @@ showTableOfContents: true
 
 {{< lead >}}
 Knowing where the household stands in the face of a water cut, a storm or an evacuation: what is
-ready, what is missing, what has expired. The app runs on the phone, without a network, and syncs
-with a PC at home.
+ready, what is missing, what has expired. The app runs on the phone, without a network; it can
+sync with a PC at home, or do without one.
 {{< /lead >}}
 
 {{< fiche-projet
-    statut="In development · offline v2 shipped, catalogue reviewed at each council"
+    statut="In development · public version without a server, catalogue reviewed at each council"
     periode="Since November 2026"
     role="Solo: specification, content framework, development"
     stack="Python 3.13, FastAPI, SQLModel, SQLite, React, TypeScript, Vite, PWA, IndexedDB, GSAP, Tailscale"
-    code="https://github.com/gwils28/Shelterkwak" >}}
+    code="https://github.com/gwils28/Shelterkwak"
+    demo="https://gwils28.github.io/Shelterkwak/" >}}
 
 {{< stats >}}
 {{< stat value="280" label="goals" >}}across 14 areas and 9 tiers, written in YAML{{< /stat >}}
 {{< stat value="2" label="scoring engines" >}}Python and TypeScript, kept identical by shared test cases{{< /stat >}}
-{{< stat value="141" label="automated tests" >}}91 on the server, 50 in the app{{< /stat >}}
+{{< stat value="155" label="automated tests" >}}98 on the server, 57 in the app{{< /stat >}}
 {{< /stats >}}
 
 {{< note-ia >}}
 
 {{< alert icon="circle-info" >}}
-**Work in progress.** This page describes the repository as of 14 November 2026, twelve days
-after the first commit (17 merged pull requests). Since the first version of this page
-(9 November), three councils and a market review have brought in **proofs** (an item or a talent
-validates on its own what it guarantees), **buying guides**, a **model basket** for the pantry,
-skills counted **per person** and a redesigned Goals tab. The figures are counted in the catalogue
-and the tests, and will be updated as the project moves on.
+**Work in progress.** This page describes the repository as of 26 November 2026, twenty-four
+days after the first commit (23 merged pull requests). Since the previous version of this page
+(14 November), the app has gained a **public version** on GitHub Pages that works without a
+server, sync has become optional, the Household tab explains how to share the app, and the Skills
+tab groups its nine trees into **three domains**. The figures are counted in the catalogue and
+the tests, and will be updated as the project moves on.
 {{< /alert >}}
 
 {{< alert icon="image" >}}
@@ -109,6 +110,16 @@ model basket.
 {{< timelineItem icon="check" header="Goals tab redesigned" badge="14 November" subheader="The current tier first" >}}
 The tab opens on the tier to build, with its progress and foldable groups. Two cards join the
 inventory: rope and barter goods.
+{{< /timelineItem >}}
+
+{{< timelineItem icon="check" header="Three skill domains" badge="26 November" subheader="The eighth council" >}}
+The nine trees sit under Protect, Hold on and Organise, each with its talents "within reach". No
+talent changes tree.
+{{< /timelineItem >}}
+
+{{< timelineItem icon="check" header="Public version, optional server" badge="26 November" subheader="GitHub Pages and a sharing guide" >}}
+The app is published on GitHub Pages and starts without a server. Syncing with the PC becomes a
+setting in the Household tab, protected by a token. The end-to-end scenario is fixed.
 {{< /timelineItem >}}
 
 {{< /timeline >}}
@@ -266,12 +277,21 @@ useful purchases.
 
 ![The inventory overview](etat-des-lieux.webp "The weakest link is cooking fuel (5 days). In the projection, water drops to zero in autumn 2027, when the water jugs expire. Fictional data.")
 
-### Nine skill trees
+### Nine skill trees, in three domains
 
 Skills are grouped into nine specialities (physical fitness, healer, handyman, cook, protector,
-gatherer…), each a talent tree with five ranks, on three or four branches: 122 talents, 121 of
-them in the grid. A talent can be ticked once its prerequisites are acquired, with what proves it
-(a certificate, a test), a date and the **number of people in the household** who master it.
+gatherer…), each a talent tree with five ranks, on three or four branches: 121 talents in the
+grid. A talent can be ticked once its prerequisites are acquired, with what proves it (a
+certificate, a test), a date and the **number of people in the household** who master it.
+
+Nine trees side by side were a lot to follow. The 26 November council grouped them into three
+**domains**: **Protect** (healer, physical fitness, protector), **Hold on** (cook, handyman,
+tracker) and **Organise** (strategist, gatherer, communicator). The three experts proposed the
+same grouping, each on their own. They also refused to merge the trees: three grids of 20 slots
+only hold 60 of the 121 talents, and the first to go would have been the slow skills (vegetable
+garden, preserving) whose chain of prerequisites is the teaching itself. No talent changed tree,
+so that nobody loses a rank already earned. Each domain shows its progress and "within reach": at
+most six available talents, life-saving ones first.
 
 Nine life-saving skills are **critical** (raising the alarm, basic life-saving, PSC1 first aid,
 cutting off water and power, the camping stove, a fire starting, getting out of smoke, heat and
@@ -279,7 +299,7 @@ cold, treating water): at the top of the tab, the app says how many have a stand
 household that doubles them all validates the redundancy goal. Some talents get a "keep it up"
 badge after a year, without anything being removed.
 
-![The Skills tab](competences.webp "Twelve talents acquired out of 119 for a flat; four critical talents out of five have a stand-in, only one person knows how to get out of smoke. Fictional data.")
+![The Skills tab](competences.webp "Twelve talents acquired out of 119 for a flat; five critical talents out of six have a stand-in, only one person knows how to get out of smoke. The Protect domain is open, with its talents within reach and its three trees. Fictional data.")
 
 ![The Healer's tree](competences-soigneur.webp "The Healer and its fourth branch, Accidents and climate: \"×2\" when two people master a skill, an orange \"1\" when only one does. Fictional data.")
 
@@ -301,11 +321,26 @@ stress, which works offline and can be printed:
 ### On the phone, without a network
 
 The app installs on Android like a native app. The engine, the catalogue and the data live on the
-phone: in airplane mode, everything works. The PC's server is used to install it, to sync the
-phone and the computer, and as a backup. It is reachable over Tailscale, in HTTPS, at home or
-away, with nothing exposed to the Internet.
+phone: in airplane mode, everything works.
 
 ![The app on a phone](telephone.webp "Left, the home screen and its tab bar; right, the Crisis screen with the cardiac-arrest sheet open. Fictional data.")
+
+It can be installed in two ways, which can be combined:
+
+- **from the household's PC**, which serves the app, syncs the phone and the computer and keeps a
+  backup. It is reachable over Tailscale, in HTTPS, at home or away, with nothing exposed to the
+  Internet;
+- **from [the public version](https://gwils28.github.io/Shelterkwak/)** on GitHub Pages, which
+  only serves the app's files. It starts without a server: the household stays on the device, and
+  the app reminds you to make a backup after 30 days. It can then sync with the household's PC,
+  by entering its Tailscale address and a token in the Household tab.
+
+The Household tab also gives two ready-to-follow procedures: adding a household member on their
+phone, or getting another household to try the app, with an invitation message to copy. Another
+household uses the public version and keeps its data at home: it never gets the server's address
+or the token.
+
+![The sharing guide in the Household tab](partage.webp "The procedure to get another household to try the app: the link to the public version, installation on Android, iPhone and PC, and a monthly backup. The app only exists in French. Fictional data.")
 
 ## How it is built
 
@@ -340,6 +375,18 @@ That choice settles four problems at once:
 
 The server computes nothing for the app: it keeps the shared copy of the log and serves the
 files. A JSON backup of the log can be exported from the Household tab.
+
+### An optional server
+
+Since all computation happens in the browser, the server is only a copy of the log. The public
+version builds on that: it starts without a server, and each device picks its own (none, the one
+serving the app, or a Tailscale address). Switching servers sends the whole log to the new one,
+which ignores the operations it already knows.
+
+A public page talking to a private server needs three settings on the server: an optional
+**token** on every API route (compared in constant time), the **allowed origins** (CORS), and the
+header that lets a public page call an address on the private network. There are no accounts: a
+server holds a single household, and Tailscale already filters the devices.
 
 ### Two engines, one behaviour
 
@@ -376,7 +423,7 @@ dangerous. I had it reviewed by a **council of three AI agents**, each with an a
 (self-reliance in rural settings), the Tactician (urban crisis and logistics) and the Sentinel
 (health, vulnerable people, psychology). Each analyses alone, without knowing the others' views;
 the main agent checks their findings in the code, leads the debate and writes a summary that I
-approve or not. Seven councils each have their dated report in the repository, as does the
+approve or not. Eight councils each have their dated report in the repository, as does the
 Quartermaster's market review.
 
 A few corrections that came out of it:
@@ -405,16 +452,21 @@ training nor the authorities' instructions.
 
 The councils left postponed work: lightening level 4 (34 required goals in a flat), tracking
 talents member by member, adapted variants for physical talents (reduced mobility, pregnancy,
-respiratory illness), and above all a **review by a first-aider** of the first-aid sheets and the
+respiratory illness), ordering a domain's trees by living situation, saying where to learn each
+talent, and above all a **review by a first-aider** of the first-aid sheets and the
 Healer's tree. About thirty cards still await their buying guides, and the six new declarable
 risks do not change the goals offered yet.
 
-The end-to-end scenario (phone and PC, airplane mode, sync) is in the repository, but it no
-longer follows the app (it expects a different level after the interview and the Inventory tab's
-old name): it needs fixing before it can run in continuous integration. Then come revalidation
+The end-to-end scenario (phone and PC, airplane mode, sync) follows the app again; it still has
+to run in continuous integration, where only the front-end tests run today, before each
+publication on GitHub Pages. The app has not been tried on an iPhone yet. Then come revalidation
 reminders and a trial on a small home server.
 
 ## Try it
+
+The simplest way is to open [the public version](https://gwils28.github.io/Shelterkwak/) and
+install it: nothing to set up, the data stays on the device (the interface is in French). To host
+it at home:
 
 ```bash
 git clone https://github.com/gwils28/Shelterkwak
@@ -424,4 +476,5 @@ make check     # lint, tests, engine parity, build
 make run       # the app on http://127.0.0.1:8000
 ```
 
-Installing on an Android phone, with Tailscale, is described in `docs/telephone.md` (in French).
+Installing on an Android phone, with Tailscale, is described in `docs/telephone.md`, and syncing
+the public version with the household's PC in `docs/hebergement.md` (both in French).

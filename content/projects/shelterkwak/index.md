@@ -3,8 +3,8 @@ title: "Shelterkwak : la préparation d'un foyer aux crises, suivie palier par p
 date: 2026-11-09
 draft: false
 nature: "produit"
-description: "Une application locale et hors ligne pour suivre la préparation d'un foyer aux crises civiles (coupures, intempéries, évacuation) : 280 objectifs sur 14 axes, neuf paliers qui se gagnent et se perdent, un inventaire en jours d'autonomie dont les objets prouvent les objectifs, et un écran pour le jour J."
-summary: "Application installable sur téléphone, sans compte ni service tiers : un référentiel de 280 objectifs en neuf paliers bloquants, un niveau qui baisse quand les stocks périment, un inventaire en cartes qui calcule les jours d'autonomie et valide ce qu'il prouve, des repères d'achat, et un écran Crise hors ligne pour le jour J."
+description: "Une application locale et hors ligne pour suivre la préparation d'un foyer aux crises civiles (coupures, intempéries, évacuation) : 280 objectifs sur 14 axes, neuf paliers qui se gagnent et se perdent, un inventaire en jours d'autonomie dont les objets prouvent les objectifs, un écran pour le jour J, et une version publique qui tourne sans serveur."
+summary: "Application installable sur téléphone, sans compte ni service tiers : un référentiel de 280 objectifs en neuf paliers bloquants, un niveau qui baisse quand les stocks périment, un inventaire en cartes qui calcule les jours d'autonomie et valide ce qu'il prouve, des repères d'achat, un écran Crise hors ligne pour le jour J, et une version publique sur GitHub Pages où les données restent sur l'appareil."
 tags: ["python", "fastapi", "sqlite", "react", "typescript", "pwa", "claude code"]
 featureImage: "carte.png"
 showTableOfContents: true
@@ -12,32 +12,33 @@ showTableOfContents: true
 
 {{< lead >}}
 Savoir où en est le foyer face à une coupure d'eau, une tempête ou une évacuation : ce qui est
-prêt, ce qui manque, ce qui a périmé. L'application tourne sur le téléphone, sans réseau, et se
-synchronise avec un PC de la maison.
+prêt, ce qui manque, ce qui a périmé. L'application tourne sur le téléphone, sans réseau ; elle
+peut se synchroniser avec un PC de la maison, ou s'en passer.
 {{< /lead >}}
 
 {{< fiche-projet
-    statut="En développement · v2 hors ligne livrée, catalogue revu à chaque conseil"
+    statut="En développement · version publique sans serveur, catalogue revu à chaque conseil"
     periode="Depuis novembre 2026"
     role="Solo : spécification, référentiel, développement"
     stack="Python 3.13, FastAPI, SQLModel, SQLite, React, TypeScript, Vite, PWA, IndexedDB, GSAP, Tailscale"
-    code="https://github.com/gwils28/Shelterkwak" >}}
+    code="https://github.com/gwils28/Shelterkwak"
+    demo="https://gwils28.github.io/Shelterkwak/" >}}
 
 {{< stats >}}
 {{< stat value="280" label="objectifs" >}}sur 14 axes et 9 paliers, décrits en YAML{{< /stat >}}
 {{< stat value="2" label="moteurs de calcul" >}}Python et TypeScript, tenus identiques par des cas de test partagés{{< /stat >}}
-{{< stat value="141" label="tests automatisés" >}}91 côté serveur, 50 côté application{{< /stat >}}
+{{< stat value="155" label="tests automatisés" >}}98 côté serveur, 57 côté application{{< /stat >}}
 {{< /stats >}}
 
 {{< note-ia >}}
 
 {{< alert icon="circle-info" >}}
-**Projet en cours.** Cette fiche décrit l'état du dépôt au 14 novembre 2026, douze jours après le
-premier commit (17 pull requests fusionnées). Depuis la première version de cette fiche
-(9 novembre), trois conseils et une revue du marché ont fait entrer les **preuves** (un objet ou un
-talent valide tout seul ce qu'il garantit), les **repères d'achat**, le **panier type** du
-garde-manger, les compétences **par personne** et un onglet Objectifs refait. Les chiffres sont
-comptés dans le catalogue et les tests, et seront mis à jour avec le projet.
+**Projet en cours.** Cette fiche décrit l'état du dépôt au 26 novembre 2026, vingt-quatre jours
+après le premier commit (23 pull requests fusionnées). Depuis la version précédente de cette fiche
+(14 novembre), l'application a une **version publique** sur GitHub Pages qui fonctionne sans
+serveur, la synchronisation est devenue facultative, l'onglet Foyer explique comment la partager,
+et l'onglet Compétences regroupe ses neuf arbres en **trois domaines**. Les chiffres sont comptés
+dans le catalogue et les tests, et seront mis à jour avec le projet.
 {{< /alert >}}
 
 {{< alert icon="image" >}}
@@ -109,6 +110,16 @@ doubler. Le garde-manger reçoit son panier type.
 {{< timelineItem icon="check" header="Onglet Objectifs refait" badge="14 novembre" subheader="Le palier en cours d'abord" >}}
 L'onglet s'ouvre sur le palier à construire, avec sa progression et des groupes repliables.
 Deux cartes s'ajoutent à l'inventaire : la corde et les biens d'échange.
+{{< /timelineItem >}}
+
+{{< timelineItem icon="check" header="Trois domaines de compétences" badge="26 novembre" subheader="Le huitième conseil" >}}
+Les neuf arbres se rangent sous Protéger, Tenir et S'organiser, chacun avec ses talents « à ta
+portée ». Aucun talent ne change d'arbre.
+{{< /timelineItem >}}
+
+{{< timelineItem icon="check" header="Version publique, serveur facultatif" badge="26 novembre" subheader="GitHub Pages et un guide de partage" >}}
+L'application est publiée sur GitHub Pages et démarre sans serveur. La synchronisation avec le PC
+devient un réglage de l'onglet Foyer, protégé par un jeton. Le scénario de bout en bout est réparé.
 {{< /timelineItem >}}
 
 {{< /timeline >}}
@@ -268,13 +279,22 @@ les plus utiles.
 
 ![L'état des lieux de l'inventaire](etat-des-lieux.webp "Le maillon faible est le combustible de cuisson (5 jours). Dans la projection, l'eau tombe à zéro à l'automne 2027, quand les bonbonnes périment. Données fictives.")
 
-### Neuf arbres de compétences
+### Neuf arbres de compétences, en trois domaines
 
 Les compétences sont rangées en neuf spécialités (condition physique, soigneur, bricoleur,
 cuisinier, protecteur, rassembleur…), chacune un arbre de talents en cinq rangs, sur trois ou
-quatre branches : 122 talents, dont 121 dans la grille. Un talent se coche quand ses prérequis
-sont acquis, avec ce qui le prouve (un diplôme, une épreuve), une date et le **nombre de personnes
-du foyer** qui le maîtrisent.
+quatre branches : 121 talents dans la grille. Un talent se coche quand ses prérequis sont acquis,
+avec ce qui le prouve (un diplôme, une épreuve), une date et le **nombre de personnes du foyer**
+qui le maîtrisent.
+
+Neuf arbres affichés côte à côte faisaient beaucoup. Le conseil du 26 novembre les a regroupés en
+trois **domaines** : **Protéger** (soigneur, condition physique, protecteur), **Tenir** (cuisinier,
+bricoleur, pisteur) et **S'organiser** (stratège, rassembleur, transmetteur). Les trois experts ont
+proposé le même regroupement chacun de leur côté. Ils ont aussi refusé de fusionner les arbres :
+trois grilles de 20 cases n'en offrent que 60 pour 121 talents, et les premiers coupés auraient
+été les savoirs lents (potager, conserves) dont la chaîne de prérequis fait la pédagogie. Aucun
+talent n'a changé d'arbre, pour que personne ne perde un rang déjà gagné. Chaque domaine affiche
+sa progression et « À ta portée » : six talents disponibles au plus, les gestes vitaux d'abord.
 
 Neuf gestes vitaux sont **critiques** (alerter, gestes qui sauvent, PSC1, couper l'eau et
 l'électricité, le réchaud, un feu qui démarre, sortir de la fumée, chaleur et froid, traiter
@@ -282,7 +302,7 @@ l'eau) : en tête de l'onglet, l'application dit combien ont un remplaçant, et 
 double tous valide l'objectif de redondance. Certains talents portent un badge « à entretenir »
 au bout d'un an, sans rien retirer.
 
-![L'onglet Compétences](competences.webp "Douze talents acquis sur 119 pour un appartement ; quatre talents critiques sur cinq ont un remplaçant, une seule personne sait sortir de la fumée. Données fictives.")
+![L'onglet Compétences](competences.webp "Douze talents acquis sur 119 pour un appartement ; cinq talents critiques sur six ont un remplaçant, une seule personne sait sortir de la fumée. Le domaine Protéger est ouvert, avec ses talents à portée et ses trois arbres. Données fictives.")
 
 ![L'arbre du Soigneur](competences-soigneur.webp "Le Soigneur et sa quatrième branche, Accidents et climat : « ×2 » quand deux personnes maîtrisent un geste, « 1 » en orange quand une seule le sait. Données fictives.")
 
@@ -303,11 +323,27 @@ personne sous stress, qui fonctionne hors ligne et s'imprime :
 ### Sur le téléphone, sans réseau
 
 L'application s'installe sur Android comme une application. Le moteur, le catalogue et les
-données vivent sur le téléphone : en mode avion, tout fonctionne. Le serveur du PC sert à
-l'installer, à synchroniser le téléphone et l'ordinateur, et de sauvegarde. Il est joignable par
-Tailscale, en HTTPS, à la maison comme dehors, sans rien exposer sur Internet.
+données vivent sur le téléphone : en mode avion, tout fonctionne.
 
 ![L'application sur téléphone](telephone.webp "À gauche, l'accueil et sa barre d'onglets ; à droite, l'écran Crise avec la fiche Arrêt cardiaque ouverte. Données fictives.")
+
+Elle s'installe de deux façons, cumulables :
+
+- **depuis le PC du foyer**, qui sert l'application, synchronise le téléphone et l'ordinateur et
+  garde une sauvegarde. Il est joignable par Tailscale, en HTTPS, à la maison comme dehors, sans
+  rien exposer sur Internet ;
+- **depuis [la version publique](https://gwils28.github.io/Shelterkwak/)** sur GitHub Pages, qui
+  ne sert que les fichiers de l'application. Elle démarre sans serveur : le foyer reste sur
+  l'appareil, et l'application rappelle de faire une sauvegarde au bout de 30 jours. Elle peut
+  ensuite se synchroniser avec le PC du foyer, en saisissant son adresse Tailscale et un jeton
+  dans l'onglet Foyer.
+
+L'onglet Foyer donne aussi deux modes opératoires prêts à suivre : ajouter un membre du foyer sur
+son téléphone, ou faire essayer l'application à un autre foyer, avec un message d'invitation à
+copier. Un autre foyer utilise la version publique et garde ses données chez lui : il ne reçoit ni
+l'adresse du serveur ni le jeton.
+
+![Le guide de partage de l'onglet Foyer](partage.webp "« Faire essayer l'application à un autre foyer » : le lien vers la version publique, l'installation sur Android, iPhone et PC, et une sauvegarde par mois. Données fictives.")
 
 ## Comment c'est construit
 
@@ -344,6 +380,18 @@ Ce choix règle quatre problèmes d'un coup :
 
 Le serveur ne calcule rien pour l'application : il garde la copie partagée du journal et sert
 les fichiers. Une sauvegarde JSON du journal s'exporte depuis l'onglet Foyer.
+
+### Un serveur facultatif
+
+Puisque tout le calcul se fait dans le navigateur, le serveur n'est qu'une copie du journal. La
+version publique en tire parti : elle démarre sans serveur, et chaque appareil choisit le sien
+(aucun, celui qui sert l'application, ou une adresse Tailscale). Changer de serveur renvoie tout
+le journal au nouveau, qui ignore les opérations qu'il connaît déjà.
+
+Une page publique qui parle à un serveur privé demande trois réglages côté serveur : un **jeton**
+facultatif sur toutes les routes de l'API (comparé à temps constant), les **origines autorisées**
+(CORS), et l'en-tête qui autorise une page publique à appeler une adresse du réseau privé. Il n'y
+a pas de comptes : un serveur garde un seul foyer, et Tailscale filtre déjà les appareils.
 
 ### Deux moteurs, un seul comportement
 
@@ -383,7 +431,7 @@ peut être dangereux. Je l'ai fait relire par un **conseil de trois agents IA**,
 angle : le Pisteur (autonomie en milieu rural), le Tacticien (crise urbaine et logistique) et la
 Sentinelle (santé, publics vulnérables, psychologie). Chacun analyse seul, sans connaître l'avis
 des autres ; l'agent principal vérifie leurs constats dans le code, mène le débat et rédige une
-synthèse que je valide ou non. Sept conseils ont chacun leur compte rendu daté dans le dépôt,
+synthèse que je valide ou non. Huit conseils ont chacun leur compte rendu daté dans le dépôt,
 comme la revue du marché du Fourrier.
 
 Quelques corrections qui en sont sorties :
@@ -413,17 +461,22 @@ des autorités.
 
 Les conseils ont laissé des chantiers reportés : alléger le niveau 4 (34 objectifs requis en
 appartement), suivre les talents membre par membre, des variantes adaptées pour les talents
-physiques (mobilité réduite, grossesse, maladie respiratoire), et surtout une **relecture par un
+physiques (mobilité réduite, grossesse, maladie respiratoire), ordonner les arbres d'un domaine
+selon le lieu de vie, dire où apprendre chaque talent, et surtout une **relecture par un
 secouriste** des fiches de premiers secours et de l'arbre du Soigneur. Une trentaine de cartes
 attendent encore leurs repères d'achat, et les six nouveaux risques déclarables ne changent pas
 encore les objectifs proposés.
 
-Le scénario de bout en bout (téléphone et PC, mode avion, synchronisation) existe dans le dépôt,
-mais il ne suit plus l'application (il attend un autre niveau après l'interview et l'ancien nom
-de l'onglet Inventaire) : il faut le réparer avant de le faire tourner en intégration continue. Restent ensuite les rappels de revalidation et un
-essai sur un petit serveur domestique.
+Le scénario de bout en bout (téléphone et PC, mode avion, synchronisation) suit de nouveau
+l'application ; il reste à le faire tourner en intégration continue, où seuls les tests du front
+passent aujourd'hui, avant chaque publication sur GitHub Pages. L'application n'a pas encore été
+essayée sur iPhone. Restent ensuite les rappels de revalidation et un essai sur un petit serveur
+domestique.
 
 ## Essayer
+
+Le plus simple est d'ouvrir [la version publique](https://gwils28.github.io/Shelterkwak/) et de
+l'installer : rien à configurer, les données restent sur l'appareil. Pour l'héberger chez soi :
 
 ```bash
 git clone https://github.com/gwils28/Shelterkwak
@@ -433,4 +486,5 @@ make check     # lint, tests, parité des moteurs, build
 make run       # l'application sur http://127.0.0.1:8000
 ```
 
-L'installation sur un téléphone Android, avec Tailscale, est décrite dans `docs/telephone.md`.
+L'installation sur un téléphone Android, avec Tailscale, est décrite dans `docs/telephone.md`,
+et la synchronisation de la version publique avec le PC du foyer dans `docs/hebergement.md`.
