@@ -1,10 +1,10 @@
 ---
-title: "Moi Électeur : une boussole électorale et un assistant qui interroge les programmes officiels des candidats"
+title: "Moi Électeur : un assistant qui interroge les programmes officiels des candidats, et une boussole électorale"
 date: 2026-11-28
 draft: false
 nature: "produit"
-description: "Une application web d'aide à la décision électorale fondée sur les seuls programmes officiels : une boussole qui calcule dans le navigateur la proximité de vos réponses avec chaque programme, et un interrogatoire en langage naturel où un RAG répond candidat par candidat, chaque phrase appuyée par une citation vérifiée. Évaluée en backtest sur la présidentielle 2022."
-summary: "Boussole électorale et interrogatoire des programmes, sans compte ni suivi : 30 affirmations, un score de proximité ajusté qui tient compte des silences des programmes, une carte politique calculée et non saisie, une recherche hybride (sens et mots exacts) par candidat sur 794 extraits, des réponses de Claude citées et vérifiées mot pour mot, le tout évalué sur la présidentielle 2022."
+description: "Une application web qui répond en langage naturel à partir des seuls programmes officiels des candidats : un RAG cherche, candidat par candidat, les passages qui traitent la question, et Claude rédige une réponse dont chaque phrase est appuyée par une citation vérifiée mot pour mot. Une boussole électorale calcule en plus, dans le navigateur, la proximité de vos réponses avec chaque programme. Évaluée en backtest sur la présidentielle 2022."
+summary: "Posez une question en français, lisez ce que chaque programme officiel propose, citation vérifiée à l'appui : recherche hybride (sens et mots exacts) candidat par candidat sur 794 extraits, réponses de Claude dont 99,4 % des citations sont retrouvées mot pour mot, noms masqués au modèle. En complément, une boussole de 30 affirmations avec un score de proximité qui tient compte des silences des programmes. Le tout évalué sur la présidentielle 2022, sans compte ni suivi."
 tags: ["python", "fastapi", "postgresql", "pgvector", "rag", "llm", "typescript", "nextjs", "claude code"]
 featureImage: "carte.png"
 showTableOfContents: true
@@ -12,8 +12,9 @@ showTableOfContents: true
 
 {{< lead >}}
 Savoir ce que proposent vraiment les candidats, à partir de leurs programmes officiels et de rien
-d'autre : une boussole qui situe vos réponses par rapport à chaque programme, et un interrogatoire
-où l'on pose ses questions en français, avec la citation exacte derrière chaque réponse.
+d'autre : on pose sa question en français, et la réponse rapporte, candidat par candidat, ce que
+disent leurs documents, avec la citation exacte derrière chaque phrase. Une boussole situe en plus
+vos réponses par rapport à chaque programme.
 {{< /lead >}}
 
 {{< fiche-projet
@@ -113,7 +114,277 @@ programmes ; les candidats perdent toute couleur et toute forme ; nouvelle carte
 
 {{< /timeline >}}
 
-## Ce que fait l'application
+## L'interrogatoire des programmes
+
+C'est la page d'accueil, et la fonction centrale. On pose une question en français, précise ou
+large ; la réponse résume, candidat par candidat, ce que disent leurs documents officiels, avec
+un numéro de citation derrière chaque proposition. Un réglage limite la question à certains
+candidats ou à un thème, un autre choisit entre la **réponse rapide** (Claude Haiku) et la
+**réponse détaillée** (Claude Sonnet).
+
+![Une réponse de l'interrogatoire](interrogatoire.webp "Quatre candidats sélectionnés, mode rapide. Chaque phrase porte sa citation ; « Passages cités » ouvre les extraits avec le document, la page et un lien vers la source.")
+
+### Le parcours d'une question
+
+{{< mermaid >}}
+flowchart LR
+    Q["Question"] --> A["/api/ask<br/>limite de débit, plafond du jour"]
+    A --> R["Service de recherche<br/>FastAPI"]
+    R --> S["Sens des mots<br/>multilingual-e5-large, pgvector"]
+    R --> L["Mots exacts<br/>plein texte Postgres"]
+    S --> F["Fusion RRF<br/>4 extraits par candidat"]
+    L --> F
+    F --> C["Claude<br/>citations natives, streaming"]
+    C --> V["Vérification<br/>citation dans son extrait"]
+    V --> U["Réponse affichée<br/>jetons remplacés par les noms"]
+{{< /mermaid >}}
+
+Les quatre étapes (découpage, recherche, génération, vérification) et les mesures qui ont
+guidé leurs réglages sont détaillées dans la section suivante.
+
+**Garde-fous.** Le contenu des questions n'est jamais journalisé : une question peut révéler une
+opinion politique, donnée sensible au sens du RGPD. Les journaux ne gardent que l'heure, les
+tokens, la latence et le code retour. Une limite de débit par adresse IP (compteur en mémoire),
+un **plafond de dépense quotidien** et un cache en mémoire seulement (500 réponses, 24 heures, vidé
+à chaque réindexation) tiennent le coût.
+
+## Sous le capot : du PDF à la citation vérifiée
+
+{{< katex >}}
+
+Un assistant de ce type est un **RAG** (*retrieval-augmented generation*) : le modèle de langage
+ne répond pas de mémoire, il rédige à partir d'extraits qu'un moteur de recherche lui a fournis.
+La qualité de la réponse dépend donc d'abord de trois étapes en amont : le découpage des
+documents, la représentation du sens et la recherche. Une réponse fausse vient souvent d'un
+extrait qui n'a pas été retrouvé.
+
+Chaque choix de cette chaîne a son **notebook [marimo](https://marimo.io)** dans le dépôt
+(`notebooks/m2-*.py`). Ils suivent tous le même plan : question, alternatives envisagées,
+formalisation, expérience, résultats et limites, décision. Ce sont des fichiers Python ordinaires,
+exécutés par l'intégration continue. Comme la CI n'a ni la base, ni les poids des modèles, ni les
+PDF, ils lisent de petites *fixtures* versionnées produites depuis les vraies données. Les mesures
+ont été faites deux fois : d'abord sur un **jeu de fumée** de 15 questions annotées à la main,
+puis sur le **jeu complet de 60 questions** du backtest. Les résultats ci-dessous en viennent.
+
+### 1. Découper : des extraits qui respectent les sections
+
+Un extrait est l'unité que l'on retrouve, que l'on envoie au modèle et que l'on cite. Trois
+façons de découper ont été comparées :
+
+| Option | Pour | Contre |
+|---|---|---|
+| Fenêtres fixes de N tokens | simple | coupe au milieu des phrases et des sections |
+| Une page par extrait | la page citée est évidente | tailles très inégales (couvertures, pages denses) |
+| **Titres et phrases regroupés entre 300 et 600 tokens** (retenu) | respecte les sections, tailles bornées | plus de code, chevauchement à gérer |
+
+Le texte est découpé en unités (titres, phrases), regroupées jusqu'à 600 tokens, avec un
+chevauchement de 50 tokens au plus quand la coupure est due à la taille. Chaque extrait garde son
+candidat, son document, ses pages, son titre de section, l'adresse d'archive et l'empreinte sha256
+du PDF. Le notebook vérifie des **invariants** par des assertions, si bien qu'un écart fait échouer
+la CI : aucun extrait au-delà de 600 tokens, au plus un extrait court par document (le dernier),
+aucune métadonnée manquante, et toute page qui contient du texte couverte par au moins un extrait.
+
+{{< chart >}}
+type: 'bar',
+data: {
+  labels: ['< 300', '300-349', '350-399', '400-449', '450-499', '500-549', '550-600'],
+  datasets: [
+    { label: 'Extraits', data: [13, 46, 48, 42, 55, 83, 507],
+      backgroundColor: css(modeSombre ? '--color-primary-400' : '--color-primary-600'),
+      borderColor: css(modeSombre ? '--color-primary-300' : '--color-primary-700') }
+  ]
+},
+options: {
+  plugins: {
+    legend: { display: false },
+    title: { display: true, text: 'Taille des 794 extraits (tokens)' },
+    subtitle: { display: true, text: 'Médiane 568 tokens : le regroupement remplit presque toujours l\'extrait' }
+  },
+  scales: { y: { title: { display: true, text: 'Nombre d\'extraits' } } }
+}
+{{< /chart >}}
+
+Les cas limites relevés sont surtout dus aux PDF eux-mêmes. 78 extraits couvrent trois pages ou
+plus (pages peu remplies) : la citation donne alors une plage de pages. 13 extraits contiennent un
+mot doublé, presque tous chez un seul candidat dont les titres en relief sont lus deux fois. Ils
+n'ont pas été corrigés : la correction modifierait le texte officiel cité, pour un effet mesuré
+faible sur la recherche.
+
+Le volume varie beaucoup d'un candidat à l'autre : **de 21 à 252 extraits**. Cela reflète la
+longueur des programmes publiés, pas un choix du pipeline. C'est la raison pour laquelle la
+recherche se fait **candidat par candidat** : sur l'ensemble du corpus, le programme le plus long
+occuperait l'essentiel des premiers résultats.
+
+### 2. Représenter le sens : deux modèles d'embedding comparés
+
+La recherche par le sens transforme chaque extrait et chaque question en un vecteur de 1 024
+nombres (un *embedding*), de sorte que deux textes qui parlent de la même chose aient des vecteurs
+proches, même sans mot commun. La proximité se mesure par le cosinus de l'angle entre les deux
+vecteurs.
+
+Les modèles d'API (OpenAI, Voyage…) ont été écartés d'emblée : une question peut révéler une
+opinion politique, et elle aurait été envoyée à un tiers. Restaient deux modèles multilingues qui
+tournent en local :
+
+| | bge-m3 | multilingual-e5-large |
+|---|---|---|
+| Contexte lu | 8 192 tokens | 512 tokens |
+| Particularité | aucun extrait tronqué | préfixes `query:` et `passage:` obligatoires |
+| Similarités observées (question nucléaire) | 0,23 à 0,58 | 0,73 à 0,85 |
+
+Deux constats du notebook `m2-02`. D'abord, **574 des 794 extraits dépassent 512 tokens** : e5 n'en
+lit que le début. Ensuite, ses similarités sont tassées dans une plage étroite et haute ; ce qui
+compte pour le classement est l'écart entre extraits pertinents et autres, rapporté à l'étendue,
+et il est comparable entre les deux modèles. Un seuil de similarité absolu n'aurait donc aucun
+sens commun aux deux modèles. Le service n'en utilise pas : chaque candidat reçoit toujours ses
+quatre extraits, et c'est au modèle de langage de dire qu'aucun ne traite la question.
+
+Sur le jeu de fumée (13 questions avec des extraits attendus), l'écart entre les deux modèles
+n'était pas concluant : l'intervalle de confiance touchait zéro, et bge-m3 est resté le modèle par
+défaut. Sur les 60 questions, e5 l'emporte malgré la troncature : **+0,071 point de rappel@4** en
+recherche par le sens seule, intervalle bootstrap apparié à 95 % de [+0,033 ; +0,110], et +0,046
+[+0,021 ; +0,074] une fois fusionné avec les mots exacts. Il est devenu le modèle par défaut.
+
+### 3. Chercher par le sens et par les mots, puis fusionner
+
+Le sens seul rate les termes rares et exacts : sigles (RIC, SMIC, OTAN), noms de dispositifs. Les
+mots exacts seuls dépendent du vocabulaire de la question. On fait donc les deux, pour chaque
+candidat, puis on fusionne les deux classements par **Reciprocal Rank Fusion** (RRF). Pour un
+extrait \(d\), avec \(r_s(d)\) son rang dans la liste par le sens et \(r_\ell(d)\) son rang dans la
+liste par les mots exacts (le terme disparaît si l'extrait n'y figure pas) :
+
+$$\text{RRF}(d) = \frac{1}{60 + r_s(d)} + \frac{1}{60 + r_\ell(d)}$$
+
+La fusion ne regarde que les rangs. Elle n'a pas besoin de comparer un cosinus à un score de
+plein texte, deux grandeurs d'échelles différentes qu'une combinaison pondérée obligerait à
+calibrer pour chaque modèle. La constante 60 aplatit les écarts : un extrait premier par le sens
+et absent des mots exacts obtient \(1/61 \approx 0{,}0164\) ; un extrait troisième dans les deux
+listes obtient \(2/63 \approx 0{,}0317\) et passe devant. Être bien classé par les deux méthodes
+compte plus qu'être premier dans une seule.
+
+Un cas tiré du jeu de 60 questions : « Que proposent les candidats sur le référendum d'initiative
+citoyenne ? », pour un candidat dont un seul extrait traite vraiment du sujet. Par le sens, cet
+extrait n'arrive que sixième, hors des quatre retenus. Par les mots exacts, il est premier, parce
+que « référendum » n'apparaît que dans 4 % des extraits du corpus. La fusion le place deuxième :
+
+| Rang après fusion | Rang par le sens | Rang par les mots exacts | Score RRF | Traite la question |
+|---|---|---|---|---|
+| 1 | 3 | 2 | 1/63 + 1/62 = 0,03200 | non |
+| 2 | 6 | 1 | 1/66 + 1/61 = 0,03155 | **oui** |
+| 3 | 2 | 5 | 1/62 + 1/65 = 0,03151 | non |
+| 4 | 4 | 4 | 2/64 = 0,03125 | non |
+
+Sur les 463 couples question et candidat qui ont des extraits attendus, la fusion fait entrer un
+extrait pertinent dans les quatre retenus pour **31 couples** où le sens seul n'en avait aucun,
+et en fait sortir un pour 16 couples. Le solde est positif, mais la fusion n'est pas gratuite.
+
+**Le lexème qui noyait tout.** La première version de la recherche par mots exacts prenait tous
+les mots de la question, reliés par OU. Le notebook `m2-03` a montré ce que Postgres en faisait,
+en configuration française, pour « Quel âge de départ à la retraite proposent les candidats ? » :
+
+| Lexème | Part des extraits qui le contiennent |
+|---|---|
+| `le` (de « les ») | **99,4 %** |
+| `retrait` | 16,2 % |
+| `âge` | 8,9 % |
+| `départ` | 8,1 % |
+| `quel` | 6,9 % |
+| `candidat` | 5,3 % |
+| `proposent` | 1,1 % |
+
+« le » figure dans la liste des mots vides de Postgres, mais pas « les », qui est ensuite
+réduit à la racine `le`. Avec une requête en OU, presque tous les extraits correspondaient, et le classement
+favorisait ceux où « les » revient souvent. La recherche par mots exacts devenait presque
+aléatoire, et la fusion **dégradait** le sens au lieu de le compléter. Le correctif ignore les
+lexèmes présents dans plus de la moitié des extraits de l'élection (`MAX_DF = 0,5`), comptés en
+SQL au moment de la requête : il couvre tout mot omniprésent, pas seulement celui-ci, sans
+réindexation. On voit au passage d'autres limites de la racinisation : « proposent » n'est pas
+réduit, et passe donc pour un mot rare.
+
+{{< chart >}}
+type: 'line',
+data: {
+  labels: ['1', '2', '3', '4', '5', '6'],
+  datasets: [
+    { label: 'Fusion RRF (servie)', data: [66.3, 79.3, 85.7, 89.2, 90.5, 92.2], borderWidth: 3,
+      borderColor: css(modeSombre ? '--color-primary-400' : '--color-primary-600'),
+      backgroundColor: css(modeSombre ? '--color-primary-400' : '--color-primary-600') },
+    { label: 'Sens seul', data: [59.4, 74.5, 81.2, 86.0, 87.9, 89.8],
+      borderColor: css(modeSombre ? '--color-secondary-400' : '--color-secondary-500'),
+      backgroundColor: css(modeSombre ? '--color-secondary-400' : '--color-secondary-500') },
+    { label: 'Mots exacts (corrigés)', data: [53.1, 69.5, 76.0, 80.1, 84.0, 86.2],
+      borderColor: css(modeSombre ? '--color-neutral-300' : '--color-neutral-600'),
+      backgroundColor: css(modeSombre ? '--color-neutral-300' : '--color-neutral-600') },
+    { label: 'Fusion avant correctif', data: [45.6, 61.3, 68.7, 74.5, 79.0, 82.5], borderDash: [6, 4],
+      borderColor: css(modeSombre ? '--color-primary-200' : '--color-primary-300'),
+      backgroundColor: css(modeSombre ? '--color-primary-200' : '--color-primary-300') },
+    { label: 'Mots exacts avant correctif', data: [22.9, 33.0, 42.1, 46.7, 52.1, 55.9], borderDash: [6, 4],
+      borderColor: css(modeSombre ? '--color-neutral-500' : '--color-neutral-400'),
+      backgroundColor: css(modeSombre ? '--color-neutral-500' : '--color-neutral-400') }
+  ]
+},
+options: {
+  plugins: {
+    title: { display: true, text: 'Part des couples question et candidat avec au moins un extrait pertinent dans les k premiers' },
+    subtitle: { display: true, text: '60 questions, 463 couples, multilingual-e5-large. Le service retient k = 4.' }
+  },
+  scales: {
+    x: { title: { display: true, text: 'k (extraits retenus par candidat)' } },
+    y: { min: 0, max: 100, title: { display: true, text: '%' } }
+  }
+}
+{{< /chart >}}
+
+Sur le jeu de 60 questions, le correctif fait passer le rappel@4 de la recherche par mots exacts
+de 0,282 à 0,598, et celui de la fusion de 0,517 à 0,719. Avant correctif, la fusion faisait moins
+bien que le sens seul (0,636). Une limite est notée dans le notebook : les extraits pertinents ont
+été repérés en lisant le corpus à partir de mots-clés, ce qui avantage la recherche par mots
+exacts et surestime sans doute le gain. Le diagnostic, lui (`le` dans 99 % des extraits), ne
+dépend pas de l'annotation.
+
+### 4. Générer sous contrainte, puis vérifier
+
+Les quatre extraits de chaque candidat sont envoyés à Claude sous forme de documents, avec les
+**citations natives** de l'API activées : chaque citation renvoie à un document et à un passage
+précis, au lieu d'une référence que le modèle écrirait librement. Le prompt système, versionné
+dans le dépôt, impose :
+
+- de n'utiliser que les extraits, aucune connaissance extérieure ;
+- une citation par phrase qui rapporte une proposition ;
+- de traiter chaque candidat dans l'ordre imposé, **tiré au sort à chaque question**, avec une
+  place comparable (deux à quatre phrases) ;
+- d'écrire exactement « Aucune proposition recensée dans le programme officiel sur ce point »
+  quand un candidat n'en parle pas, sans commenter ce que les extraits ne disent pas ;
+- de ne jamais évaluer, comparer ou classer, et de refuser de dire pour qui voter.
+
+Le modèle ne voit jamais les noms : chaque extrait est titré `{{c3}} · programme · p. 6`, et il
+écrit ces jetons dans sa réponse. Le navigateur les remplace par le nom ou par l'alias du mode
+aveugle. Une même réponse sert aux deux modes, et le mode aveugle ne dépend pas d'une consigne que
+le modèle pourrait oublier.
+
+À la réception, chaque citation est recherchée dans l'extrait auquel elle renvoie, à espaces
+près, et cet extrait doit appartenir au candidat de la section en cours ; sinon elle s'affiche
+« non vérifiée ». Une liste de formulations qui classeraient un candidat (« meilleur », « plus
+crédible »…) est aussi repérée et signalée.
+
+**Un silence vient-il du programme ou de la recherche ?** Le notebook `m2-04` a analysé deux
+réponses réelles à « Que proposent les candidats sur le nucléaire ? », l'une du mode rapide,
+l'autre du mode détaillé, enregistrées avant le correctif du plein texte. Dans chacune, quatre
+candidats sont déclarés silencieux, toujours avec la phrase imposée mot pour mot, et aucun nom ni
+parti n'apparaît dans le texte. Mais, confrontés aux annotations, **un seul de ces silences est
+réel**. Les trois autres candidats parlent du nucléaire, et pour chacun **aucun des quatre extraits
+servis n'était pertinent**. Le modèle avait donc appliqué la consigne ; l'erreur venait de la
+recherche. Après le correctif, deux de ces trois candidats reçoivent un extrait pertinent.
+
+Ce diagnostic a orienté le backtest : les faux silences y sont mesurés à part, et rapprochés du
+succès@4 de la recherche. Ils restent le premier défaut mesuré (autour de 8 %, voir plus bas), et
+c'est la recherche qu'il faut améliorer pour les réduire, pas le prompt.
+
+## La boussole électorale
+
+L'interrogatoire répond à une question précise ; la boussole donne une vue d'ensemble. Au moment du
+calcul, elle ne fait appel à aucun modèle de langage : tout se passe dans le navigateur, à partir
+des positions des candidats, dont l'origine est décrite plus bas.
 
 ### Une boussole de 30 affirmations
 
@@ -255,85 +526,6 @@ par la seule forme ou la seule couleur.
 
 ![Le radar des chiffrages](radar.webp "Thèmes en lignes, candidats en colonnes. Une cellule ouvre les mesures et leurs citations.")
 
-## L'interrogatoire des programmes
-
-C'est la page d'accueil, et la fonction centrale. On pose une question en français, précise ou
-large ; la réponse résume, candidat par candidat, ce que disent leurs documents officiels, avec
-un numéro de citation derrière chaque proposition. Un réglage limite la question à certains
-candidats ou à un thème, un autre choisit entre la **réponse rapide** (Claude Haiku) et la
-**réponse détaillée** (Claude Sonnet).
-
-![Une réponse de l'interrogatoire](interrogatoire.webp "Quatre candidats sélectionnés, mode rapide. Chaque phrase porte sa citation ; « Passages cités » ouvre les extraits avec le document, la page et un lien vers la source.")
-
-### Le parcours d'une question
-
-{{< mermaid >}}
-flowchart LR
-    Q["Question"] --> A["/api/ask<br/>limite de débit, plafond du jour"]
-    A --> R["Service de recherche<br/>FastAPI"]
-    R --> S["Sens des mots<br/>multilingual-e5-large, pgvector"]
-    R --> L["Mots exacts<br/>plein texte Postgres"]
-    S --> F["Fusion RRF<br/>4 extraits par candidat"]
-    L --> F
-    F --> C["Claude<br/>citations natives, streaming"]
-    C --> V["Vérification<br/>citation dans son extrait"]
-    V --> U["Réponse affichée<br/>jetons remplacés par les noms"]
-{{< /mermaid >}}
-
-**1. Découpage.** Les 24 documents (programme et profession de foi de chaque candidat) sont
-extraits page par page, puis découpés en **794 extraits** d'environ une demi-page (300 à 600
-tokens), chacun avec son document, sa page et son titre de section. Les originaux ne sont pas
-redistribués : seuls l'adresse d'archive et l'empreinte sha256 sont versionnées.
-
-**2. Recherche hybride, par candidat.** La question est cherchée de deux façons, **séparément
-pour chaque candidat** :
-
-- par le **sens**, avec le modèle d'embedding multilingual-e5-large qui tourne en local (aucun
-  appel externe), dans PostgreSQL avec pgvector : les 20 extraits les plus proches ;
-- par les **mots exacts**, avec la recherche plein texte de Postgres en français : les 20 extraits
-  les mieux classés.
-
-Les deux listes sont fusionnées par **Reciprocal Rank Fusion** : chaque extrait reçoit la somme de
-1 / (60 + son rang) dans chaque liste, ce qui favorise ceux que les deux méthodes placent haut,
-sans avoir à comparer des scores d'échelles différentes. On garde les **4 premiers par
-candidat**. Chercher candidat par candidat plutôt que dans tout le corpus garantit que chaque
-programme a ses extraits dans la réponse, même quand un autre programme parle beaucoup plus du
-sujet.
-
-Un détail a beaucoup compté. En configuration française, Postgres transforme « les » en racine
-`le`, présente dans 99 % des extraits : la recherche par mots exacts était noyée et faisait
-**moins bien que le sens seul**. En ignorant les mots présents dans plus de la moitié des
-extraits, le rappel de la fusion est passé de 0,60 à 0,79 sur le jeu de fumée.
-
-**3. Génération.** Les extraits retenus sont envoyés à Claude sous forme de documents, avec les
-**citations natives** de l'API activées : chaque citation renvoie à un document et à un passage
-précis, au lieu d'une référence écrite librement par le modèle. Le prompt système, versionné dans
-le dépôt, impose :
-
-- de n'utiliser que les extraits, aucune connaissance extérieure ;
-- une citation par phrase qui rapporte une proposition ;
-- de traiter chaque candidat dans l'ordre imposé, **tiré au sort à chaque question**, avec une
-  place comparable (deux à quatre phrases) ;
-- d'écrire exactement « Aucune proposition recensée dans le programme officiel sur ce point »
-  quand un candidat n'en parle pas, sans commenter ce que les extraits ne disent pas ;
-- de ne jamais évaluer, comparer ou classer, et de refuser de dire pour qui voter.
-
-Le modèle ne voit jamais les noms : chaque extrait est titré `{{c3}} · programme · p. 6`, et il
-écrit ces jetons dans sa réponse. Le navigateur les remplace par le nom ou par l'alias du mode
-aveugle. Une même réponse sert aux deux modes, et le mode aveugle ne dépend pas d'une consigne
-que le modèle pourrait oublier.
-
-**4. Vérification.** Chaque citation est recherchée dans l'extrait auquel elle renvoie, à espaces
-près, et cet extrait doit appartenir au candidat de la section en cours. Sinon elle s'affiche
-« non vérifiée ». Une liste de formulations qui classeraient un candidat (« meilleur », « plus
-crédible »…) est aussi repérée dans la réponse et signalée.
-
-**Garde-fous.** Le contenu des questions n'est jamais journalisé : une question peut révéler une
-opinion politique, donnée sensible au sens du RGPD. Les journaux ne gardent que l'heure, les
-tokens, la latence et le code retour. Une limite de débit par adresse IP (compteur en mémoire),
-un **plafond de dépense quotidien** et un cache en mémoire seulement (500 réponses, 24 heures, vidé
-à chaque réindexation) tiennent le coût.
-
 ## Comment c'est évalué
 
 Avant de brancher 2027, tout a été mesuré sur la **présidentielle 2022** : 12 candidats, un jeu de
@@ -350,10 +542,9 @@ pas), un rapport généré par une commande et versionné.
 *Rappel@4 : part des extraits pertinents attendus (au plus 4 par candidat) qui figurent parmi les
 4 retenus, moyenne sur les questions.*
 
-La fusion fait mieux que chaque méthode seule avec les deux modèles. e5 l'emporte sur bge-m3 de
-0,046 point de rappel, avec un intervalle de confiance bootstrap apparié qui exclut zéro : il est
-devenu le modèle par défaut. Pour 89 % des couples question et candidat, au moins un extrait
-pertinent est retenu.
+La fusion fait mieux que chaque méthode seule avec les deux modèles, et e5 devance bge-m3 (écarts
+et intervalles dans la section précédente). Pour 89 % des couples question et candidat, au moins
+un extrait pertinent est retenu.
 
 ### Le chat
 

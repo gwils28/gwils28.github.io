@@ -1,19 +1,20 @@
 ---
-title: "Moi Électeur: an election compass and an assistant that questions the candidates' official manifestos"
+title: "Moi Électeur: an assistant that questions the candidates' official manifestos, and an election compass"
 date: 2026-11-28
 draft: false
 nature: "produit"
-description: "A web app to help voters decide, built on official manifestos only: a compass that computes in the browser how close your answers are to each manifesto, and a natural-language cross-examination where a RAG answers candidate by candidate, every sentence backed by a verified quote. Evaluated as a backtest on the 2022 French presidential election."
-summary: "An election compass and a manifesto cross-examination, with no account and no tracking: 30 statements, an adjusted proximity score that accounts for what manifestos leave out, a political map computed rather than hand-placed, hybrid search (meaning and exact words) per candidate over 794 excerpts, Claude answers quoted and checked word for word, all evaluated on the 2022 presidential election."
+description: "A web app that answers natural-language questions from the candidates' official manifestos only: a RAG finds, candidate by candidate, the passages that address the question, and Claude writes an answer where every sentence is backed by a quote checked word for word. An election compass also computes, in the browser, how close your answers are to each manifesto. Evaluated as a backtest on the 2022 French presidential election."
+summary: "Ask a question in French, read what each official manifesto proposes, with a verified quote behind it: hybrid search (meaning and exact words) candidate by candidate over 794 excerpts, Claude answers where 99.4% of quotes are found word for word, names hidden from the model. Alongside, a compass of 30 statements with a proximity score that accounts for what manifestos leave out. All evaluated on the 2022 presidential election, with no account and no tracking."
 tags: ["python", "fastapi", "postgresql", "pgvector", "rag", "llm", "typescript", "nextjs", "claude code"]
 featureImage: "carte-en.png"
 showTableOfContents: true
 ---
 
 {{< lead >}}
-Knowing what the candidates actually propose, from their official manifestos and nothing else: a
-compass that places your answers relative to each manifesto, and a cross-examination where you
-ask questions in plain French, with the exact quote behind every answer.
+Knowing what the candidates actually propose, from their official manifestos and nothing else: you
+ask your question in plain French, and the answer reports, candidate by candidate, what their
+documents say, with the exact quote behind every sentence. A compass also places your answers
+relative to each manifesto.
 {{< /lead >}}
 
 {{< fiche-projet
@@ -113,7 +114,271 @@ leave out; candidates lose any colour or shape; a new proximity map.
 
 {{< /timeline >}}
 
-## What the app does
+## Cross-examining the manifestos
+
+This is the home page, and the core feature. You ask a question in French, narrow or broad; the
+answer summarises, candidate by candidate, what their official documents say, with a quote number
+behind each proposal. One setting limits the question to some candidates or to a theme, another
+chooses between the **fast answer** (Claude Haiku) and the **detailed answer** (Claude Sonnet).
+
+![A cross-examination answer](interrogatoire.webp "Question: what do the candidates propose on the retirement age? Four selected candidates, fast mode. Each sentence carries its quote; \"Passages cités\" opens the excerpts with the document, the page and a link to the source.")
+
+### The path of a question
+
+{{< mermaid >}}
+flowchart LR
+    Q["Question"] --> A["/api/ask<br/>rate limit, daily cap"]
+    A --> R["Search service<br/>FastAPI"]
+    R --> S["Meaning<br/>multilingual-e5-large, pgvector"]
+    R --> L["Exact words<br/>Postgres full text"]
+    S --> F["RRF fusion<br/>4 excerpts per candidate"]
+    L --> F
+    F --> C["Claude<br/>native citations, streaming"]
+    C --> V["Verification<br/>quote within its excerpt"]
+    V --> U["Displayed answer<br/>tokens replaced by names"]
+{{< /mermaid >}}
+
+The four steps (splitting, search, generation, verification) and the measurements that guided
+their settings are detailed in the next section.
+
+**Safeguards.** The content of questions is never logged: a question can reveal a political
+opinion, sensitive data under the GDPR. Logs keep only the time, tokens, latency and status code.
+A rate limit per IP address (in-memory counter), a **daily spending cap** and an in-memory-only
+cache (500 answers, 24 hours, emptied on every reindexing) keep costs in check.
+
+## Under the hood: from PDF to verified quote
+
+{{< katex >}}
+
+An assistant of this kind is a **RAG** (retrieval-augmented generation): the language model does
+not answer from memory, it writes from excerpts that a search engine handed it. The quality of
+the answer therefore depends first on three upstream steps: how the documents are split, how
+meaning is represented, and how the search is done. A wrong answer often comes from an excerpt
+that was never found.
+
+Every choice in this pipeline has its own **[marimo](https://marimo.io) notebook** in the
+repository (`notebooks/m2-*.py`). They all follow the same outline: question, alternatives
+considered, formalisation, experiment, results and limits, decision. They are plain Python files,
+run by continuous integration. Since CI has neither the database, nor the model weights, nor the
+PDFs, they read small versioned *fixtures* produced from the real data. The measurements were
+made twice: first on a **smoke-test set** of 15 hand-annotated questions, then on the **full set
+of 60 questions** used for the backtest. The results below come from them.
+
+### 1. Splitting: excerpts that follow the sections
+
+An excerpt is the unit that gets retrieved, sent to the model and quoted. Three ways of splitting
+were compared:
+
+| Option | For | Against |
+|---|---|---|
+| Fixed windows of N tokens | simple | cuts through sentences and sections |
+| One page per excerpt | the quoted page is obvious | very uneven sizes (covers, dense pages) |
+| **Headings and sentences grouped between 300 and 600 tokens** (chosen) | follows sections, bounded sizes | more code, overlap to handle |
+
+The text is split into units (headings, sentences), grouped up to 600 tokens, with an overlap of
+at most 50 tokens when the cut is forced by size. Each excerpt keeps its candidate, document,
+pages, section title, archive address and the PDF's sha256 fingerprint. The notebook checks
+**invariants** with assertions, so any deviation fails CI: no excerpt above 600 tokens, at most one
+short excerpt per document (the last one), no missing metadata, and every page that contains text
+covered by at least one excerpt.
+
+{{< chart >}}
+type: 'bar',
+data: {
+  labels: ['< 300', '300-349', '350-399', '400-449', '450-499', '500-549', '550-600'],
+  datasets: [
+    { label: 'Excerpts', data: [13, 46, 48, 42, 55, 83, 507],
+      backgroundColor: css(modeSombre ? '--color-primary-400' : '--color-primary-600'),
+      borderColor: css(modeSombre ? '--color-primary-300' : '--color-primary-700') }
+  ]
+},
+options: {
+  plugins: {
+    legend: { display: false },
+    title: { display: true, text: 'Size of the 794 excerpts (tokens)' },
+    subtitle: { display: true, text: 'Median 568 tokens: grouping nearly always fills the excerpt' }
+  },
+  scales: { y: { title: { display: true, text: 'Number of excerpts' } } }
+}
+{{< /chart >}}
+
+The edge cases found come mostly from the PDFs themselves. 78 excerpts span three pages or more
+(sparsely filled pages): the quote then gives a page range. 13 excerpts contain a doubled word,
+almost all from a single candidate whose embossed headings are read twice. They were left as is:
+fixing them would alter the official text being quoted, for a small measured effect on search.
+
+Volume varies a lot between candidates: **from 21 to 252 excerpts**. This reflects the length of
+the published manifestos, not a pipeline choice. It is why search runs **candidate by
+candidate**: across the whole corpus, the longest manifesto would take most of the top results.
+
+### 2. Representing meaning: two embedding models compared
+
+Search by meaning turns every excerpt and every question into a vector of 1,024 numbers (an
+*embedding*), so that two texts about the same thing have close vectors, even with no word in
+common. Closeness is measured by the cosine of the angle between the two vectors.
+
+API models (OpenAI, Voyage…) were ruled out from the start: a question can reveal a political
+opinion, and it would have been sent to a third party. That left two multilingual models that run
+locally:
+
+| | bge-m3 | multilingual-e5-large |
+|---|---|---|
+| Context read | 8,192 tokens | 512 tokens |
+| Specifics | no excerpt truncated | mandatory `query:` and `passage:` prefixes |
+| Observed similarities (nuclear question) | 0.23 to 0.58 | 0.73 to 0.85 |
+
+Two findings from notebook `m2-02`. First, **574 of the 794 excerpts exceed 512 tokens**: e5 only
+reads their beginning. Second, its similarities are packed into a narrow, high range; what matters
+for ranking is the gap between relevant and other excerpts, relative to the spread, and it is
+comparable for both models. An absolute similarity threshold would therefore mean nothing shared
+by the two models. The service uses none: every candidate always gets its four excerpts, and it
+is up to the language model to say that none addresses the question.
+
+On the smoke-test set (13 questions with expected excerpts), the gap between the two models was
+inconclusive: the confidence interval touched zero, and bge-m3 stayed the default. On the 60
+questions, e5 wins despite truncation: **+0.071 points of recall@4** for meaning-only search, with
+a 95% paired bootstrap interval of [+0.033; +0.110], and +0.046 [+0.021; +0.074] once fused with
+exact words. It became the default model.
+
+### 3. Searching by meaning and by words, then fusing
+
+Meaning alone misses rare, exact terms: acronyms (RIC, SMIC, NATO), names of schemes. Exact words
+alone depend on the question's vocabulary. So both are done, for each candidate, and the two
+rankings are merged with **Reciprocal Rank Fusion** (RRF). For an excerpt \(d\), with \(r_s(d)\)
+its rank in the meaning list and \(r_\ell(d)\) its rank in the exact-word list (the term drops out
+if the excerpt is not in that list):
+
+$$\text{RRF}(d) = \frac{1}{60 + r_s(d)} + \frac{1}{60 + r_\ell(d)}$$
+
+Fusion only looks at ranks. It never has to compare a cosine with a full-text score, two
+quantities on different scales that a weighted combination would have to calibrate for each
+model. The constant 60 flattens the gaps: an excerpt ranked first by meaning and absent from the
+exact-word list gets \(1/61 \approx 0.0164\); an excerpt ranked third in both lists gets
+\(2/63 \approx 0.0317\) and moves ahead. Being ranked well by both methods counts for more than
+being first in one.
+
+A case from the 60-question set: "What do the candidates propose on the citizens' initiative
+referendum?", for a candidate with a single excerpt that really deals with it. By meaning, that
+excerpt only comes sixth, outside the four kept. By exact words, it is first, because
+"référendum" appears in only 4% of the corpus's excerpts. Fusion ranks it second:
+
+| Rank after fusion | Rank by meaning | Rank by exact words | RRF score | Addresses the question |
+|---|---|---|---|---|
+| 1 | 3 | 2 | 1/63 + 1/62 = 0.03200 | no |
+| 2 | 6 | 1 | 1/66 + 1/61 = 0.03155 | **yes** |
+| 3 | 2 | 5 | 1/62 + 1/65 = 0.03151 | no |
+| 4 | 4 | 4 | 2/64 = 0.03125 | no |
+
+Across the 463 question and candidate pairs that have expected excerpts, fusion brings a relevant
+excerpt into the four kept for **31 pairs** where meaning alone had none, and pushes one out for 16
+pairs. The balance is positive, but fusion is not free.
+
+**The lexeme that drowned everything.** The first version of exact-word search took every word of
+the question, joined by OR. Notebook `m2-03` showed what Postgres made of it, with the French
+configuration, for "Quel âge de départ à la retraite proposent les candidats ?" (what retirement
+age do the candidates propose?):
+
+| Lexeme | Share of excerpts containing it |
+|---|---|
+| `le` (from "les", the) | **99.4%** |
+| `retrait` | 16.2% |
+| `âge` | 8.9% |
+| `départ` | 8.1% |
+| `quel` | 6.9% |
+| `candidat` | 5.3% |
+| `proposent` | 1.1% |
+
+"le" is in Postgres's French stop-word list, but "les" is not, and is then reduced to the stem
+`le`. With an OR query, almost every excerpt matched, and ranking favoured those where "les"
+comes up often. Exact-word search became close to random, and fusion **degraded** meaning instead
+of complementing it. The fix ignores lexemes present in more than half of the election's excerpts
+(`MAX_DF = 0.5`), counted in SQL at query time: it covers any ubiquitous word, not just this one,
+without reindexing. Other stemming limits show up along the way: "proposent" (propose) is not
+reduced, and so passes for a rare word.
+
+{{< chart >}}
+type: 'line',
+data: {
+  labels: ['1', '2', '3', '4', '5', '6'],
+  datasets: [
+    { label: 'RRF fusion (served)', data: [66.3, 79.3, 85.7, 89.2, 90.5, 92.2], borderWidth: 3,
+      borderColor: css(modeSombre ? '--color-primary-400' : '--color-primary-600'),
+      backgroundColor: css(modeSombre ? '--color-primary-400' : '--color-primary-600') },
+    { label: 'Meaning only', data: [59.4, 74.5, 81.2, 86.0, 87.9, 89.8],
+      borderColor: css(modeSombre ? '--color-secondary-400' : '--color-secondary-500'),
+      backgroundColor: css(modeSombre ? '--color-secondary-400' : '--color-secondary-500') },
+    { label: 'Exact words (fixed)', data: [53.1, 69.5, 76.0, 80.1, 84.0, 86.2],
+      borderColor: css(modeSombre ? '--color-neutral-300' : '--color-neutral-600'),
+      backgroundColor: css(modeSombre ? '--color-neutral-300' : '--color-neutral-600') },
+    { label: 'Fusion before the fix', data: [45.6, 61.3, 68.7, 74.5, 79.0, 82.5], borderDash: [6, 4],
+      borderColor: css(modeSombre ? '--color-primary-200' : '--color-primary-300'),
+      backgroundColor: css(modeSombre ? '--color-primary-200' : '--color-primary-300') },
+    { label: 'Exact words before the fix', data: [22.9, 33.0, 42.1, 46.7, 52.1, 55.9], borderDash: [6, 4],
+      borderColor: css(modeSombre ? '--color-neutral-500' : '--color-neutral-400'),
+      backgroundColor: css(modeSombre ? '--color-neutral-500' : '--color-neutral-400') }
+  ]
+},
+options: {
+  plugins: {
+    title: { display: true, text: 'Share of question and candidate pairs with at least one relevant excerpt in the top k' },
+    subtitle: { display: true, text: '60 questions, 463 pairs, multilingual-e5-large. The service keeps k = 4.' }
+  },
+  scales: {
+    x: { title: { display: true, text: 'k (excerpts kept per candidate)' } },
+    y: { min: 0, max: 100, title: { display: true, text: '%' } }
+  }
+}
+{{< /chart >}}
+
+On the 60-question set, the fix raises the recall@4 of exact-word search from 0.282 to 0.598, and
+that of fusion from 0.517 to 0.719. Before the fix, fusion did worse than meaning alone (0.636).
+The notebook records one limit: relevant excerpts were found by reading the corpus from keywords,
+which favours exact-word search and probably overstates the gain. The diagnosis itself (`le` in
+99% of excerpts) does not depend on the annotation.
+
+### 4. Generating under constraints, then verifying
+
+Each candidate's four excerpts are sent to Claude as documents, with the API's **native
+citations** enabled: each citation points to a specific document and passage, instead of a
+reference the model would write freely. The system prompt, versioned in the repository, requires:
+
+- using only the excerpts, no outside knowledge;
+- one quote per sentence that reports a proposal;
+- covering each candidate in the imposed order, **drawn at random for every question**, with
+  comparable space (two to four sentences);
+- writing exactly "Aucune proposition recensée dans le programme officiel sur ce point" (no
+  proposal found in the official manifesto on this point) when a candidate does not address it,
+  without commenting on what the excerpts do not say;
+- never assessing, comparing or ranking, and declining to say whom to vote for.
+
+The model never sees the names: each excerpt is titled `{{c3}} · programme · p. 6`, and it writes
+these tokens in its answer. The browser replaces them with the name, or with the blind-mode alias.
+One answer serves both modes, and blind mode does not depend on an instruction the model might
+forget.
+
+On receipt, each quote is searched for in the excerpt it points to, ignoring whitespace, and that
+excerpt must belong to the candidate of the current section; otherwise it is shown as
+"unverified". A list of phrasings that would rank a candidate ("best", "more credible"…) is also
+detected and flagged.
+
+**Does a silence come from the manifesto or from the search?** Notebook `m2-04` analysed two real
+answers to "What do the candidates propose on nuclear power?", one in fast mode and one in
+detailed mode, recorded before the full-text fix. In each, four candidates are declared silent,
+always with the imposed sentence word for word, and no name or party appears in the text. But
+checked against the annotations, **only one of these silences is real**. The other three candidates
+do talk about nuclear power, and for each of them **none of the four excerpts served was
+relevant**. The model had followed the instruction; the error came from the search. After the
+fix, two of those three candidates get a relevant excerpt.
+
+That diagnosis shaped the backtest: false silences are measured separately there, and compared
+with the search's hit@4. They remain the first measured defect (around 8%, see below), and it is
+the search that has to improve to reduce them, not the prompt.
+
+## The election compass
+
+The cross-examination answers a specific question; the compass gives an overall picture. At
+calculation time it calls no language model: everything happens in the browser, from the
+candidates' positions, whose origin is described below.
 
 ### A compass of 30 statements
 
@@ -254,82 +519,6 @@ colour alone.
 
 ![The costing radar](radar.webp "Themes in rows, candidates in columns. A cell opens the measures and their quotes.")
 
-## Cross-examining the manifestos
-
-This is the home page, and the core feature. You ask a question in French, narrow or broad; the
-answer summarises, candidate by candidate, what their official documents say, with a quote number
-behind each proposal. One setting limits the question to some candidates or to a theme, another
-chooses between the **fast answer** (Claude Haiku) and the **detailed answer** (Claude Sonnet).
-
-![A cross-examination answer](interrogatoire.webp "Question: what do the candidates propose on the retirement age? Four selected candidates, fast mode. Each sentence carries its quote; \"Passages cités\" opens the excerpts with the document, the page and a link to the source.")
-
-### The path of a question
-
-{{< mermaid >}}
-flowchart LR
-    Q["Question"] --> A["/api/ask<br/>rate limit, daily cap"]
-    A --> R["Search service<br/>FastAPI"]
-    R --> S["Meaning<br/>multilingual-e5-large, pgvector"]
-    R --> L["Exact words<br/>Postgres full text"]
-    S --> F["RRF fusion<br/>4 excerpts per candidate"]
-    L --> F
-    F --> C["Claude<br/>native citations, streaming"]
-    C --> V["Verification<br/>quote within its excerpt"]
-    V --> U["Displayed answer<br/>tokens replaced by names"]
-{{< /mermaid >}}
-
-**1. Chunking.** The 24 documents (each candidate's manifesto and official election statement)
-are extracted page by page, then split into **794 excerpts** of about half a page (300 to 600
-tokens), each with its document, page and section title. The originals are not redistributed:
-only the archive address and the sha256 fingerprint are versioned.
-
-**2. Hybrid search, per candidate.** The question is searched in two ways, **separately for each
-candidate**:
-
-- by **meaning**, with the multilingual-e5-large embedding model running locally (no external
-  call), in PostgreSQL with pgvector: the 20 closest excerpts;
-- by **exact words**, with Postgres full-text search configured for French: the 20 best-ranked
-  excerpts.
-
-The two lists are merged with **Reciprocal Rank Fusion**: each excerpt gets the sum of
-1 / (60 + its rank) in each list, which favours those both methods rank high, without having to
-compare scores on different scales. The **top 4 per candidate** are kept. Searching candidate by
-candidate rather than across the whole corpus guarantees that every manifesto has its excerpts in
-the answer, even when another manifesto talks about the topic much more.
-
-One detail mattered a lot. With the French configuration, Postgres turns "les" (the) into the
-stem `le`, present in 99% of excerpts: exact-word search was drowned and did **worse than meaning
-alone**. By ignoring words present in more than half of the excerpts, the fusion's recall went
-from 0.60 to 0.79 on the smoke-test set.
-
-**3. Generation.** The selected excerpts are sent to Claude as documents, with the API's **native
-citations** enabled: each citation points to a specific document and passage, instead of a
-reference written freely by the model. The system prompt, versioned in the repository, requires:
-
-- using only the excerpts, no outside knowledge;
-- one quote per sentence that reports a proposal;
-- covering each candidate in the imposed order, **drawn at random for every question**, with
-  comparable space (two to four sentences);
-- writing exactly "Aucune proposition recensée dans le programme officiel sur ce point" (no
-  proposal found in the official manifesto on this point) when a candidate does not address it,
-  without commenting on what the excerpts do not say;
-- never assessing, comparing or ranking, and declining to say whom to vote for.
-
-The model never sees the names: each excerpt is titled `{{c3}} · programme · p. 6`, and it writes
-these tokens in its answer. The browser replaces them with the name, or with the blind-mode alias.
-One answer serves both modes, and blind mode does not depend on an instruction the model might
-forget.
-
-**4. Verification.** Each quote is searched for in the excerpt it points to, ignoring whitespace,
-and that excerpt must belong to the candidate of the current section. Otherwise it is shown as
-"unverified". A list of phrasings that would rank a candidate ("best", "more credible"…) is also
-detected in the answer and flagged.
-
-**Safeguards.** The content of questions is never logged: a question can reveal a political
-opinion, sensitive data under the GDPR. Logs keep only the time, tokens, latency and status code.
-A rate limit per IP address (in-memory counter), a **daily spending cap** and an in-memory-only
-cache (500 answers, 24 hours, emptied on every reindexing) keep costs in check.
-
 ## How it is evaluated
 
 Before plugging in 2027, everything was measured on the **2022 presidential election**: 12
@@ -346,8 +535,8 @@ does not address), a report generated by a command and versioned.
 *Recall@4: share of the expected relevant excerpts (at most 4 per candidate) found among the 4
 retained, averaged over questions.*
 
-Fusion beats each method alone with both models. e5 beats bge-m3 by 0.046 points of recall, with
-a paired bootstrap confidence interval that excludes zero: it became the default model. For 89% of
+Fusion beats each method alone with both models, and e5 beats bge-m3 (gaps and intervals in the
+previous section). For 89% of
 question and candidate pairs, at least one relevant excerpt is retrieved.
 
 ### The chat
